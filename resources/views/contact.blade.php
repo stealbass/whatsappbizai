@@ -1,9 +1,12 @@
+@section('meta_title', 'Contact — WhatsAppBizAI | Support & Démo')
+@section('meta_description', 'Contactez l\'équipe WhatsAppBizAI. Demandez une démo, posez vos questions ou obtenez du support pour votre agent IA WhatsApp.')
+@section('canonical_url', url('/contact'))
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
+    @include('components.seo')
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact — WhatsAppBizAI</title>
     <link rel="stylesheet" href="{{ asset('css/switchers.css') }}">
     <style>
         :root { --sky: #0ea5e9; --sky-dark: #0284c7; --dark: #0f172a; --gray: #64748b; }

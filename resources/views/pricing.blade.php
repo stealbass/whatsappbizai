@@ -1,17 +1,12 @@
+@section('meta_title', 'Tarifs WhatsAppBizAI — Plans Gratuit, Starter, Business | Devis & Factures IA')
+@section('meta_description', 'Découvrez les tarifs WhatsAppBizAI. Plan gratuit pour démarrer, Starter et Business pour les PME en croissance. Agent IA, devis PDF, facturation automatique.')
+@section('canonical_url', url('/pricing'))
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
+    @include('components.seo')
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title data-t-key="pricing.hero_title">Tarifs — WhatsAppBizAI</title>
-    <meta name="description" content="Choisissez le plan WhatsAppBizAI adapté à votre PME. Devis, factures, relances et support client IA via WhatsApp.">
-    <link rel="canonical" href="https://whatsappbizai.com/pricing">
-
-    <meta property="og:title" content="Tarifs WhatsAppBizAI">
-    <meta property="og:description" content="Plans flexibles pour gérer votre business via WhatsApp.">
-    <meta property="og:url" content="https://whatsappbizai.com/pricing">
-    <meta property="og:type" content="website">
 
     <link rel="stylesheet" href="{{ asset('css/switchers.css') }}">
     <style>

@@ -23,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer('client.*', \App\Http\Composers\ClientComposer::class);
 
+        $this->app->make(\App\Http\Composers\SiteSettingComposer::class)->register();
+
         if (config('app.url')) {
             URL::forceRootUrl(config('app.url'));
         }

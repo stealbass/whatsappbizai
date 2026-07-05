@@ -1,10 +1,12 @@
+@section('meta_title', 'WhatsAppBizAI — Agent IA WhatsApp pour PME | Devis, Factures, CRM Automatisés')
+@section('meta_description', 'Automatisez votre back-office avec un agent IA sur WhatsApp. Devis instantanés PDF, facturation automatique, relances et CRM pour PME en Afrique. Essai gratuit sans carte bancaire.')
+@section('canonical_url', url('/'))
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
+    @include('components.seo')
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsAppBizAI — Back-office IA sur WhatsApp pour PME</title>
-    <meta name="description" content="Gérez vos devis, factures, relances et support client directement depuis WhatsApp grâce à l'IA. Sans changer vos habitudes.">
     <link rel="stylesheet" href="{{ asset('css/switchers.css') }}">
     <style>
         :root { --sky: #0ea5e9; --sky-dark: #0284c7; --dark: #0f172a; --mid: #1e293b; --gray: #64748b; --light: #f8fafc; --green: #22c55e; }
@@ -478,6 +480,46 @@
                     <button type="submit" class="btn-submit" data-t-key="landing.form_submit">Envoyer le message</button>
                 </form>
             </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ — SEO & AI Crawl -->
+<section id="faq" style="padding:80px 24px;background:#fff;">
+    <div style="max-width:800px;margin:0 auto;">
+        <h2 style="text-align:center;font-size:32px;font-weight:800;margin-bottom:12px;" data-t-key="landing.faq_title">Questions fréquentes</h2>
+        <p style="text-align:center;color:var(--gray);margin-bottom:48px;font-size:16px;" data-t-key="landing.faq_desc">Tout ce que vous devez savoir sur WhatsAppBizAI.</p>
+
+        <div style="display:flex;flex-direction:column;gap:16px;">
+            <details style="border:1px solid #e2e8f0;border-radius:12px;padding:20px 24px;cursor:pointer;">
+                <summary style="font-weight:700;font-size:16px;list-style:none;display:flex;justify-content:space-between;align-items:center;" data-t-key="landing.faq_q1">Qu'est-ce que WhatsAppBizAI ?</summary>
+                <p style="margin-top:12px;color:var(--gray);line-height:1.7;" data-t-key="landing.faq_a1">WhatsAppBizAI est un back-office intelligent pour PME qui utilise un agent IA sur WhatsApp. Il automatise la création de devis PDF, la facturation, les relances de paiement et le support client, le tout depuis votre WhatsApp existant.</p>
+            </details>
+
+            <details style="border:1px solid #e2e8f0;border-radius:12px;padding:20px 24px;cursor:pointer;">
+                <summary style="font-weight:700;font-size:16px;list-style:none;display:flex;justify-content:space-between;align-items:center;" data-t-key="landing.faq_q2">Combien coûte WhatsAppBizAI ?</summary>
+                <p style="margin-top:12px;color:var(--gray);line-height:1.7;" data-t-key="landing.faq_a2">WhatsAppBizAI propose un plan gratuit pour démarrer, sans carte bancaire requise. Les plans Starter et Business sont disponibles à partir de 4 900 XAF/mois pour accéder à plus de contacts, factures et messages IA.</p>
+            </details>
+
+            <details style="border:1px solid #e2e8f0;border-radius:12px;padding:20px 24px;cursor:pointer;">
+                <summary style="font-weight:700;font-size:16px;list-style:none;display:flex;justify-content:space-between;align-items:center;" data-t-key="landing.faq_q3">Comment l'agent IA répond-il aux clients ?</summary>
+                <p style="margin-top:12px;color:var(--gray);line-height:1.7;" data-t-key="landing.faq_a3">L'agent IA utilise Google Gemini pour générer des réponses contextualisées. Il connaît votre catalogue de services, vos tarifs et vos instructions personnalisées. Il répond en français ou en anglais selon la langue du client, 24h/24.</p>
+            </details>
+
+            <details style="border:1px solid #e2e8f0;border-radius:12px;padding:20px 24px;cursor:pointer;">
+                <summary style="font-weight:700;font-size:16px;list-style:none;display:flex;justify-content:space-between;align-items:center;" data-t-key="landing.faq_q4">Faut-il modifier mon numéro WhatsApp ?</summary>
+                <p style="margin-top:12px;color:var(--gray);line-height:1.7;" data-t-key="landing.faq_a4">Non. WhatsAppBizAI utilise l'API officielle de WhatsApp Business. Vous connectez simplement votre numéro WhatsApp Business existant via l'interface d'administration. Aucune modification technique n'est requise.</p>
+            </details>
+
+            <details style="border:1px solid #e2e8f0;border-radius:12px;padding:20px 24px;cursor:pointer;">
+                <summary style="font-weight:700;font-size:16px;list-style:none;display:flex;justify-content:space-between;align-items:center;" data-t-key="landing.faq_q5">Mes données sont-elles sécurisées ?</summary>
+                <p style="margin-top:12px;color:var(--gray);line-height:1.7;" data-t-key="landing.faq_a5">Oui. WhatsAppBizAI est conforme au RGPD. Vos données et celles de vos clients sont stockées de manière sécurisée et ne sont jamais partagées avec des tiers. Vous pouvez supprimer vos données à tout moment.</p>
+            </details>
+
+            <details style="border:1px solid #e2e8f0;border-radius:12px;padding:20px 24px;cursor:pointer;">
+                <summary style="font-weight:700;font-size:16px;list-style:none;display:flex;justify-content:space-between;align-items:center;" data-t-key="landing.faq_q6">Dans quels pays est disponible WhatsAppBizAI ?</summary>
+                <p style="margin-top:12px;color:var(--gray);line-height:1.7;" data-t-key="landing.faq_a6">WhatsAppBizAI est disponible dans tous les pays africains où WhatsApp est utilisé : Cameroun, Sénégal, Côte d'Ivoire, Nigeria, Ghana, Kenya, Maroc, et bien d'autres. L'agent IA supporte le français et l'anglais.</p>
+            </details>
         </div>
     </div>
 </section>

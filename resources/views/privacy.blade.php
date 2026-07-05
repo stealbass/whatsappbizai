@@ -1,9 +1,12 @@
+@section('meta_title', 'Politique de Confidentialité — WhatsAppBizAI')
+@section('meta_description', 'Politique de confidentialité de WhatsAppBizAI. Protection des données personnelles, cookies et droits des utilisateurs conforme au RGPD.')
+@section('canonical_url', url('/privacy'))
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
+    @include('components.seo')
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ app()->getLocale() === 'fr' ? 'Politique de confidentialité' : 'Privacy Policy' }} — WhatsAppBizAI</title>
     <link rel="stylesheet" href="{{ asset('css/switchers.css') }}">
     <style>
         :root { --sky: #0ea5e9; --dark: #0f172a; --gray: #64748b; --light: #f8fafc; }

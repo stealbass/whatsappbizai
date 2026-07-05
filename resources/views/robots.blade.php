@@ -1,13 +1,7 @@
 User-agent: *
 Allow: /
-Allow: /pricing
-Allow: /register
-
-Disallow: /admin
-Disallow: /admin/*
+Disallow: /admin/
+Disallow: /install/
 Disallow: /client/
-Disallow: /export/
-Disallow: /payment/callback
-Disallow: /payment/manual
 
-Sitemap: https://whatsappbizai.com/sitemap.xml
+Sitemap: http://localhost/testwebsite/whatsappbizai-main/public/sitemap.xml

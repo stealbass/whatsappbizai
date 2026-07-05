@@ -1,9 +1,12 @@
+@section('meta_title', 'Conditions Générales d\'Utilisation — WhatsAppBizAI')
+@section('meta_description', 'Conditions générales d\'utilisation de WhatsAppBizAI. Droits et obligations des utilisateurs, conditions d\'abonnement et de paiement.')
+@section('canonical_url', url('/terms'))
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
+    @include('components.seo')
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ app()->getLocale() === 'fr' ? 'Conditions d\'utilisation' : 'Terms of Service' }} — WhatsAppBizAI</title>
     <link rel="stylesheet" href="{{ asset('css/switchers.css') }}">
     <style>
         :root { --sky: #0ea5e9; --dark: #0f172a; --gray: #64748b; --light: #f8fafc; }
