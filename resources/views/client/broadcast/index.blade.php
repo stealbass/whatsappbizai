@@ -34,8 +34,8 @@
 
         <div class="form-group">
             <label>Message *</label>
-            <textarea name="message" id="message" rows="5" required maxlength="1024" placeholder="Bonjour {{prenom}},&#10;&#10;Nous avons le plaisir de vous annoncer...&#10;&#10;Cordialement,{{entreprise}}"></textarea>
-            <p class="form-help">Variables disponibles : <code>{{'{{nom}}'}}</code>, <code>{{'{{prenom}}'}}</code>, <code>{{'{{entreprise}}'}}</code></p>
+            <textarea name="message" id="message" rows="5" required maxlength="1024" placeholder="Bonjour prenom,&#10;&#10;Nous avons le plaisir de vous annoncer...&#10;&#10;Cordialement,entreprise"></textarea>
+            <p class="form-help">Variables disponibles : <code>{!! '{{nom}}' !!}</code>, <code>{!! '{{prenom}}' !!}</code>, <code>{!! '{{entreprise}}' !!}</code></p>
         </div>
 
         <div style="display:flex;gap:12px;margin-top:20px;">

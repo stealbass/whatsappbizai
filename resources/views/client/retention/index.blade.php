@@ -49,7 +49,7 @@
         <div class="form-group">
             <label>Message *</label>
             <textarea name="message" id="message" rows="5" required maxlength="1024" placeholder="Bonjour {{prenom}},&#10;&#10;Nous avons une offre spéciale pour vous..."></textarea>
-            <p class="form-help">Variables : <code>{{'{{nom}}'}}</code>, <code>{{'{{prenom}}'}}</code>, <code>{{'{{entreprise}}'}}</code></p>
+            <p class="form-help">Variables : <code>{!! '{{nom}}' !!}</code>, <code>{!! '{{prenom}}' !!}</code>, <code>{!! '{{entreprise}}' !!}</code></p>
         </div>
 
         <div style="display:flex;gap:12px;margin-top:20px;">
