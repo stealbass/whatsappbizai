@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 
 class DashboardController extends Controller
@@ -35,7 +36,9 @@ class DashboardController extends Controller
     {
         if (in_array($locale, ['fr', 'en'])) {
             Session::put('locale', $locale);
+            Cookie::queue('wbai_lang', $locale, 60 * 24 * 365);
             app()->setLocale($locale);
+            config(['app.locale' => $locale]);
         }
 
         return redirect()->back();
