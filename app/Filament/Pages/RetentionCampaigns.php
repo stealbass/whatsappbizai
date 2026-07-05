@@ -15,7 +15,7 @@ class RetentionCampaigns extends Page implements HasForms
 {
     use InteractsWithForms;
 
-    protected static ?string $view = 'filament.pages.retention';
+    protected static string $view = 'filament.pages.retention';
     protected static ?string $navigationIcon = 'heroicon-m-user-group';
     protected static ?string $navigationGroup = 'Marketing';
     protected static ?int $navigationSort = 5;
