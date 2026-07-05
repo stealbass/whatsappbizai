@@ -11,7 +11,7 @@
                 <p style="font-size:12px;color:var(--gray);margin-bottom:4px;">{{ __('app.client.settings.billing.current_plan') }}</p>
                 <p style="font-size:20px;font-weight:800;">{{ ucfirst($business->plan ?? 'Gratuit') }}</p>
             </div>
-            <a href="{{ url('pricing') }}" class="btn btn-primary">Changer de plan</a>
+            <a href="{{ url('pricing') }}" class="btn btn-primary">{{ __('app.client.settings.billing.change_plan') }}</a>
         </div>
     </div>
 
@@ -25,10 +25,10 @@
         <table>
             <thead>
                 <tr>
-                    <th>Plan</th>
-                    <th>Début</th>
-                    <th>Fin</th>
-                    <th>Statut</th>
+                    <th>{{ __('app.client.settings.billing.th_plan') }}</th>
+                    <th>{{ __('app.client.settings.billing.th_start') }}</th>
+                    <th>{{ __('app.client.settings.billing.th_end') }}</th>
+                    <th>{{ __('app.client.settings.billing.th_status') }}</th>
                 </tr>
             </thead>
             <tbody>

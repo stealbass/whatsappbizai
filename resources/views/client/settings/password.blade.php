@@ -26,8 +26,8 @@
             <input type="password" name="password_confirmation" required>
         </div>
         <div style="display:flex;gap:12px;margin-top:20px;">
-            <button type="submit" class="btn btn-primary">Mettre à jour</button>
-            <a href="{{ url('client/settings/profile') }}" class="btn btn-outline">Annuler</a>
+            <button type="submit" class="btn btn-primary">{{ __('app.client.common.update') }}</button>
+            <a href="{{ url('client/settings/profile') }}" class="btn btn-outline">{{ __('app.client.common.cancel') }}</a>
         </div>
     </form>
 </div>

@@ -21,13 +21,13 @@
             </div>
             <div class="form-group">
                 <label>{{ __('app.client.broadcast.ai_goal') }}</label>
-                <input type="text" id="aiGoal" placeholder="Ex: Annonce promotion 20% sur nos services">
+                <input type="text" id="aiGoal" placeholder="{{ __('app.client.broadcast.ai_goal_placeholder') }}">
             </div>
         </div>
 
         <div class="form-group">
             <label>{{ __('app.client.broadcast.message') }}</label>
-            <textarea name="message" id="message" rows="5" required maxlength="1024" placeholder="Bonjour prenom,&#10;&#10;Nous avons le plaisir de vous annoncer...&#10;&#10;Cordialement,entreprise"></textarea>
+            <textarea name="message" id="message" rows="5" required maxlength="1024" placeholder="{{ __('app.client.broadcast.message_placeholder') }}"></textarea>
             <p class="form-help">{{ __('app.client.broadcast.variables') }} : <code>{!! '{{nom}}' !!}</code>, <code>{!! '{{prenom}}' !!}</code>, <code>{!! '{{entreprise}}' !!}</code></p>
         </div>
 
@@ -41,12 +41,12 @@
 <div class="card" style="max-width:800px;margin-top:24px;">
     <h3 style="font-size:15px;font-weight:700;margin-bottom:12px;">💡 {{ __('app.client.broadcast.how_title') }}</h3>
     <ol style="font-size:13px;color:var(--gray);padding-left:20px;space-y:4px;">
-        <li>Sélectionnez vos destinataires (tous, clients ou prospects)</li>
-        <li>Rédigez votre message ou utilisez l'IA pour le générer</li>
-        <li>Vérifiez et modifiez le message si nécessaire</li>
-        <li>Cliquez sur "Envoyer le broadcast"</li>
+        <li>{{ __('app.client.broadcast.how_step_1') }}</li>
+        <li>{{ __('app.client.broadcast.how_step_2') }}</li>
+        <li>{{ __('app.client.broadcast.how_step_3') }}</li>
+        <li>{{ __('app.client.broadcast.how_step_4') }}</li>
     </ol>
-    <p style="font-size:12px;color:var(--amber-600);margin-top:12px;">⚠️ WhatsApp nécessite des templates approuvés pour l'envoi en masse.</p>
+    <p style="font-size:12px;color:var(--amber-600);margin-top:12px;">⚠️ {{ __('app.client.broadcast.how_warning') }}</p>
 </div>
 @endsection
 
@@ -75,7 +75,7 @@ document.getElementById('draftBtn').addEventListener('click', async function() {
             document.getElementById('message').value = data.message;
         }
     } catch (e) {
-        alert('Erreur lors de la génération du message.');
+        alert('{{ __('app.client.broadcast.draft_error') }}');
     }
 
     this.disabled = false;

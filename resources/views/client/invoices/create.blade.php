@@ -17,7 +17,7 @@
             <div class="form-group">
                 <label>{{ __('app.client.invoices.form.contact') }}</label>
                 <select name="contact_id" required>
-                    <option value="">-- Sélectionner un contact --</option>
+                    <option value="">{{ __('app.client.invoices.form.select_contact') }}</option>
                     @foreach($contacts as $c)
                         <option value="{{ $c->id }}" {{ old('contact_id') == $c->id ? 'selected' : '' }}>{{ $c->name }}</option>
                     @endforeach

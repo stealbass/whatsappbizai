@@ -17,7 +17,7 @@
             <div class="form-group">
                 <label>{{ __('app.client.quotes.form.contact') }}</label>
                 <select name="contact_id" required>
-                    <option value="">-- Sélectionner un contact --</option>
+                    <option value="">{{ __('app.client.quotes.form.select_contact') }}</option>
                     @foreach($contacts as $c)
                         <option value="{{ $c->id }}" {{ old('contact_id') == $c->id ? 'selected' : '' }}>{{ $c->name }}</option>
                     @endforeach
@@ -43,7 +43,7 @@
             </div>
         </div>
 
-        <h3 style="font-size:15px;font-weight:700;margin:20px 0 12px;">Lignes du devis</h3>
+        <h3 style="font-size:15px;font-weight:700;margin:20px 0 12px;">{{ __('app.client.quotes.lines_title') }}</h3>
         <div id="items-container">
             <div class="item-row" style="display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px;margin-bottom:10px;align-items:end;">
                 <div class="form-group" style="margin:0;">

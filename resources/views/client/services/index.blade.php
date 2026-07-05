@@ -8,7 +8,7 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <h2>Tous les services <span class="badge">{{ $services->count() }}</span></h2>
+        <h2>{{ __('app.client.services.title_all') }} <span class="badge">{{ $services->count() }}</span></h2>
     </div>
 
     @if($services->isEmpty())
@@ -36,7 +36,7 @@
                     <td>{{ Str::limit($service->description, 50) ?? '-' }}</td>
                     <td>{{ number_format($service->unit_price, 2, ',', ' ') }} {{ $business->currency ?? 'XAF' }}</td>
                     <td>{{ $service->unit }}</td>
-                    <td><span class="status {{ $service->is_active ? 'active' : 'cancelled' }}">{{ $service->is_active ? 'Oui' : 'Non' }}</span></td>
+                    <td><span class="status {{ $service->is_active ? 'active' : 'cancelled' }}">{{ $service->is_active ? __('app.client.common.yes') : __('app.client.common.no') }}</span></td>
                     <td>
                         <a href="{{ url('client/services/' . $service->id . '/edit') }}" class="btn btn-ghost btn-sm">✏️</a>
                         <form action="{{ url('client/services/' . $service->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('{{ __('app.client.services.confirm_delete') }}')">

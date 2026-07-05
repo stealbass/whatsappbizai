@@ -4,7 +4,7 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <h2>Conversations</h2>
+        <h2>{{ __('app.client.conversations.title') }}</h2>
     </div>
 
     @if($conversations->isEmpty())
@@ -17,10 +17,10 @@
         <table>
             <thead>
                 <tr>
-                    <th>Contact</th>
+                    <th>{{ __('app.client.contacts.name') }}</th>
                     <th>{{ __('app.client.conversations.last_message') }}</th>
                     <th>{{ __('app.client.conversations.date') }}</th>
-                    <th>Actions</th>
+                    <th>{{ __('app.client.contacts.actions') }}</th>
                 </tr>
             </thead>
             <tbody>

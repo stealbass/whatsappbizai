@@ -29,10 +29,10 @@
             <div class="form-group">
                 <label>{{ __('app.client.services.unit') }} *</label>
                 <select name="unit" required>
-                    <option value="forfait" {{ old('unit', $service->unit) === 'forfait' ? 'selected' : '' }}>Forfait</option>
-                    <option value="heure" {{ old('unit', $service->unit) === 'heure' ? 'selected' : '' }}>Heure</option>
-                    <option value="mois" {{ old('unit', $service->unit) === 'mois' ? 'selected' : '' }}>Mois</option>
-                    <option value="unité" {{ old('unit', $service->unit) === 'unité' ? 'selected' : '' }}>Unité</option>
+                    <option value="forfait" {{ old('unit', $service->unit) === 'forfait' ? 'selected' : '' }}>{{ __('app.client.service_units.forfait') }}</option>
+                    <option value="heure" {{ old('unit', $service->unit) === 'heure' ? 'selected' : '' }}>{{ __('app.client.service_units.heure') }}</option>
+                    <option value="mois" {{ old('unit', $service->unit) === 'mois' ? 'selected' : '' }}>{{ __('app.client.service_units.mois') }}</option>
+                    <option value="unité" {{ old('unit', $service->unit) === 'unité' ? 'selected' : '' }}>{{ __('app.client.service_units.unite') }}</option>
                 </select>
             </div>
         </div>
@@ -43,8 +43,8 @@
             </label>
         </div>
         <div style="display:flex;gap:12px;margin-top:20px;">
-            <button type="submit" class="btn btn-primary">Enregistrer</button>
-            <a href="{{ url('client/services') }}" class="btn btn-outline">Annuler</a>
+            <button type="submit" class="btn btn-primary">{{ __('app.client.common.save') }}</button>
+            <a href="{{ url('client/services') }}" class="btn btn-outline">{{ __('app.client.common.cancel') }}</a>
         </div>
     </form>
 </div>

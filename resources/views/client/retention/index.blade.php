@@ -1,10 +1,10 @@
 @extends('client.layout')
-@section('title', 'Rétention & Acquisition')
+@section('title', __('app.client.retention.title'))
 
 @section('content')
 <div class="card" style="max-width:800px;">
     <div class="card-header">
-        <h2>❤️ Rétention & Acquisition</h2>
+        <h2>❤️ {{ __('app.client.retention.title') }}</h2>
     </div>
 
     <form action="{{ url('client/retention') }}" method="POST" id="retentionForm">
@@ -12,64 +12,64 @@
 
         <div class="form-row">
             <div class="form-group">
-                <label>Type de campagne *</label>
+                <label>{{ __('app.client.retention.campaign_type') }} *</label>
                 <select name="objective" required>
-                    <option value="retention">🔒 Rétention — Fidéliser les clients</option>
-                    <option value="upsell">📈 Upsell — Proposer services premium</option>
-                    <option value="winback">🔄 Win-back — Réactiver les inactifs</option>
-                    <option value="referral">👥 Parrainage — Obtenir de nouveaux clients</option>
+                    <option value="retention">🔒 {{ __('app.client.retention.type_retention') }}</option>
+                    <option value="upsell">📈 {{ __('app.client.retention.type_upsell') }}</option>
+                    <option value="winback">🔄 {{ __('app.client.retention.type_winback') }}</option>
+                    <option value="referral">👥 {{ __('app.client.retention.type_referral') }}</option>
                 </select>
             </div>
             <div class="form-group">
-                <label>Destinataires *</label>
+                <label>{{ __('app.client.retention.recipients') }} *</label>
                 <select name="target" required>
-                    <option value="inactive_clients">Clients inactifs 30+ jours ({{ $stats['inactive'] }})</option>
-                    <option value="all_clients">Tous les clients actifs ({{ $stats['clients'] }})</option>
-                    <option value="prospects">Prospects ({{ $stats['prospects'] }})</option>
-                    <option value="high_value">Clients à forte valeur ({{ $stats['high_value'] }})</option>
+                    <option value="inactive_clients">{{ __('app.client.retention.rec_inactive') }} ({{ $stats['inactive'] }})</option>
+                    <option value="all_clients">{{ __('app.client.retention.rec_all') }} ({{ $stats['clients'] }})</option>
+                    <option value="prospects">{{ __('app.client.retention.rec_prospects') }} ({{ $stats['prospects'] }})</option>
+                    <option value="high_value">{{ __('app.client.retention.rec_high_value') }} ({{ $stats['high_value'] }})</option>
                 </select>
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group">
-                <label>Objectif IA (optionnel)</label>
-                <input type="text" id="aiGoal" placeholder="Ex: -20% sur les services premium cette semaine">
+                <label>{{ __('app.client.retention.objective') }}</label>
+                <input type="text" id="aiGoal" placeholder="{{ __('app.client.retention.objective_placeholder') }}">
             </div>
             <div></div>
         </div>
 
         <div class="form-group">
-            <label>Message *</label>
-            <textarea name="message" id="message" rows="5" required maxlength="1024" placeholder="Bonjour {{prenom}},&#10;&#10;Nous avons une offre spéciale pour vous..."></textarea>
-            <p class="form-help">Variables : <code>{!! '{{nom}}' !!}</code>, <code>{!! '{{prenom}}' !!}</code>, <code>{!! '{{entreprise}}' !!}</code></p>
+                <label>{{ __('app.client.retention.message') }} *</label>
+            <textarea name="message" id="message" rows="5" required maxlength="1024" placeholder="{{ __('app.client.retention.message_placeholder') }}"></textarea>
+            <p class="form-help">{{ __('app.client.retention.variables') }} : <code>{!! '{{nom}}' !!}</code>, <code>{!! '{{prenom}}' !!}</code>, <code>{!! '{{entreprise}}' !!}</code></p>
         </div>
 
         <div style="display:flex;gap:12px;margin-top:20px;">
-            <button type="button" class="btn btn-outline" id="draftBtn">🤖 Rédiger avec l'IA</button>
-            <button type="submit" class="btn btn-primary">📤 Envoyer la campagne</button>
+            <button type="button" class="btn btn-outline" id="draftBtn">🤖 {{ __('app.client.retention.draft_ai') }}</button>
+            <button type="submit" class="btn btn-primary">📤 {{ __('app.client.retention.send') }}</button>
         </div>
     </form>
 </div>
 
 <div class="card" style="max-width:800px;margin-top:24px;">
-    <h3 style="font-size:15px;font-weight:700;margin-bottom:12px;">💡 Stratégies de rétention</h3>
+    <h3 style="font-size:15px;font-weight:700;margin-bottom:12px;">💡 {{ __('app.client.retention.strategies_title') }}</h3>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
         <div style="background:var(--light);padding:12px;border-radius:8px;">
-            <p style="font-weight:600;font-size:13px;">🔒 Rétention</p>
-            <p style="font-size:12px;color:var(--gray);">Offre de fidélité après 3 achats</p>
+            <p style="font-weight:600;font-size:13px;">🔒 {{ __('app.client.retention.strat_retention') }}</p>
+            <p style="font-size:12px;color:var(--gray);">{{ __('app.client.retention.strat_retention_desc') }}</p>
         </div>
         <div style="background:var(--light);padding:12px;border-radius:8px;">
-            <p style="font-weight:600;font-size:13px;">📈 Upsell</p>
-            <p style="font-size:12px;color:var(--gray);">Proposer un upgrade de plan</p>
+            <p style="font-weight:600;font-size:13px;">📈 {{ __('app.client.retention.strat_upsell') }}</p>
+            <p style="font-size:12px;color:var(--gray);">{{ __('app.client.retention.strat_upsell_desc') }}</p>
         </div>
         <div style="background:var(--light);padding:12px;border-radius:8px;">
-            <p style="font-weight:600;font-size:13px;">🔄 Win-back</p>
-            <p style="font-size:12px;color:var(--gray);">Message après 30 jours d'inactivité</p>
+            <p style="font-weight:600;font-size:13px;">🔄 {{ __('app.client.retention.strat_winback') }}</p>
+            <p style="font-size:12px;color:var(--gray);">{{ __('app.client.retention.strat_winback_desc') }}</p>
         </div>
         <div style="background:var(--light);padding:12px;border-radius:8px;">
-            <p style="font-weight:600;font-size:13px;">👥 Parrainage</p>
-            <p style="font-size:12px;color:var(--gray);">Programme avec récompense</p>
+            <p style="font-weight:600;font-size:13px;">👥 {{ __('app.client.retention.strat_referral') }}</p>
+            <p style="font-size:12px;color:var(--gray);">{{ __('app.client.retention.strat_referral_desc') }}</p>
         </div>
     </div>
 </div>
@@ -84,7 +84,7 @@ document.getElementById('draftBtn').addEventListener('click', async function() {
     const target = form.querySelector('[name="target"]').value;
 
     this.disabled = true;
-    this.textContent = '⏳ Génération en cours...';
+    this.textContent = '⏳ {{ __('app.client.retention.sending') }}';
 
     try {
         const response = await fetch('{{ url("client/retention/draft-ai") }}', {
@@ -102,11 +102,11 @@ document.getElementById('draftBtn').addEventListener('click', async function() {
             document.getElementById('message').value = data.message;
         }
     } catch (e) {
-        alert('Erreur lors de la génération du message.');
+        alert('{{ __('app.client.retention.error') }}');
     }
 
     this.disabled = false;
-    this.textContent = '🤖 Rédiger avec l\'IA';
+    this.textContent = '🤖 {{ __('app.client.retention.draft_ai') }}';
 });
 </script>
 @endsection

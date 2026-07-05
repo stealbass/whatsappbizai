@@ -113,7 +113,7 @@
     <div class="sidebar-header">
         <a href="{{ url('dashboard') }}" class="logo">WhatsApp<span>BizAI</span></a>
         @if($business ?? null)
-            <span class="plan">{{ ucfirst($business->plan) }} Plan</span>
+            <span class="plan">{{ ucfirst($business->plan) }} {{ __('app.client.common.plan') }}</span>
         @endif
     </div>
 

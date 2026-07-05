@@ -3,7 +3,7 @@
 
 @section('content')
 <div class="card" style="max-width:600px;">
-    <div class="card-header"><h2>Paramètres de l'entreprise</h2></div>
+    <div class="card-header"><h2>{{ __('app.client.settings.business.title') }}</h2></div>
 
     @if($errors->any())
         <div class="alert alert-error">

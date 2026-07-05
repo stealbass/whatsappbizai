@@ -40,7 +40,7 @@
         <thead>
             <tr>
                 <th>{{ __('app.client.invoices.form.description') }}</th>
-                <th style="text-align:center;">Qté</th>
+                <th style="text-align:center;">{{ __('app.client.invoices.th_qty') }}</th>
                 <th style="text-align:right;">{{ __('app.client.invoices.form.unit_price') }}</th>
                 <th style="text-align:right;">{{ __('app.client.invoices.total') }}</th>
             </tr>

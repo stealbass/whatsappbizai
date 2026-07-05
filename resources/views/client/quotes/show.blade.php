@@ -32,7 +32,7 @@
         <thead>
             <tr>
                 <th>{{ __('app.client.quotes.form.description') }}</th>
-                <th style="text-align:center;">Qté</th>
+                <th style="text-align:center;">{{ __('app.client.quotes.th_qty') }}</th>
                 <th style="text-align:right;">{{ __('app.client.quotes.form.unit_price') }}</th>
                 <th style="text-align:right;">{{ __('app.client.quotes.total') }}</th>
             </tr>

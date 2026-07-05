@@ -8,7 +8,7 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <h2>Tous les devis <span class="badge">{{ $quotes->total() }}</span></h2>
+        <h2>{{ __('app.client.quotes.title_all') }} <span class="badge">{{ $quotes->total() }}</span></h2>
     </div>
 
     @if($quotes->isEmpty())

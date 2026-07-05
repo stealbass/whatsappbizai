@@ -8,7 +8,7 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <h2>Tous les contacts <span class="badge">{{ $contacts->total() }}</span></h2>
+        <h2>{{ __('app.client.contacts.title_all') }} <span class="badge">{{ $contacts->total() }}</span></h2>
     </div>
 
     @if($contacts->isEmpty())

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Espace Client — {{ $business->name }}</title>
+    <title>{{ __('app.client.portal.title') }} — {{ $business->name }}</title>
     <meta name="robots" content="noindex, nofollow">
     <style>
         *{box-sizing:border-box;margin:0;padding:0}
@@ -41,7 +41,7 @@
 
 <header>
     <div class="logo">🟢 {{ $business->name }}</div>
-    <div class="welcome">Bonjour, {{ $contact->name }}</div>
+    <div class="welcome">{{ __('app.client.portal.welcome') }}, {{ $contact->name }}</div>
 </header>
 
 <div class="container">
@@ -56,32 +56,32 @@
     {{-- Résumé --}}
     <div class="cards">
         <div class="stat">
-            <div class="stat-label">Total facturé</div>
+            <div class="stat-label">{{ __('app.client.portal.total_invoiced') }}</div>
             <div class="stat-value">{{ number_format($invoices->whereNotIn('status',['draft','cancelled'])->sum('total'), 0, ',', ' ') }} {{ $business->currency }}</div>
         </div>
         <div class="stat">
-            <div class="stat-label">Total payé</div>
+            <div class="stat-label">{{ __('app.client.portal.total_paid') }}</div>
             <div class="stat-value">{{ number_format($invoices->where('status','paid')->sum('paid_amount'), 0, ',', ' ') }} {{ $business->currency }}</div>
         </div>
         <div class="stat">
-            <div class="stat-label">Devis en attente</div>
+            <div class="stat-label">{{ __('app.client.portal.pending_quotes') }}</div>
             <div class="stat-value">{{ $quotes->where('status','sent')->count() }}</div>
         </div>
     </div>
 
     {{-- Factures --}}
-    <h2>📄 Mes Factures</h2>
+    <h2>📄 {{ __('app.client.portal.my_invoices') }}</h2>
     @if($invoices->isEmpty())
-        <div class="empty">Aucune facture pour le moment.</div>
+        <div class="empty">{{ __('app.client.portal.no_invoices') }}</div>
     @else
     <table>
         <thead>
             <tr>
-                <th>N°</th>
+                <th>{{ __('app.client.portal.number') }}</th>
                 <th>Date</th>
-                <th>Montant</th>
-                <th>Statut</th>
-                <th>Action</th>
+                <th>{{ __('app.client.portal.amount') }}</th>
+                <th>{{ __('app.client.portal.status') }}</th>
+                <th>{{ __('app.client.portal.action') }}</th>
             </tr>
         </thead>
         <tbody>
@@ -92,7 +92,15 @@
                 <td>{{ number_format($inv->total, 0, ',', ' ') }} {{ $inv->currency }}</td>
                 <td>
                     @php $cls = ['paid'=>'badge-paid','sent'=>'badge-sent','overdue'=>'badge-overdue'][$inv->status] ?? 'badge-pending' @endphp
-                    <span class="badge {{ $cls }}">{{ ['paid'=>'Payée','sent'=>'Envoyée','overdue'=>'En retard','draft'=>'Brouillon'][$inv->status] ?? $inv->status }}</span>
+                    @php
+                    $invoiceStatuses = [
+                        'paid' => __('app.client.portal.status_paid'),
+                        'sent' => __('app.client.portal.status_sent'),
+                        'overdue' => __('app.client.portal.status_overdue'),
+                        'draft' => __('app.client.portal.status_draft'),
+                    ];
+                    @endphp
+                    <span class="badge {{ $cls }}">{{ $invoiceStatuses[$inv->status] ?? $inv->status }}</span>
                 </td>
                 <td>
                     <a href="{{ route('client.invoice.download', [$token, $inv]) }}" class="btn-sm btn-dl">⬇ PDF</a>
@@ -104,18 +112,18 @@
     @endif
 
     {{-- Devis --}}
-    <h2>📋 Mes Devis</h2>
+    <h2>📋 {{ __('app.client.portal.my_quotes') }}</h2>
     @if($quotes->isEmpty())
-        <div class="empty">Aucun devis pour le moment.</div>
+        <div class="empty">{{ __('app.client.portal.no_quotes') }}</div>
     @else
     <table>
         <thead>
             <tr>
-                <th>N°</th>
+                <th>{{ __('app.client.portal.number') }}</th>
                 <th>Date</th>
-                <th>Montant</th>
-                <th>Statut</th>
-                <th>Actions</th>
+                <th>{{ __('app.client.portal.amount') }}</th>
+                <th>{{ __('app.client.portal.status') }}</th>
+                <th>{{ __('app.client.portal.actions') }}</th>
             </tr>
         </thead>
         <tbody>
@@ -126,18 +134,26 @@
                 <td>{{ number_format($q->total, 0, ',', ' ') }} {{ $q->currency ?? $business->currency }}</td>
                 <td>
                     @php $cls = ['accepted'=>'badge-accepted','sent'=>'badge-sent','declined'=>'badge-declined','draft'=>'badge-pending'][$q->status] ?? 'badge-pending' @endphp
-                    <span class="badge {{ $cls }}">{{ ['accepted'=>'Accepté','sent'=>'En attente','declined'=>'Refusé','draft'=>'Brouillon'][$q->status] ?? $q->status }}</span>
+                    @php
+                    $quoteStatuses = [
+                        'accepted' => __('app.client.portal.status_accepted'),
+                        'sent' => __('app.client.portal.status_pending'),
+                        'declined' => __('app.client.portal.status_declined'),
+                        'draft' => __('app.client.portal.status_draft'),
+                    ];
+                    @endphp
+                    <span class="badge {{ $cls }}">{{ $quoteStatuses[$q->status] ?? $q->status }}</span>
                 </td>
                 <td style="display:flex;gap:6px;flex-wrap:wrap">
                     <a href="{{ route('client.quote.download', [$token, $q]) }}" class="btn-sm btn-dl">⬇ PDF</a>
                     @if($q->status === 'sent')
                     <form method="POST" action="{{ route('client.quote.accept', [$token, $q]) }}" style="display:inline">
                         @csrf
-                        <button type="submit" class="btn-sm btn-accept">✓ Accepter</button>
+                        <button type="submit" class="btn-sm btn-accept">{{ __('app.client.portal.accept') }}</button>
                     </form>
                     <form method="POST" action="{{ route('client.quote.decline', [$token, $q]) }}" style="display:inline">
                         @csrf
-                        <button type="submit" class="btn-sm btn-decline">✗ Refuser</button>
+                        <button type="submit" class="btn-sm btn-decline">{{ __('app.client.portal.decline') }}</button>
                     </form>
                     @endif
                 </td>
