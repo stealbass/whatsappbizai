@@ -20,6 +20,7 @@ class QuoteResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
     protected static ?string $navigationLabel = 'Devis';
     protected static ?string $modelLabel = 'Devis';
+    protected static ?string $navigationGroup = 'Documents';
     protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form

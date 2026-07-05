@@ -21,10 +21,9 @@ class BroadcastPage extends Page
     protected static ?int    $navigationSort  = 5;
     protected static string  $view            = 'filament.pages.broadcast';
 
-    public ?string $message    = null;
-    public ?string $target     = 'all';
-    public ?string $status_filter = null;
-    public ?string $aiGoal     = null;
+    public ?string $message = null;
+    public ?string $target = 'all';
+    public ?string $aiGoal = null;
 
     /**
      * Ask Gemini to draft a broadcast message

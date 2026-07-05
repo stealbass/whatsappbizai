@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\BusinessScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model
 {
-    use HasFactory;
+    use HasFactory, BusinessScope;
 
     protected $fillable = [
         'conversation_id',

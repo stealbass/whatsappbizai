@@ -16,11 +16,13 @@ use Filament\Tables\Table;
 class PaymentResource extends Resource
 {
     protected static ?string $model = Payment::class;
-    protected static ?string $navigationIcon  = 'heroicon-o-credit-card';
+    protected static ?string $navigationIcon = 'heroicon-o-credit-card';
+
+    protected static ?string $navigationGroup = 'Gestion Financière';
+
+    protected static ?int $navigationSort = 10;
     protected static ?string $navigationLabel = 'Paiements';
-    protected static ?string $modelLabel      = 'Paiement';
-    protected static ?string $navigationGroup = 'Administration';
-    protected static ?int    $navigationSort  = 20;
+    protected static ?string $modelLabel = 'Paiement';
 
     public static function form(Form $form): Form
     {
@@ -114,7 +116,10 @@ class PaymentResource extends Resource
                             'currency'     => $record->currency,
                         ]);
 
-                        $record->business->update(['plan' => $record->plan]);
+                        $record->business->update([
+                            'plan' => $record->plan,
+                            'plan_expires_at' => $end,
+                        ]);
                         $record->update([
                             'status'          => 'verified',
                             'subscription_id' => $subscription->id,
