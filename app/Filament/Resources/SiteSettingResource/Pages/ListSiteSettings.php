@@ -16,6 +16,6 @@ class ListSiteSettings extends ListRecords
     {
         redirect()->route('filament.admin.resources.site-settings.edit', [
             'record' => SiteSetting::instance()->id,
-        ])->send();
+        ]);
     }
 }
