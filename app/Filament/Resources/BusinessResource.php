@@ -122,7 +122,7 @@ class BusinessResource extends Resource
                     ->colors(['gray' => 'free', 'warning' => 'starter', 'primary' => 'business', 'success' => 'pro']),
                 Tables\Columns\IconColumn::make('whatsapp_phone_number_id')
                     ->label('WhatsApp ✓')->boolean()
-                    ->getStateUsing(fn($r) => !empty($r->whatsapp_phone_number_id)),
+                    ->getStateUsing(fn($record) => !empty($record->whatsapp_phone_number_id)),
             ])
             ->actions([Tables\Actions\EditAction::make()]);
     }
