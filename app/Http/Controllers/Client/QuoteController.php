@@ -5,8 +5,12 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Models\Quote;
 use App\Models\QuoteItem;
+use App\Models\Invoice;
+use App\Models\InvoiceItem;
 use App\Models\Contact;
 use App\Models\Service;
+use App\Services\DocumentService;
+use App\Services\WhatsAppService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,6 +43,8 @@ class QuoteController extends Controller
         $data = $request->validate([
             'contact_id'  => 'required|exists:contacts,id',
             'valid_until' => 'nullable|date|after:today',
+            'tax_rate'    => 'nullable|numeric|min:0|max:100',
+            'discount'    => 'nullable|numeric|min:0',
             'notes'       => 'nullable|string|max:2000',
             'items'       => 'required|array|min:1',
             'items.*.description' => 'required|string|max:255',
@@ -60,6 +66,11 @@ class QuoteController extends Controller
             $subtotal += $item['quantity'] * $item['unit_price'];
         }
 
+        $taxRate = $data['tax_rate'] ?? 0;
+        $discount = $data['discount'] ?? 0;
+        $taxAmount = $subtotal * ($taxRate / 100);
+        $total = $subtotal + $taxAmount - $discount;
+
         $quote = Quote::create([
             'business_id' => $user->business_id,
             'contact_id'  => $contact->id,
@@ -67,9 +78,10 @@ class QuoteController extends Controller
             'status'      => 'draft',
             'valid_until' => $data['valid_until'] ?? null,
             'subtotal'    => $subtotal,
-            'tax_rate'    => 0,
-            'tax_amount'  => 0,
-            'total'       => $subtotal,
+            'tax_rate'    => $taxRate,
+            'tax_amount'  => $taxAmount,
+            'discount'    => $discount,
+            'total'       => $total,
             'notes'       => $data['notes'] ?? null,
             'currency'    => $business->currency ?? 'XAF',
         ]);
@@ -92,7 +104,97 @@ class QuoteController extends Controller
         $user = Auth::user();
         abort_unless($quote->business_id === $user->business_id, 403);
         $quote->load(['contact', 'items']);
-        return view('client.quotes.show', compact('user', 'quote'));
+        $business = $user->business;
+        return view('client.quotes.show', compact('user', 'quote', 'business'));
+    }
+
+    public function generatePdf(Quote $quote, DocumentService $docs)
+    {
+        $user = Auth::user();
+        abort_unless($quote->business_id === $user->business_id, 403);
+
+        $path = $docs->generateQuotePdf($quote);
+        $url = $docs->getPublicUrl($path);
+
+        return response()->download(public_path($url), "{$quote->number}.pdf");
+    }
+
+    public function sendWhatsApp(Quote $quote)
+    {
+        $user = Auth::user();
+        abort_unless($quote->business_id === $user->business_id, 403);
+
+        $business = $user->business;
+
+        if (!$business->whatsapp_phone_number_id || !$business->whatsapp_access_token) {
+            return back()->with('error', 'WhatsApp non configuré.');
+        }
+
+        if (!$quote->contact || !$quote->contact->whatsapp_number) {
+            return back()->with('error', 'Pas de numéro WhatsApp pour ce contact.');
+        }
+
+        $docs = app(DocumentService::class);
+        $path = $docs->generateQuotePdf($quote);
+        $url = $docs->getPublicUrl($path);
+
+        $whatsapp = app(WhatsAppService::class);
+        $sent = $whatsapp->sendDocument(
+            $quote->contact->whatsapp_number,
+            $url,
+            "{$quote->number}.pdf",
+            "Voici le devis {$quote->number} d'un montant de " . number_format($quote->total, 0, ',', ' ') . " {$quote->currency}.",
+            $business->whatsapp_phone_number_id,
+            $business->whatsapp_access_token
+        );
+
+        $quote->update(['status' => 'sent']);
+
+        return $sent
+            ? back()->with('success', 'Devis envoyé par WhatsApp.')
+            : back()->with('error', 'Échec de l\'envoi.');
+    }
+
+    public function convertToInvoice(Quote $quote)
+    {
+        $user = Auth::user();
+        abort_unless($quote->business_id === $user->business_id, 403);
+
+        $business = $user->business;
+        $prefix = $business->invoice_prefix ?? 'INV';
+        $lastInvoice = Invoice::where('business_id', $user->business_id)->count();
+        $number = $prefix . '-' . str_pad($lastInvoice + 1, 4, '0', STR_PAD_LEFT);
+
+        $invoice = Invoice::create([
+            'business_id' => $user->business_id,
+            'contact_id'  => $quote->contact_id,
+            'number'      => $number,
+            'status'      => 'draft',
+            'issue_date'  => now()->toDateString(),
+            'due_date'    => now()->addDays(30)->toDateString(),
+            'subtotal'    => $quote->subtotal,
+            'tax_rate'    => $quote->tax_rate,
+            'tax_amount'  => $quote->tax_amount,
+            'discount'    => $quote->discount,
+            'total'       => $quote->total,
+            'notes'       => $quote->notes,
+            'currency'    => $quote->currency,
+        ]);
+
+        foreach ($quote->items as $item) {
+            InvoiceItem::create([
+                'invoice_id'  => $invoice->id,
+                'description' => $item->description,
+                'quantity'    => $item->quantity,
+                'unit_price'  => $item->unit_price,
+                'total'       => $item->total,
+            ]);
+        }
+
+        $quote->update(['status' => 'accepted']);
+
+        return redirect(url('client/invoices/' . $invoice->id))
+            ->with('success', "Facture {$invoice->number} créée à partir du devis {$quote->number}.");
     }
 
     public function destroy(Quote $quote)

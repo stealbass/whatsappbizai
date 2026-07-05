@@ -34,7 +34,7 @@ class ContactController extends Controller
             'phone'            => 'nullable|string|max:50',
             'whatsapp_number'  => 'required|string|max:50',
             'company'          => 'nullable|string|max:255',
-            'status'           => 'required|in:prospect,client,lead',
+            'status'           => 'required|in:prospect,client,inactif',
             'notes'            => 'nullable|string|max:2000',
         ]);
 
@@ -63,7 +63,7 @@ class ContactController extends Controller
             'phone'            => 'nullable|string|max:50',
             'whatsapp_number'  => 'required|string|max:50',
             'company'          => 'nullable|string|max:255',
-            'status'           => 'required|in:prospect,client,lead',
+            'status'           => 'required|in:prospect,client,inactif',
             'notes'            => 'nullable|string|max:2000',
         ]);
 

@@ -30,12 +30,22 @@
         </div>
         <div class="form-row">
             <div class="form-group">
-                <label>Date d'échéance *</label>
-                <input type="date" name="due_date" value="{{ old('due_date') }}" required>
+                <label>Date d'échéance</label>
+                <input type="date" name="due_date" value="{{ old('due_date') }}">
             </div>
             <div class="form-group">
                 <label>Notes</label>
                 <input type="text" name="notes" value="{{ old('notes') }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>TVA (%)</label>
+                <input type="number" name="tax_rate" value="{{ old('tax_rate', 0) }}" min="0" max="100" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Remise</label>
+                <input type="number" name="discount" value="{{ old('discount', 0) }}" min="0" step="0.01">
             </div>
         </div>
 

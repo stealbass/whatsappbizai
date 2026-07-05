@@ -15,6 +15,8 @@ use App\Http\Controllers\Client\QuoteController;
 use App\Http\Controllers\Client\ServiceController;
 use App\Http\Controllers\Client\ConversationController;
 use App\Http\Controllers\Client\SettingsController;
+use App\Http\Controllers\Client\BroadcastController;
+use App\Http\Controllers\Client\RetentionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -68,6 +70,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/client/invoices/create', [InvoiceController::class, 'create'])->name('c.invoices.create');
     Route::post('/client/invoices', [InvoiceController::class, 'store'])->name('c.invoices.store');
     Route::get('/client/invoices/{invoice}', [InvoiceController::class, 'show'])->name('c.invoices.show');
+    Route::post('/client/invoices/{invoice}/mark-paid', [InvoiceController::class, 'markPaid'])->name('c.invoices.markPaid');
+    Route::post('/client/invoices/{invoice}/reminder', [InvoiceController::class, 'sendReminder'])->name('c.invoices.reminder');
+    Route::get('/client/invoices/{invoice}/pdf', [InvoiceController::class, 'generatePdf'])->name('c.invoices.pdf');
+    Route::post('/client/invoices/{invoice}/whatsapp', [InvoiceController::class, 'sendWhatsApp'])->name('c.invoices.whatsapp');
     Route::delete('/client/invoices/{invoice}', [InvoiceController::class, 'destroy'])->name('c.invoices.destroy');
 
     // Quotes
@@ -75,6 +81,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/client/quotes/create', [QuoteController::class, 'create'])->name('c.quotes.create');
     Route::post('/client/quotes', [QuoteController::class, 'store'])->name('c.quotes.store');
     Route::get('/client/quotes/{quote}', [QuoteController::class, 'show'])->name('c.quotes.show');
+    Route::get('/client/quotes/{quote}/pdf', [QuoteController::class, 'generatePdf'])->name('c.quotes.pdf');
+    Route::post('/client/quotes/{quote}/whatsapp', [QuoteController::class, 'sendWhatsApp'])->name('c.quotes.whatsapp');
+    Route::post('/client/quotes/{quote}/convert', [QuoteController::class, 'convertToInvoice'])->name('c.quotes.convert');
     Route::delete('/client/quotes/{quote}', [QuoteController::class, 'destroy'])->name('c.quotes.destroy');
 
     // Services
@@ -99,6 +108,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/client/settings/password', [SettingsController::class, 'password'])->name('c.settings.password');
     Route::put('/client/settings/password', [SettingsController::class, 'passwordUpdate'])->name('c.settings.password.update');
     Route::get('/client/settings/billing', [SettingsController::class, 'billing'])->name('c.settings.billing');
+
+    // Broadcast
+    Route::get('/client/broadcast', [BroadcastController::class, 'index'])->name('c.broadcast');
+    Route::post('/client/broadcast', [BroadcastController::class, 'send'])->name('c.broadcast.send');
+    Route::post('/client/broadcast/draft-ai', [BroadcastController::class, 'draftAI'])->name('c.broadcast.draftAI');
+
+    // Retention
+    Route::get('/client/retention', [RetentionController::class, 'index'])->name('c.retention');
+    Route::post('/client/retention', [RetentionController::class, 'send'])->name('c.retention.send');
+    Route::post('/client/retention/draft-ai', [RetentionController::class, 'draftAI'])->name('c.retention.draftAI');
 });
 
 // Inscription

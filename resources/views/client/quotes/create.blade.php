@@ -32,6 +32,16 @@
             <label>Notes</label>
             <textarea name="notes">{{ old('notes') }}</textarea>
         </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>TVA (%)</label>
+                <input type="number" name="tax_rate" value="{{ old('tax_rate', 0) }}" min="0" max="100" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Remise</label>
+                <input type="number" name="discount" value="{{ old('discount', 0) }}" min="0" step="0.01">
+            </div>
+        </div>
 
         <h3 style="font-size:15px;font-weight:700;margin:20px 0 12px;">Lignes du devis</h3>
         <div id="items-container">

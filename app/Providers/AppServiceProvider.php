@@ -8,6 +8,7 @@ use App\Observers\InvoiceItemObserver;
 use App\Observers\QuoteItemObserver;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 
@@ -19,6 +20,8 @@ class AppServiceProvider extends ServiceProvider
     {
         InvoiceItem::observe(InvoiceItemObserver::class);
         QuoteItem::observe(QuoteItemObserver::class);
+
+        View::composer('client.*', \App\Http\Composers\ClientComposer::class);
 
         if (config('app.url')) {
             URL::forceRootUrl(config('app.url'));

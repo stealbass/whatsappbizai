@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\BroadcastPage;
+use App\Filament\Pages\RetentionPage;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -32,13 +34,15 @@ class AdminPanelProvider extends PanelProvider
             ->favicon(asset('favicon.ico'))
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+            ->excludePages([BroadcastPage::class, RetentionPage::class])
             ->pages([Pages\Dashboard::class])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->navigationGroups([
-                NavigationGroup::make()->label('Messagerie'),
-                NavigationGroup::make()->label('Facturation'),
-                NavigationGroup::make()->label('Catalogue'),
                 NavigationGroup::make()->label('Administration'),
+                NavigationGroup::make()->label('Messagerie'),
+                NavigationGroup::make()->label('Documents'),
+                NavigationGroup::make()->label('Gestion Financière'),
+                NavigationGroup::make()->label('Catalogue'),
                 NavigationGroup::make()->label('Paramètres'),
             ])
             ->middleware([

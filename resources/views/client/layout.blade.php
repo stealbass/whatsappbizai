@@ -136,6 +136,12 @@
                 <span class="badge">{{ $stats['conversations'] }}</span>
             @endif
         </a>
+        <a href="{{ url('client/broadcast') }}" class="nav-item {{ request()->routeIs('c.broadcast') ? 'active' : '' }}">
+            <span class="icon">📤</span> Broadcast
+        </a>
+        <a href="{{ url('client/retention') }}" class="nav-item {{ request()->routeIs('c.retention') ? 'active' : '' }}">
+            <span class="icon">❤️</span> Rétention
+        </a>
 
         <div class="nav-section">Facturation</div>
         <a href="{{ url('client/quotes') }}" class="nav-item {{ request()->routeIs('c.quotes*') ? 'active' : '' }}">
