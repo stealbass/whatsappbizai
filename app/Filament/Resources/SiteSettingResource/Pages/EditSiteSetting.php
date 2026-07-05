@@ -38,17 +38,4 @@ class EditSiteSetting extends EditRecord
 
         return $record;
     }
-
-    public function save(): void
-    {
-        $data = $this->form->getState();
-
-        $record = SiteSetting::instance();
-
-        $this->handleRecordUpdate($record, $data);
-
-        $this->data = $record->toArray();
-
-        $this->saved();
-    }
 }
