@@ -27,6 +27,6 @@ class DashboardController extends Controller
             ? $business->quotes()->latest()->take(5)->get()
             : collect();
 
-        return view('dashboard', compact('user', 'business', 'stats', 'recentInvoices', 'recentQuotes'));
+        return view('client.dashboard', compact('user', 'business', 'stats', 'recentInvoices', 'recentQuotes'));
     }
 }
