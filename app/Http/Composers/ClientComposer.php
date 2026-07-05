@@ -11,23 +11,17 @@ class ClientComposer
     {
         $user = Auth::user();
 
-        if ($user && $user->business) {
-            $business = $user->business;
-            $sidebarStats = [
-                'contacts'      => $business->contacts()->count(),
-                'invoices'      => $business->invoices()->count(),
-                'quotes'        => $business->quotes()->count(),
-                'conversations' => $business->conversations()->count(),
-            ];
-        } else {
-            $business = null;
-            $sidebarStats = [
-                'contacts'      => 0,
-                'invoices'      => 0,
-                'quotes'        => 0,
-                'conversations' => 0,
-            ];
+        if (! $user || ! $user->business) {
+            return;
         }
+
+        $business = $user->business;
+        $sidebarStats = [
+            'contacts'      => $business->contacts()->count(),
+            'invoices'      => $business->invoices()->count(),
+            'quotes'        => $business->quotes()->count(),
+            'conversations' => $business->conversations()->count(),
+        ];
 
         $view->with(compact('business', 'sidebarStats'));
     }

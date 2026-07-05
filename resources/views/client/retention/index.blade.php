@@ -7,14 +7,7 @@
         <h2>❤️ Rétention & Acquisition</h2>
     </div>
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-    @if(session('error'))
-        <div class="alert alert-error">{{ session('error') }}</div>
-    @endif
-
-    <form action="{{ url('client/retention') }}" method="POST">
+    <form action="{{ url('client/retention') }}" method="POST" id="retentionForm">
         @csrf
 
         <div class="form-row">

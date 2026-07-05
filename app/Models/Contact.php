@@ -27,6 +27,7 @@ class Contact extends Model
         'business_id',
         'whatsapp_number',
         'name',
+        'phone',
         'email',
         'company',
         'notes',

@@ -27,7 +27,7 @@
                 @foreach($conversations as $conv)
                 <tr>
                     <td style="font-weight:600;">{{ $conv->contact->name ?? '-' }}</td>
-                    <td>{{ Str::limit($conv->last_message ?? '-', 60) }}</td>
+                    <td>{{ Str::limit($conv->lastMessage?->content ?? $conv->summary ?? '-', 60) }}</td>
                     <td>{{ $conv->updated_at->format('d/m/Y H:i') }}</td>
                     <td>
                         <a href="{{ url('client/conversations/' . $conv->id) }}" class="btn btn-ghost btn-sm">👁️ Voir</a>

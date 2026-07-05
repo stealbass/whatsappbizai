@@ -36,7 +36,7 @@
                     <td>{{ $quote->contact->name ?? '-' }}</td>
                     <td>{{ number_format($quote->total, 2, ',', ' ') }} {{ $business->currency ?? 'XAF' }}</td>
                     <td><span class="status {{ $quote->status }}">{{ ucfirst($quote->status) }}</span></td>
-                    <td>{{ \Carbon\Carbon::parse($quote->valid_until)->format('d/m/Y') }}</td>
+                    <td>{{ $quote->valid_until ? \Carbon\Carbon::parse($quote->valid_until)->format('d/m/Y') : '-' }}</td>
                     <td>
                         <a href="{{ url('client/quotes/' . $quote->id) }}" class="btn btn-ghost btn-sm">👁️</a>
                         <form action="{{ url('client/quotes/' . $quote->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Supprimer ce devis ?')">

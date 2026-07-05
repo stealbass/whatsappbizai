@@ -14,18 +14,18 @@
     <form action="{{ url('client/settings/whatsapp') }}" method="POST">
         @csrf @method('PUT')
         <div class="form-group">
-            <label>WhatsApp Phone Number ID *</label>
-            <input type="text" name="whatsapp_phone_number_id" value="{{ old('whatsapp_phone_number_id', $business->whatsapp_phone_number_id ?? '') }}" required>
+            <label>WhatsApp Phone Number ID</label>
+            <input type="text" name="whatsapp_phone_number_id" value="{{ old('whatsapp_phone_number_id', $business->whatsapp_phone_number_id ?? '') }}">
             <p class="form-help">Identifiant du numéro de téléphone WhatsApp Business.</p>
         </div>
         <div class="form-group">
-            <label>WhatsApp Access Token *</label>
-            <input type="password" name="whatsapp_access_token" value="{{ old('whatsapp_access_token', $business->whatsapp_access_token ?? '') }}" required>
+            <label>WhatsApp Access Token</label>
+            <input type="password" name="whatsapp_access_token" value="{{ old('whatsapp_access_token', $business->whatsapp_access_token ?? '') }}">
             <p class="form-help">Jeton d'accès temporaire ou permanent de l'API Cloud.</p>
         </div>
         <div class="form-group">
-            <label>WhatsApp Business Account ID *</label>
-            <input type="text" name="whatsapp_business_account_id" value="{{ old('whatsapp_business_account_id', $business->whatsapp_business_account_id ?? '') }}" required>
+            <label>WhatsApp Business Account ID</label>
+            <input type="text" name="whatsapp_business_account_id" value="{{ old('whatsapp_business_account_id', $business->whatsapp_business_account_id ?? '') }}">
         </div>
         <div class="form-group">
             <label>System Prompt IA (Gemini)</label>

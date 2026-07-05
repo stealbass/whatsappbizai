@@ -7,13 +7,6 @@
         <h2>📤 Broadcast WhatsApp</h2>
     </div>
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-    @if(session('error'))
-        <div class="alert alert-error">{{ session('error') }}</div>
-    @endif
-
     <form action="{{ url('client/broadcast') }}" method="POST" id="broadcastForm">
         @csrf
 

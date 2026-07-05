@@ -42,7 +42,7 @@
             <select name="status" required>
                 <option value="prospect" {{ old('status', $contact->status) === 'prospect' ? 'selected' : '' }}>Prospect</option>
                 <option value="client" {{ old('status', $contact->status) === 'client' ? 'selected' : '' }}>Client</option>
-                <option value="lead" {{ old('status', $contact->status) === 'lead' ? 'selected' : '' }}>Lead</option>
+                <option value="inactif" {{ old('status', $contact->status) === 'inactif' ? 'selected' : '' }}>Inactif</option>
             </select>
         </div>
         <div class="form-group">

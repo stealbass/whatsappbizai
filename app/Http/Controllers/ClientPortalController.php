@@ -32,7 +32,7 @@ class ClientPortalController extends Controller
             ->orderByDesc('created_at')
             ->get();
 
-        return view('client.portal', compact('contact', 'business', 'invoices', 'quotes'));
+        return view('client.portal', compact('contact', 'business', 'invoices', 'quotes', 'token'));
     }
 
     /**

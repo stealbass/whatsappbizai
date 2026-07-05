@@ -119,7 +119,7 @@
 
     <nav class="sidebar-nav">
         <div class="nav-section">Menu</div>
-        <a href="{{ url('dashboard') }}" class="nav-item {{ request()->routeIs('c.dashboard') ? 'active' : '' }}">
+        <a href="{{ url('dashboard') }}" class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
             <span class="icon">📊</span> Tableau de bord
         </a>
 
