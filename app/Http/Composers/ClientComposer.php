@@ -13,7 +13,7 @@ class ClientComposer
 
         if ($user && $user->business) {
             $business = $user->business;
-            $stats = [
+            $sidebarStats = [
                 'contacts'      => $business->contacts()->count(),
                 'invoices'      => $business->invoices()->count(),
                 'quotes'        => $business->quotes()->count(),
@@ -21,7 +21,7 @@ class ClientComposer
             ];
         } else {
             $business = null;
-            $stats = [
+            $sidebarStats = [
                 'contacts'      => 0,
                 'invoices'      => 0,
                 'quotes'        => 0,
@@ -29,6 +29,6 @@ class ClientComposer
             ];
         }
 
-        $view->with(compact('business', 'stats'));
+        $view->with(compact('business', 'sidebarStats'));
     }
 }

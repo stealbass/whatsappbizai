@@ -126,14 +126,14 @@
         <div class="nav-section">Messagerie</div>
         <a href="{{ url('client/contacts') }}" class="nav-item {{ request()->routeIs('c.contacts*') ? 'active' : '' }}">
             <span class="icon">👥</span> Contacts
-            @if(($stats['contacts'] ?? 0) > 0)
-                <span class="badge">{{ $stats['contacts'] }}</span>
+            @if(($sidebarStats['contacts'] ?? 0) > 0)
+                <span class="badge">{{ $sidebarStats['contacts'] }}</span>
             @endif
         </a>
         <a href="{{ url('client/conversations') }}" class="nav-item {{ request()->routeIs('c.conversations*') ? 'active' : '' }}">
             <span class="icon">💬</span> Conversations IA
-            @if(($stats['conversations'] ?? 0) > 0)
-                <span class="badge">{{ $stats['conversations'] }}</span>
+            @if(($sidebarStats['conversations'] ?? 0) > 0)
+                <span class="badge">{{ $sidebarStats['conversations'] }}</span>
             @endif
         </a>
         <a href="{{ url('client/broadcast') }}" class="nav-item {{ request()->routeIs('c.broadcast') ? 'active' : '' }}">
@@ -146,14 +146,14 @@
         <div class="nav-section">Facturation</div>
         <a href="{{ url('client/quotes') }}" class="nav-item {{ request()->routeIs('c.quotes*') ? 'active' : '' }}">
             <span class="icon">📄</span> Devis
-            @if(($stats['quotes'] ?? 0) > 0)
-                <span class="badge">{{ $stats['quotes'] }}</span>
+            @if(($sidebarStats['quotes'] ?? 0) > 0)
+                <span class="badge">{{ $sidebarStats['quotes'] }}</span>
             @endif
         </a>
         <a href="{{ url('client/invoices') }}" class="nav-item {{ request()->routeIs('c.invoices*') ? 'active' : '' }}">
             <span class="icon">🧾</span> Factures
-            @if(($stats['invoices'] ?? 0) > 0)
-                <span class="badge">{{ $stats['invoices'] }}</span>
+            @if(($sidebarStats['invoices'] ?? 0) > 0)
+                <span class="badge">{{ $sidebarStats['invoices'] }}</span>
             @endif
         </a>
 
