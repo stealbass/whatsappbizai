@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class SettingsController extends Controller
 {
@@ -60,6 +61,37 @@ class SettingsController extends Controller
         ]);
 
         $business->update($data);
+
+        // Handle document uploads
+        if ($request->hasFile('ai_documents')) {
+            $existingDocs = $business->ai_documents ?? [];
+            $files = $request->file('ai_documents');
+
+            foreach ($files as $file) {
+                $path = $file->store('ai-documents', 'public');
+                $existingDocs[] = [
+                    'name' => $file->getClientOriginalName(),
+                    'path' => $path,
+                    'size' => $file->getSize(),
+                    'type' => $file->getMimeType(),
+                    'uploaded_at' => now()->toIso8601String(),
+                ];
+            }
+
+            $business->update(['ai_documents' => $existingDocs]);
+        }
+
+        // Handle document deletion
+        if ($request->has('delete_document')) {
+            $deleteIndex = (int) $request->input('delete_document');
+            $docs = $business->ai_documents ?? [];
+
+            if (isset($docs[$deleteIndex])) {
+                Storage::disk('public')->delete($docs[$deleteIndex]['path']);
+                unset($docs[$deleteIndex]);
+                $business->update(['ai_documents' => array_values($docs)]);
+            }
+        }
 
         return redirect(url('client/settings/whatsapp'))->with('success', 'Configuration WhatsApp & IA mise à jour.');
     }

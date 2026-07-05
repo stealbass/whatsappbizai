@@ -6,6 +6,7 @@ use App\Models\Business;
 use App\Models\Conversation;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class GeminiService
 {
@@ -270,6 +271,7 @@ PROMPT;
         $customRules  = $business->gemini_system_prompt
             ? "\n\n## Owner-defined rules (MUST follow these)\n" . $business->gemini_system_prompt
             : '';
+        $docContext   = $this->documentsText($business);
 
         $langNote = match($business->country) {
             'CM', 'SN', 'CI', 'MA', 'BJ', 'TG', 'NE', 'ML', 'BF', 'GN', 'CG', 'CD', 'GA'
@@ -303,7 +305,7 @@ You handle customer inquiries over WhatsApp:
 
 # Service catalog
 {$catalog}
-
+{$docContext}
 # Strict rules
 - **Be concise**: WhatsApp messages should be short (2-3 paragraphs max). No long essays.
 - **Be honest**: Never invent prices or timelines not listed above. If unsure, say "I'll check and get back to you shortly."
@@ -337,6 +339,113 @@ SYSTEM;
             $desc = $s->description ? " — {$s->description}" : '';
             return "• **{$s->name}**: {$price}{$desc}";
         })->join("\n");
+    }
+
+    private function documentsText(Business $business): string
+    {
+        $docs = $business->ai_documents ?? [];
+        if (empty($docs)) return '';
+
+        $sections = [];
+        foreach ($docs as $doc) {
+            $path = $doc['path'] ?? '';
+            $name = $doc['name'] ?? 'document';
+            $content = $this->extractDocumentContent($path);
+            if ($content) {
+                $sections[] = "### Document: {$name}\n{$content}";
+            } else {
+                $sections[] = "### Document: {$name}\n(Contenu non extractible — le document existe mais le texte n'a pas pu être lu automatiquement. Mentionne-le si pertinent.)";
+            }
+        }
+
+        return "\n# Reference documents\n" . implode("\n\n", $sections) . "\n";
+    }
+
+    private function extractDocumentContent(string $path): ?string
+    {
+        try {
+            $fullPath = Storage::disk('public')->path($path);
+            if (!file_exists($fullPath)) return null;
+
+            $ext = strtolower(pathinfo($fullPath, PATHINFO_EXTENSION));
+
+            return match ($ext) {
+                'txt', 'csv', 'md' => $this->readTextFile($fullPath),
+                'pdf' => $this->readPdf($fullPath),
+                'doc', 'docx' => $this->readWord($fullPath),
+                'xls', 'xlsx' => $this->readExcel($fullPath),
+                'ppt', 'pptx' => $this->readPowerPoint($fullPath),
+                default => null,
+            };
+        } catch (\Throwable $e) {
+            Log::warning('Document extraction failed', ['path' => $path, 'error' => $e->getMessage()]);
+            return null;
+        }
+    }
+
+    private function readTextFile(string $path): string
+    {
+        $content = file_get_contents($path);
+        return mb_strlen($content) > 8000 ? mb_substr($content, 0, 8000) . "\n[...tronqué]" : $content;
+    }
+
+    private function readPdf(string $path): ?string
+    {
+        if (!class_exists('Smalot\PdfParser\Parser')) return null;
+        $parser = new \Smalot\PdfParser\Parser();
+        $pdf = $parser->parseFile($path);
+        $text = $pdf->getText();
+        return mb_strlen($text) > 8000 ? mb_substr($text, 0, 8000) . "\n[...tronqué]" : $text;
+    }
+
+    private function readWord(string $path): ?string
+    {
+        if (!class_exists('PhpOffice\PhpWord\IOFactory')) return null;
+        $phpWord = \PhpOffice\PhpWord\IOFactory::load($path);
+        $text = [];
+        foreach ($phpWord->getSections() as $section) {
+            foreach ($section->getElements() as $element) {
+                if (method_exists($element, 'getText')) {
+                    $text[] = $element->getText();
+                }
+            }
+        }
+        $content = implode("\n", $text);
+        return mb_strlen($content) > 8000 ? mb_substr($content, 0, 8000) . "\n[...tronqué]" : $content;
+    }
+
+    private function readExcel(string $path): ?string
+    {
+        if (!class_exists('PhpOffice\PhpSpreadsheet\IOFactory')) return null;
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($path);
+        $text = [];
+        foreach ($spreadsheet->getAllSheets() as $sheet) {
+            foreach ($sheet->getRowIterator() as $row) {
+                $cells = [];
+                foreach ($row->getCellIterator() as $cell) {
+                    $cells[] = $cell->getValue();
+                }
+                $text[] = implode(' | ', $cells);
+            }
+        }
+        $content = implode("\n", $text);
+        return mb_strlen($content) > 8000 ? mb_substr($content, 0, 8000) . "\n[...tronqué]" : $content;
+    }
+
+    private function readPowerPoint(string $path): ?string
+    {
+        if (!class_exists('PhpOffice\PhpPresentation\IOFactory')) return null;
+        $ppt = \PhpOffice\PhpPresentation\IOFactory::load($path);
+        $text = [];
+        foreach ($ppt->getAllSlides() as $slide) {
+            foreach ($slide->getShapeCollection() as $shape) {
+                if (method_exists($shape, 'getText')) {
+                    $text[] = $shape->getText();
+                }
+            }
+        }
+        $content = implode("\n", $text);
+        return mb_strlen($content) > 8000 ? mb_substr($content, 0, 8000) . "\n[...tronqué]" : $content;
     }
 
     private function buildHistory(Conversation $conversation, int $limit): array

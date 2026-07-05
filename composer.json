@@ -13,6 +13,10 @@
         "laravel/sanctum": "^4.0",
         "laravel/socialite": "*",
         "laravel/tinker": "^2.9",
+        "phpoffice/phppresentation": "*",
+        "phpoffice/phpspreadsheet": "*",
+        "phpoffice/phpword": "*",
+        "smalot/pdfparser": "*",
         "spatie/laravel-activitylog": "^4.8"
     },
     "require-dev": {

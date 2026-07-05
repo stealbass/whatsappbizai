@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class DashboardController extends Controller
 {
@@ -28,5 +29,15 @@ class DashboardController extends Controller
             : collect();
 
         return view('client.dashboard', compact('user', 'business', 'stats', 'recentInvoices', 'recentQuotes'));
+    }
+
+    public function setLanguage(string $locale)
+    {
+        if (in_array($locale, ['fr', 'en'])) {
+            Session::put('locale', $locale);
+            app()->setLocale($locale);
+        }
+
+        return redirect()->back();
     }
 }

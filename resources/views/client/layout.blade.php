@@ -118,66 +118,67 @@
     </div>
 
     <nav class="sidebar-nav">
-        <div class="nav-section">Menu</div>
+        <div class="nav-section">{{ __('app.client.sidebar.menu') }}</div>
         <a href="{{ url('dashboard') }}" class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-            <span class="icon">📊</span> Tableau de bord
+            <span class="icon">📊</span> {{ __('app.client.sidebar.dashboard') }}
         </a>
 
-        <div class="nav-section">Messagerie</div>
+        <div class="nav-section">{{ __('app.client.sidebar.messaging') }}</div>
         <a href="{{ url('client/contacts') }}" class="nav-item {{ request()->routeIs('c.contacts*') ? 'active' : '' }}">
-            <span class="icon">👥</span> Contacts
+            <span class="icon">👥</span> {{ __('app.client.sidebar.contacts') }}
             @if(($sidebarStats['contacts'] ?? 0) > 0)
                 <span class="badge">{{ $sidebarStats['contacts'] }}</span>
             @endif
         </a>
         <a href="{{ url('client/conversations') }}" class="nav-item {{ request()->routeIs('c.conversations*') ? 'active' : '' }}">
-            <span class="icon">💬</span> Conversations IA
+            <span class="icon">💬</span> {{ __('app.client.sidebar.conversations') }}
             @if(($sidebarStats['conversations'] ?? 0) > 0)
                 <span class="badge">{{ $sidebarStats['conversations'] }}</span>
             @endif
         </a>
         <a href="{{ url('client/broadcast') }}" class="nav-item {{ request()->routeIs('c.broadcast') ? 'active' : '' }}">
-            <span class="icon">📤</span> Broadcast
-        </a>
-        <a href="{{ url('client/retention') }}" class="nav-item {{ request()->routeIs('c.retention') ? 'active' : '' }}">
-            <span class="icon">❤️</span> Rétention
+            <span class="icon">📤</span> {{ __('app.client.sidebar.broadcast') }}
         </a>
 
-        <div class="nav-section">Facturation</div>
+        <div class="nav-section">{{ __('app.client.sidebar.invoicing') }}</div>
         <a href="{{ url('client/quotes') }}" class="nav-item {{ request()->routeIs('c.quotes*') ? 'active' : '' }}">
-            <span class="icon">📄</span> Devis
+            <span class="icon">📄</span> {{ __('app.client.sidebar.quotes') }}
             @if(($sidebarStats['quotes'] ?? 0) > 0)
                 <span class="badge">{{ $sidebarStats['quotes'] }}</span>
             @endif
         </a>
         <a href="{{ url('client/invoices') }}" class="nav-item {{ request()->routeIs('c.invoices*') ? 'active' : '' }}">
-            <span class="icon">🧾</span> Factures
+            <span class="icon">🧾</span> {{ __('app.client.sidebar.invoices') }}
             @if(($sidebarStats['invoices'] ?? 0) > 0)
                 <span class="badge">{{ $sidebarStats['invoices'] }}</span>
             @endif
         </a>
 
-        <div class="nav-section">Catalogue</div>
+        <div class="nav-section">{{ __('app.client.sidebar.catalogue') }}</div>
         <a href="{{ url('client/services') }}" class="nav-item {{ request()->routeIs('c.services*') ? 'active' : '' }}">
-            <span class="icon">📦</span> Services
+            <span class="icon">📦</span> {{ __('app.client.sidebar.services') }}
         </a>
 
-        <div class="nav-section">Paramètres</div>
+        <div class="nav-section">{{ __('app.client.sidebar.settings') }}</div>
         <a href="{{ url('client/settings/business') }}" class="nav-item {{ request()->routeIs('c.settings.business') ? 'active' : '' }}">
-            <span class="icon">🏢</span> Mon entreprise
+            <span class="icon">🏢</span> {{ __('app.client.sidebar.my_business') }}
         </a>
         <a href="{{ url('client/settings/whatsapp') }}" class="nav-item {{ request()->routeIs('c.settings.whatsapp') ? 'active' : '' }}">
-            <span class="icon">📱</span> WhatsApp & IA
+            <span class="icon">📱</span> {{ __('app.client.sidebar.whatsapp_ai') }}
         </a>
         <a href="{{ url('client/settings/profile') }}" class="nav-item {{ request()->routeIs('c.settings.profile') ? 'active' : '' }}">
-            <span class="icon">👤</span> Mon profil
+            <span class="icon">👤</span> {{ __('app.client.sidebar.my_profile') }}
         </a>
         <a href="{{ url('client/settings/billing') }}" class="nav-item {{ request()->routeIs('c.settings.billing') ? 'active' : '' }}">
-            <span class="icon">💳</span> Plan & Facturation
+            <span class="icon">💳</span> {{ __('app.client.sidebar.plan_billing') }}
         </a>
     </nav>
 
     <div class="sidebar-footer">
+        <div style="display:flex;gap:6px;margin-bottom:10px;">
+            <a href="{{ url('client/language/fr') }}" style="flex:1;text-align:center;padding:4px;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;{{ app()->getLocale() === 'fr' ? 'background:var(--sky);color:#fff;' : 'background:rgba(255,255,255,.08);color:#94a3b8;' }}">FR</a>
+            <a href="{{ url('client/language/en') }}" style="flex:1;text-align:center;padding:4px;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;{{ app()->getLocale() === 'en' ? 'background:var(--sky);color:#fff;' : 'background:rgba(255,255,255,.08);color:#94a3b8;' }}">EN</a>
+        </div>
         <div class="user">
             <div class="avatar">{{ strtoupper(substr($user->name ?? 'U', 0, 1)) }}</div>
             <div>
@@ -185,7 +186,7 @@
                 <div class="user-email">{{ $user->email ?? '' }}</div>
             </div>
         </div>
-        <a href="{{ url('logout') }}" class="logout">🚪 Déconnexion</a>
+        <a href="{{ url('logout') }}" class="logout">🚪 {{ __('app.client.sidebar.logout') }}</a>
     </div>
 </aside>
 

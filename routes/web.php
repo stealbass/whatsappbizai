@@ -114,10 +114,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/client/broadcast', [BroadcastController::class, 'send'])->name('c.broadcast.send');
     Route::post('/client/broadcast/draft-ai', [BroadcastController::class, 'draftAI'])->name('c.broadcast.draftAI');
 
-    // Retention
-    Route::get('/client/retention', [RetentionController::class, 'index'])->name('c.retention');
-    Route::post('/client/retention', [RetentionController::class, 'send'])->name('c.retention.send');
-    Route::post('/client/retention/draft-ai', [RetentionController::class, 'draftAI'])->name('c.retention.draftAI');
+    // Language switcher
+    Route::get('/client/language/{locale}', [DashboardController::class, 'setLanguage'])->name('c.language');
 });
 
 // Inscription

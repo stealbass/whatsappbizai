@@ -1,9 +1,9 @@
 @extends('client.layout')
-@section('title', 'Modifier service')
+@section('title', __('app.client.services.edit'))
 
 @section('content')
 <div class="card" style="max-width:600px;">
-    <div class="card-header"><h2>Modifier {{ $service->name }}</h2></div>
+    <div class="card-header"><h2>{{ __('app.client.services.edit') }} {{ $service->name }}</h2></div>
 
     @if($errors->any())
         <div class="alert alert-error">
@@ -14,20 +14,20 @@
     <form action="{{ url('client/services/' . $service->id) }}" method="POST">
         @csrf @method('PUT')
         <div class="form-group">
-            <label>Nom *</label>
+            <label>{{ __('app.client.services.name') }} *</label>
             <input type="text" name="name" value="{{ old('name', $service->name) }}" required>
         </div>
         <div class="form-group">
-            <label>Description</label>
+            <label>{{ __('app.client.services.description') }}</label>
             <textarea name="description">{{ old('description', $service->description) }}</textarea>
         </div>
         <div class="form-row">
             <div class="form-group">
-                <label>Prix unitaire *</label>
+                <label>{{ __('app.client.services.price') }} *</label>
                 <input type="number" name="unit_price" value="{{ old('unit_price', $service->unit_price) }}" step="0.01" min="0" required>
             </div>
             <div class="form-group">
-                <label>Unité *</label>
+                <label>{{ __('app.client.services.unit') }} *</label>
                 <select name="unit" required>
                     <option value="forfait" {{ old('unit', $service->unit) === 'forfait' ? 'selected' : '' }}>Forfait</option>
                     <option value="heure" {{ old('unit', $service->unit) === 'heure' ? 'selected' : '' }}>Heure</option>
@@ -39,7 +39,7 @@
         <div class="form-group">
             <label style="display:flex;align-items:center;gap:8px;">
                 <input type="checkbox" name="is_active" value="1" {{ old('is_active', $service->is_active) ? 'checked' : '' }}>
-                Service actif
+                {{ __('app.client.services.active') }}
             </label>
         </div>
         <div style="display:flex;gap:12px;margin-top:20px;">

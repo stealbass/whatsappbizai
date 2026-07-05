@@ -1,5 +1,5 @@
 <x-filament-panels::page>
-    <form wire:submit="send">
+    <form wire:submit="sendCampaign">
         {{ $this->form }}
 
         <div class="mt-6 flex flex-wrap justify-end gap-3">

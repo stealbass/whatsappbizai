@@ -18,6 +18,7 @@ class Business extends Model
         'whatsapp_access_token',
         'whatsapp_business_account_id',
         'gemini_system_prompt',
+        'ai_documents',
         'address',
         'city',
         'country',
@@ -36,6 +37,7 @@ class Business extends Model
         return [
             'is_active'       => 'boolean',
             'plan_expires_at' => 'datetime',
+            'ai_documents'    => 'array',
         ];
     }
 

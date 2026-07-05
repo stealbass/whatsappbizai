@@ -1,9 +1,9 @@
 @extends('client.layout')
-@section('title', 'Nouveau devis')
+@section('title', __('app.client.quotes.new'))
 
 @section('content')
 <div class="card" style="max-width:700px;">
-    <div class="card-header"><h2>Créer un devis</h2></div>
+    <div class="card-header"><h2>{{ __('app.client.quotes.create') }}</h2></div>
 
     @if($errors->any())
         <div class="alert alert-error">
@@ -15,7 +15,7 @@
         @csrf
         <div class="form-row">
             <div class="form-group">
-                <label>Contact *</label>
+                <label>{{ __('app.client.quotes.form.contact') }}</label>
                 <select name="contact_id" required>
                     <option value="">-- Sélectionner un contact --</option>
                     @foreach($contacts as $c)
@@ -24,21 +24,21 @@
                 </select>
             </div>
             <div class="form-group">
-                <label>Valide jusqu'au *</label>
+                <label>{{ __('app.client.quotes.form.valid_until') }}</label>
                 <input type="date" name="valid_until" value="{{ old('valid_until') }}" required>
             </div>
         </div>
         <div class="form-group">
-            <label>Notes</label>
+            <label>{{ __('app.client.quotes.form.notes') }}</label>
             <textarea name="notes">{{ old('notes') }}</textarea>
         </div>
         <div class="form-row">
             <div class="form-group">
-                <label>TVA (%)</label>
+                <label>{{ __('app.client.quotes.form.tax_rate') }}</label>
                 <input type="number" name="tax_rate" value="{{ old('tax_rate', 0) }}" min="0" max="100" step="0.1">
             </div>
             <div class="form-group">
-                <label>Remise</label>
+                <label>{{ __('app.client.quotes.form.discount') }}</label>
                 <input type="number" name="discount" value="{{ old('discount', 0) }}" min="0" step="0.01">
             </div>
         </div>
@@ -47,25 +47,25 @@
         <div id="items-container">
             <div class="item-row" style="display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px;margin-bottom:10px;align-items:end;">
                 <div class="form-group" style="margin:0;">
-                    <label>Description</label>
+                    <label>{{ __('app.client.quotes.form.description') }}</label>
                     <input type="text" name="items[0][description]" value="{{ old('items.0.description') }}" required>
                 </div>
                 <div class="form-group" style="margin:0;">
-                    <label>Quantité</label>
+                    <label>{{ __('app.client.quotes.form.quantity') }}</label>
                     <input type="number" name="items[0][quantity]" value="{{ old('items.0.quantity', 1) }}" min="1" required>
                 </div>
                 <div class="form-group" style="margin:0;">
-                    <label>Prix unitaire</label>
+                    <label>{{ __('app.client.quotes.form.unit_price') }}</label>
                     <input type="number" name="items[0][unit_price]" value="{{ old('items.0.unit_price') }}" step="0.01" min="0" required>
                 </div>
                 <button type="button" class="btn btn-danger btn-sm remove-item" style="margin-bottom:4px;">✕</button>
             </div>
         </div>
-        <button type="button" class="btn btn-outline btn-sm" id="addItem" style="margin-bottom:20px;">+ Ajouter une ligne</button>
+        <button type="button" class="btn btn-outline btn-sm" id="addItem" style="margin-bottom:20px;">+ {{ __('app.client.quotes.form.add_line') }}</button>
 
         <div style="display:flex;gap:12px;margin-top:20px;">
-            <button type="submit" class="btn btn-primary">Créer le devis</button>
-            <a href="{{ url('client/quotes') }}" class="btn btn-outline">Annuler</a>
+            <button type="submit" class="btn btn-primary">{{ __('app.client.quotes.form.submit') }}</button>
+            <a href="{{ url('client/quotes') }}" class="btn btn-outline">{{ __('app.client.quotes.form.cancel') }}</a>
         </div>
     </form>
 </div>
@@ -81,15 +81,15 @@ document.getElementById('addItem').addEventListener('click', function() {
     row.style.cssText = 'display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px;margin-bottom:10px;align-items:end;';
     row.innerHTML = `
         <div class="form-group" style="margin:0;">
-            <label>Description</label>
+            <label>{{ __('app.client.quotes.form.description') }}</label>
             <input type="text" name="items[${itemIndex}][description]" required>
         </div>
         <div class="form-group" style="margin:0;">
-            <label>Quantité</label>
+            <label>{{ __('app.client.quotes.form.quantity') }}</label>
             <input type="number" name="items[${itemIndex}][quantity]" value="1" min="1" required>
         </div>
         <div class="form-group" style="margin:0;">
-            <label>Prix unitaire</label>
+            <label>{{ __('app.client.quotes.form.unit_price') }}</label>
             <input type="number" name="items[${itemIndex}][unit_price]" step="0.01" min="0" required>
         </div>
         <button type="button" class="btn btn-danger btn-sm remove-item" style="margin-bottom:4px;">✕</button>

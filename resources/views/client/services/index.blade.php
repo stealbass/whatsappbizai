@@ -1,8 +1,8 @@
 @extends('client.layout')
-@section('title', 'Services')
+@section('title', __('app.client.services.title'))
 
 @section('topbar-right')
-    <a href="{{ url('client/services/create') }}" class="btn btn-primary">+ Nouveau service</a>
+    <a href="{{ url('client/services/create') }}" class="btn btn-primary">+ {{ __('app.client.services.new') }}</a>
 @endsection
 
 @section('content')
@@ -14,19 +14,19 @@
     @if($services->isEmpty())
         <div class="empty">
             <div class="empty-icon">📦</div>
-            <p>Aucun service pour le moment</p>
-            <a href="{{ url('client/services/create') }}" class="btn btn-primary">+ Ajouter un service</a>
+            <p>{{ __('app.client.services.empty') }}</p>
+            <a href="{{ url('client/services/create') }}" class="btn btn-primary">+ {{ __('app.client.services.create') }}</a>
         </div>
     @else
         <table>
             <thead>
                 <tr>
-                    <th>Nom</th>
-                    <th>Description</th>
-                    <th>Prix unitaire</th>
-                    <th>Unité</th>
-                    <th>Actif</th>
-                    <th>Actions</th>
+                    <th>{{ __('app.client.services.name') }}</th>
+                    <th>{{ __('app.client.services.description') }}</th>
+                    <th>{{ __('app.client.services.price') }}</th>
+                    <th>{{ __('app.client.services.unit') }}</th>
+                    <th>{{ __('app.client.services.active') }}</th>
+                    <th>{{ __('app.client.services.actions') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,7 +39,7 @@
                     <td><span class="status {{ $service->is_active ? 'active' : 'cancelled' }}">{{ $service->is_active ? 'Oui' : 'Non' }}</span></td>
                     <td>
                         <a href="{{ url('client/services/' . $service->id . '/edit') }}" class="btn btn-ghost btn-sm">✏️</a>
-                        <form action="{{ url('client/services/' . $service->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Supprimer ce service ?')">
+                        <form action="{{ url('client/services/' . $service->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('{{ __('app.client.services.confirm_delete') }}')">
                             @csrf @method('DELETE')
                             <button type="submit" class="btn btn-ghost btn-sm" style="color:var(--red);">🗑️</button>
                         </form>

@@ -63,11 +63,16 @@ class BusinessResource extends Resource
                     ])->default('CM'),
                 Forms\Components\Select::make('currency')->label('Devise')
                     ->options([
-                        'XAF' => 'XAF (FCFA Afrique Centrale)',
-                        'XOF' => 'XOF (FCFA Afrique Ouest)',
+                        'XAF' => 'XAF (FCFA BEAC)',
+                        'XOF' => 'XOF (FCFA BCEAO)',
                         'EUR' => 'EUR (Euro)',
                         'USD' => 'USD (Dollar)',
+                        'GBP' => 'GBP (Livre Sterling)',
+                        'ZAR' => 'ZAR (Rand Sud-Africain)',
                         'MAD' => 'MAD (Dirham)',
+                        'NGN' => 'NGN (Naira)',
+                        'GHS' => 'GHS (Cedi)',
+                        'KES' => 'KES (Shilling)',
                     ])->default('XAF'),
                 Forms\Components\Select::make('timezone')->label('Fuseau horaire')
                     ->options([

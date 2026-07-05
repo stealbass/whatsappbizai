@@ -1,10 +1,10 @@
 @extends('client.layout')
-@section('title', 'Broadcast WhatsApp')
+@section('title', __('app.client.broadcast.title'))
 
 @section('content')
 <div class="card" style="max-width:800px;">
     <div class="card-header">
-        <h2>📤 Broadcast WhatsApp</h2>
+        <h2>📤 {{ __('app.client.broadcast.title') }}</h2>
     </div>
 
     <form action="{{ url('client/broadcast') }}" method="POST" id="broadcastForm">
@@ -12,34 +12,34 @@
 
         <div class="form-row">
             <div class="form-group">
-                <label>Envoyer à *</label>
+                <label>{{ __('app.client.broadcast.send_to') }}</label>
                 <select name="target" id="target" required>
-                    <option value="all">Tous les contacts ({{ $stats['total'] }})</option>
-                    <option value="clients">Clients uniquement ({{ $stats['clients'] }})</option>
-                    <option value="prospects">Prospects uniquement ({{ $stats['prospects'] }})</option>
+                    <option value="all">{{ __('app.client.broadcast.all') }} ({{ $stats['total'] }})</option>
+                    <option value="clients">{{ __('app.client.broadcast.clients') }} ({{ $stats['clients'] }})</option>
+                    <option value="prospects">{{ __('app.client.broadcast.prospects') }} ({{ $stats['prospects'] }})</option>
                 </select>
             </div>
             <div class="form-group">
-                <label>Objectif IA (optionnel)</label>
+                <label>{{ __('app.client.broadcast.ai_goal') }}</label>
                 <input type="text" id="aiGoal" placeholder="Ex: Annonce promotion 20% sur nos services">
             </div>
         </div>
 
         <div class="form-group">
-            <label>Message *</label>
+            <label>{{ __('app.client.broadcast.message') }}</label>
             <textarea name="message" id="message" rows="5" required maxlength="1024" placeholder="Bonjour prenom,&#10;&#10;Nous avons le plaisir de vous annoncer...&#10;&#10;Cordialement,entreprise"></textarea>
-            <p class="form-help">Variables disponibles : <code>{!! '{{nom}}' !!}</code>, <code>{!! '{{prenom}}' !!}</code>, <code>{!! '{{entreprise}}' !!}</code></p>
+            <p class="form-help">{{ __('app.client.broadcast.variables') }} : <code>{!! '{{nom}}' !!}</code>, <code>{!! '{{prenom}}' !!}</code>, <code>{!! '{{entreprise}}' !!}</code></p>
         </div>
 
         <div style="display:flex;gap:12px;margin-top:20px;">
-            <button type="button" class="btn btn-outline" id="draftBtn">🤖 Rédiger avec l'IA</button>
-            <button type="submit" class="btn btn-primary">📤 Envoyer le broadcast</button>
+            <button type="button" class="btn btn-outline" id="draftBtn">🤖 {{ __('app.client.broadcast.draft_ai') }}</button>
+            <button type="submit" class="btn btn-primary">📤 {{ __('app.client.broadcast.submit') }}</button>
         </div>
     </form>
 </div>
 
 <div class="card" style="max-width:800px;margin-top:24px;">
-    <h3 style="font-size:15px;font-weight:700;margin-bottom:12px;">💡 Comment ça marche</h3>
+    <h3 style="font-size:15px;font-weight:700;margin-bottom:12px;">💡 {{ __('app.client.broadcast.how_title') }}</h3>
     <ol style="font-size:13px;color:var(--gray);padding-left:20px;space-y:4px;">
         <li>Sélectionnez vos destinataires (tous, clients ou prospects)</li>
         <li>Rédigez votre message ou utilisez l'IA pour le générer</li>
@@ -57,7 +57,7 @@ document.getElementById('draftBtn').addEventListener('click', async function() {
     const target = document.getElementById('target').value;
 
     this.disabled = true;
-    this.textContent = '⏳ Génération en cours...';
+    this.textContent = '⏳ {{ __('app.client.broadcast.sending') }}';
 
     try {
         const response = await fetch('{{ url("client/broadcast/draft-ai") }}', {
@@ -79,7 +79,7 @@ document.getElementById('draftBtn').addEventListener('click', async function() {
     }
 
     this.disabled = false;
-    this.textContent = '🤖 Rédiger avec l\'IA';
+    this.textContent = '🤖 {{ __('app.client.broadcast.draft_ai') }}';
 });
 </script>
 @endsection

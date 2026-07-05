@@ -1,9 +1,9 @@
 @extends('client.layout')
-@section('title', 'Changer le mot de passe')
+@section('title', __('app.client.settings.profile.password_title'))
 
 @section('content')
 <div class="card" style="max-width:600px;">
-    <div class="card-header"><h2>Changer le mot de passe</h2></div>
+    <div class="card-header"><h2>{{ __('app.client.settings.profile.password_title') }}</h2></div>
 
     @if($errors->any())
         <div class="alert alert-error">
@@ -14,15 +14,15 @@
     <form action="{{ url('client/settings/password') }}" method="POST">
         @csrf @method('PUT')
         <div class="form-group">
-            <label>Mot de passe actuel *</label>
+            <label>{{ __('app.client.settings.profile.current_password') }} *</label>
             <input type="password" name="current_password" required>
         </div>
         <div class="form-group">
-            <label>Nouveau mot de passe *</label>
+            <label>{{ __('app.client.settings.profile.new_password') }} *</label>
             <input type="password" name="password" required>
         </div>
         <div class="form-group">
-            <label>Confirmer le mot de passe *</label>
+            <label>{{ __('app.client.settings.profile.confirm_password') }} *</label>
             <input type="password" name="password_confirmation" required>
         </div>
         <div style="display:flex;gap:12px;margin-top:20px;">

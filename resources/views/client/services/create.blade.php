@@ -1,9 +1,9 @@
 @extends('client.layout')
-@section('title', 'Nouveau service')
+@section('title', __('app.client.services.new'))
 
 @section('content')
 <div class="card" style="max-width:600px;">
-    <div class="card-header"><h2>Ajouter un service</h2></div>
+    <div class="card-header"><h2>{{ __('app.client.services.create') }}</h2></div>
 
     @if($errors->any())
         <div class="alert alert-error">
@@ -14,20 +14,20 @@
     <form action="{{ url('client/services') }}" method="POST">
         @csrf
         <div class="form-group">
-            <label>Nom *</label>
+            <label>{{ __('app.client.services.name') }} *</label>
             <input type="text" name="name" value="{{ old('name') }}" required>
         </div>
         <div class="form-group">
-            <label>Description</label>
+            <label>{{ __('app.client.services.description') }}</label>
             <textarea name="description">{{ old('description') }}</textarea>
         </div>
         <div class="form-row">
             <div class="form-group">
-                <label>Prix unitaire *</label>
+                <label>{{ __('app.client.services.price') }} *</label>
                 <input type="number" name="unit_price" value="{{ old('unit_price') }}" step="0.01" min="0" required>
             </div>
             <div class="form-group">
-                <label>Unité *</label>
+                <label>{{ __('app.client.services.unit') }} *</label>
                 <select name="unit" required>
                     <option value="forfait" {{ old('unit') === 'forfait' ? 'selected' : '' }}>Forfait</option>
                     <option value="heure" {{ old('unit') === 'heure' ? 'selected' : '' }}>Heure</option>
@@ -39,11 +39,11 @@
         <div class="form-group">
             <label style="display:flex;align-items:center;gap:8px;">
                 <input type="checkbox" name="is_active" value="1" {{ old('is_active', 1) ? 'checked' : '' }}>
-                Service actif
+                {{ __('app.client.services.active') }}
             </label>
         </div>
         <div style="display:flex;gap:12px;margin-top:20px;">
-            <button type="submit" class="btn btn-primary">Créer le service</button>
+            <button type="submit" class="btn btn-primary">{{ __('app.client.services.create') }}</button>
             <a href="{{ url('client/services') }}" class="btn btn-outline">Annuler</a>
         </div>
     </form>

@@ -8,6 +8,7 @@ use App\Observers\InvoiceItemObserver;
 use App\Observers\QuoteItemObserver;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
@@ -26,6 +27,10 @@ class AppServiceProvider extends ServiceProvider
         if (config('app.url')) {
             URL::forceRootUrl(config('app.url'));
         }
+
+        // Resolve locale from session
+        $locale = Session::get('locale', config('app.locale'));
+        app()->setLocale($locale);
 
         $this->configureLivewireUpdateRoute();
     }

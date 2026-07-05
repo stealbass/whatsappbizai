@@ -1,9 +1,9 @@
 @extends('client.layout')
-@section('title', 'Nouvelle facture')
+@section('title', __('app.client.invoices.new'))
 
 @section('content')
 <div class="card" style="max-width:700px;">
-    <div class="card-header"><h2>Créer une facture</h2></div>
+    <div class="card-header"><h2>{{ __('app.client.invoices.create') }}</h2></div>
 
     @if($errors->any())
         <div class="alert alert-error">
@@ -15,7 +15,7 @@
         @csrf
         <div class="form-row">
             <div class="form-group">
-                <label>Contact *</label>
+                <label>{{ __('app.client.invoices.form.contact') }}</label>
                 <select name="contact_id" required>
                     <option value="">-- Sélectionner un contact --</option>
                     @foreach($contacts as $c)
@@ -24,54 +24,54 @@
                 </select>
             </div>
             <div class="form-group">
-                <label>Date d'émission *</label>
+                <label>{{ __('app.client.invoices.form.issue_date') }}</label>
                 <input type="date" name="issue_date" value="{{ old('issue_date', date('Y-m-d')) }}" required>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group">
-                <label>Date d'échéance</label>
+                <label>{{ __('app.client.invoices.form.due_date') }}</label>
                 <input type="date" name="due_date" value="{{ old('due_date') }}">
             </div>
             <div class="form-group">
-                <label>Notes</label>
+                <label>{{ __('app.client.invoices.form.notes') }}</label>
                 <input type="text" name="notes" value="{{ old('notes') }}">
             </div>
         </div>
         <div class="form-row">
             <div class="form-group">
-                <label>TVA (%)</label>
+                <label>{{ __('app.client.invoices.form.tax_rate') }}</label>
                 <input type="number" name="tax_rate" value="{{ old('tax_rate', 0) }}" min="0" max="100" step="0.1">
             </div>
             <div class="form-group">
-                <label>Remise</label>
+                <label>{{ __('app.client.invoices.form.discount') }}</label>
                 <input type="number" name="discount" value="{{ old('discount', 0) }}" min="0" step="0.01">
             </div>
         </div>
 
-        <h3 style="font-size:15px;font-weight:700;margin:20px 0 12px;">Lignes de la facture</h3>
+        <h3 style="font-size:15px;font-weight:700;margin:20px 0 12px;">{{ __('app.client.invoices.form.lines_title') }}</h3>
         <div id="items-container">
             <div class="item-row" style="display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px;margin-bottom:10px;align-items:end;">
                 <div class="form-group" style="margin:0;">
-                    <label>Description</label>
+                    <label>{{ __('app.client.invoices.form.description') }}</label>
                     <input type="text" name="items[0][description]" value="{{ old('items.0.description') }}" required>
                 </div>
                 <div class="form-group" style="margin:0;">
-                    <label>Quantité</label>
+                    <label>{{ __('app.client.invoices.form.quantity') }}</label>
                     <input type="number" name="items[0][quantity]" value="{{ old('items.0.quantity', 1) }}" min="1" required>
                 </div>
                 <div class="form-group" style="margin:0;">
-                    <label>Prix unitaire</label>
+                    <label>{{ __('app.client.invoices.form.unit_price') }}</label>
                     <input type="number" name="items[0][unit_price]" value="{{ old('items.0.unit_price') }}" step="0.01" min="0" required>
                 </div>
                 <button type="button" class="btn btn-danger btn-sm remove-item" style="margin-bottom:4px;">✕</button>
             </div>
         </div>
-        <button type="button" class="btn btn-outline btn-sm" id="addItem" style="margin-bottom:20px;">+ Ajouter une ligne</button>
+        <button type="button" class="btn btn-outline btn-sm" id="addItem" style="margin-bottom:20px;">+ {{ __('app.client.invoices.form.add_line') }}</button>
 
         <div style="display:flex;gap:12px;margin-top:20px;">
-            <button type="submit" class="btn btn-primary">Créer la facture</button>
-            <a href="{{ url('client/invoices') }}" class="btn btn-outline">Annuler</a>
+            <button type="submit" class="btn btn-primary">{{ __('app.client.invoices.form.submit') }}</button>
+            <a href="{{ url('client/invoices') }}" class="btn btn-outline">{{ __('app.client.invoices.form.cancel') }}</a>
         </div>
     </form>
 </div>
@@ -87,15 +87,15 @@ document.getElementById('addItem').addEventListener('click', function() {
     row.style.cssText = 'display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px;margin-bottom:10px;align-items:end;';
     row.innerHTML = `
         <div class="form-group" style="margin:0;">
-            <label>Description</label>
+            <label>{{ __('app.client.invoices.form.description') }}</label>
             <input type="text" name="items[${itemIndex}][description]" required>
         </div>
         <div class="form-group" style="margin:0;">
-            <label>Quantité</label>
+            <label>{{ __('app.client.invoices.form.quantity') }}</label>
             <input type="number" name="items[${itemIndex}][quantity]" value="1" min="1" required>
         </div>
         <div class="form-group" style="margin:0;">
-            <label>Prix unitaire</label>
+            <label>{{ __('app.client.invoices.form.unit_price') }}</label>
             <input type="number" name="items[${itemIndex}][unit_price]" step="0.01" min="0" required>
         </div>
         <button type="button" class="btn btn-danger btn-sm remove-item" style="margin-bottom:4px;">✕</button>
