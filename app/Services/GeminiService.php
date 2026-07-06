@@ -269,7 +269,8 @@ PROMPT;
     {
         $catalog      = $this->catalogText($business);
         $customRules  = $business->gemini_system_prompt
-            ? "\n\n## Owner-defined rules (MUST follow these)\n" . $business->gemini_system_prompt
+            ? "\n\n## Owner-defined rules (MUST follow these)\n" .
+              strip_tags(html_entity_decode($business->gemini_system_prompt, ENT_QUOTES | ENT_HTML5, 'UTF-8'))
             : '';
         $docContext   = $this->documentsText($business);
 
