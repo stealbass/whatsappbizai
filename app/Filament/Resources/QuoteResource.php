@@ -18,11 +18,27 @@ class QuoteResource extends Resource
 {
     protected static ?string $model = Quote::class;
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
-    protected static ?string $navigationLabel = __('app.admin.quotes');
-    protected static ?string $modelLabel = __('app.admin.quote');
-    protected static ?string $pluralModelLabel = __('app.admin.quotes');
-    protected static ?string $navigationGroup = __('app.admin.nav_settings');
     protected static ?int $navigationSort = 3;
+
+    public static function getNavigationLabel(): string
+    {
+        return __('app.admin.quotes');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('app.admin.quote');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('app.admin.quotes');
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('app.admin.nav_documents');
+    }
 
     public static function form(Form $form): Form
     {

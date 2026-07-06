@@ -19,11 +19,27 @@ class InvoiceResource extends Resource
 {
     protected static ?string $model = Invoice::class;
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
-    protected static ?string $navigationLabel = __('app.admin.invoices');
-    protected static ?string $modelLabel = __('app.admin.invoice');
-    protected static ?string $pluralModelLabel = __('app.admin.invoices');
-    protected static ?string $navigationGroup = __('app.admin.nav_settings');
     protected static ?int $navigationSort = 4;
+
+    public static function getNavigationLabel(): string
+    {
+        return __('app.admin.invoices');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('app.admin.invoice');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('app.admin.invoices');
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('app.admin.nav_documents');
+    }
 
     public static function form(Form $form): Form
     {

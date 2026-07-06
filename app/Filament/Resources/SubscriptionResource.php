@@ -14,11 +14,27 @@ class SubscriptionResource extends Resource
 {
     protected static ?string $model = Subscription::class;
     protected static ?string $navigationIcon  = 'heroicon-o-star';
-    protected static ?string $navigationLabel = __('app.admin.subscriptions');
-    protected static ?string $modelLabel      = __('app.admin.subscription');
-    protected static ?string $pluralModelLabel = __('app.admin.subscriptions');
-    protected static ?string $navigationGroup = __('app.admin.nav_administration');
     protected static ?int    $navigationSort  = 21;
+
+    public static function getNavigationLabel(): string
+    {
+        return __('app.admin.subscriptions');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('app.admin.subscription');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('app.admin.subscriptions');
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('app.admin.nav_financial');
+    }
 
     public static function form(Form $form): Form
     {

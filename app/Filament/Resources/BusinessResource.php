@@ -18,11 +18,27 @@ class BusinessResource extends Resource
 {
     protected static ?string $model = Business::class;
     protected static ?string $navigationIcon  = 'heroicon-o-building-storefront';
-    protected static ?string $navigationLabel = __('app.admin.businesses');
-    protected static ?string $modelLabel      = __('app.admin.business');
-    protected static ?string $pluralModelLabel = __('app.admin.businesses');
-    protected static ?string $navigationGroup = __('app.admin.nav_administration');
     protected static ?int    $navigationSort  = 10;
+
+    public static function getNavigationLabel(): string
+    {
+        return __('app.admin.businesses');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('app.admin.business');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('app.admin.businesses');
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('app.admin.nav_administration');
+    }
 
     /**
      * Filtre automatiquement pour ne montrer que le business de l'utilisateur connecté

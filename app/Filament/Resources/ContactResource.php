@@ -16,11 +16,27 @@ class ContactResource extends Resource
 {
     protected static ?string $model = Contact::class;
     protected static ?string $navigationIcon = 'heroicon-o-users';
-    protected static ?string $navigationLabel = __('app.admin.contacts');
-    protected static ?string $modelLabel = __('app.admin.contact');
-    protected static ?string $pluralModelLabel = __('app.admin.contacts');
-    protected static ?string $navigationGroup = __('app.admin.nav_messaging');
     protected static ?int $navigationSort = 2;
+
+    public static function getNavigationLabel(): string
+    {
+        return __('app.admin.contacts');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('app.admin.contact');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('app.admin.contacts');
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('app.admin.nav_messaging');
+    }
 
     public static function form(Form $form): Form
     {
