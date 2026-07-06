@@ -114,8 +114,8 @@ class PaymentResource extends Resource
                     ->modalDescription(fn(Payment $r) => __('app.admin.activate_subscription') . " : {$r->business?->name} ({$r->amount_formatted}) - {$r->plan} ?")
                     ->visible(fn(Payment $r) => $r->status === 'pending')
                     ->form([
-                        Forms\Components\Textarea::make('admin_notes')
-                            ->label(__('app.admin.admin_notes'))->rows(2),
+                        \App\Filament\Forms\Components\TinyMce::make('admin_notes')
+                            ->label(__('app.admin.admin_notes'))->height(180),
                     ])
                     ->action(function (Payment $record, array $data) {
                         $cycle = $record->billing_cycle;
@@ -156,8 +156,8 @@ class PaymentResource extends Resource
                     ->requiresConfirmation()
                     ->visible(fn(Payment $r) => $r->status === 'pending')
                     ->form([
-                        Forms\Components\Textarea::make('admin_notes')
-                            ->label(__('app.admin.rejection_reason'))->required()->rows(2),
+                        \App\Filament\Forms\Components\TinyMce::make('admin_notes')
+                            ->label(__('app.admin.rejection_reason'))->required()->height(180),
                     ])
                     ->action(function (Payment $record, array $data) {
                         $record->update([

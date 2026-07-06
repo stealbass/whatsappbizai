@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Forms\Components\TinyMce;
 use App\Filament\Resources\ConversationResource\Pages;
 use App\Models\Conversation;
 use Filament\Forms;
@@ -44,7 +45,7 @@ class ConversationResource extends Resource
                     ->options(['open' => __('app.admin.open'), 'closed' => __('app.admin.closed'), 'waiting' => __('app.admin.waiting')])
                     ->required(),
                 Forms\Components\Toggle::make('ai_enabled')->label(__('app.admin.ai')),
-                Forms\Components\Textarea::make('summary')->label(__('app.admin.summary'))->rows(3)->columnSpanFull(),
+                TinyMce::make('summary')->label(__('app.admin.summary'))->height(200)->columnSpanFull(),
             ])->columns(2),
         ]);
     }
