@@ -1,6 +1,4 @@
 <x-filament-panels::page>
-    @include('components.quill')
-
     <form wire:submit="sendCampaign" id="retention-form">
         {{ $this->form }}
 
@@ -20,7 +18,7 @@
                 type="button"
                 color="warning"
                 icon="heroicon-o-eye"
-                id="previewRetentionBtn"
+                x-on:click="previewRetention()"
             >
                 👁️ {{ __('Aperçu') }}
             </x-filament::button>
@@ -65,53 +63,48 @@
 
 @script
 <script>
-var ta = document.querySelector('[wire\\:model="data.message"]');
-
-// Already initialized (after re-render) → sync Quill content from Livewire
-if (ta && ta.dataset.quillReady) {
-    var val = $wire.get('data.message') || '';
-    if (val) setQuillContent('[wire\\:model="data.message"]', val);
-}
-
-// First init
-if (ta && !ta.dataset.quillReady) {
-    initQuill('[wire\\:model="data.message"]', 400);
-}
-
-// Preview button
-document.getElementById('previewRetentionBtn').addEventListener('click', function() {
-    var q = window._quillInstances['[wire\\:model="data.message"]'];
-    var html = q ? q.root.innerHTML : (ta ? ta.value : '');
-    if (!html || html === '<p><br></p>') {
+window.previewRetention = function() {
+    var msg = $wire.get('data.message') || '';
+    if (!msg || msg === '<p><br></p>') {
         alert('Rédigez un message avant de prévisualiser.');
         return;
     }
     var iframe = document.getElementById('retentionPreviewIframe');
     var doc = iframe.contentDocument || iframe.contentWindow.document;
-    var full = '<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
+    var html = '<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
         '<style>' +
         '*{margin:0;padding:0;box-sizing:border-box}' +
         'body{font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#333;max-width:600px;margin:0 auto;padding:32px 24px;background:#fff}' +
+        '.email-container{background:#fff;border-radius:0}' +
+        '.email-header{background:#f8f9fa;padding:24px;border-bottom:1px solid #e9ecef;text-align:center}' +
+        '.email-header h1{font-size:22px;color:#0f172a;margin:0}' +
+        '.email-body{padding:24px 0}' +
+        '.email-body h2{font-size:18px;color:#0f172a;margin:20px 0 10px}' +
         '.email-body p{margin:0 0 14px;color:#333}' +
         '.email-body a{color:#0ea5e9;text-decoration:underline}' +
-        '.email-body table{border-collapse:collapse;width:100%;margin:14px 0}' +
-        '.email-body td,.email-body th{border:1px solid #e2e8f0;padding:8px 12px;text-align:left}' +
-        '.email-body th{background:#f8fafc;font-weight:600}' +
-        '.email-body img{max-width:100%;height:auto}' +
+        '.email-body blockquote{border-left:4px solid #e2e8f0;margin:14px 0;padding:10px 16px;color:#64748b;background:#f8fafc}' +
+        '.email-body ul,.email-body ol{padding-left:24px;margin:10px 0}' +
+        '.email-body li{margin:4px 0}' +
+        '.email-body img{max-width:100%;height:auto;border-radius:6px;margin:14px 0}' +
+        '.email-body hr{border:none;border-top:1px solid #e9ecef;margin:24px 0}' +
         '.email-body code,.email-body pre{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:14px;font-family:monospace}' +
         '.email-body pre{padding:16px;overflow-x:auto;border:1px solid #e2e8f0}' +
         '.email-footer{margin-top:24px;padding:20px 0 0;border-top:2px solid #f0f0f0;font-size:13px;color:#94a3b8;text-align:center}' +
+        '.email-footer p{margin:4px 0}' +
+        '.btn{display:inline-block;padding:12px 28px;background:#0ea5e9;color:#fff!important;text-decoration:none;border-radius:6px;font-weight:600;font-size:15px;margin:14px 0}' +
+        '.btn:hover{background:#0284c7}' +
         '</style></head><body>' +
-        '<div class="email-body">' + html + '</div>' +
-        '<div class="email-footer"><p>WhatsAppBizAI</p></div>' +
-        '</body></html>';
+        '<div class="email-container">' +
+        '<div class="email-header"><h1>WhatsAppBizAI</h1></div>' +
+        '<div class="email-body">' + msg + '</div>' +
+        '<div class="email-footer"><p>WhatsAppBizAI &mdash; Votre assistant IA pour client&egrave;les</p><p>Cet email a &eacute;t&eacute; envoy&eacute; depuis votre espace d&rsquo;administration</p></div>' +
+        '</div></body></html>';
     doc.open();
-    doc.write(full);
+    doc.write(html);
     doc.close();
     document.getElementById('retentionPreviewModal').style.display = 'block';
     document.body.style.overflow = 'hidden';
-});
-
+};
 window.closeRetentionPreview = function() {
     document.getElementById('retentionPreviewModal').style.display = 'none';
     document.body.style.overflow = '';
@@ -120,8 +113,9 @@ window.submitRetentionCampaign = function() {
     $wire.call('sendCampaign');
 };
 document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && document.getElementById('retentionPreviewModal').style.display === 'block')
+    if (e.key === 'Escape' && document.getElementById('retentionPreviewModal').style.display === 'block') {
         closeRetentionPreview();
+    }
 });
 document.getElementById('retentionPreviewModal').addEventListener('click', function(e) {
     if (e.target === this) closeRetentionPreview();
