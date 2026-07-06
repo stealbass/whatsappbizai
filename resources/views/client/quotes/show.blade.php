@@ -74,6 +74,10 @@
     <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;">
         <a href="{{ url('client/quotes') }}" class="btn btn-outline">{{ __('app.client.quotes.back') }}</a>
 
+        @if(in_array($quote->status, ['draft', 'sent']))
+            <a href="{{ url('client/quotes/' . $quote->id . '/edit') }}" class="btn btn-outline">✏️ {{ __('app.client.common.edit') }}</a>
+        @endif
+
         @if(!in_array($quote->status, ['accepted', 'declined']))
             @if($quote->contact && $quote->contact->whatsapp_number && $business->whatsapp_phone_number_id)
                 <form action="{{ url('client/quotes/' . $quote->id . '/whatsapp') }}" method="POST" onsubmit="return confirm('{{ __('app.client.quotes.confirm_send') }}')">

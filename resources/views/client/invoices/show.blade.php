@@ -82,6 +82,10 @@
     <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;">
         <a href="{{ url('client/invoices') }}" class="btn btn-outline">{{ __('app.client.invoices.back') }}</a>
 
+        @if(in_array($invoice->status, ['draft', 'sent']))
+            <a href="{{ url('client/invoices/' . $invoice->id . '/edit') }}" class="btn btn-outline">✏️ {{ __('app.client.common.edit') }}</a>
+        @endif
+
         @if(!in_array($invoice->status, ['paid', 'cancelled']))
             <form action="{{ url('client/invoices/' . $invoice->id . '/mark-paid') }}" method="POST" onsubmit="return confirm('{{ __('app.client.invoices.confirm_paid') }}')">
                 @csrf
