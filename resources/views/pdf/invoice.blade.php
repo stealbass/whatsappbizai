@@ -45,18 +45,18 @@
         </div>
     </div>
     <div>
-        <div class="invoice-label">FACTURE</div>
+        <div class="invoice-label">{{ __('app.pdf.invoice.title') }}</div>
         <div class="invoice-meta">
             N° {{ $invoice->number }}<br>
-            Émise le {{ $invoice->issue_date->format('d/m/Y') }}<br>
-            Échéance {{ $invoice->due_date->format('d/m/Y') }}
+            {{ __('app.pdf.invoice.issued_on') }} {{ $invoice->issue_date->format('d/m/Y') }}<br>
+            {{ __('app.pdf.invoice.due_date') }} {{ $invoice->due_date->format('d/m/Y') }}
         </div>
     </div>
 </div>
 
 <div class="addresses">
     <div class="address-block">
-        <h4>Facturé à</h4>
+        <h4>{{ __('app.pdf.invoice.billed_to') }}</h4>
         <p>
             <strong>{{ $invoice->contact->name }}</strong><br>
             @if($invoice->contact->company) {{ $invoice->contact->company }}<br> @endif
@@ -65,13 +65,13 @@
         </p>
     </div>
     <div class="address-block" style="text-align:right;">
-        <h4>Statut</h4>
+        <h4>{{ __('app.pdf.invoice.status') }}</h4>
         <span class="status-badge status-{{ $invoice->status }}">
             @switch($invoice->status)
-                @case('draft') Brouillon @break
-                @case('sent') Envoyée @break
-                @case('paid') Payée @break
-                @case('overdue') En retard @break
+                @case('draft') {{ __('app.pdf.invoice.status_draft') }} @break
+                @case('sent') {{ __('app.pdf.invoice.status_sent') }} @break
+                @case('paid') {{ __('app.pdf.invoice.status_paid') }} @break
+                @case('overdue') {{ __('app.pdf.invoice.status_overdue') }} @break
                 @default {{ $invoice->status }}
             @endswitch
         </span>
@@ -81,10 +81,10 @@
 <table class="items">
     <thead>
         <tr>
-            <th style="width:50%">Description</th>
-            <th class="right" style="width:12%">Qté</th>
-            <th class="right" style="width:18%">Prix unit.</th>
-            <th class="right" style="width:20%">Total</th>
+            <th style="width:50%">{{ __('app.pdf.invoice.description') }}</th>
+            <th class="right" style="width:12%">{{ __('app.pdf.invoice.qty') }}</th>
+            <th class="right" style="width:18%">{{ __('app.pdf.invoice.unit_price') }}</th>
+            <th class="right" style="width:20%">{{ __('app.pdf.invoice.total') }}</th>
         </tr>
     </thead>
     <tbody>
@@ -102,32 +102,32 @@
 <div class="totals">
     <table>
         <tr>
-            <td>Sous-total</td>
+            <td>{{ __('app.pdf.invoice.subtotal') }}</td>
             <td>{{ number_format($invoice->subtotal, 0, ',', ' ') }} {{ $invoice->currency }}</td>
         </tr>
         @if($invoice->discount > 0)
         <tr>
-            <td>Remise</td>
+            <td>{{ __('app.pdf.invoice.discount') }}</td>
             <td>- {{ number_format($invoice->discount, 0, ',', ' ') }} {{ $invoice->currency }}</td>
         </tr>
         @endif
         @if($invoice->tax_rate > 0)
         <tr>
-            <td>TVA ({{ $invoice->tax_rate }}%)</td>
+            <td>{{ __('app.pdf.invoice.tax') }} ({{ $invoice->tax_rate }}%)</td>
             <td>{{ number_format($invoice->tax_amount, 0, ',', ' ') }} {{ $invoice->currency }}</td>
         </tr>
         @endif
         <tr class="total-row">
-            <td>TOTAL</td>
+            <td>{{ __('app.pdf.invoice.grand_total') }}</td>
             <td>{{ number_format($invoice->total, 0, ',', ' ') }} {{ $invoice->currency }}</td>
         </tr>
         @if($invoice->paid_amount > 0)
         <tr>
-            <td style="color:#065f46;">Payé</td>
+            <td style="color:#065f46;">{{ __('app.pdf.invoice.amount_paid') }}</td>
             <td style="color:#065f46;">{{ number_format($invoice->paid_amount, 0, ',', ' ') }} {{ $invoice->currency }}</td>
         </tr>
         <tr>
-            <td style="font-weight:bold;">Solde restant</td>
+            <td style="font-weight:bold;">{{ __('app.pdf.invoice.balance') }}</td>
             <td style="font-weight:bold;">{{ number_format($invoice->balance, 0, ',', ' ') }} {{ $invoice->currency }}</td>
         </tr>
         @endif
@@ -136,14 +136,14 @@
 
 @if($invoice->notes)
 <div class="notes">
-    <strong>Notes :</strong> {{ $invoice->notes }}
+    <strong>{{ __('app.pdf.invoice.notes') }}</strong> {{ $invoice->notes }}
 </div>
 @endif
 
 <div class="footer">
     {{ $invoice->business->name }} — {{ $invoice->business->email }}
     @if($invoice->business->phone) · {{ $invoice->business->phone }} @endif
-    · Généré par WhatsAppBizAI
+    · {{ __('app.pdf.invoice.generated_by') }}
 </div>
 
 </body>

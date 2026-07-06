@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Session expirée — WhatsAppBizAI</title>
+    <title>{{ app()->getLocale() === 'en' ? 'Session Expired — WhatsAppBizAI' : 'Session expirée — WhatsAppBizAI' }}</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f172a; color: #fff; min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 24px; }
@@ -16,9 +16,9 @@
 <body>
     <div>
         <h1>419</h1>
-        <h2>Session expirée</h2>
-        <p>Votre session a expiré. Veuillez rafraîchir la page et réessayer.</p>
-        <a href="javascript:history.back()">← Retour</a>
+        <h2>{{ app()->getLocale() === 'en' ? 'Session Expired' : 'Session expirée' }}</h2>
+        <p>{{ app()->getLocale() === 'en' ? 'Your session has expired. Please refresh the page and try again.' : 'Votre session a expiré. Veuillez rafraîchir la page et réessayer.' }}</p>
+        <a href="javascript:history.back()">{{ app()->getLocale() === 'en' ? '← Back' : '← Retour' }}</a>
     </div>
 </body>
 </html>

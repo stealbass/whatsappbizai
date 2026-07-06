@@ -5,13 +5,13 @@
         <div class="space-y-4">
             {{-- Carte contact --}}
             <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:bg-gray-900 dark:border-gray-700">
-                <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Contact</h3>
+                <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">{{ __('app.admin.contact') }}</h3>
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-full bg-sky-100 flex items-center justify-content-center text-sky-600 font-bold text-lg flex items-center justify-center">
                         {{ strtoupper(substr($this->record->contact->name ?? '?', 0, 1)) }}
                     </div>
                     <div>
-                        <p class="font-semibold text-gray-800 dark:text-white">{{ $this->record->contact->name ?? 'Unknown' }}</p>
+                        <p class="font-semibold text-gray-800 dark:text-white">{{ $this->record->contact->name ?? __('app.admin.unknown') }}</p>
                         <p class="text-sm text-gray-500">{{ $this->record->contact->whatsapp_number }}</p>
                     </div>
                 </div>
@@ -25,7 +25,7 @@
                     </span>
                     <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold
                         {{ $this->record->ai_enabled ? 'bg-sky-100 text-sky-700' : 'bg-red-100 text-red-700' }}">
-                        {{ $this->record->ai_enabled ? '🤖 AI active' : '⏸ AI paused' }}
+                        {{ $this->record->ai_enabled ? __('app.admin.ai_active') : __('app.admin.ai_paused') }}
                     </span>
                 </div>
 
@@ -38,7 +38,7 @@
                             {{ $this->record->ai_enabled
                                 ? 'border-red-300 text-red-600 hover:bg-red-50'
                                 : 'border-sky-300 text-sky-600 hover:bg-sky-50' }}">
-                        {{ $this->record->ai_enabled ? '⏸ Pause AI' : '▶ Enable AI' }}
+                        {{ $this->record->ai_enabled ? __('app.admin.pause_ai') : __('app.admin.enable_ai') }}
                     </button>
                 </form>
             </div>
@@ -46,29 +46,29 @@
             {{-- AI Summary --}}
             @if($this->record->summary)
             <div class="rounded-xl border border-sky-200 bg-sky-50 p-4 dark:bg-sky-950 dark:border-sky-800">
-                <h3 class="text-sm font-semibold text-sky-700 dark:text-sky-300 mb-2">📝 AI Summary</h3>
+                <h3 class="text-sm font-semibold text-sky-700 dark:text-sky-300 mb-2">{{ __('app.admin.ai_summary') }}</h3>
                 <p class="text-sm text-sky-900 dark:text-sky-200 leading-relaxed">{{ $this->record->summary }}</p>
             </div>
             @endif
 
             {{-- Stats --}}
             <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:bg-gray-900 dark:border-gray-700">
-                <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Stats</h3>
+                <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">{{ __('app.admin.stats') }}</h3>
                 <div class="space-y-2 text-sm">
                     <div class="flex justify-between">
-                        <span class="text-gray-500">Total messages</span>
+                        <span class="text-gray-500">{{ __('app.admin.total_messages') }}</span>
                         <span class="font-semibold">{{ $this->record->messages->count() }}</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-gray-500">AI replies</span>
+                        <span class="text-gray-500">{{ __('app.admin.ai_replies') }}</span>
                         <span class="font-semibold text-sky-600">{{ $this->record->messages->where('is_ai', true)->count() }}</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-gray-500">Opened</span>
+                        <span class="text-gray-500">{{ __('app.admin.opened') }}</span>
                         <span class="font-semibold">{{ $this->record->created_at->format('d/m/Y') }}</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-gray-500">Last message</span>
+                        <span class="text-gray-500">{{ __('app.admin.last_message') }}</span>
                         <span class="font-semibold">{{ $this->record->last_message_at?->diffForHumans() ?? '—' }}</span>
                     </div>
                 </div>
@@ -76,14 +76,14 @@
 
             {{-- Quick actions --}}
             <div class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm dark:bg-gray-900 dark:border-gray-700 space-y-2">
-                <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Quick Actions</h3>
+                <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">{{ __('app.admin.quick_actions') }}</h3>
                 <button wire:click="summarize"
                     class="w-full text-left text-sm px-3 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800 transition">
-                    📝 Generate AI summary
+                    {{ __('app.admin.generate_summary') }}
                 </button>
                 <button wire:click="suggestReply"
                     class="w-full text-left text-sm px-3 py-2 rounded-lg border border-sky-200 text-sky-700 hover:bg-sky-50 transition">
-                    💡 Suggest a reply
+                    {{ __('app.admin.suggest_reply') }}
                 </button>
             </div>
         </div>
@@ -96,12 +96,12 @@
             <div class="rounded-xl border border-sky-200 bg-sky-50 p-4 dark:bg-sky-950 dark:border-sky-800">
                 <div class="flex items-start justify-between gap-3">
                     <div>
-                        <p class="text-xs font-semibold text-sky-600 mb-1">💡 AI suggested reply</p>
+                        <p class="text-xs font-semibold text-sky-600 mb-1">{{ __('app.admin.ai_suggested_reply') }}</p>
                         <p class="text-sm text-sky-900 dark:text-sky-200 whitespace-pre-wrap">{{ $this->suggestedReply }}</p>
                     </div>
                     <button wire:click="useSuggestion"
                         class="shrink-0 text-xs px-3 py-1.5 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition">
-                        Use
+                        {{ __('app.admin.use') }}
                     </button>
                 </div>
             </div>
@@ -110,8 +110,8 @@
             {{-- Messages --}}
             <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden dark:bg-gray-900 dark:border-gray-700">
                 <div class="px-5 py-3 border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 flex items-center justify-between">
-                    <h3 class="font-semibold text-gray-700 dark:text-gray-200">WhatsApp Conversation</h3>
-                    <span class="text-xs text-gray-400">{{ $this->record->messages->count() }} message(s)</span>
+                    <h3 class="font-semibold text-gray-700 dark:text-gray-200">{{ __('app.admin.whatsapp_conversation') }}</h3>
+                    <span class="text-xs text-gray-400">{{ $this->record->messages->count() }} {{ __('app.admin.messages_count') }}</span>
                 </div>
 
                 <div class="p-4 space-y-3 max-h-[500px] overflow-y-auto bg-gray-50 dark:bg-gray-950" id="msg-list">
@@ -123,7 +123,7 @@
                                     ? ($message->is_ai ? 'bg-sky-600 text-white rounded-br-sm' : 'bg-gray-700 text-white rounded-br-sm')
                                     : 'bg-white border border-gray-200 text-gray-800 rounded-bl-sm shadow-sm dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600' }}">
                                 @if($message->is_ai)
-                                <div class="text-xs opacity-70 mb-1">🤖 AI Agent</div>
+                                <div class="text-xs opacity-70 mb-1">{{ __('app.admin.ai_agent') }}</div>
                                 @endif
                                 {!! nl2br(e($message->content)) !!}
                             </div>
@@ -136,7 +136,7 @@
                         </div>
                     </div>
                     @empty
-                    <div class="text-center text-gray-400 py-12 text-sm">No messages yet.</div>
+                    <div class="text-center text-gray-400 py-12 text-sm">{{ __('app.admin.no_messages') }}</div>
                     @endforelse
                 </div>
 
@@ -146,13 +146,13 @@
                         <textarea
                             wire:model="replyText"
                             rows="2"
-                            placeholder="Type a manual reply..."
+                            placeholder="{{ __('app.admin.type_reply') }}"
                             class="flex-1 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 text-sm px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-sky-400 dark:text-white"
                         ></textarea>
                         <button wire:click="sendManualReply"
                             wire:loading.attr="disabled"
                             class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white text-sm font-semibold rounded-xl transition disabled:opacity-50">
-                            <span wire:loading.remove>Send ✈</span>
+                            <span wire:loading.remove>{{ __('app.admin.send') }}</span>
                             <span wire:loading>…</span>
                         </button>
                     </div>

@@ -57,8 +57,8 @@ class PaymentResource extends Resource
                         'mtn_momo'      => 'MTN MoMo',
                         'orange_money'  => 'Orange Money',
                         'wave'          => 'Wave',
-                        'bank_transfer' => 'Virement',
-                        'other'         => 'Autre',
+                        'bank_transfer' => __('app.admin.bank_transfer') ?? 'Virement',
+                        'other'         => __('app.admin.other') ?? 'Autre',
                     ])->required(),
                 Forms\Components\TextInput::make('amount')->label(__('app.admin.amount'))->numeric()->required(),
                 Forms\Components\TextInput::make('currency')->label(__('app.admin.currency'))->default('XAF'),
@@ -68,7 +68,7 @@ class PaymentResource extends Resource
 
             Forms\Components\Section::make(__('app.admin.admin_verification'))->schema([
                 Forms\Components\Select::make('status')->label(__('app.admin.status'))
-                    ->options(['pending' => '⏳ En attente', 'verified' => '✅ Vérifié', 'rejected' => '❌ Rejeté'])
+                    ->options(['pending' => '⏳ ' . __('app.admin.pending'), 'verified' => '✅ ' . __('app.admin.verified'), 'rejected' => '❌ ' . __('app.admin.rejected')])
                     ->required(),
                 Forms\Components\Textarea::make('admin_notes')->label(__('app.admin.admin_notes'))->rows(3),
                 Forms\Components\FileUpload::make('screenshot_path')
@@ -89,7 +89,7 @@ class PaymentResource extends Resource
                 Tables\Columns\BadgeColumn::make('method')->label(__('app.admin.method'))
                     ->formatStateUsing(fn($state) => match($state) {
                         'mtn_momo' => 'MTN MoMo', 'orange_money' => 'Orange Money',
-                        'wave' => 'Wave', 'bank_transfer' => 'Virement',
+                        'wave' => 'Wave',                     'bank_transfer' => __('app.admin.bank_transfer') ?? 'Virement',
                         'flutterwave' => 'Flutterwave', default => $state,
                     }),
                 Tables\Columns\BadgeColumn::make('status')->label(__('app.admin.status'))
@@ -100,7 +100,7 @@ class PaymentResource extends Resource
             ->defaultSort('created_at', 'desc')
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
-                    ->options(['pending' => 'En attente', 'verified' => 'Vérifié', 'rejected' => 'Rejeté']),
+                    ->options(['pending' => __('app.admin.pending'), 'verified' => __('app.admin.verified'), 'rejected' => __('app.admin.rejected')]),
                 Tables\Filters\SelectFilter::make('method')
                     ->options(['flutterwave' => 'Flutterwave', 'mtn_momo' => 'MTN MoMo', 'orange_money' => 'Orange Money']),
             ])
@@ -110,7 +110,7 @@ class PaymentResource extends Resource
                     ->color('success')
                     ->requiresConfirmation()
                     ->modalHeading(__('app.admin.activate_subscription'))
-                    ->modalDescription(fn(Payment $r) => "Vérifier le paiement de {$r->business?->name} ({$r->amount_formatted}) et activer l'abonnement {$r->plan} ?")
+                    ->modalDescription(fn(Payment $r) => __('app.admin.activate_subscription') . " : {$r->business?->name} ({$r->amount_formatted}) - {$r->plan} ?")
                     ->visible(fn(Payment $r) => $r->status === 'pending')
                     ->form([
                         Forms\Components\Textarea::make('admin_notes')
@@ -144,8 +144,8 @@ class PaymentResource extends Resource
                         ]);
 
                         Notification::make()
-                            ->title("Abonnement {$record->plan} activé pour {$record->business?->name}")
-                            ->body("Expire le : " . $end->format('d/m/Y'))
+                            ->title(__('app.admin.subscription_activated') . " {$record->business?->name}")
+                            ->body(__('app.admin.expires_on') . " : " . $end->format('d/m/Y'))
                             ->success()->send();
                     }),
 

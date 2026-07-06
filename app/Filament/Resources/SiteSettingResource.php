@@ -46,7 +46,7 @@ class SiteSettingResource extends Resource
                 Forms\Components\Tabs\Tab::make('Branding')
                     ->icon('heroicon-o-paint-brush')
                     ->schema([
-                        Forms\Components\Section::make('Identité visuelle')->schema([
+                        Forms\Components\Section::make(__('app.admin.visual_identity'))->schema([
                             Forms\Components\TextInput::make('site_name')
                                 ->label(__('app.admin.site_name'))
                                 ->required()
@@ -56,7 +56,7 @@ class SiteSettingResource extends Resource
                                 ->maxLength(500),
                         ])->columns(2),
 
-                        Forms\Components\Section::make('Logo & Favicon')->schema([
+                        Forms\Components\Section::make(__('app.admin.logo_favicon'))->schema([
                             Forms\Components\FileUpload::make('logo_path')
                                 ->label(__('app.admin.logo'))
                                 ->image()
@@ -107,7 +107,7 @@ class SiteSettingResource extends Resource
                 Forms\Components\Tabs\Tab::make('Contact & Social')
                     ->icon('heroicon-o-phone')
                     ->schema([
-                        Forms\Components\Section::make('Contact')->schema([
+                        Forms\Components\Section::make(__('app.admin.contact'))->schema([
                             Forms\Components\TextInput::make('contact_email')
                                 ->label(__('app.admin.contact_email'))
                                 ->email()
@@ -167,10 +167,10 @@ class SiteSettingResource extends Resource
                             ->columnSpanFull(),
                     ]),
 
-                Forms\Components\Tabs\Tab::make('Footer')
+                Forms\Components\Tabs\Tab::make(__('app.admin.footer'))
                     ->icon('heroicon-o-bars-3-bottom-left')
                     ->schema([
-                        Forms\Components\Section::make('Footer')->schema([
+                        Forms\Components\Section::make(__('app.admin.footer'))->schema([
                             Forms\Components\Textarea::make('footer_description')
                                 ->label(__('app.admin.footer_description'))
                                 ->rows(4)

@@ -41,10 +41,10 @@ class ConversationResource extends Resource
         return $form->schema([
             Forms\Components\Section::make()->schema([
                 Forms\Components\Select::make('status')->label(__('app.admin.status'))
-                    ->options(['open' => 'Ouverte', 'closed' => 'Fermée', 'waiting' => 'En attente'])
+                    ->options(['open' => __('app.admin.open'), 'closed' => __('app.admin.closed'), 'waiting' => __('app.admin.waiting')])
                     ->required(),
                 Forms\Components\Toggle::make('ai_enabled')->label(__('app.admin.ai')),
-                Forms\Components\Textarea::make('summary')->label('Résumé')->rows(3)->columnSpanFull(),
+                Forms\Components\Textarea::make('summary')->label(__('app.admin.summary'))->rows(3)->columnSpanFull(),
             ])->columns(2),
         ]);
     }
@@ -68,7 +68,7 @@ class ConversationResource extends Resource
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
-                    ->options(['open' => 'Ouverte', 'closed' => 'Fermée', 'waiting' => 'En attente']),
+                    ->options(['open' => __('app.admin.open'), 'closed' => __('app.admin.closed'), 'waiting' => __('app.admin.waiting')]),
             ])
             ->actions([
                 Tables\Actions\Action::make('view')
@@ -76,7 +76,7 @@ class ConversationResource extends Resource
                     ->icon('heroicon-o-eye')
                     ->url(fn(Conversation $r) => ConversationResource::getUrl('view', ['record' => $r])),
                 Tables\Actions\Action::make('close')
-                    ->label('Fermer')
+                    ->label(__('app.admin.close'))
                     ->icon('heroicon-o-x-circle')
                     ->color('gray')
                     ->requiresConfirmation()

@@ -148,10 +148,10 @@ class InvoiceResource extends Resource
                     ->color('success')
                     ->requiresConfirmation()
                     ->modalHeading(__('app.admin.send_invoice_whatsapp'))
-                    ->modalDescription(fn(Invoice $r) => "Envoyer la facture {$r->number} à {$r->contact?->name} ({$r->contact?->whatsapp_number}) ?")
+                    ->modalDescription(fn(Invoice $r) => __('app.admin.send_invoice_whatsapp') . " : {$r->number} → {$r->contact?->name} ({$r->contact?->whatsapp_number}) ?")
                     ->action(function (Invoice $record) {
                         SendDocumentViaWhatsApp::dispatch('invoice', $record->id);
-                        Notification::make()->title('Envoi WhatsApp en cours…')->success()->send();
+                        Notification::make()->title(__('app.admin.sending_whatsapp'))->success()->send();
                     }),
                 Tables\Actions\Action::make('send_reminder')
                     ->label(__('app.admin.send_reminder'))

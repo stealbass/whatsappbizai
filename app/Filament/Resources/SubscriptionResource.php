@@ -45,7 +45,7 @@ class SubscriptionResource extends Resource
                 ->options(['free' => 'Gratuit', 'starter' => 'Starter', 'business' => 'Business', 'pro' => 'Pro'])
                 ->required(),
             Forms\Components\Select::make('status')->label(__('app.admin.status'))
-                ->options(['active' => 'Actif', 'expired' => 'Expiré', 'cancelled' => 'Annulé', 'pending' => 'En attente'])
+                ->options(['active' => __('app.admin.active'), 'expired' => __('app.admin.expired'), 'cancelled' => __('app.admin.cancelled'), 'pending' => __('app.admin.overdue')])
                 ->required(),
             Forms\Components\Select::make('billing_cycle')->label(__('app.admin.billing_cycle'))
                 ->options(['monthly' => __('app.admin.monthly'), 'yearly' => __('app.admin.yearly')])->required(),
@@ -79,7 +79,7 @@ class SubscriptionResource extends Resource
                 Tables\Filters\SelectFilter::make('plan')
                     ->options(['free' => 'Gratuit', 'starter' => 'Starter', 'business' => 'Business', 'pro' => 'Pro']),
                 Tables\Filters\SelectFilter::make('status')
-                    ->options(['active' => 'Actif', 'expired' => 'Expiré', 'cancelled' => 'Annulé']),
+                    ->options(['active' => __('app.admin.active'), 'expired' => __('app.admin.expired'), 'cancelled' => __('app.admin.cancelled')]),
             ])
             ->actions([
                 Tables\Actions\Action::make('extend')

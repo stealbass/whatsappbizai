@@ -122,10 +122,10 @@ class QuoteResource extends Resource
                     ->color('success')
                     ->requiresConfirmation()
                     ->modalHeading(__('app.admin.send_quote_whatsapp'))
-                    ->modalDescription(fn(Quote $r) => "Envoyer le devis {$r->number} à {$r->contact?->name} ({$r->contact?->whatsapp_number}) ?")
+                    ->modalDescription(fn(Quote $r) => __('app.admin.send_quote_whatsapp') . " : {$r->number} → {$r->contact?->name} ({$r->contact?->whatsapp_number}) ?")
                     ->action(function (Quote $record) {
                         SendDocumentViaWhatsApp::dispatch('quote', $record->id);
-                        Notification::make()->title('Envoi WhatsApp en cours…')->success()->send();
+                        Notification::make()->title(__('app.admin.sending_whatsapp'))->success()->send();
                     }),
                 Tables\Actions\Action::make('convert')
                     ->label(__('app.admin.convert_to_invoice'))
@@ -133,7 +133,7 @@ class QuoteResource extends Resource
                     ->color('primary')
                     ->requiresConfirmation()
                     ->modalHeading(__('app.admin.convert_invoice_heading'))
-                    ->modalDescription(fn(Quote $r) => "Convertir le devis {$r->number} en facture ? Le devis sera marqué comme accepté.")
+                    ->modalDescription(fn(Quote $r) => __('app.admin.convert_invoice_heading') . " : {$r->number} ?")
                     ->visible(fn(Quote $r) => !in_array($r->status, ['accepted', 'declined']))
                     ->action(function (Quote $record, ConvertQuoteToInvoice $converter) {
                         $invoice = $converter->execute($record);

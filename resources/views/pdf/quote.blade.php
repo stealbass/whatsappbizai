@@ -40,18 +40,18 @@
         </div>
     </div>
     <div>
-        <div class="quote-label">DEVIS</div>
+        <div class="quote-label">{{ __('app.pdf.quote.title') }}</div>
         <div class="quote-meta">
             N° {{ $quote->number }}<br>
-            Émis le {{ $quote->issue_date->format('d/m/Y') }}<br>
-            Valide jusqu'au {{ $quote->valid_until->format('d/m/Y') }}
+            {{ __('app.pdf.quote.issued_on') }} {{ $quote->issue_date->format('d/m/Y') }}<br>
+            {{ __('app.pdf.quote.valid_until') }} {{ $quote->valid_until->format('d/m/Y') }}
         </div>
     </div>
 </div>
 
 <div class="addresses">
     <div class="address-block">
-        <h4>Proposé à</h4>
+        <h4>{{ __('app.pdf.quote.proposed_to') }}</h4>
         <p>
             <strong>{{ $quote->contact->name }}</strong><br>
             @if($quote->contact->company) {{ $quote->contact->company }}<br> @endif
@@ -64,10 +64,10 @@
 <table class="items">
     <thead>
         <tr>
-            <th style="width:50%">Description</th>
-            <th class="right" style="width:12%">Qté</th>
-            <th class="right" style="width:18%">Prix unit.</th>
-            <th class="right" style="width:20%">Total</th>
+            <th style="width:50%">{{ __('app.pdf.quote.description') }}</th>
+            <th class="right" style="width:12%">{{ __('app.pdf.quote.qty') }}</th>
+            <th class="right" style="width:18%">{{ __('app.pdf.quote.unit_price') }}</th>
+            <th class="right" style="width:20%">{{ __('app.pdf.quote.total') }}</th>
         </tr>
     </thead>
     <tbody>
@@ -84,33 +84,33 @@
 
 <div class="totals">
     <table>
-        <tr><td>Sous-total</td><td>{{ number_format($quote->subtotal, 0, ',', ' ') }} {{ $quote->currency }}</td></tr>
+        <tr><td>{{ __('app.pdf.quote.subtotal') }}</td><td>{{ number_format($quote->subtotal, 0, ',', ' ') }} {{ $quote->currency }}</td></tr>
         @if($quote->discount > 0)
-        <tr><td>Remise</td><td>- {{ number_format($quote->discount, 0, ',', ' ') }} {{ $quote->currency }}</td></tr>
+        <tr><td>{{ __('app.pdf.quote.discount') }}</td><td>- {{ number_format($quote->discount, 0, ',', ' ') }} {{ $quote->currency }}</td></tr>
         @endif
         @if($quote->tax_rate > 0)
-        <tr><td>TVA ({{ $quote->tax_rate }}%)</td><td>{{ number_format($quote->tax_amount, 0, ',', ' ') }} {{ $quote->currency }}</td></tr>
+        <tr><td>{{ __('app.pdf.quote.tax') }} ({{ $quote->tax_rate }}%)</td><td>{{ number_format($quote->tax_amount, 0, ',', ' ') }} {{ $quote->currency }}</td></tr>
         @endif
         <tr class="total-row">
-            <td>TOTAL TTC</td>
+            <td>{{ __('app.pdf.quote.grand_total') }}</td>
             <td>{{ number_format($quote->total, 0, ',', ' ') }} {{ $quote->currency }}</td>
         </tr>
     </table>
 </div>
 
 <div class="validity">
-    ⏳ Ce devis est valable jusqu'au <strong>{{ $quote->valid_until->format('d/m/Y') }}</strong>.
+    ⏳ {{ __('app.pdf.quote.validity_text') }} <strong>{{ $quote->valid_until->format('d/m/Y') }}</strong>.
     Pour l'accepter, répondez simplement <strong>"OK"</strong> ou <strong>"Accepté"</strong> sur WhatsApp.
 </div>
 
 @if($quote->notes)
-<div class="notes"><strong>Conditions :</strong> {{ $quote->notes }}</div>
+<div class="notes"><strong>{{ __('app.pdf.quote.conditions') }}</strong> {{ $quote->notes }}</div>
 @endif
 
 <div class="footer">
     {{ $quote->business->name }} — {{ $quote->business->email }}
     @if($quote->business->phone) · {{ $quote->business->phone }} @endif
-    · Généré par WhatsAppBizAI
+    · {{ __('app.pdf.quote.generated_by') }}
 </div>
 </body>
 </html>

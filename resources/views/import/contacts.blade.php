@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Importer des contacts — WhatsAppBizAI</title>
+    <title>{{ __('app.import.title') }} — WhatsAppBizAI</title>
     <meta name="robots" content="noindex">
     <style>
         *{box-sizing:border-box;margin:0;padding:0}
@@ -40,29 +40,29 @@
 </head>
 <body>
 <div class="card">
-    <h1>📥 Importer des contacts</h1>
-    <p class="sub">Importez vos contacts depuis Excel/Google Sheets via un fichier CSV.</p>
+    <h1>{{ __('app.import.title') }}</h1>
+    <p class="sub">{{ __('app.import.desc') }}</p>
 
     @if(session('import_results'))
         @php $r = session('import_results') @endphp
         <div class="stat-row">
-            <div class="stat"><div class="stat-n">{{ $r['imported'] }}</div><div class="stat-label">Importés / mis à jour</div></div>
-            <div class="stat"><div class="stat-n skip">{{ $r['skipped'] }}</div><div class="stat-label">Ignorés</div></div>
-            <div class="stat"><div class="stat-n err">{{ count($r['errors']) }}</div><div class="stat-label">Erreurs</div></div>
+            <div class="stat"><div class="stat-n">{{ $r['imported'] }}</div><div class="stat-label">{{ __('app.import.imported') }}</div></div>
+            <div class="stat"><div class="stat-n skip">{{ $r['skipped'] }}</div><div class="stat-label">{{ __('app.import.skipped') }}</div></div>
+            <div class="stat"><div class="stat-n err">{{ count($r['errors']) }}</div><div class="stat-label">{{ __('app.import.errors') }}</div></div>
         </div>
         @if(count($r['errors']))
-            <div class="alert-warning">⚠️ Certaines lignes ont été ignorées :
+            <div class="alert-warning">⚠️ {{ __('app.import.some_skipped') }}
                 <ul class="errors">
                     @foreach(array_slice($r['errors'], 0, 10) as $err)
                         <li>{{ $err }}</li>
                     @endforeach
                     @if(count($r['errors']) > 10)
-                        <li>... et {{ count($r['errors']) - 10 }} autre(s)</li>
+                        <li>{{ __('app.import.more_errors', ['count' => count($r['errors']) - 10]) }}</li>
                     @endif
                 </ul>
             </div>
         @else
-            <div class="alert-success">✅ Import terminé avec succès ! {{ $r['imported'] }} contacts importés.</div>
+            <div class="alert-success">✅ {{ __('app.import.completed', ['count' => $r['imported']]) }}</div>
         @endif
     @endif
 
@@ -70,8 +70,8 @@
         @csrf
         <div class="zone" id="drop-zone" onclick="document.getElementById('csv-input').click()">
             <div class="zone-icon">📄</div>
-            <strong id="file-label">Cliquez ou glissez votre fichier CSV ici</strong>
-            <p>Format accepté : .csv (séparateur virgule ou point-virgule, UTF-8)</p>
+            <strong id="file-label">{{ __('app.import.select_file') }}</strong>
+            <p>{{ __('app.import.columns_hint') }}</p>
         </div>
         <input type="file" name="csv_file" id="csv-input" accept=".csv,.txt" onchange="onFileSelected(this)">
 
@@ -79,34 +79,34 @@
             <p style="color:#ef4444;font-size:13px;margin-bottom:10px">{{ $message }}</p>
         @enderror
 
-        <button type="submit" class="btn btn-full">⬆️ Lancer l'import</button>
+        <button type="submit" class="btn btn-full">⬆️ {{ __('app.import.import') }}</button>
     </form>
 
     <div class="format-box">
-        <h3>📋 Format attendu du CSV</h3>
+        <h3>📋 {{ __('app.import.format_title') }}</h3>
         <table class="fmt">
-            <tr><th>Colonne</th><th>Obligatoire</th><th>Valeurs acceptées</th></tr>
-            <tr><td>whatsapp_number</td><td style="color:#22c55e">Oui</td><td>+237600000001, 00237600000001</td></tr>
-            <tr><td>name / nom</td><td>Non</td><td>Texte libre</td></tr>
-            <tr><td>email</td><td>Non</td><td>Adresse email valide</td></tr>
-            <tr><td>company / entreprise</td><td>Non</td><td>Texte libre</td></tr>
-            <tr><td>status / statut</td><td>Non</td><td>prospect, client, inactif</td></tr>
-            <tr><td>tags / étiquettes</td><td>Non</td><td>VIP,fidele,relance (séparés virgules)</td></tr>
-            <tr><td>notes</td><td>Non</td><td>Texte libre</td></tr>
+            <tr><th>{{ __('app.import.column') }}</th><th>{{ __('app.import.required') }}</th><th>{{ __('app.import.accepted_values') }}</th></tr>
+            <tr><td>whatsapp_number</td><td style="color:#22c55e">{{ __('app.import.yes') }}</td><td>+237600000001, 00237600000001</td></tr>
+            <tr><td>name / {{ __('app.client.contact_name') }}</td><td>{{ __('app.import.no') }}</td><td>{{ __('app.import.free_text') }}</td></tr>
+            <tr><td>email</td><td>{{ __('app.import.no') }}</td><td>{{ __('app.import.valid_email') }}</td></tr>
+            <tr><td>company / {{ __('app.admin.company_name') }}</td><td>{{ __('app.import.no') }}</td><td>{{ __('app.import.free_text') }}</td></tr>
+            <tr><td>status / {{ __('app.admin.status') }}</td><td>{{ __('app.import.no') }}</td><td>prospect, client, inactif</td></tr>
+            <tr><td>tags / {{ __('app.admin.tags') }}</td><td>{{ __('app.import.no') }}</td><td>{{ __('app.import.tags_hint') }}</td></tr>
+            <tr><td>notes</td><td>{{ __('app.import.no') }}</td><td>{{ __('app.import.free_text') }}</td></tr>
         </table>
-        <p style="margin-top:10px;color:#64748b;font-size:12px">💡 L'ordre des colonnes n'est pas important. Les doublons (même numéro WhatsApp) sont mis à jour.</p>
+        <p style="margin-top:10px;color:#64748b;font-size:12px">💡 {{ __('app.import.order_hint') }}</p>
     </div>
 
     <a href="{{ route('import.template') }}" class="btn btn-gray" style="display:block;text-align:center">
-        ⬇️ Télécharger le modèle CSV
+        ⬇️ {{ __('app.import.download_template') }}
     </a>
-    <a href="/admin/contacts" class="back">← Retour aux contacts</a>
+    <a href="/admin/contacts" class="back">{{ __('app.import.back') }}</a>
 </div>
 
 <script>
 function onFileSelected(input) {
     const label = document.getElementById('file-label');
-    label.textContent = input.files[0] ? '✅ ' + input.files[0].name : 'Cliquez ou glissez votre fichier CSV ici';
+    label.textContent = input.files[0] ? '✅ ' + input.files[0].name : '{{ __("app.import.select_file") }}';
 }
 const zone = document.getElementById('drop-zone');
 zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag'); });

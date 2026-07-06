@@ -37,7 +37,7 @@ class RetentionCampaigns extends Page implements HasForms
     {
         return [
             Forms\Components\Select::make('target')
-                ->label('Cible')
+                ->label(__('app.client.retention.recipients'))
                 ->options([
                     'inactive_clients' => 'Clients inactifs (30+ jours)',
                     'all_clients' => 'Tous les clients',
@@ -47,7 +47,7 @@ class RetentionCampaigns extends Page implements HasForms
                 ->required(),
 
             Forms\Components\Select::make('objective')
-                ->label('Objectif')
+                ->label(__('app.client.retention.objective'))
                 ->options([
                     'retention' => 'Rétention',
                     'upsell' => 'Vente additionnelle',
@@ -57,19 +57,19 @@ class RetentionCampaigns extends Page implements HasForms
                 ->required(),
 
             Forms\Components\Textarea::make('message')
-                ->label('Message')
+                ->label(__('app.client.retention.message'))
                 ->rows(5)
                 ->required()
                 ->maxLength(1024),
 
             Forms\Components\Button::make('draft_ai')
-                ->label('Rédiger avec l\'IA')
+                ->label(__('app.client.retention.draft_ai'))
                 ->icon('heroicon-m-sparkles')
                 ->color('info')
                 ->action('draftWithAI'),
 
             Forms\Components\Button::make('send')
-                ->label('Envoyer la campagne')
+                ->label(__('app.client.retention.send'))
                 ->icon('heroicon-m-paper-airplane')
                 ->color('primary')
                 ->action('sendCampaign'),

@@ -22,24 +22,24 @@ class ViewConversation extends ViewRecord
     {
         return [
             Action::make('toggle_ai')
-                ->label(fn () => $this->record->ai_enabled ? '⏸ Pause AI' : '▶ Enable AI')
+                ->label(fn () => $this->record->ai_enabled ? __('app.admin.pause_ai') : __('app.admin.enable_ai'))
                 ->color(fn () => $this->record->ai_enabled ? 'danger' : 'success')
                 ->action(function () {
                     $this->record->update(['ai_enabled' => !$this->record->ai_enabled]);
-                    $status = $this->record->ai_enabled ? 'enabled' : 'paused';
-                    Notification::make()->title("AI {$status}")->success()->send();
+                    $status = $this->record->ai_enabled ? __('app.admin.enable_ai') : __('app.admin.ai_paused');
+                    Notification::make()->title($status)->success()->send();
                     $this->refreshFormData([]);
                 }),
 
             Action::make('summarize_header')
-                ->label('📝 Summarize')
+                ->label(__('app.admin.ai_summary'))
                 ->color('info')
                 ->action(function (GeminiService $gemini) {
                     $this->runSummarize($gemini);
                 }),
 
             Action::make('close')
-                ->label('Close conversation')
+                ->label(__('app.admin.close_conversation'))
                 ->color('gray')
                 ->requiresConfirmation()
                 ->visible(fn () => $this->record->status === 'open')
@@ -53,8 +53,8 @@ class ViewConversation extends ViewRecord
     public function toggleAI(): void
     {
         $this->record->update(['ai_enabled' => !$this->record->ai_enabled]);
-        $status = $this->record->ai_enabled ? 'enabled' : 'paused';
-        Notification::make()->title("AI {$status}")->success()->send();
+        $status = $this->record->ai_enabled ? __('app.admin.enable_ai') : __('app.admin.ai_paused');
+        Notification::make()->title($status)->success()->send();
     }
 
     /**
@@ -75,7 +75,7 @@ class ViewConversation extends ViewRecord
         $business = auth()->user()?->business;
 
         if (!$business) {
-            Notification::make()->title('No business configured')->warning()->send();
+            Notification::make()->title(__('app.admin.no_business'))->warning()->send();
             return;
         }
 
@@ -84,7 +84,7 @@ class ViewConversation extends ViewRecord
         if ($suggestion) {
             $this->suggestedReply = $suggestion;
         } else {
-            Notification::make()->title('Could not generate suggestion')->warning()->send();
+            Notification::make()->title(__('app.admin.suggestion_failed'))->warning()->send();
         }
     }
 
@@ -109,8 +109,8 @@ class ViewConversation extends ViewRecord
 
         if (!$business?->whatsapp_phone_number_id) {
             Notification::make()
-                ->title('WhatsApp not configured')
-                ->body('Configure WhatsApp credentials in Settings → My Business.')
+                ->title(__('app.admin.whatsapp_not_configured'))
+                ->body(__('app.admin.whatsapp_config_desc2'))
                 ->danger()->send();
             return;
         }
@@ -138,9 +138,9 @@ class ViewConversation extends ViewRecord
             $this->replyText      = '';
             $this->suggestedReply = null;
 
-            Notification::make()->title('Message sent')->success()->send();
+            Notification::make()->title(__('app.admin.message_sent'))->success()->send();
         } else {
-            Notification::make()->title('Send failed')->danger()->send();
+            Notification::make()->title(__('app.admin.send_failed'))->danger()->send();
         }
     }
 
@@ -152,9 +152,9 @@ class ViewConversation extends ViewRecord
 
         if ($summary) {
             $this->record->update(['summary' => $summary]);
-            Notification::make()->title('Summary generated')->success()->send();
+            Notification::make()->title(__('app.admin.summary_generated'))->success()->send();
         } else {
-            Notification::make()->title('Could not generate summary')->warning()->send();
+            Notification::make()->title(__('app.admin.summary_failed'))->warning()->send();
         }
     }
 }

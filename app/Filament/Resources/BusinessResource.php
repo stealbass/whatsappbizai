@@ -116,7 +116,7 @@ class BusinessResource extends Resource
                     Forms\Components\TextInput::make('whatsapp_business_account_id')
                         ->label('Business Account ID')->placeholder('987654321098765'),
                     Forms\Components\TextInput::make('whatsapp_access_token')
-                        ->label('Access Token permanent')
+                        ->label(__('app.admin.access_token'))
                         ->password()->revealable()
                         ->placeholder('EAAxxxxxxxx...'),
                 ])->columns(1),

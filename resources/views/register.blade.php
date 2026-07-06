@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Créer votre compte — WhatsAppBizAI</title>
+    <title>{{ __('app.register.title') }} — WhatsAppBizAI</title>
     <link rel="stylesheet" href="{{ asset('css/switchers.css') }}">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -33,7 +33,7 @@
     <div class="card">
         <div class="logo">
             <h1>WhatsApp<span>BizAI</span></h1>
-            <p data-t-key="register.subtitle">Back-office IA sur WhatsApp pour votre entreprise</p>
+            <p>{{ __('app.register.subtitle') }}</p>
         </div>
 
         <div class="switcher-row">
@@ -44,10 +44,10 @@
         </div>
 
         <div class="features">
-            <span class="badge" data-t-key="register.badge_ai">🤖 Agent IA</span>
-            <span class="badge" data-t-key="register.badge_quotes">📄 Devis PDF</span>
-            <span class="badge" data-t-key="register.badge_invoices">🧾 Factures</span>
-            <span class="badge" data-t-key="register.badge_reminders">🔔 Relances auto</span>
+            <span class="badge">{{ __('app.register.badge_ai') }}</span>
+            <span class="badge">{{ __('app.register.badge_quotes') }}</span>
+            <span class="badge">{{ __('app.register.badge_invoices') }}</span>
+            <span class="badge">{{ __('app.register.badge_reminders') }}</span>
         </div>
 
         @if($errors->any())
@@ -62,48 +62,48 @@
             @csrf
 
             <div class="form-group">
-                <label data-t-key="register.business_name">Nom de votre entreprise</label>
+                <label>{{ __('app.register.business_name') }}</label>
                 <input type="text" name="business_name" value="{{ old('business_name') }}"
-                    data-t-placeholder="register.business_placeholder" placeholder="Tech Solutions, Agence XYZ..." required>
+                    placeholder="{{ __('app.register.business_placeholder') }}" required>
             </div>
 
             <div class="row">
                 <div class="form-group">
-                    <label data-t-key="register.owner_name">Votre nom complet</label>
+                    <label>{{ __('app.register.owner_name') }}</label>
                     <input type="text" name="owner_name" value="{{ old('owner_name') }}"
-                        data-t-placeholder="register.owner_placeholder" placeholder="Jean Dupont" required>
+                        placeholder="{{ __('app.register.owner_placeholder') }}" required>
                 </div>
                 <div class="form-group">
-                    <label data-t-key="register.city">Ville</label>
+                    <label>{{ __('app.register.city') }}</label>
                     <input type="text" name="city" value="{{ old('city', 'Douala') }}"
-                        data-t-placeholder="register.city_placeholder" placeholder="Douala" required>
+                        placeholder="{{ __('app.register.city_placeholder') }}" required>
                 </div>
             </div>
 
             <div class="form-group">
-                <label data-t-key="register.email">Adresse email</label>
+                <label>{{ __('app.register.email') }}</label>
                 <input type="email" name="email" value="{{ old('email') }}"
-                    data-t-placeholder="register.email_placeholder" placeholder="vous@entreprise.com" required>
+                    placeholder="{{ __('app.register.email_placeholder') }}" required>
             </div>
 
             <div class="row">
                 <div class="form-group">
-                    <label data-t-key="register.password">Mot de passe</label>
-                    <input type="password" name="password" data-t-placeholder="register.password_placeholder" placeholder="Min. 8 caractères" required>
+                    <label>{{ __('app.register.password') }}</label>
+                    <input type="password" name="password" placeholder="{{ __('app.register.password_placeholder') }}" required>
                 </div>
                 <div class="form-group">
-                    <label data-t-key="register.password_confirm">Confirmer</label>
-                    <input type="password" name="password_confirmation" data-t-placeholder="register.password_confirm_placeholder" placeholder="Répétez" required>
+                    <label>{{ __('app.register.password_confirm') }}</label>
+                    <input type="password" name="password_confirmation" placeholder="{{ __('app.register.password_confirm_placeholder') }}" required>
                 </div>
             </div>
 
-            <button type="submit" class="btn" data-t-key="register.submit">🚀 Créer mon compte gratuitement</button>
+            <button type="submit" class="btn">{{ __('app.register.submit') }}</button>
         </form>
 
         <hr class="divider">
 
         <div class="login-link">
-            <span data-t-key="register.has_account">Déjà un compte ?</span> <a href="{{ url('login') }}" data-t-key="register.login">Se connecter</a>
+            <span>{{ __('app.register.has_account') }}</span> <a href="{{ url('login') }}">{{ __('app.register.login') }}</a>
         </div>
     </div>
 

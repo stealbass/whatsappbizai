@@ -41,7 +41,7 @@ class ContactResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\Section::make('Informations')->schema([
+            Forms\Components\Section::make(__('app.admin.general_info'))->schema([
                 Forms\Components\TextInput::make('name')->label(__('app.admin.name'))->required(),
                 Forms\Components\TextInput::make('whatsapp_number')->label(__('app.admin.whatsapp_number'))
                     ->placeholder('+237 6XX XXX XXX')->required(),
@@ -49,7 +49,7 @@ class ContactResource extends Resource
                 Forms\Components\TextInput::make('company')->label(__('app.admin.business')),
             ])->columns(2),
 
-            Forms\Components\Section::make('Statut & Notes')->schema([
+            Forms\Components\Section::make(__('app.admin.status_notes'))->schema([
                 Forms\Components\Select::make('status')->label(__('app.admin.status'))
                     ->options(['prospect' => __('app.admin.prospect'), 'client' => __('app.admin.client'), 'inactif' => __('app.admin.inactive')])
                     ->default('prospect')->required(),

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paiement manuel — WhatsAppBizAI</title>
+    <title>{{ __('app.payment.manual_title') }} — WhatsAppBizAI</title>
     <meta name="robots" content="noindex">
     <style>
         *{box-sizing:border-box;margin:0;padding:0}
@@ -29,8 +29,8 @@
 </head>
 <body>
 <div class="card">
-    <h1>💳 Paiement manuel</h1>
-    <p class="subtitle">Payez via Mobile Money, Orange Money, Wave ou virement bancaire puis soumettez votre preuve.</p>
+    <h1>{{ __('app.payment.manual_title') }}</h1>
+    <p class="subtitle">{{ __('app.payment.manual_desc') }}</p>
 
     @if(session('success'))
         <div class="alert-success">✅ {{ session('success') }}</div>
@@ -42,69 +42,69 @@
     <form method="POST" action="{{ route('payment.manual.store') }}" enctype="multipart/form-data">
         @csrf
 
-        <label>Plan souhaité</label>
+        <label>{{ __('app.payment.desired_plan') }}</label>
         <select name="plan" required onchange="updateAmount()">
-            <option value="starter" {{ request('plan') === 'starter' ? 'selected' : '' }}>Starter — 9 900 XAF/mois</option>
-            <option value="business" {{ request('plan') === 'business' ? 'selected' : '' }}>Business — 24 900 XAF/mois</option>
-            <option value="pro" {{ request('plan') === 'pro' ? 'selected' : '' }}>Pro — 49 900 XAF/mois</option>
+            <option value="starter" {{ request('plan') === 'starter' ? 'selected' : '' }}>Starter — 9 900 XAF/{{ __('app.payment.monthly') }}</option>
+            <option value="business" {{ request('plan') === 'business' ? 'selected' : '' }}>Business — 24 900 XAF/{{ __('app.payment.monthly') }}</option>
+            <option value="pro" {{ request('plan') === 'pro' ? 'selected' : '' }}>Pro — 49 900 XAF/{{ __('app.payment.monthly') }}</option>
         </select>
 
-        <label>Cycle de facturation</label>
+        <label>{{ __('app.payment.billing_cycle') }}</label>
         <select name="cycle" required>
-            <option value="monthly">Mensuel</option>
-            <option value="yearly">Annuel (2 mois offerts)</option>
+            <option value="monthly">{{ __('app.payment.monthly') }}</option>
+            <option value="yearly">{{ __('app.payment.yearly') }}</option>
         </select>
 
-        <label>Méthode de paiement</label>
+        <label>{{ __('app.payment.payment_method') }}</label>
         <select name="method" required onchange="showCoords(this.value)">
-            <option value="">-- Choisir --</option>
+            <option value="">{{ __('app.payment.select_method') }}</option>
             <option value="mtn_momo">MTN Mobile Money</option>
             <option value="orange_money">Orange Money</option>
             <option value="wave">Wave</option>
-            <option value="bank_transfer">Virement bancaire</option>
-            <option value="other">Autre</option>
+            <option value="bank_transfer">{{ __('app.payment.bank_transfer') }}</option>
+            <option value="other">{{ __('app.payment.other') }}</option>
         </select>
 
         <div class="coords" id="coords-box" style="display:none">
             <div class="method-block" id="coord-mtn_momo">
-                <strong>MTN MoMo — Numéro de réception :</strong><br>
+                <strong>MTN MoMo — {{ __('app.payment.receiving_number') }} :</strong><br>
                 📱 <strong>+237 6XX XXX XXX</strong><br>
-                Nom : <strong>WhatsAppBizAI SARL</strong>
+                {{ __('app.payment.name') }} : <strong>WhatsAppBizAI SARL</strong>
             </div>
             <div class="method-block" id="coord-orange_money">
-                <strong>Orange Money — Numéro de réception :</strong><br>
+                <strong>Orange Money — {{ __('app.payment.receiving_number') }} :</strong><br>
                 📱 <strong>+237 6XX XXX XXX</strong><br>
-                Nom : <strong>WhatsAppBizAI SARL</strong>
+                {{ __('app.payment.name') }} : <strong>WhatsAppBizAI SARL</strong>
             </div>
             <div class="method-block" id="coord-wave">
-                <strong>Wave — Numéro :</strong><br>
+                <strong>Wave — {{ __('app.payment.number') }} :</strong><br>
                 📱 <strong>+221 7X XXX XXXX</strong><br>
-                Nom : <strong>WhatsAppBizAI</strong>
+                {{ __('app.payment.name') }} : <strong>WhatsAppBizAI</strong>
             </div>
             <div class="method-block" id="coord-bank_transfer">
-                <strong>Virement bancaire :</strong><br>
-                Banque : <strong>Société Générale Cameroun</strong><br>
-                IBAN/Compte : <strong>XXXXXXXXXXXXXXXX</strong><br>
-                Motif : <strong>Abonnement WhatsAppBizAI + votre email</strong>
+                <strong>{{ __('app.payment.bank_transfer') }} :</strong><br>
+                {{ __('app.payment.bank') }} : <strong>Société Générale Cameroun</strong><br>
+                {{ __('app.payment.iban') }} : <strong>XXXXXXXXXXXXXXXX</strong><br>
+                {{ __('app.payment.reference') }} : <strong>{{ __('app.payment.reference_hint') }}</strong>
             </div>
         </div>
 
-        <label>Numéro ayant effectué le paiement</label>
+        <label>{{ __('app.payment.payer_number') }}</label>
         <input type="text" name="phone_number" placeholder="+237 6XX XXX XXX" value="{{ old('phone_number') }}">
 
-        <label>Référence / ID de la transaction *</label>
-        <input type="text" name="reference" required placeholder="Ex: TXN123456789" value="{{ old('reference') }}">
+        <label>{{ __('app.payment.transaction_id') }} *</label>
+        <input type="text" name="reference" required placeholder="{{ __('app.payment.transaction_placeholder') }}" value="{{ old('reference') }}">
 
-        <label>Capture d'écran de la confirmation (optionnel)</label>
+        <label>{{ __('app.payment.proof_screenshot') }}</label>
         <input type="file" name="screenshot" accept="image/*">
 
-        <label>Notes complémentaires</label>
-        <textarea name="notes" rows="2" placeholder="Toute information utile...">{{ old('notes') }}</textarea>
+        <label>{{ __('app.payment.additional_notes') }}</label>
+        <textarea name="notes" rows="2" placeholder="{{ __('app.payment.notes_placeholder') }}">{{ old('notes') }}</textarea>
 
-        <button type="submit" class="btn">📤 Soumettre ma preuve de paiement</button>
+        <button type="submit" class="btn">{{ __('app.payment.submit_proof') }}</button>
     </form>
 
-    <a class="back" href="{{ route('payment.pricing') }}">← Retour aux tarifs</a>
+    <a class="back" href="{{ route('payment.pricing') }}">{{ __('app.payment.back_pricing') }}</a>
 </div>
 
 <script>

@@ -39,7 +39,7 @@ class UserResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\Section::make('Informations personnelles')->schema([
+            Forms\Components\Section::make(__('app.admin.personal_info'))->schema([
                 Forms\Components\TextInput::make('name')->label(__('app.admin.name'))->required(),
                 Forms\Components\TextInput::make('email')->label(__('app.admin.email'))->email()->required(),
                 Forms\Components\Select::make('role')->label(__('app.admin.role'))
@@ -50,7 +50,7 @@ class UserResource extends Resource
                     ])->required(),
                 Forms\Components\Select::make('business_id')->label(__('app.admin.business'))
                     ->relationship('business', 'name')->searchable()->preload(),
-                Forms\Components\TextInput::make('password')->label('Mot de passe')
+                Forms\Components\TextInput::make('password')->label(__('app.admin.password'))
                     ->password()->revealable()
                     ->dehydrateStateUsing(fn($state) => filled($state) ? bcrypt($state) : null)
                     ->dehydrated(fn($state) => filled($state))
