@@ -15,6 +15,7 @@ class ServiceResource extends Resource
     protected static ?string $model = Service::class;
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
     protected static ?int $navigationSort = 6;
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function getNavigationLabel(): string
     {

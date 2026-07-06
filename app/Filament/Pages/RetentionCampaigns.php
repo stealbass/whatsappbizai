@@ -61,18 +61,6 @@ class RetentionCampaigns extends Page implements HasForms
                 ->rows(5)
                 ->required()
                 ->maxLength(1024),
-
-            Forms\Components\Actions\Action::make('draft_ai')
-                ->label(__('app.client.retention.draft_ai'))
-                ->icon('heroicon-m-sparkles')
-                ->color('info')
-                ->action('draftWithAI'),
-
-            Forms\Components\Actions\Action::make('send')
-                ->label(__('app.client.retention.send'))
-                ->icon('heroicon-m-paper-airplane')
-                ->color('primary')
-                ->action('sendCampaign'),
         ];
     }
 
