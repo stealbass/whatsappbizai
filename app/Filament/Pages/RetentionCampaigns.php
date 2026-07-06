@@ -4,8 +4,6 @@ namespace App\Filament\Pages;
 
 use App\Models\User;
 use Filament\Forms;
-use Filament\Forms\Components\RichEditor;
-
 use Filament\Forms\Form;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -64,9 +62,10 @@ class RetentionCampaigns extends Page implements HasForms
                     ])
                     ->required(),
 
-                RichEditor::make('message')
+                Forms\Components\Textarea::make('message')
                     ->label(__('app.admin.retention_message'))
-                    
+                    ->rows(15)
+                    ->extraFieldWrapperAttributes(['wire:ignore' => ''])
                     ->required(),
             ])
             ->statePath('data');
