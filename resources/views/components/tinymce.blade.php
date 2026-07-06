@@ -67,11 +67,22 @@ function initTinyMCE(selector, height) {
         setup: function(editor) {
             editor.on('change keyup undo redo', function() {
                 editor.save();
-                // Déclenche un event 'input' pour que les listeners JS classiques captent la valeur
                 var ta = document.querySelector(selector);
                 if (ta) ta.dispatchEvent(new Event('input', { bubbles: true }));
             });
         }
     });
 }
+
+/*
+ * Global form submit hook — saves ALL TinyMCE instances before any form submits.
+ * Prevents empty textarea values when the user clicks submit without triggering
+ * a 'change' event (e.g. paste then immediately submit).
+ */
+document.addEventListener('submit', function(e) {
+    if (typeof tinymce !== 'undefined') {
+        tinymce.triggerSave();
+    }
+}, true); // capture phase so it runs before any form submit handler
+
 </script>
