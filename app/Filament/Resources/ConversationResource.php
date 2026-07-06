@@ -14,18 +14,20 @@ class ConversationResource extends Resource
 {
     protected static ?string $model = Conversation::class;
     protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
-    protected static ?string $navigationLabel = 'Conversations';
-    protected static ?string $modelLabel = 'Conversation';
+    protected static ?string $navigationLabel = 'app.admin.conversations';
+    protected static ?string $modelLabel = 'app.admin.conversation';
+    protected static ?string $pluralModelLabel = 'app.admin.conversations';
+    protected static ?string $navigationGroup = 'app.admin.nav_messaging';
     protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
         return $form->schema([
             Forms\Components\Section::make()->schema([
-                Forms\Components\Select::make('status')->label('Statut')
+                Forms\Components\Select::make('status')->label(__('app.admin.status'))
                     ->options(['open' => 'Ouverte', 'closed' => 'Fermée', 'waiting' => 'En attente'])
                     ->required(),
-                Forms\Components\Toggle::make('ai_enabled')->label('IA activée'),
+                Forms\Components\Toggle::make('ai_enabled')->label(__('app.admin.ai')),
                 Forms\Components\Textarea::make('summary')->label('Résumé')->rows(3)->columnSpanFull(),
             ])->columns(2),
         ]);
@@ -35,17 +37,17 @@ class ConversationResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('contact.name')->label('Contact')
+                Tables\Columns\TextColumn::make('contact.name')->label(__('app.admin.contact'))
                     ->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('contact.whatsapp_number')->label('WhatsApp')
                     ->searchable(),
-                Tables\Columns\BadgeColumn::make('status')->label('Statut')
+                Tables\Columns\BadgeColumn::make('status')->label(__('app.admin.status'))
                     ->colors(['success' => 'open', 'gray' => 'closed', 'warning' => 'waiting']),
-                Tables\Columns\IconColumn::make('ai_enabled')->label('IA')
+                Tables\Columns\IconColumn::make('ai_enabled')->label(__('app.admin.ai'))
                     ->boolean(),
-                Tables\Columns\TextColumn::make('messages_count')->label('Messages')
+                Tables\Columns\TextColumn::make('messages_count')->label(__('app.admin.messages'))
                     ->counts('messages')->alignCenter(),
-                Tables\Columns\TextColumn::make('last_message_at')->label('Dernier message')
+                Tables\Columns\TextColumn::make('last_message_at')->label(__('app.admin.last_message'))
                     ->dateTime('d/m/Y H:i')->sortable(),
             ])
             ->filters([
@@ -54,7 +56,7 @@ class ConversationResource extends Resource
             ])
             ->actions([
                 Tables\Actions\Action::make('view')
-                    ->label('Voir')
+                    ->label(__('app.admin.view'))
                     ->icon('heroicon-o-eye')
                     ->url(fn(Conversation $r) => ConversationResource::getUrl('view', ['record' => $r])),
                 Tables\Actions\Action::make('close')

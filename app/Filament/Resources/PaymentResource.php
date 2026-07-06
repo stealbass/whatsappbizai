@@ -18,24 +18,25 @@ class PaymentResource extends Resource
     protected static ?string $model = Payment::class;
     protected static ?string $navigationIcon = 'heroicon-o-credit-card';
 
-    protected static ?string $navigationGroup = 'Gestion Financière';
+    protected static ?string $navigationGroup = 'app.admin.nav_financial';
 
     protected static ?int $navigationSort = 10;
-    protected static ?string $navigationLabel = 'Paiements';
-    protected static ?string $modelLabel = 'Paiement';
+    protected static ?string $navigationLabel = 'app.admin.payments';
+    protected static ?string $modelLabel = 'app.admin.payment';
+    protected static ?string $pluralModelLabel = 'app.admin.payments';
 
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\Section::make('Détails du paiement')->schema([
-                Forms\Components\Select::make('business_id')->label('Entreprise')
+            Forms\Components\Section::make(__('app.admin.payment_details'))->schema([
+                Forms\Components\Select::make('business_id')->label(__('app.admin.business'))
                     ->relationship('business', 'name')->required(),
-                Forms\Components\Select::make('plan')->label('Plan')
+                Forms\Components\Select::make('plan')->label(__('app.admin.plan'))
                     ->options(['starter' => 'Starter', 'business' => 'Business', 'pro' => 'Pro'])
                     ->required(),
-                Forms\Components\Select::make('billing_cycle')->label('Cycle')
-                    ->options(['monthly' => 'Mensuel', 'yearly' => 'Annuel'])->required(),
-                Forms\Components\Select::make('method')->label('Méthode')
+                Forms\Components\Select::make('billing_cycle')->label(__('app.admin.billing_cycle'))
+                    ->options(['monthly' => __('app.admin.monthly'), 'yearly' => __('app.admin.yearly')])->required(),
+                Forms\Components\Select::make('method')->label(__('app.admin.method'))
                     ->options([
                         'flutterwave'   => 'Flutterwave',
                         'mtn_momo'      => 'MTN MoMo',
@@ -44,19 +45,19 @@ class PaymentResource extends Resource
                         'bank_transfer' => 'Virement',
                         'other'         => 'Autre',
                     ])->required(),
-                Forms\Components\TextInput::make('amount')->label('Montant')->numeric()->required(),
-                Forms\Components\TextInput::make('currency')->label('Devise')->default('XAF'),
-                Forms\Components\TextInput::make('reference')->label('Référence transaction'),
-                Forms\Components\TextInput::make('phone_number')->label('Numéro'),
+                Forms\Components\TextInput::make('amount')->label(__('app.admin.amount'))->numeric()->required(),
+                Forms\Components\TextInput::make('currency')->label(__('app.admin.currency'))->default('XAF'),
+                Forms\Components\TextInput::make('reference')->label(__('app.admin.reference')),
+                Forms\Components\TextInput::make('phone_number')->label(__('app.admin.number')),
             ])->columns(2),
 
-            Forms\Components\Section::make('Vérification admin')->schema([
-                Forms\Components\Select::make('status')->label('Statut')
+            Forms\Components\Section::make(__('app.admin.admin_verification'))->schema([
+                Forms\Components\Select::make('status')->label(__('app.admin.status'))
                     ->options(['pending' => '⏳ En attente', 'verified' => '✅ Vérifié', 'rejected' => '❌ Rejeté'])
                     ->required(),
-                Forms\Components\Textarea::make('admin_notes')->label('Notes admin')->rows(3),
+                Forms\Components\Textarea::make('admin_notes')->label(__('app.admin.admin_notes'))->rows(3),
                 Forms\Components\FileUpload::make('screenshot_path')
-                    ->label('Capture d\'écran')->image()->disk('public')->directory('payment-proofs'),
+                    ->label(__('app.admin.screenshot'))->image()->disk('public')->directory('payment-proofs'),
             ])->columns(1),
         ]);
     }
@@ -65,21 +66,21 @@ class PaymentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('business.name')->label('Entreprise')->searchable()->sortable(),
-                Tables\Columns\BadgeColumn::make('plan')->label('Plan')
+                Tables\Columns\TextColumn::make('business.name')->label(__('app.admin.business'))->searchable()->sortable(),
+                Tables\Columns\BadgeColumn::make('plan')->label(__('app.admin.plan'))
                     ->colors(['gray' => 'starter', 'primary' => 'business', 'success' => 'pro']),
-                Tables\Columns\TextColumn::make('amount')->label('Montant')
+                Tables\Columns\TextColumn::make('amount')->label(__('app.admin.amount'))
                     ->formatStateUsing(fn($state, $record) => number_format($state, 0, ',', ' ') . ' ' . $record->currency),
-                Tables\Columns\BadgeColumn::make('method')->label('Méthode')
+                Tables\Columns\BadgeColumn::make('method')->label(__('app.admin.method'))
                     ->formatStateUsing(fn($state) => match($state) {
                         'mtn_momo' => 'MTN MoMo', 'orange_money' => 'Orange Money',
                         'wave' => 'Wave', 'bank_transfer' => 'Virement',
                         'flutterwave' => 'Flutterwave', default => $state,
                     }),
-                Tables\Columns\BadgeColumn::make('status')->label('Statut')
+                Tables\Columns\BadgeColumn::make('status')->label(__('app.admin.status'))
                     ->colors(['warning' => 'pending', 'success' => 'verified', 'danger' => 'rejected']),
-                Tables\Columns\TextColumn::make('reference')->label('Référence')->toggleable(),
-                Tables\Columns\TextColumn::make('created_at')->label('Date')->dateTime('d/m/Y H:i')->sortable(),
+                Tables\Columns\TextColumn::make('reference')->label(__('app.admin.reference'))->toggleable(),
+                Tables\Columns\TextColumn::make('created_at')->label(__('app.admin.issue_date'))->dateTime('d/m/Y H:i')->sortable(),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
@@ -89,17 +90,16 @@ class PaymentResource extends Resource
                     ->options(['flutterwave' => 'Flutterwave', 'mtn_momo' => 'MTN MoMo', 'orange_money' => 'Orange Money']),
             ])
             ->actions([
-                // Vérifier et activer l'abonnement manuellement
                 Tables\Actions\Action::make('verify')
-                    ->label('✅ Vérifier & Activer')
+                    ->label(__('app.admin.verify_activate'))
                     ->color('success')
                     ->requiresConfirmation()
-                    ->modalHeading('Activer l\'abonnement')
+                    ->modalHeading(__('app.admin.activate_subscription'))
                     ->modalDescription(fn(Payment $r) => "Vérifier le paiement de {$r->business?->name} ({$r->amount_formatted}) et activer l'abonnement {$r->plan} ?")
                     ->visible(fn(Payment $r) => $r->status === 'pending')
                     ->form([
                         Forms\Components\Textarea::make('admin_notes')
-                            ->label('Note de vérification (optionnel)')->rows(2),
+                            ->label(__('app.admin.admin_notes'))->rows(2),
                     ])
                     ->action(function (Payment $record, array $data) {
                         $cycle = $record->billing_cycle;
@@ -135,13 +135,13 @@ class PaymentResource extends Resource
                     }),
 
                 Tables\Actions\Action::make('reject')
-                    ->label('❌ Rejeter')
+                    ->label(__('app.admin.reject'))
                     ->color('danger')
                     ->requiresConfirmation()
                     ->visible(fn(Payment $r) => $r->status === 'pending')
                     ->form([
                         Forms\Components\Textarea::make('admin_notes')
-                            ->label('Raison du rejet')->required()->rows(2),
+                            ->label(__('app.admin.rejection_reason'))->required()->rows(2),
                     ])
                     ->action(function (Payment $record, array $data) {
                         $record->update([
@@ -150,11 +150,11 @@ class PaymentResource extends Resource
                             'verified_by' => auth()->id(),
                             'verified_at' => now(),
                         ]);
-                        Notification::make()->title('Paiement rejeté')->warning()->send();
+                        Notification::make()->title(__('app.admin.payment_rejected'))->warning()->send();
                     }),
 
                 Tables\Actions\Action::make('view_proof')
-                    ->label('🖼 Preuve')
+                    ->label(__('app.admin.view_proof'))
                     ->color('gray')
                     ->visible(fn(Payment $r) => !empty($r->screenshot_path))
                     ->url(fn(Payment $r) => asset('storage/' . $r->screenshot_path))

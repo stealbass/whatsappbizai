@@ -82,7 +82,7 @@ class RetentionCampaigns extends Page implements HasForms
 
         $business = auth()->user()->business ?? null;
         if (!$business) {
-            Notification::make()->title('Erreur')->body('Aucune entreprise associée.')->danger()->send();
+            Notification::make()->title(__('app.notifications.error'))->body(__('app.notifications.no_business'))->danger()->send();
             return;
         }
 
@@ -107,9 +107,9 @@ class RetentionCampaigns extends Page implements HasForms
 
         if ($draft) {
             $this->form->fill(['message' => $draft]);
-            Notification::make()->title('Brouillon généré')->body('Le message a été généré par l\'IA.')->success()->send();
+            Notification::make()->title(__('app.client.retention.draft_generated'))->body(__('app.client.retention.draft_generated_body'))->success()->send();
         } else {
-            Notification::make()->title('Erreur')->body('Impossible de générer le brouillon.')->danger()->send();
+            Notification::make()->title(__('app.notifications.error'))->body(__('app.client.retention.draft_error'))->danger()->send();
         }
     }
 
@@ -121,12 +121,12 @@ class RetentionCampaigns extends Page implements HasForms
         $business = $user->business ?? null;
 
         if (!$business) {
-            Notification::make()->title('Erreur')->body('Aucune entreprise associée.')->danger()->send();
+            Notification::make()->title(__('app.notifications.error'))->body(__('app.notifications.no_business'))->danger()->send();
             return;
         }
 
         if (!$business->whatsapp_phone_number_id || !$business->whatsapp_access_token) {
-            Notification::make()->title('Erreur')->body('WhatsApp non configuré.')->danger()->send();
+            Notification::make()->title(__('app.notifications.error'))->body(__('app.notifications.whatsapp_not_configured'))->danger()->send();
             return;
         }
 
@@ -142,7 +142,7 @@ class RetentionCampaigns extends Page implements HasForms
         $contacts = $q->get();
 
         if ($contacts->isEmpty()) {
-            Notification::make()->title('Erreur')->body('Aucun contact trouvé pour cette sélection.')->danger()->send();
+            Notification::make()->title(__('app.notifications.error'))->body(__('app.notifications.no_contacts'))->danger()->send();
             return;
         }
 
@@ -150,8 +150,8 @@ class RetentionCampaigns extends Page implements HasForms
         $result = $marketing->sendBroadcast($business, $contacts, $data['message']);
 
         Notification::make()
-            ->title('Campagne terminée')
-            ->body("{$result['sent']} envoi(s) réussi(s)" . ($result['failed'] > 0 ? ", {$result['failed']} échec(s)" : ''))
+            ->title(__('app.client.retention.campaign_completed'))
+            ->body("{$result['sent']} " . __('app.client.retention.campaign_sent') . ($result['failed'] > 0 ? ", {$result['failed']} " . __('app.client.retention.campaign_failed') : ''))
             ->success()
             ->send();
 

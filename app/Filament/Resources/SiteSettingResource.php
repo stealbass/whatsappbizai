@@ -15,13 +15,15 @@ class SiteSettingResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
 
-    protected static ?string $navigationGroup = 'Paramètres';
+    protected static ?string $navigationGroup = 'app.admin.nav_settings';
 
     protected static ?int $navigationSort = 1;
 
-    protected static ?string $navigationLabel = 'Paramètres du site';
+    protected static ?string $navigationLabel = 'app.admin.site_settings';
 
-    protected static ?string $modelLabel = 'Paramètres du site';
+    protected static ?string $modelLabel = 'app.admin.site_settings';
+
+    protected static ?string $pluralModelLabel = 'app.admin.site_settings';
 
     protected static ?string $recordTitleAttribute = 'site_name';
 
@@ -34,23 +36,23 @@ class SiteSettingResource extends Resource
                     ->schema([
                         Forms\Components\Section::make('Identité visuelle')->schema([
                             Forms\Components\TextInput::make('site_name')
-                                ->label('Nom du site')
+                                ->label(__('app.admin.site_name'))
                                 ->required()
                                 ->maxLength(255),
                             Forms\Components\TextInput::make('site_tagline')
-                                ->label('Slogan')
+                                ->label(__('app.admin.tagline'))
                                 ->maxLength(500),
                         ])->columns(2),
 
                         Forms\Components\Section::make('Logo & Favicon')->schema([
                             Forms\Components\FileUpload::make('logo_path')
-                                ->label('Logo')
+                                ->label(__('app.admin.logo'))
                                 ->image()
                                 ->imageEditor()
                                 ->directory('site')
                                 ->nullable(),
                             Forms\Components\FileUpload::make('favicon_path')
-                                ->label('Favicon')
+                                ->label(__('app.admin.favicon'))
                                 ->image()
                                 ->imageEditor()
                                 ->directory('site')
@@ -63,18 +65,18 @@ class SiteSettingResource extends Resource
                     ->schema([
                         Forms\Components\Section::make('SEO')->schema([
                             Forms\Components\TextInput::make('meta_title')
-                                ->label('Meta Title')
+                                ->label(__('app.admin.meta_title'))
                                 ->maxLength(255),
                             Forms\Components\Textarea::make('meta_description')
-                                ->label('Meta Description')
+                                ->label(__('app.admin.meta_description'))
                                 ->rows(3)
                                 ->maxLength(500),
                             Forms\Components\Textarea::make('meta_keywords')
-                                ->label('Meta Keywords')
+                                ->label(__('app.admin.meta_keywords'))
                                 ->rows(2)
                                 ->maxLength(500),
                             Forms\Components\TextInput::make('canonical_url')
-                                ->label('URL Canonique')
+                                ->label(__('app.admin.canonical_url'))
                                 ->url()
                                 ->nullable()
                                 ->maxLength(255),
@@ -82,7 +84,7 @@ class SiteSettingResource extends Resource
 
                         Forms\Components\Section::make('Open Graph')->schema([
                             Forms\Components\FileUpload::make('og_image_path')
-                                ->label('Image OG')
+                                ->label(__('app.admin.og_image'))
                                 ->image()
                                 ->imageEditor()
                                 ->directory('site')
@@ -95,22 +97,22 @@ class SiteSettingResource extends Resource
                     ->schema([
                         Forms\Components\Section::make('Contact')->schema([
                             Forms\Components\TextInput::make('contact_email')
-                                ->label('Email de contact')
+                                ->label(__('app.admin.contact_email'))
                                 ->email()
                                 ->maxLength(255),
                             Forms\Components\TextInput::make('contact_phone')
-                                ->label('Téléphone')
+                                ->label(__('app.admin.phone'))
                                 ->tel()
                                 ->placeholder('+237 6XX XXX XXX')
                                 ->maxLength(50),
                             Forms\Components\TextInput::make('whatsapp_number')
-                                ->label('Numéro WhatsApp')
+                                ->label(__('app.admin.whatsapp_number'))
                                 ->tel()
                                 ->placeholder('+237 6XX XXX XXX')
                                 ->maxLength(50),
                         ])->columns(3),
 
-                        Forms\Components\Section::make('Réseaux sociaux')->schema([
+                        Forms\Components\Section::make(__('app.admin.social_networks'))->schema([
                             Forms\Components\TextInput::make('facebook_url')
                                 ->label('Facebook')
                                 ->url()
@@ -143,13 +145,13 @@ class SiteSettingResource extends Resource
                     ->icon('heroicon-o-document-text')
                     ->schema([
                         Forms\Components\RichEditor::make('privacy_policy')
-                            ->label('Politique de confidentialité')
+                            ->label(__('app.admin.privacy_policy'))
                             ->columnSpanFull(),
                         Forms\Components\RichEditor::make('terms_conditions')
-                            ->label('Conditions d\'utilisation')
+                            ->label(__('app.admin.terms_conditions'))
                             ->columnSpanFull(),
                         Forms\Components\RichEditor::make('cookie_policy')
-                            ->label('Politique de cookies')
+                            ->label(__('app.admin.cookie_policy'))
                             ->columnSpanFull(),
                     ]),
 
@@ -158,7 +160,7 @@ class SiteSettingResource extends Resource
                     ->schema([
                         Forms\Components\Section::make('Footer')->schema([
                             Forms\Components\Textarea::make('footer_description')
-                                ->label('Description du footer')
+                                ->label(__('app.admin.footer_description'))
                                 ->rows(4)
                                 ->columnSpanFull(),
                             Forms\Components\TextInput::make('footer_copyright')
@@ -170,40 +172,40 @@ class SiteSettingResource extends Resource
                 Forms\Components\Tabs\Tab::make('Business Info')
                     ->icon('heroicon-o-building-office-2')
                     ->schema([
-                        Forms\Components\Section::make('Informations de l\'entreprise')->schema([
+                        Forms\Components\Section::make(__('app.admin.business_info'))->schema([
                             Forms\Components\TextInput::make('business_name')
-                                ->label('Nom de l\'entreprise')
+                                ->label(__('app.admin.company_name'))
                                 ->required()
                                 ->maxLength(255),
                             Forms\Components\TextInput::make('business_city')
-                                ->label('Ville')
+                                ->label(__('app.admin.city'))
                                 ->maxLength(255),
                             Forms\Components\TextInput::make('business_country')
-                                ->label('Pays')
+                                ->label(__('app.admin.country'))
                                 ->maxLength(2),
                             Forms\Components\DatePicker::make('business_founding_date')
-                                ->label('Date de création'),
+                                ->label(__('app.admin.founding_date')),
                         ])->columns(2),
                     ]),
 
                 Forms\Components\Tabs\Tab::make('Social Proof')
                     ->icon('heroicon-o-chart-bar')
                     ->schema([
-                        Forms\Components\Section::make('Statistiques affichées')->schema([
+                        Forms\Components\Section::make(__('app.admin.social_proof'))->schema([
                             Forms\Components\TextInput::make('stats_users')
-                                ->label('Nombre d\'utilisateurs')
+                                ->label(__('app.admin.stats_users'))
                                 ->numeric()
                                 ->default(0),
                             Forms\Components\TextInput::make('stats_invoices')
-                                ->label('Nombre de factures')
+                                ->label(__('app.admin.stats_invoices'))
                                 ->numeric()
                                 ->default(0),
                             Forms\Components\TextInput::make('stats_messages')
-                                ->label('Nombre de messages')
+                                ->label(__('app.admin.stats_messages'))
                                 ->numeric()
                                 ->default(0),
                             Forms\Components\TextInput::make('stats_countries')
-                                ->label('Nombre de pays')
+                                ->label(__('app.admin.stats_countries'))
                                 ->numeric()
                                 ->default(0),
                         ])->columns(4),

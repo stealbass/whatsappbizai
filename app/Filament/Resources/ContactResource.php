@@ -16,27 +16,29 @@ class ContactResource extends Resource
 {
     protected static ?string $model = Contact::class;
     protected static ?string $navigationIcon = 'heroicon-o-users';
-    protected static ?string $navigationLabel = 'Contacts';
-    protected static ?string $modelLabel = 'Contact';
+    protected static ?string $navigationLabel = 'app.admin.contacts';
+    protected static ?string $modelLabel = 'app.admin.contact';
+    protected static ?string $pluralModelLabel = 'app.admin.contacts';
+    protected static ?string $navigationGroup = 'app.admin.nav_messaging';
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
         return $form->schema([
             Forms\Components\Section::make('Informations')->schema([
-                Forms\Components\TextInput::make('name')->label('Nom')->required(),
-                Forms\Components\TextInput::make('whatsapp_number')->label('Numéro WhatsApp')
+                Forms\Components\TextInput::make('name')->label(__('app.admin.name'))->required(),
+                Forms\Components\TextInput::make('whatsapp_number')->label(__('app.admin.whatsapp_number'))
                     ->placeholder('+237 6XX XXX XXX')->required(),
-                Forms\Components\TextInput::make('email')->email()->label('Email'),
-                Forms\Components\TextInput::make('company')->label('Entreprise'),
+                Forms\Components\TextInput::make('email')->email()->label(__('app.admin.email')),
+                Forms\Components\TextInput::make('company')->label(__('app.admin.business')),
             ])->columns(2),
 
             Forms\Components\Section::make('Statut & Notes')->schema([
-                Forms\Components\Select::make('status')->label('Statut')
-                    ->options(['prospect' => 'Prospect', 'client' => 'Client', 'inactif' => 'Inactif'])
+                Forms\Components\Select::make('status')->label(__('app.admin.status'))
+                    ->options(['prospect' => __('app.admin.prospect'), 'client' => __('app.admin.client'), 'inactif' => __('app.admin.inactive')])
                     ->default('prospect')->required(),
-                Forms\Components\TagsInput::make('tags')->label('Tags'),
-                Forms\Components\Textarea::make('notes')->label('Notes')->rows(3)->columnSpanFull(),
+                Forms\Components\TagsInput::make('tags')->label(__('app.admin.tags')),
+                Forms\Components\Textarea::make('notes')->label(__('app.admin.notes'))->rows(3)->columnSpanFull(),
             ])->columns(2),
         ]);
     }
@@ -45,40 +47,40 @@ class ContactResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->label('Nom')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('whatsapp_number')->label('WhatsApp')->searchable(),
-                Tables\Columns\TextColumn::make('company')->label('Entreprise')->searchable()->toggleable(),
-                Tables\Columns\BadgeColumn::make('status')->label('Statut')
+                Tables\Columns\TextColumn::make('name')->label(__('app.admin.name'))->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('whatsapp_number')->label(__('app.admin.whatsapp_number'))->searchable(),
+                Tables\Columns\TextColumn::make('company')->label(__('app.admin.business'))->searchable()->toggleable(),
+                Tables\Columns\BadgeColumn::make('status')->label(__('app.admin.status'))
                     ->colors(['warning' => 'prospect', 'success' => 'client', 'danger' => 'inactif']),
-                Tables\Columns\TextColumn::make('total_invoiced')->label('Facturé')
+                Tables\Columns\TextColumn::make('total_invoiced')->label(__('app.admin.invoiced'))
                     ->money(fn($record) => strtolower($record->business?->currency ?? 'xaf')),
-                Tables\Columns\TextColumn::make('last_seen_at')->label('Dernière activité')
+                Tables\Columns\TextColumn::make('last_seen_at')->label(__('app.admin.last_activity'))
                     ->dateTime('d/m/Y H:i')->sortable(),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('status')->label('Statut')
-                    ->options(['prospect' => 'Prospect', 'client' => 'Client', 'inactif' => 'Inactif']),
+                Tables\Filters\SelectFilter::make('status')->label(__('app.admin.status'))
+                    ->options(['prospect' => __('app.admin.prospect'), 'client' => __('app.admin.client'), 'inactif' => __('app.admin.inactive')]),
             ])
             ->headerActions([
                 Tables\Actions\Action::make('import_csv')
-                    ->label('📤 Importer CSV')
+                    ->label(__('app.admin.import_csv'))
                     ->icon('heroicon-o-arrow-up-tray')
                     ->color('primary')
                     ->url(route('import.contacts.form')),
                 Tables\Actions\Action::make('export_csv')
-                    ->label('📥 Exporter CSV')
+                    ->label(__('app.admin.export_csv'))
                     ->icon('heroicon-o-arrow-down-tray')
                     ->color('gray')
                     ->url(route('export.contacts')),
             ])
             ->actions([
                 Tables\Actions\Action::make('send_whatsapp')
-                    ->label('📱 Message')
+                    ->label(__('app.admin.send_message'))
                     ->icon('heroicon-o-chat-bubble-left-ellipsis')
                     ->color('success')
                     ->form([
                         Forms\Components\Textarea::make('message')
-                            ->label('Message WhatsApp')
+                            ->label(__('app.admin.whatsapp_message'))
                             ->required()
                             ->rows(3)
                             ->placeholder('Bonjour {{prenom}}, nous voulions prendre de vos nouvelles...'),
@@ -88,8 +90,8 @@ class ContactResource extends Resource
 
                         if (!$business?->whatsapp_phone_number_id) {
                             Notification::make()
-                                ->title('WhatsApp non configuré')
-                                ->body('Configurez votre compte WhatsApp dans Paramètres → Mon Entreprise.')
+                                ->title(__('app.admin.whatsapp_not_configured'))
+                                ->body(__('app.admin.whatsapp_config_desc2'))
                                 ->warning()->send();
                             return;
                         }
@@ -102,8 +104,8 @@ class ContactResource extends Resource
                         );
 
                         $sent
-                            ? Notification::make()->title('Message envoyé')->success()->send()
-                            : Notification::make()->title("Échec de l'envoi")->danger()->send();
+                            ? Notification::make()->title(__('app.admin.message_sent'))->success()->send()
+                            : Notification::make()->title(__('app.admin.message_send_failed'))->danger()->send();
                     }),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),

@@ -14,30 +14,31 @@ class ServiceResource extends Resource
 {
     protected static ?string $model = Service::class;
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
-    protected static ?string $navigationLabel = 'Services';
-    protected static ?string $modelLabel = 'Service';
-    protected static ?string $navigationGroup = 'Catalogue';
+    protected static ?string $navigationLabel = 'app.admin.services';
+    protected static ?string $modelLabel = 'app.admin.service';
+    protected static ?string $pluralModelLabel = 'app.admin.services';
+    protected static ?string $navigationGroup = 'app.admin.nav_settings';
     protected static ?int $navigationSort = 6;
 
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\TextInput::make('name')->label('Nom du service')->required(),
-            Forms\Components\Textarea::make('description')->label('Description')->rows(2),
-            Forms\Components\TextInput::make('unit_price')->label('Prix unitaire')
+            Forms\Components\TextInput::make('name')->label(__('app.admin.service_name'))->required(),
+            Forms\Components\Textarea::make('description')->label(__('app.admin.description'))->rows(2),
+            Forms\Components\TextInput::make('unit_price')->label(__('app.admin.unit_price'))
                 ->numeric()->required()->prefix('FCFA'),
             Forms\Components\Select::make('currency')
                 ->options(['XAF' => 'XAF (FCFA)', 'EUR' => 'EUR (€)', 'USD' => 'USD ($)'])
                 ->default('XAF'),
-            Forms\Components\Select::make('unit')->label('Unité')
+            Forms\Components\Select::make('unit')->label(__('app.admin.unit'))
                 ->options([
-                    'forfait' => 'Forfait',
-                    'heure'   => 'Heure',
-                    'jour'    => 'Jour',
-                    'mois'    => 'Mois',
-                    'unité'   => 'Unité',
+                    'forfait' => __('app.admin.flat_rate'),
+                    'heure'   => __('app.admin.hour'),
+                    'jour'    => __('app.admin.day'),
+                    'mois'    => __('app.admin.month'),
+                    'unité'   => __('app.admin.unit'),
                 ])->default('forfait'),
-            Forms\Components\Toggle::make('is_active')->label('Actif')->default(true),
+            Forms\Components\Toggle::make('is_active')->label(__('app.admin.active'))->default(true),
         ])->columns(2);
     }
 
@@ -45,12 +46,12 @@ class ServiceResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->label('Service')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('unit_price')->label('Prix')
+                Tables\Columns\TextColumn::make('name')->label(__('app.admin.service'))->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('unit_price')->label(__('app.admin.amount'))
                     ->sortable()->alignRight(),
-                Tables\Columns\TextColumn::make('currency')->label('Devise'),
-                Tables\Columns\TextColumn::make('unit')->label('Unité'),
-                Tables\Columns\IconColumn::make('is_active')->label('Actif')->boolean(),
+                Tables\Columns\TextColumn::make('currency')->label(__('app.admin.currency')),
+                Tables\Columns\TextColumn::make('unit')->label(__('app.admin.unit')),
+                Tables\Columns\IconColumn::make('is_active')->label(__('app.admin.active'))->boolean(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

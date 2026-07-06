@@ -18,9 +18,10 @@ class BusinessResource extends Resource
 {
     protected static ?string $model = Business::class;
     protected static ?string $navigationIcon  = 'heroicon-o-building-storefront';
-    protected static ?string $navigationLabel = 'Mon Entreprise';
-    protected static ?string $modelLabel      = 'Entreprise';
-    protected static ?string $navigationGroup = 'Paramètres';
+    protected static ?string $navigationLabel = 'app.admin.businesses';
+    protected static ?string $modelLabel      = 'app.admin.business';
+    protected static ?string $pluralModelLabel = 'app.admin.businesses';
+    protected static ?string $navigationGroup = 'app.admin.nav_administration';
     protected static ?int    $navigationSort  = 10;
 
     /**
@@ -41,18 +42,18 @@ class BusinessResource extends Resource
     {
         return $form->schema([
 
-            Forms\Components\Section::make('Informations générales')->schema([
+            Forms\Components\Section::make(__('app.admin.general_info'))->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label('Nom de l\'entreprise')->required(),
+                    ->label(__('app.admin.company_name'))->required(),
                 Forms\Components\TextInput::make('owner_name')
-                    ->label('Nom du responsable')->required(),
+                    ->label(__('app.admin.owner_name'))->required(),
                 Forms\Components\TextInput::make('email')
-                    ->label('Email')->email()->required(),
+                    ->label(__('app.admin.email'))->email()->required(),
                 Forms\Components\TextInput::make('phone')
-                    ->label('Téléphone')->placeholder('+237 6XX XXX XXX'),
-                Forms\Components\TextInput::make('address')->label('Adresse'),
-                Forms\Components\TextInput::make('city')->label('Ville')->default('Douala'),
-                Forms\Components\Select::make('country')->label('Pays')
+                    ->label(__('app.admin.phone'))->placeholder('+237 6XX XXX XXX'),
+                Forms\Components\TextInput::make('address')->label(__('app.admin.address')),
+                Forms\Components\TextInput::make('city')->label(__('app.admin.city'))->default('Douala'),
+                Forms\Components\Select::make('country')->label(__('app.admin.country'))
                     ->options([
                         'CM' => '🇨🇲 Cameroun',
                         'SN' => '🇸🇳 Sénégal',
@@ -61,7 +62,7 @@ class BusinessResource extends Resource
                         'FR' => '🇫🇷 France',
                         'BE' => '🇧🇪 Belgique',
                     ])->default('CM'),
-                Forms\Components\Select::make('currency')->label('Devise')
+                Forms\Components\Select::make('currency')->label(__('app.admin.currency'))
                     ->options([
                         'XAF' => 'XAF (FCFA BEAC)',
                         'XOF' => 'XOF (FCFA BCEAO)',
@@ -74,7 +75,7 @@ class BusinessResource extends Resource
                         'GHS' => 'GHS (Cedi)',
                         'KES' => 'KES (Shilling)',
                     ])->default('XAF'),
-                Forms\Components\Select::make('timezone')->label('Fuseau horaire')
+                Forms\Components\Select::make('timezone')->label(__('app.admin.timezone'))
                     ->options([
                         'Africa/Douala'     => 'Afrique/Douala (WAT)',
                         'Africa/Dakar'      => 'Afrique/Dakar (GMT)',
@@ -84,11 +85,11 @@ class BusinessResource extends Resource
                     ])->default('Africa/Douala'),
             ])->columns(2),
 
-            Forms\Components\Section::make('Facturation')->schema([
+            Forms\Components\Section::make(__('app.admin.billing'))->schema([
                 Forms\Components\TextInput::make('invoice_prefix')
-                    ->label('Préfixe factures')->default('FAC')->maxLength(10),
+                    ->label(__('app.admin.invoice_prefix'))->default('FAC')->maxLength(10),
                 Forms\Components\TextInput::make('quote_prefix')
-                    ->label('Préfixe devis')->default('DEV')->maxLength(10),
+                    ->label(__('app.admin.quote_prefix'))->default('DEV')->maxLength(10),
             ])->columns(2),
 
             Forms\Components\Section::make('🟢 WhatsApp Business')
@@ -104,10 +105,10 @@ class BusinessResource extends Resource
                         ->placeholder('EAAxxxxxxxx...'),
                 ])->columns(1),
 
-            Forms\Components\Section::make('🤖 Instructions personnalisées pour l\'IA')
+            Forms\Components\Section::make(__('app.admin.ai_instructions'))
                 ->schema([
                     Forms\Components\Textarea::make('gemini_system_prompt')
-                        ->label('Instructions pour l\'agent IA')
+                        ->label(__('app.admin.ai_instructions_label'))
                         ->rows(5)
                         ->placeholder("Ex: Ne jamais donner de prix sans confirmation du responsable...\nToujours proposer un devis pour les projets > 100 000 XAF.")
                         ->columnSpanFull(),
@@ -120,10 +121,10 @@ class BusinessResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->label('Entreprise')->sortable(),
-                Tables\Columns\TextColumn::make('owner_name')->label('Responsable'),
-                Tables\Columns\TextColumn::make('city')->label('Ville'),
-                Tables\Columns\BadgeColumn::make('plan')->label('Plan')
+                Tables\Columns\TextColumn::make('name')->label(__('app.admin.business'))->sortable(),
+                Tables\Columns\TextColumn::make('owner_name')->label(__('app.admin.owner_name')),
+                Tables\Columns\TextColumn::make('city')->label(__('app.admin.city')),
+                Tables\Columns\BadgeColumn::make('plan')->label(__('app.admin.plan'))
                     ->colors(['gray' => 'free', 'warning' => 'starter', 'primary' => 'business', 'success' => 'pro']),
                 Tables\Columns\IconColumn::make('whatsapp_phone_number_id')
                     ->label('WhatsApp ✓')->boolean()

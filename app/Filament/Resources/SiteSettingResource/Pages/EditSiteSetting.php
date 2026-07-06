@@ -32,7 +32,7 @@ class EditSiteSetting extends EditRecord
         SiteSetting::refreshCache();
 
         Notification::make()
-            ->title('Paramètres sauvegardés')
+            ->title(__('app.admin.settings_saved'))
             ->success()
             ->send();
 

@@ -25,23 +25,23 @@ class StatsOverview extends BaseWidget
                                  ->count();
 
         return [
-            Stat::make('Revenus encaissés', number_format($totalRevenue, 0, ',', ' ') . ' XAF')
-                ->description('Total factures payées')
+            Stat::make(__('app.admin.total_revenue'), number_format($totalRevenue, 0, ',', ' ') . ' XAF')
+                ->description(__('app.admin.total_revenue_desc'))
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('success'),
 
-            Stat::make('En attente de paiement', number_format($pendingRevenue, 0, ',', ' ') . ' XAF')
-                ->description($overdueInv . ' facture(s) en retard')
+            Stat::make(__('app.admin.pending_payments'), number_format($pendingRevenue, 0, ',', ' ') . ' XAF')
+                ->description($overdueInv . ' ' . __('app.admin.pending_payments_desc'))
                 ->descriptionIcon('heroicon-m-clock')
                 ->color($overdueInv > 0 ? 'danger' : 'warning'),
 
-            Stat::make('Conversations ouvertes', $openConvs)
-                ->description('Clients en attente de réponse')
+            Stat::make(__('app.admin.open_conversations'), $openConvs)
+                ->description(__('app.admin.open_conversations_desc'))
                 ->descriptionIcon('heroicon-m-chat-bubble-left-right')
                 ->color('info'),
 
-            Stat::make('Nouveaux contacts (7j)', $newContacts)
-                ->description($todayMessages . ' messages reçus aujourd\'hui')
+            Stat::make(__('app.admin.new_contacts'), $newContacts)
+                ->description($todayMessages . ' ' . __('app.admin.new_contacts_desc'))
                 ->descriptionIcon('heroicon-m-user-plus')
                 ->color('primary'),
         ];

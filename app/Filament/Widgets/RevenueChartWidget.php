@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 
 class RevenueChartWidget extends ChartWidget
 {
-    protected static ?string $heading    = '📈 Revenus mensuels (XAF)';
+    protected static ?string $heading    = '📈 ' . __('app.admin.monthly_revenue');
     protected static ?int    $sort       = 3;
     protected int|string|array $columnSpan = 'full';
 
@@ -40,7 +40,7 @@ class RevenueChartWidget extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label'           => 'Facturé',
+                    'label'           => __('app.admin.billed'),
                     'data'            => $revenue,
                     'borderColor'     => '#0ea5e9',
                     'backgroundColor' => 'rgba(14,165,233,0.1)',
@@ -48,7 +48,7 @@ class RevenueChartWidget extends ChartWidget
                     'tension'         => 0.4,
                 ],
                 [
-                    'label'           => 'Encaissé',
+                    'label'           => __('app.admin.collected'),
                     'data'            => $paid,
                     'borderColor'     => '#22c55e',
                     'backgroundColor' => 'rgba(34,197,94,0.1)',
