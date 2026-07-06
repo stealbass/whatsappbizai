@@ -108,7 +108,7 @@ return [
         'faq_q1' => 'Qu\'est-ce que WhatsAppBizAI ?',
         'faq_a1' => 'WhatsAppBizAI est un back-office intelligent pour PME qui utilise un agent IA sur WhatsApp. Il automatise la création de devis PDF, la facturation, les relances de paiement et le support client, le tout depuis votre WhatsApp existant.',
         'faq_q2' => 'Combien coûte WhatsAppBizAI ?',
-        'faq_a2' => 'WhatsAppBizAI propose un plan gratuit pour démarrer, sans carte bancaire requise. Les plans Starter et Business sont disponibles à partir de 4 900 XAF/mois pour accéder à plus de contacts, factures et messages IA.',
+        'faq_a2' => 'WhatsAppBizAI propose un plan gratuit pour démarrer, sans carte bancaire requise. Les plans Starter et Business sont disponibles à partir de 9 900 XAF/mois pour accéder à plus de contacts, factures et messages IA.',
         'faq_q3' => 'Comment l\'agent IA répond-il aux clients ?',
         'faq_a3' => 'L\'agent IA utilise Google Gemini pour générer des réponses contextualisées. Il connaît votre catalogue de services, vos tarifs et vos instructions personnalisées. Il répond en français ou en anglais selon la langue du client, 24h/24.',
         'faq_q4' => 'Faut-il modifier mon numéro WhatsApp ?',
