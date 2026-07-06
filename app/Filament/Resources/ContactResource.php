@@ -99,7 +99,7 @@ class ContactResource extends Resource
                         TinyMce::make('message')
                             ->label(__('app.admin.whatsapp_message'))
                             ->required()
-                            ->rows(3)
+                            ->height(200)
                             ->placeholder('Bonjour {{prenom}}, nous voulions prendre de vos nouvelles...'),
                     ])
                     ->action(function (Contact $record, array $data, WhatsAppService $whatsapp) {

@@ -33,7 +33,7 @@
                 @foreach($services as $service)
                 <tr>
                     <td style="font-weight:600;">{{ $service->name }}</td>
-                    <td>{{ Str::limit($service->description, 50) ?? '-' }}</td>
+                    <td>{{ Str::limit(strip_tags($service->description ?? ''), 50) ?: '-' }}</td>
                     <td>{{ number_format($service->unit_price, 2, ',', ' ') }} {{ $business->currency ?? 'XAF' }}</td>
                     <td>{{ $service->unit }}</td>
                     <td><span class="status {{ $service->is_active ? 'active' : 'cancelled' }}">{{ $service->is_active ? __('app.client.common.yes') : __('app.client.common.no') }}</span></td>
