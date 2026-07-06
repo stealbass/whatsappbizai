@@ -107,6 +107,8 @@
         }
     </style>
     @yield('head')
+    {{-- Quill.js WYSIWYG — CSS préchargé pour éviter le flash de style (FOUC) --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css">
 </head>
 <body>
 
