@@ -54,6 +54,28 @@
 
                 /* Re-init after Livewire SPA navigation */
                 document.addEventListener('livewire:navigated', () => self.bootEditor());
+
+                /*
+                 * Filament 3 modal support:
+                 * Action modals render fields dynamically. When the modal opens,
+                 * the TinyMCE textarea may not be in the viewport yet.
+                 * IntersectionObserver boots the editor as soon as it becomes visible.
+                 */
+                const el = this.$el;
+                if (typeof IntersectionObserver !== 'undefined') {
+                    const observer = new IntersectionObserver(function(entries) {
+                        entries.forEach(function(entry) {
+                            if (entry.isIntersecting) {
+                                /* Only re-boot if editor is not already mounted */
+                                if (!tinymce || !tinymce.get(self.editorId)) {
+                                    self.bootEditor();
+                                }
+                                observer.unobserve(el);
+                            }
+                        });
+                    }, { threshold: 0.1 });
+                    observer.observe(el);
+                }
             },
 
             bootEditor() {
