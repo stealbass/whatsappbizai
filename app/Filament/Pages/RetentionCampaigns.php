@@ -39,20 +39,20 @@ class RetentionCampaigns extends Page implements HasForms
             Forms\Components\Select::make('target')
                 ->label(__('app.client.retention.recipients'))
                 ->options([
-                    'inactive_clients' => 'Clients inactifs (30+ jours)',
-                    'all_clients' => 'Tous les clients',
-                    'prospects' => 'Prospects',
-                    'high_value' => 'Clients à forte valeur (> 100 000 XAF)',
+                    'inactive_clients' => __('app.admin.inactive_clients_30d'),
+                    'all_clients' => __('app.admin.all_clients'),
+                    'prospects' => __('app.admin.prospects'),
+                    'high_value' => __('app.admin.high_value_clients'),
                 ])
                 ->required(),
 
             Forms\Components\Select::make('objective')
                 ->label(__('app.client.retention.objective'))
                 ->options([
-                    'retention' => 'Rétention',
-                    'upsell' => 'Vente additionnelle',
-                    'winback' => 'Réactivation',
-                    'referral' => 'Parrainage',
+                    'retention' => __('app.admin.retention'),
+                    'upsell' => __('app.admin.upsell'),
+                    'winback' => __('app.admin.winback'),
+                    'referral' => __('app.admin.referral'),
                 ])
                 ->required(),
 
@@ -62,13 +62,13 @@ class RetentionCampaigns extends Page implements HasForms
                 ->required()
                 ->maxLength(1024),
 
-            Forms\Components\Button::make('draft_ai')
+            Forms\Components\Actions\Action::make('draft_ai')
                 ->label(__('app.client.retention.draft_ai'))
                 ->icon('heroicon-m-sparkles')
                 ->color('info')
                 ->action('draftWithAI'),
 
-            Forms\Components\Button::make('send')
+            Forms\Components\Actions\Action::make('send')
                 ->label(__('app.client.retention.send'))
                 ->icon('heroicon-m-paper-airplane')
                 ->color('primary')
