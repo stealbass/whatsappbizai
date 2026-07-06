@@ -168,16 +168,9 @@
                 <button class="switcher-btn lang-btn" data-lang="fr">FR</button>
                 <button class="switcher-btn lang-btn" data-lang="en">EN</button>
                 <div class="switcher-sep"></div>
-                <button class="switcher-btn currency-btn" data-currency="USD">USD</button>
                 <button class="switcher-btn currency-btn" data-currency="XAF">XAF</button>
-                <button class="switcher-btn currency-btn" data-currency="XOF">XOF</button>
+                <button class="switcher-btn currency-btn" data-currency="USD">USD</button>
                 <button class="switcher-btn currency-btn" data-currency="EUR">EUR</button>
-                <button class="switcher-btn currency-btn" data-currency="GBP">GBP</button>
-                <button class="switcher-btn currency-btn" data-currency="NGN">NGN</button>
-                <button class="switcher-btn currency-btn" data-currency="GHS">GHS</button>
-                <button class="switcher-btn currency-btn" data-currency="KES">KES</button>
-                <button class="switcher-btn currency-btn" data-currency="ZAR">ZAR</button>
-                <button class="switcher-btn currency-btn" data-currency="MAD">MAD</button>
             </div>
             <a href="{{ url('contact') }}" class="btn-nav btn-outline" data-t-key="nav.contact">Contact</a>
             <a href="{{ url('register') }}" class="btn-nav btn-outline" data-t-key="nav.free_trial">Essai gratuit</a>
