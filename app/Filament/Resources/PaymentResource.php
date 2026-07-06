@@ -114,7 +114,7 @@ class PaymentResource extends Resource
                     ->modalDescription(fn(Payment $r) => __('app.admin.activate_subscription') . " : {$r->business?->name} ({$r->amount_formatted}) - {$r->plan} ?")
                     ->visible(fn(Payment $r) => $r->status === 'pending')
                     ->form([
-                        \App\Filament\Forms\Components\RichEditor::make('admin_notes')
+                        RichEditor::make('admin_notes')
                             ->label(__('app.admin.admin_notes')),
                     ])
                     ->action(function (Payment $record, array $data) {
@@ -156,7 +156,7 @@ class PaymentResource extends Resource
                     ->requiresConfirmation()
                     ->visible(fn(Payment $r) => $r->status === 'pending')
                     ->form([
-                        \App\Filament\Forms\Components\RichEditor::make('admin_notes')
+                        RichEditor::make('admin_notes')
                             ->label(__('app.admin.rejection_reason'))->required(),
                     ])
                     ->action(function (Payment $record, array $data) {
