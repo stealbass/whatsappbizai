@@ -5,6 +5,7 @@ namespace App\Filament\Pages;
 use App\Filament\Forms\Components\TinyMce;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Form;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
@@ -19,9 +20,7 @@ class RetentionCampaigns extends Page implements HasForms
     protected static ?string $navigationGroup = 'Marketing';
     protected static ?int $navigationSort = 5;
 
-    public ?string $message = null;
-    public ?string $target = 'expired_subscribers';
-    public ?string $objective = 'renewal';
+    public ?array $data = [];
 
     public function getHeading(): string
     {
@@ -31,39 +30,45 @@ class RetentionCampaigns extends Page implements HasForms
     public function mount(): void
     {
         $this->form->fill([
-            'target' => 'expired_subscribers',
+            'target'    => 'expired_subscribers',
             'objective' => 'renewal',
+            'message'   => null,
         ]);
     }
 
-    protected function getFormSchema(): array
+    /**
+     * Filament 3 form API — replaces getFormSchema() from Filament 2.
+     */
+    public function form(Form $form): Form
     {
-        return [
-            Forms\Components\Select::make('target')
-                ->label(__('app.admin.retention_target'))
-                ->options([
-                    'expired_subscribers' => __('app.admin.expired_subscribers'),
-                    'trial_users' => __('app.admin.trial_users'),
-                    'inactive_users' => __('app.admin.inactive_users_30d'),
-                    'all_users' => __('app.admin.all_users'),
-                ])
-                ->required(),
+        return $form
+            ->schema([
+                Forms\Components\Select::make('target')
+                    ->label(__('app.admin.retention_target'))
+                    ->options([
+                        'expired_subscribers' => __('app.admin.expired_subscribers'),
+                        'trial_users'         => __('app.admin.trial_users'),
+                        'inactive_users'      => __('app.admin.inactive_users_30d'),
+                        'all_users'           => __('app.admin.all_users'),
+                    ])
+                    ->required(),
 
-            Forms\Components\Select::make('objective')
-                ->label(__('app.admin.retention_objective'))
-                ->options([
-                    'renewal' => __('app.admin.obj_renewal'),
-                    'upgrade' => __('app.admin.obj_upgrade'),
-                    'winback' => __('app.admin.obj_winback'),
-                    'feedback' => __('app.admin.obj_feedback'),
-                ])
-                ->required(),
+                Forms\Components\Select::make('objective')
+                    ->label(__('app.admin.retention_objective'))
+                    ->options([
+                        'renewal'  => __('app.admin.obj_renewal'),
+                        'upgrade'  => __('app.admin.obj_upgrade'),
+                        'winback'  => __('app.admin.obj_winback'),
+                        'feedback' => __('app.admin.obj_feedback'),
+                    ])
+                    ->required(),
 
-            TinyMce::make('message')
-                ->label(__('app.admin.retention_message'))
-                ->height(400)
-                ->required(),
-        ];
+                TinyMce::make('message')
+                    ->label(__('app.admin.retention_message'))
+                    ->height(400)
+                    ->required(),
+            ])
+            ->statePath('data');
     }
 
     public function draftWithAI(): void
@@ -71,22 +76,22 @@ class RetentionCampaigns extends Page implements HasForms
         $data = $this->form->getState();
 
         $goal = match($data['objective']) {
-            'renewal' => 'Write a renewal reminder for expired subscriptions with a special offer',
-            'upgrade' => 'Write an upgrade offer message for free/trial users',
-            'winback' => 'Write a win-back message for users inactive for 30+ days',
+            'renewal'  => 'Write a renewal reminder for expired subscriptions with a special offer',
+            'upgrade'  => 'Write an upgrade offer message for free/trial users',
+            'winback'  => 'Write a win-back message for users inactive for 30+ days',
             'feedback' => 'Write a feedback request message for churned users',
-            default => 'Write a professional retention message',
+            default    => 'Write a professional retention message',
         };
 
         $audience = match($data['target']) {
             'expired_subscribers' => 'users with expired subscriptions',
-            'trial_users' => 'trial users who haven\'t subscribed yet',
-            'inactive_users' => 'users inactive for 30+ days',
-            'all_users' => 'all platform users',
-            default => 'all users',
+            'trial_users'         => "trial users who haven't subscribed yet",
+            'inactive_users'      => 'users inactive for 30+ days',
+            'all_users'           => 'all platform users',
+            default               => 'all users',
         };
 
-        $prompt = "Write a professional retention email/message for a SaaS platform called WhatsAppBizAI.\n";
+        $prompt  = "Write a professional retention email/message for a SaaS platform called WhatsAppBizAI.\n";
         $prompt .= "Goal: {$goal}\n";
         $prompt .= "Audience: {$audience}\n";
         $prompt .= "Language: French\n";
@@ -101,7 +106,7 @@ class RetentionCampaigns extends Page implements HasForms
         );
 
         if ($response) {
-            $this->form->fill(['message' => $response]);
+            $this->data['message'] = $response;
             Notification::make()->title(__('app.client.retention.draft_generated'))->success()->send();
         } else {
             Notification::make()->title(__('app.notifications.error'))->danger()->send();
@@ -115,8 +120,10 @@ class RetentionCampaigns extends Page implements HasForms
         $q = User::query();
 
         match($data['target']) {
-            'expired_subscribers' => $q->whereHas('business', fn($b) => $b->where('plan', '!=', 'free')->where('plan_expires_at', '<', now())),
-            'trial_users' => $q->whereDoesntHave('business', fn($b) => $b->where('plan', '!=', 'free')),
+            'expired_subscribers' => $q->whereHas('business',
+                fn($b) => $b->where('plan', '!=', 'free')->where('plan_expires_at', '<', now())),
+            'trial_users'   => $q->whereDoesntHave('business',
+                fn($b) => $b->where('plan', '!=', 'free')),
             'inactive_users' => $q->where('last_login_at', '<', now()->subDays(30)),
             default => null,
         };
@@ -124,30 +131,33 @@ class RetentionCampaigns extends Page implements HasForms
         $users = $q->whereNotNull('email')->get();
 
         if ($users->isEmpty()) {
-            Notification::make()->title(__('app.notifications.error'))->body(__('app.admin.retention_no_users'))->danger()->send();
+            Notification::make()
+                ->title(__('app.notifications.error'))
+                ->body(__('app.admin.retention_no_users'))
+                ->danger()->send();
             return;
         }
 
         $sent = 0;
         foreach ($users as $user) {
             try {
-                // Use Mail::html() so TinyMCE-generated HTML renders in the email
-                \Illuminate\Support\Facades\Mail::html($data['message'], function ($mail) use ($user, $data) {
-                    $mail->to($user->email)
-                        ->subject(__('app.admin.retention_subject'));
-                });
+                \Illuminate\Support\Facades\Mail::html(
+                    $data['message'],
+                    function ($mail) use ($user) {
+                        $mail->to($user->email)->subject(__('app.admin.retention_subject'));
+                    }
+                );
                 $sent++;
             } catch (\Exception $e) {
-                // continue
+                // continue silently
             }
         }
 
         Notification::make()
             ->title(__('app.client.retention.campaign_completed'))
             ->body("{$sent}/{$users->count()} " . __('app.admin.retention_emails_sent'))
-            ->success()
-            ->send();
+            ->success()->send();
 
-        $this->form->fill(['message' => null]);
+        $this->data['message'] = null;
     }
 }
