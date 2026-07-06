@@ -17,16 +17,27 @@ class WhatsAppService
     }
 
     /**
-     * Envoie un message texte simple
+     * Envoie un message texte simple.
+     * HTML provenant de TinyMCE est automatiquement strippé —
+     * WhatsApp n'accepte que du texte brut.
      */
     public function sendText(string $to, string $message, string $phoneNumberId, string $token): bool
     {
+        // Strip HTML tags + decode entities (TinyMCE output → plain text)
+        $plain = html_entity_decode(
+            strip_tags(str_replace(['<br>', '<br/>', '<br />', '</p>', '</div>', '</li>'], "\n", $message)),
+            ENT_QUOTES | ENT_HTML5,
+            'UTF-8'
+        );
+        // Collapse more than 2 consecutive newlines
+        $plain = preg_replace("/\n{3,}/", "\n\n", trim($plain));
+
         return $this->send($phoneNumberId, $token, [
             'messaging_product' => 'whatsapp',
             'recipient_type'    => 'individual',
             'to'                => $to,
             'type'              => 'text',
-            'text'              => ['body' => $message, 'preview_url' => false],
+            'text'              => ['body' => $plain, 'preview_url' => false],
         ]);
     }
 
