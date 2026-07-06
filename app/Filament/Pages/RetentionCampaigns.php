@@ -58,8 +58,9 @@ class RetentionCampaigns extends Page implements HasForms
                 ])
                 ->required(),
 
-            Forms\Components\RichEditor::make('message')
+            Forms\Components\Textarea::make('message')
                 ->label(__('app.admin.retention_message'))
+                ->rows(10)
                 ->required()
                 ->maxLength(1024),
         ];

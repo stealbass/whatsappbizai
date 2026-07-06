@@ -38,4 +38,11 @@ class EditSiteSetting extends EditRecord
 
         return $record;
     }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            \App\Filament\Resources\SiteSettingResource\Widgets\HtmlEditorWidget::class,
+        ];
+    }
 }

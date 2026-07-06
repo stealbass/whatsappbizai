@@ -156,14 +156,17 @@ class SiteSettingResource extends Resource
                 Forms\Components\Tabs\Tab::make('Legal')
                     ->icon('heroicon-o-document-text')
                     ->schema([
-                        Forms\Components\RichEditor::make('privacy_policy')
+                        Forms\Components\Textarea::make('privacy_policy')
                             ->label(__('app.admin.privacy_policy'))
+                            ->rows(10)
                             ->columnSpanFull(),
-                        Forms\Components\RichEditor::make('terms_conditions')
+                        Forms\Components\Textarea::make('terms_conditions')
                             ->label(__('app.admin.terms_conditions'))
+                            ->rows(10)
                             ->columnSpanFull(),
-                        Forms\Components\RichEditor::make('cookie_policy')
+                        Forms\Components\Textarea::make('cookie_policy')
                             ->label(__('app.admin.cookie_policy'))
+                            ->rows(10)
                             ->columnSpanFull(),
                     ]),
 
