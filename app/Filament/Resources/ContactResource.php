@@ -6,13 +6,13 @@ use App\Filament\Resources\ContactResource\Pages;
 use App\Models\Contact;
 use App\Services\WhatsAppService;
 use Filament\Forms;
+use Filament\Forms\Components\RichEditor;
 
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use App\Filament\Forms\Components\TinyMce;
 
 class ContactResource extends Resource
 {
@@ -56,7 +56,7 @@ class ContactResource extends Resource
                     ->options(['prospect' => __('app.admin.prospect'), 'client' => __('app.admin.client'), 'inactif' => __('app.admin.inactive')])
                     ->default('prospect')->required(),
                 Forms\Components\TagsInput::make('tags')->label(__('app.admin.tags')),
-                TinyMce::make('notes')->height(200)->label(__('app.admin.notes'))->columnSpanFull(),
+                RichEditor::make('notes')->label(__('app.admin.notes'))->columnSpanFull(),
             ])->columns(2),
         ]);
     }
@@ -97,7 +97,7 @@ class ContactResource extends Resource
                     ->icon('heroicon-o-chat-bubble-left-ellipsis')
                     ->color('success')
                     ->form([
-                        TinyMce::make('message')->height(200)
+                        RichEditor::make('message')
                             ->label(__('app.admin.whatsapp_message'))
                             ->required()
                             

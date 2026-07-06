@@ -5,12 +5,12 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\BusinessResource\Pages;
 use App\Models\Business;
 use Filament\Forms;
+use Filament\Forms\Components\RichEditor;
 
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use App\Filament\Forms\Components\TinyMce;
 
 /**
  * BusinessResource — Visible uniquement par les super-admins.
@@ -125,7 +125,7 @@ class BusinessResource extends Resource
 
             Forms\Components\Section::make(__('app.admin.ai_instructions'))
                 ->schema([
-                    TinyMce::make('gemini_system_prompt')->height(300)
+                    RichEditor::make('gemini_system_prompt')
                         ->label(__('app.admin.ai_instructions_label'))
                         
                         ->columnSpanFull(),
