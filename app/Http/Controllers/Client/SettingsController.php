@@ -38,7 +38,7 @@ class SettingsController extends Controller
 
         $business->update($data);
 
-        return redirect(url('client/settings/business'))->with('success', 'Paramètres entreprise mis à jour.');
+        return redirect(url('client/settings/business'))->with('success', __('app.client.flash.business_updated'));
     }
 
     public function whatsapp()
@@ -93,7 +93,7 @@ class SettingsController extends Controller
             }
         }
 
-        return redirect(url('client/settings/whatsapp'))->with('success', 'Configuration WhatsApp & IA mise à jour.');
+        return redirect(url('client/settings/whatsapp'))->with('success', __('app.client.flash.whatsapp_updated'));
     }
 
     public function profile()
@@ -113,7 +113,7 @@ class SettingsController extends Controller
 
         $user->update($data);
 
-        return redirect(url('client/settings/profile'))->with('success', 'Profil mis à jour.');
+        return redirect(url('client/settings/profile'))->with('success', __('app.client.flash.profile_updated'));
     }
 
     public function password()
@@ -137,7 +137,7 @@ class SettingsController extends Controller
 
         $user->update(['password' => Hash::make($request->password)]);
 
-        return redirect(url('client/settings/profile'))->with('success', 'Mot de passe modifié.');
+        return redirect(url('client/settings/profile'))->with('success', __('app.client.flash.password_updated'));
     }
 
     public function billing()

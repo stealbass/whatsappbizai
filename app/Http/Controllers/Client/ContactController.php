@@ -42,7 +42,7 @@ class ContactController extends Controller
 
         Contact::create($data);
 
-        return redirect(url('client/contacts'))->with('success', 'Contact créé avec succès.');
+        return redirect(url('client/contacts'))->with('success', __('app.client.flash.contact_created'));
     }
 
     public function edit(Contact $contact)
@@ -69,7 +69,7 @@ class ContactController extends Controller
 
         $contact->update($data);
 
-        return redirect(url('client/contacts'))->with('success', 'Contact mis à jour.');
+        return redirect(url('client/contacts'))->with('success', __('app.client.flash.contact_updated'));
     }
 
     public function destroy(Contact $contact)
@@ -77,6 +77,6 @@ class ContactController extends Controller
         $user = Auth::user();
         abort_unless($contact->business_id === $user->business_id, 403);
         $contact->delete();
-        return redirect(url('client/contacts'))->with('success', 'Contact supprimé.');
+        return redirect(url('client/contacts'))->with('success', __('app.client.flash.contact_deleted'));
     }
 }

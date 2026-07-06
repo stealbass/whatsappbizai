@@ -43,7 +43,7 @@ class ServiceController extends Controller
 
         Service::create($data);
 
-        return redirect(url('client/services'))->with('success', 'Service créé.');
+        return redirect(url('client/services'))->with('success', __('app.client.flash.service_created'));
     }
 
     public function edit(Service $service)
@@ -69,7 +69,7 @@ class ServiceController extends Controller
         $data['is_active'] = $request->boolean('is_active', true);
         $service->update($data);
 
-        return redirect(url('client/services'))->with('success', 'Service mis à jour.');
+        return redirect(url('client/services'))->with('success', __('app.client.flash.service_updated'));
     }
 
     public function destroy(Service $service)
@@ -77,6 +77,6 @@ class ServiceController extends Controller
         $user = Auth::user();
         abort_unless($service->business_id === $user->business_id, 403);
         $service->delete();
-        return redirect(url('client/services'))->with('success', 'Service supprimé.');
+        return redirect(url('client/services'))->with('success', __('app.client.flash.service_deleted'));
     }
 }

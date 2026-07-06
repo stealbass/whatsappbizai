@@ -97,7 +97,7 @@ class InvoiceController extends Controller
             ]);
         }
 
-        return redirect(url('client/invoices/' . $invoice->id))->with('success', 'Facture créée.');
+        return redirect(url('client/invoices/' . $invoice->id))->with('success', __('app.client.flash.invoice_created'));
     }
 
     public function show(Invoice $invoice)
@@ -120,7 +120,7 @@ class InvoiceController extends Controller
             'paid_at'     => now(),
         ]);
 
-        return back()->with('success', 'Facture marquée comme payée.');
+        return back()->with('success', __('app.client.flash.invoice_paid'));
     }
 
     public function sendReminder(Invoice $invoice)
@@ -131,11 +131,11 @@ class InvoiceController extends Controller
         $business = $user->business;
 
         if (!$business->whatsapp_phone_number_id || !$business->whatsapp_access_token) {
-            return back()->with('error', 'WhatsApp non configuré.');
+            return back()->with('error', __('app.client.flash.whatsapp_not_configured'));
         }
 
         if (!$invoice->contact || !$invoice->contact->whatsapp_number) {
-            return back()->with('error', 'Pas de numéro WhatsApp pour ce contact.');
+            return back()->with('error', __('app.client.flash.no_whatsapp_number'));
         }
 
         $message = "Bonjour {$invoice->contact->name},\n\n"
@@ -154,8 +154,8 @@ class InvoiceController extends Controller
         );
 
         return $sent
-            ? back()->with('success', 'Relance envoyée par WhatsApp.')
-            : back()->with('error', 'Échec de l\'envoi.');
+            ? back()->with('success', __('app.client.flash.invoice_reminder_sent'))
+            : back()->with('error', __('app.client.flash.send_failed'));
     }
 
     public function generatePdf(Invoice $invoice, DocumentService $docs)
@@ -177,11 +177,11 @@ class InvoiceController extends Controller
         $business = $user->business;
 
         if (!$business->whatsapp_phone_number_id || !$business->whatsapp_access_token) {
-            return back()->with('error', 'WhatsApp non configuré.');
+            return back()->with('error', __('app.client.flash.whatsapp_not_configured'));
         }
 
         if (!$invoice->contact || !$invoice->contact->whatsapp_number) {
-            return back()->with('error', 'Pas de numéro WhatsApp pour ce contact.');
+            return back()->with('error', __('app.client.flash.no_whatsapp_number'));
         }
 
         $docs = app(DocumentService::class);
@@ -201,8 +201,8 @@ class InvoiceController extends Controller
         $invoice->update(['status' => 'sent']);
 
         return $sent
-            ? back()->with('success', 'Facture envoyée par WhatsApp.')
-            : back()->with('error', 'Échec de l\'envoi.');
+            ? back()->with('success', __('app.client.flash.invoice_sent'))
+            : back()->with('error', __('app.client.flash.send_failed'));
     }
 
     public function destroy(Invoice $invoice)
@@ -211,6 +211,6 @@ class InvoiceController extends Controller
         abort_unless($invoice->business_id === $user->business_id, 403);
         $invoice->items()->delete();
         $invoice->delete();
-        return redirect(url('client/invoices'))->with('success', 'Facture supprimée.');
+        return redirect(url('client/invoices'))->with('success', __('app.client.flash.invoice_deleted'));
     }
 }

@@ -96,7 +96,7 @@ class QuoteController extends Controller
             ]);
         }
 
-        return redirect(url('client/quotes/' . $quote->id))->with('success', 'Devis créé.');
+        return redirect(url('client/quotes/' . $quote->id))->with('success', __('app.client.flash.quote_created'));
     }
 
     public function show(Quote $quote)
@@ -127,11 +127,11 @@ class QuoteController extends Controller
         $business = $user->business;
 
         if (!$business->whatsapp_phone_number_id || !$business->whatsapp_access_token) {
-            return back()->with('error', 'WhatsApp non configuré.');
+            return back()->with('error', __('app.client.flash.whatsapp_not_configured'));
         }
 
         if (!$quote->contact || !$quote->contact->whatsapp_number) {
-            return back()->with('error', 'Pas de numéro WhatsApp pour ce contact.');
+            return back()->with('error', __('app.client.flash.no_whatsapp_number'));
         }
 
         $docs = app(DocumentService::class);
@@ -151,8 +151,8 @@ class QuoteController extends Controller
         $quote->update(['status' => 'sent']);
 
         return $sent
-            ? back()->with('success', 'Devis envoyé par WhatsApp.')
-            : back()->with('error', 'Échec de l\'envoi.');
+            ? back()->with('success', __('app.client.flash.quote_sent'))
+            : back()->with('error', __('app.client.flash.send_failed'));
     }
 
     public function convertToInvoice(Quote $quote)
@@ -203,6 +203,6 @@ class QuoteController extends Controller
         abort_unless($quote->business_id === $user->business_id, 403);
         $quote->items()->delete();
         $quote->delete();
-        return redirect(url('client/quotes'))->with('success', 'Devis supprimé.');
+        return redirect(url('client/quotes'))->with('success', __('app.client.flash.quote_deleted'));
     }
 }

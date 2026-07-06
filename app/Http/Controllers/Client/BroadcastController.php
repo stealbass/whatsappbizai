@@ -36,7 +36,7 @@ class BroadcastController extends Controller
         ]);
 
         if (!$business->whatsapp_phone_number_id || !$business->whatsapp_access_token) {
-            return back()->with('error', 'WhatsApp non configuré. Allez dans Paramètres → WhatsApp & IA.');
+            return back()->with('error', __('app.client.flash.whatsapp_config_hint'));
         }
 
         $q = Contact::where('business_id', $business->id)->whereNotNull('whatsapp_number');
@@ -46,7 +46,7 @@ class BroadcastController extends Controller
         $contacts = $q->get();
 
         if ($contacts->isEmpty()) {
-            return back()->with('error', 'Aucun contact trouvé pour cette sélection.');
+            return back()->with('error', __('app.client.flash.no_contacts_found'));
         }
 
         $result = $marketing->sendBroadcast($business, $contacts, $data['message']);
