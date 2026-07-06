@@ -32,7 +32,7 @@
     @if($invoice->notes)
         <div style="margin-bottom:20px;">
             <p style="font-size:12px;color:var(--gray);margin-bottom:4px;">{{ __('app.client.invoices.notes') }}</p>
-            <p style="font-size:14px;">{{ $invoice->notes }}</p>
+            <p style="font-size:14px;">{!! nl2br(e($invoice->notes)) !!}</p>
         </div>
     @endif
 

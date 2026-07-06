@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Forms\Components\TinyMce;
 use App\Filament\Resources\ContactResource\Pages;
 use App\Models\Contact;
 use App\Services\WhatsAppService;
@@ -54,7 +55,7 @@ class ContactResource extends Resource
                     ->options(['prospect' => __('app.admin.prospect'), 'client' => __('app.admin.client'), 'inactif' => __('app.admin.inactive')])
                     ->default('prospect')->required(),
                 Forms\Components\TagsInput::make('tags')->label(__('app.admin.tags')),
-                Forms\Components\Textarea::make('notes')->label(__('app.admin.notes'))->rows(3)->columnSpanFull(),
+                TinyMce::make('notes')->label(__('app.admin.notes'))->height(200)->columnSpanFull(),
             ])->columns(2),
         ]);
     }
@@ -95,7 +96,7 @@ class ContactResource extends Resource
                     ->icon('heroicon-o-chat-bubble-left-ellipsis')
                     ->color('success')
                     ->form([
-                        Forms\Components\Textarea::make('message')
+                        TinyMce::make('message')
                             ->label(__('app.admin.whatsapp_message'))
                             ->required()
                             ->rows(3)

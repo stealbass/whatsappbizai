@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Forms\Components\TinyMce;
 use App\Filament\Resources\SiteSettingResource\Pages;
 use App\Models\SiteSetting;
 use Filament\Forms;
@@ -156,17 +157,17 @@ class SiteSettingResource extends Resource
                 Forms\Components\Tabs\Tab::make('Legal')
                     ->icon('heroicon-o-document-text')
                     ->schema([
-                        Forms\Components\Textarea::make('privacy_policy')
+                        TinyMce::make('privacy_policy')
                             ->label(__('app.admin.privacy_policy'))
-                            ->rows(10)
+                            ->height(500)
                             ->columnSpanFull(),
-                        Forms\Components\Textarea::make('terms_conditions')
+                        TinyMce::make('terms_conditions')
                             ->label(__('app.admin.terms_conditions'))
-                            ->rows(10)
+                            ->height(500)
                             ->columnSpanFull(),
-                        Forms\Components\Textarea::make('cookie_policy')
+                        TinyMce::make('cookie_policy')
                             ->label(__('app.admin.cookie_policy'))
-                            ->rows(10)
+                            ->height(400)
                             ->columnSpanFull(),
                     ]),
 
@@ -174,9 +175,9 @@ class SiteSettingResource extends Resource
                     ->icon('heroicon-o-bars-3-bottom-left')
                     ->schema([
                         Forms\Components\Section::make(__('app.admin.footer'))->schema([
-                            Forms\Components\Textarea::make('footer_description')
+                            TinyMce::make('footer_description')
                                 ->label(__('app.admin.footer_description'))
-                                ->rows(4)
+                                ->height(250)
                                 ->columnSpanFull(),
                             Forms\Components\TextInput::make('footer_copyright')
                                 ->label('Copyright')

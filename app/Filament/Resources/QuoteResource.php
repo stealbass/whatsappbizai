@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Actions\ConvertQuoteToInvoice;
+use App\Filament\Forms\Components\TinyMce;
 use App\Filament\Resources\QuoteResource\Pages;
 use App\Jobs\SendDocumentViaWhatsApp;
 use App\Models\Quote;
@@ -86,7 +87,7 @@ class QuoteResource extends Resource
             Forms\Components\Section::make(__('app.admin.totals'))->schema([
                 Forms\Components\TextInput::make('tax_rate')->label(__('app.admin.tax_rate'))->numeric()->default(0),
                 Forms\Components\TextInput::make('discount')->label(__('app.admin.discount'))->numeric()->default(0),
-                Forms\Components\Textarea::make('notes')->label(__('app.admin.notes_conditions')),
+                TinyMce::make('notes')->label(__('app.admin.notes_conditions'))->height(220),
             ])->columns(2),
         ]);
     }

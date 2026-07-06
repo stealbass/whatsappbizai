@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Forms\Components\TinyMce;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -58,11 +59,10 @@ class RetentionCampaigns extends Page implements HasForms
                 ])
                 ->required(),
 
-            Forms\Components\Textarea::make('message')
+            TinyMce::make('message')
                 ->label(__('app.admin.retention_message'))
-                ->rows(10)
-                ->required()
-                ->maxLength(65535),
+                ->height(400)
+                ->required(),
         ];
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Forms\Components\TinyMce;
 use App\Filament\Resources\InvoiceResource\Pages;
 use App\Jobs\SendDocumentViaWhatsApp;
 use App\Models\Contact;
@@ -89,7 +90,8 @@ class InvoiceResource extends Resource
                     ->numeric()->default(0),
                 Forms\Components\TextInput::make('discount')->label(__('app.admin.discount'))
                     ->numeric()->default(0),
-                Forms\Components\TextInput::make('notes')->label(__('app.admin.notes_conditions')),
+                TinyMce::make('notes')->label(__('app.admin.notes_conditions'))->height(200),
+                Forms\Components\TextInput::make('payment_method')->label(__('app.admin.payment_method'))->nullable(),
             ])->columns(3),
         ]);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Forms\Components\TinyMce;
 use App\Filament\Resources\PaymentResource\Pages;
 use App\Models\Payment;
 use App\Models\Subscription;
@@ -70,7 +71,7 @@ class PaymentResource extends Resource
                 Forms\Components\Select::make('status')->label(__('app.admin.status'))
                     ->options(['pending' => '⏳ ' . __('app.admin.pending'), 'verified' => '✅ ' . __('app.admin.verified'), 'rejected' => '❌ ' . __('app.admin.rejected')])
                     ->required(),
-                Forms\Components\Textarea::make('admin_notes')->label(__('app.admin.admin_notes'))->rows(3),
+                TinyMce::make('admin_notes')->label(__('app.admin.admin_notes'))->height(200),
                 Forms\Components\FileUpload::make('screenshot_path')
                     ->label(__('app.admin.screenshot'))->image()->disk('public')->directory('payment-proofs'),
             ])->columns(1),

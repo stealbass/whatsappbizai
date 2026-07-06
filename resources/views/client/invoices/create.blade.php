@@ -33,9 +33,9 @@
                 <label>{{ __('app.client.invoices.form.due_date') }}</label>
                 <input type="date" name="due_date" value="{{ old('due_date') }}">
             </div>
-            <div class="form-group">
+            <div class="form-group" style="grid-column:1/-1;">
                 <label>{{ __('app.client.invoices.form.notes') }}</label>
-                <input type="text" name="notes" value="{{ old('notes') }}">
+                <textarea name="notes" id="invoice_notes">{{ old('notes') }}</textarea>
             </div>
         </div>
         <div class="form-row">
@@ -78,7 +78,9 @@
 @endsection
 
 @section('scripts')
+@include('components.tinymce')
 <script>
+initTinyMCE('#invoice_notes', 200);
 let itemIndex = 1;
 document.getElementById('addItem').addEventListener('click', function() {
     const container = document.getElementById('items-container');

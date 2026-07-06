@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Forms\Components\TinyMce;
 use App\Filament\Resources\BusinessResource\Pages;
 use App\Models\Business;
 use Filament\Forms;
@@ -123,10 +124,9 @@ class BusinessResource extends Resource
 
             Forms\Components\Section::make(__('app.admin.ai_instructions'))
                 ->schema([
-                    Forms\Components\Textarea::make('gemini_system_prompt')
+                    TinyMce::make('gemini_system_prompt')
                         ->label(__('app.admin.ai_instructions_label'))
-                        ->rows(5)
-                        ->placeholder("Ex: Ne jamais donner de prix sans confirmation du responsable...\nToujours proposer un devis pour les projets > 100 000 XAF.")
+                        ->height(300)
                         ->columnSpanFull(),
                 ]),
 

@@ -33,7 +33,7 @@
 
         <div class="form-group">
             <label>{{ __('app.client.settings.whatsapp.prompt_label') }}</label>
-            <textarea name="gemini_system_prompt" rows="6" placeholder="{{ __('app.client.settings.whatsapp.prompt_placeholder') }}">{{ old('gemini_system_prompt', $business->gemini_system_prompt ?? '') }}</textarea>
+            <textarea name="gemini_system_prompt" id="gemini_prompt" rows="6" placeholder="{{ __('app.client.settings.whatsapp.prompt_placeholder') }}">{{ old('gemini_system_prompt', $business->gemini_system_prompt ?? '') }}</textarea>
             <p class="form-help">{{ __('app.client.settings.whatsapp.prompt_help') }}</p>
         </div>
 
@@ -77,4 +77,9 @@
         </div>
     </form>
 </div>
+@endsection
+
+@section('scripts')
+@include('components.tinymce')
+<script>initTinyMCE('#gemini_prompt', 300);</script>
 @endsection
