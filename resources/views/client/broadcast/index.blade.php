@@ -27,9 +27,6 @@
 
         <div class="form-group">
             <label>{{ __('app.client.broadcast.message') }}</label>
-            <div id="editor-container" style="background:#fff;border:1px solid #d1d5db;border-radius:8px;min-height:150px;"></div>
-            <input type="hidden" name="message" id="message" required maxlength="1024">
-            <p class="form-help">{{ __('app.client.broadcast.variables') }} : <code>{!! '{{nom}}' !!}</code>, <code>{!! '{{prenom}}' !!}</code>, <code>{!! '{{entreprise}}' !!}</code></p>
         </div>
 
         <div style="display:flex;gap:12px;margin-top:20px;">
@@ -52,58 +49,47 @@
 @endsection
 
 @section('scripts')
-<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
-<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
-
 <style>
-.ql-source-btn { font-size:13px; width:auto !important; padding:0 8px !important; }
-#sourceModal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,.5); z-index:9999; justify-content:center; align-items:center; }
-#sourceModal.active { display:flex; }
-#sourceModal .modal-content { background:#fff; border-radius:12px; padding:24px; width:90%; max-width:700px; max-height:80vh; display:flex; flex-direction:column; }
-#sourceModal textarea { width:100%; min-height:300px; font-family:monospace; font-size:13px; border:1px solid #d1d5db; border-radius:8px; padding:12px; resize:vertical; }
-#sourceModal .modal-btns { display:flex; gap:8px; justify-content:flex-end; margin-top:12px; }
+.html-editor-wrap { border:1px solid #d1d5db; border-radius:8px; overflow:hidden; background:#fff; }
+.html-editor-tabs { display:flex; background:#f1f5f9; border-bottom:1px solid #d1d5db; }
+.html-editor-tab { padding:8px 16px; font-size:13px; font-weight:600; cursor:pointer; border:none; background:none; color:#64748b; }
+.html-editor-tab.active { background:#fff; color:#0ea5e9; border-bottom:2px solid #0ea5e9; }
+.html-editor-source { width:100%; min-height:250px; font-family:monospace; font-size:13px; border:none; padding:12px; resize:vertical; display:block; background:#1e293b; color:#e2e8f0; }
+.html-editor-preview { width:100%; min-height:250px; border:none; display:none; background:#fff; }
+.html-editor-preview.active { display:block; }
+.html-editor-source.active { display:block; }
+#previewFrame { width:100%; min-height:300px; border:none; }
 </style>
 
-<div id="sourceModal">
-    <div class="modal-content">
-        <h3 style="margin-bottom:12px;font-weight:700;">📝 Code source HTML</h3>
-        <textarea id="sourceCode"></textarea>
-        <div class="modal-btns">
-            <button type="button" onclick="closeSourceModal()" class="btn btn-outline" style="padding:6px 16px;">Annuler</button>
-            <button type="button" onclick="applySourceCode()" class="btn btn-primary" style="padding:6px 16px;">Appliquer</button>
-        </div>
+<div class="html-editor-wrap">
+    <div class="html-editor-tabs">
+        <button type="button" class="html-editor-tab active" onclick="switchTab('source', this)">📝 Code source</button>
+        <button type="button" class="html-editor-tab" onclick="switchTab('preview', this)">👁 Aperçu</button>
+    </div>
+    <textarea class="html-editor-source active" id="htmlSource" placeholder="Collez votre code HTML ici..."></textarea>
+    <div class="html-editor-preview" id="previewPane">
+        <iframe id="previewFrame"></iframe>
     </div>
 </div>
+<input type="hidden" name="message" id="message" required maxlength="100000">
+<p class="form-help" style="margin-top:8px;">{{ __('app.client.broadcast.variables') }} : <code>{!! '{{nom}}' !!}</code>, <code>{!! '{{prenom}}' !!}</code>, <code>{!! '{{entreprise}}' !!}</code></p>
 
 <script>
-const quill = new Quill('#editor-container', {
-    theme: 'snow',
-    placeholder: '{{ __("app.client.broadcast.message_placeholder") }}',
-    modules: {
-        toolbar: [
-            ['bold', 'italic', 'underline'],
-            ['link'],
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }]
-        ]
+function switchTab(tab, el) {
+    document.querySelectorAll('.html-editor-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    const source = document.getElementById('htmlSource');
+    const preview = document.getElementById('previewPane');
+    if (tab === 'preview') {
+        const html = source.value;
+        const iframe = document.getElementById('previewFrame');
+        iframe.srcdoc = html;
+        preview.classList.add('active');
+        source.style.display = 'none';
+    } else {
+        preview.classList.remove('active');
+        source.style.display = 'block';
     }
-});
-
-const sourceBtn = document.createElement('button');
-sourceBtn.innerHTML = '&lt;/&gt;';
-sourceBtn.className = 'ql-source-btn';
-sourceBtn.title = 'Code source HTML';
-sourceBtn.onclick = function() {
-    document.getElementById('sourceCode').value = quill.root.innerHTML;
-    document.getElementById('sourceModal').classList.add('active');
-};
-quill.container.previousElementSibling.querySelector('.ql-toolbar').appendChild(sourceBtn);
-
-function closeSourceModal() {
-    document.getElementById('sourceModal').classList.remove('active');
-}
-function applySourceCode() {
-    quill.root.innerHTML = document.getElementById('sourceCode').value;
-    closeSourceModal();
 }
 
 document.getElementById('draftBtn').addEventListener('click', async function() {
@@ -118,14 +104,14 @@ document.getElementById('draftBtn').addEventListener('click', async function() {
             body: JSON.stringify({ goal, target })
         });
         const data = await response.json();
-        if (data.message) quill.root.innerHTML = data.message;
+        if (data.message) document.getElementById('htmlSource').value = data.message;
     } catch (e) { alert('{{ __("app.client.broadcast.draft_error") }}'); }
     this.disabled = false;
     this.textContent = '🤖 {{ __("app.client.broadcast.draft_ai") }}';
 });
 
 document.getElementById('broadcastForm').addEventListener('submit', function() {
-    document.getElementById('message').value = quill.root.innerHTML;
+    document.getElementById('message').value = document.getElementById('htmlSource').value;
 });
 </script>
 @endsection
