@@ -4,7 +4,7 @@ namespace App\Filament\Pages;
 
 use App\Models\User;
 use Filament\Forms;
-use Filament\Forms\Components\RichEditor;
+use App\Filament\Forms\Components\TinyMce;
 use Filament\Forms\Form;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -63,7 +63,7 @@ class RetentionCampaigns extends Page implements HasForms
                     ])
                     ->required(),
 
-                RichEditor::make('message')
+                TinyMce::make('message')
                     ->label(__('app.admin.retention_message'))
                     
                     ->required(),
