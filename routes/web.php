@@ -70,6 +70,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/client/invoices/create', [InvoiceController::class, 'create'])->name('c.invoices.create');
     Route::post('/client/invoices', [InvoiceController::class, 'store'])->name('c.invoices.store');
     Route::get('/client/invoices/{invoice}', [InvoiceController::class, 'show'])->name('c.invoices.show');
+    Route::get('/client/invoices/{invoice}/edit', [InvoiceController::class, 'edit'])->name('c.invoices.edit');
+    Route::put('/client/invoices/{invoice}', [InvoiceController::class, 'update'])->name('c.invoices.update');
     Route::post('/client/invoices/{invoice}/mark-paid', [InvoiceController::class, 'markPaid'])->name('c.invoices.markPaid');
     Route::post('/client/invoices/{invoice}/reminder', [InvoiceController::class, 'sendReminder'])->name('c.invoices.reminder');
     Route::get('/client/invoices/{invoice}/pdf', [InvoiceController::class, 'generatePdf'])->name('c.invoices.pdf');
@@ -81,6 +83,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/client/quotes/create', [QuoteController::class, 'create'])->name('c.quotes.create');
     Route::post('/client/quotes', [QuoteController::class, 'store'])->name('c.quotes.store');
     Route::get('/client/quotes/{quote}', [QuoteController::class, 'show'])->name('c.quotes.show');
+    Route::get('/client/quotes/{quote}/edit', [QuoteController::class, 'edit'])->name('c.quotes.edit');
+    Route::put('/client/quotes/{quote}', [QuoteController::class, 'update'])->name('c.quotes.update');
     Route::get('/client/quotes/{quote}/pdf', [QuoteController::class, 'generatePdf'])->name('c.quotes.pdf');
     Route::post('/client/quotes/{quote}/whatsapp', [QuoteController::class, 'sendWhatsApp'])->name('c.quotes.whatsapp');
     Route::post('/client/quotes/{quote}/convert', [QuoteController::class, 'convertToInvoice'])->name('c.quotes.convert');

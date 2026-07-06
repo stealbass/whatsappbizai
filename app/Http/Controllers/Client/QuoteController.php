@@ -99,7 +99,68 @@ class QuoteController extends Controller
         return redirect(url('client/quotes/' . $quote->id))->with('success', __('app.client.flash.quote_created'));
     }
 
-    public function show(Quote $quote)
+    public function edit(Quote $quote)
+    {
+        $user = Auth::user();
+        abort_unless($quote->business_id === $user->business_id, 403);
+        abort_unless(in_array($quote->status, ['draft', 'sent']), 403);
+        $quote->load(['contact', 'items']);
+        $contacts = Contact::where('business_id', $user->business_id)->orderBy('name')->get();
+        $services = Service::where('business_id', $user->business_id)->where('is_active', true)->orderBy('name')->get();
+        return view('client.quotes.edit', compact('user', 'quote', 'contacts', 'services'));
+    }
+
+    public function update(Request $request, Quote $quote)
+    {
+        $user = Auth::user();
+        abort_unless($quote->business_id === $user->business_id, 403);
+        abort_unless(in_array($quote->status, ['draft', 'sent']), 403);
+
+        $data = $request->validate([
+            'contact_id'  => 'required|exists:contacts,id',
+            'valid_until' => 'nullable|date',
+            'tax_rate'    => 'nullable|numeric|min:0|max:100',
+            'discount'    => 'nullable|numeric|min:0',
+            'notes'       => 'nullable|string|max:100000',
+            'items'       => 'required|array|min:1',
+            'items.*.description' => 'required|string|max:255',
+            'items.*.quantity'    => 'required|numeric|min:0.01',
+            'items.*.unit_price'  => 'required|numeric|min:0',
+        ]);
+
+        $subtotal = 0;
+        foreach ($data['items'] as $item) {
+            $subtotal += $item['quantity'] * $item['unit_price'];
+        }
+        $taxRate   = $data['tax_rate'] ?? 0;
+        $discount  = $data['discount'] ?? 0;
+        $taxAmount = $subtotal * ($taxRate / 100);
+        $total     = $subtotal + $taxAmount - $discount;
+
+        $quote->update([
+            'contact_id'  => $data['contact_id'],
+            'valid_until' => $data['valid_until'] ?? null,
+            'subtotal'    => $subtotal,
+            'tax_rate'    => $taxRate,
+            'tax_amount'  => $taxAmount,
+            'discount'    => $discount,
+            'total'       => $total,
+            'notes'       => $data['notes'] ?? null,
+        ]);
+
+        $quote->items()->delete();
+        foreach ($data['items'] as $item) {
+            \App\Models\QuoteItem::create([
+                'quote_id'    => $quote->id,
+                'description' => $item['description'],
+                'quantity'    => $item['quantity'],
+                'unit_price'  => $item['unit_price'],
+                'total'       => $item['quantity'] * $item['unit_price'],
+            ]);
+        }
+
+        return redirect(url('client/quotes/' . $quote->id))->with('success', __('app.client.flash.quote_updated'));
+    }
     {
         $user = Auth::user();
         abort_unless($quote->business_id === $user->business_id, 403);

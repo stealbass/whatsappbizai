@@ -100,7 +100,70 @@ class InvoiceController extends Controller
         return redirect(url('client/invoices/' . $invoice->id))->with('success', __('app.client.flash.invoice_created'));
     }
 
-    public function show(Invoice $invoice)
+    public function edit(Invoice $invoice)
+    {
+        $user = Auth::user();
+        abort_unless($invoice->business_id === $user->business_id, 403);
+        abort_unless(in_array($invoice->status, ['draft', 'sent']), 403);
+        $invoice->load(['contact', 'items']);
+        $contacts = Contact::where('business_id', $user->business_id)->orderBy('name')->get();
+        $services = Service::where('business_id', $user->business_id)->where('is_active', true)->orderBy('name')->get();
+        return view('client.invoices.edit', compact('user', 'invoice', 'contacts', 'services'));
+    }
+
+    public function update(Request $request, Invoice $invoice)
+    {
+        $user = Auth::user();
+        abort_unless($invoice->business_id === $user->business_id, 403);
+        abort_unless(in_array($invoice->status, ['draft', 'sent']), 403);
+
+        $data = $request->validate([
+            'contact_id'  => 'required|exists:contacts,id',
+            'issue_date'  => 'required|date',
+            'due_date'    => 'nullable|date',
+            'tax_rate'    => 'nullable|numeric|min:0|max:100',
+            'discount'    => 'nullable|numeric|min:0',
+            'notes'       => 'nullable|string|max:100000',
+            'items'       => 'required|array|min:1',
+            'items.*.description' => 'required|string|max:255',
+            'items.*.quantity'    => 'required|numeric|min:0.01',
+            'items.*.unit_price'  => 'required|numeric|min:0',
+        ]);
+
+        $subtotal = 0;
+        foreach ($data['items'] as $item) {
+            $subtotal += $item['quantity'] * $item['unit_price'];
+        }
+        $taxRate   = $data['tax_rate'] ?? 0;
+        $discount  = $data['discount'] ?? 0;
+        $taxAmount = $subtotal * ($taxRate / 100);
+        $total     = $subtotal + $taxAmount - $discount;
+
+        $invoice->update([
+            'contact_id'  => $data['contact_id'],
+            'issue_date'  => $data['issue_date'],
+            'due_date'    => $data['due_date'] ?? null,
+            'subtotal'    => $subtotal,
+            'tax_rate'    => $taxRate,
+            'tax_amount'  => $taxAmount,
+            'discount'    => $discount,
+            'total'       => $total,
+            'notes'       => $data['notes'] ?? null,
+        ]);
+
+        $invoice->items()->delete();
+        foreach ($data['items'] as $item) {
+            \App\Models\InvoiceItem::create([
+                'invoice_id'  => $invoice->id,
+                'description' => $item['description'],
+                'quantity'    => $item['quantity'],
+                'unit_price'  => $item['unit_price'],
+                'total'       => $item['quantity'] * $item['unit_price'],
+            ]);
+        }
+
+        return redirect(url('client/invoices/' . $invoice->id))->with('success', __('app.client.flash.invoice_updated'));
+    }
     {
         $user = Auth::user();
         abort_unless($invoice->business_id === $user->business_id, 403);
