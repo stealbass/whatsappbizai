@@ -5,7 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\SiteSettingResource\Pages;
 use App\Models\SiteSetting;
 use Filament\Forms;
-use App\Filament\Forms\Components\TinyMce;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Pages\EditRecord;
@@ -157,15 +157,15 @@ class SiteSettingResource extends Resource
                 Forms\Components\Tabs\Tab::make('Legal')
                     ->icon('heroicon-o-document-text')
                     ->schema([
-                        TinyMce::make('privacy_policy')->height(500)
+                        RichEditor::make('privacy_policy')
                             ->label(__('app.admin.privacy_policy'))
                             
                             ->columnSpanFull(),
-                        TinyMce::make('terms_conditions')->height(500)
+                        RichEditor::make('terms_conditions')
                             ->label(__('app.admin.terms_conditions'))
                             
                             ->columnSpanFull(),
-                        TinyMce::make('cookie_policy')->height(400)
+                        RichEditor::make('cookie_policy')
                             ->label(__('app.admin.cookie_policy'))
                             
                             ->columnSpanFull(),
@@ -175,7 +175,7 @@ class SiteSettingResource extends Resource
                     ->icon('heroicon-o-bars-3-bottom-left')
                     ->schema([
                         Forms\Components\Section::make(__('app.admin.footer'))->schema([
-                            TinyMce::make('footer_description')->height(250)
+                            RichEditor::make('footer_description')
                                 ->label(__('app.admin.footer_description'))
                                 
                                 ->columnSpanFull(),

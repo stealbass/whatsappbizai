@@ -9,8 +9,8 @@ use Filament\Forms\Components\Field;
  * Livewire-safe : uses wire:ignore + Alpine.js $wire.set() to sync state.
  *
  * Usage in a Resource form:
- *   TinyMce::make('description')->label('Description')->height(350)
- *   TinyMce::make('privacy_policy')->html()->height(500)
+ *   RichEditor::make('description')->label('Description')
+ *   RichEditor::make('privacy_policy')->html()
  */
 class TinyMce extends Field
 {

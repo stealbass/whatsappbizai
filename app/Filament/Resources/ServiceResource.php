@@ -5,7 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ServiceResource\Pages;
 use App\Models\Service;
 use Filament\Forms;
-use App\Filament\Forms\Components\TinyMce;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -42,7 +42,7 @@ class ServiceResource extends Resource
     {
         return $form->schema([
             Forms\Components\TextInput::make('name')->label(__('app.admin.service_name'))->required(),
-            TinyMce::make('description')->height(220)->label(__('app.admin.description')),
+            RichEditor::make('description')->label(__('app.admin.description')),
             Forms\Components\TextInput::make('unit_price')->label(__('app.admin.unit_price'))
                 ->numeric()->required()->prefix('FCFA'),
             Forms\Components\Select::make('currency')
