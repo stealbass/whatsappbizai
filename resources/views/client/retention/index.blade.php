@@ -41,7 +41,7 @@
 
         <div class="form-group">
                 <label>{{ __('app.client.retention.message') }} *</label>
-            <textarea name="message" id="message" class="tinymce" required maxlength="100000" placeholder="{{ __('app.client.retention.message_placeholder') }}"></textarea>
+            <textarea name="message" id="message"  required maxlength="100000" placeholder="{{ __('app.client.retention.message_placeholder') }}"></textarea>
             <p class="form-help">{{ __('app.client.retention.variables') }} : <code>{!! '{{nom}}' !!}</code>, <code>{!! '{{prenom}}' !!}</code>, <code>{!! '{{entreprise}}' !!}</code></p>
         </div>
 
@@ -76,9 +76,9 @@
 @endsection
 
 @section('scripts')
-@include('components.tinymce')
+@include('components.quill')
 <script>
-initTinyMCE('#message', 350);
+initQuill('#message', 350);
 
 document.getElementById('draftBtn').addEventListener('click', async function() {
     const goal = document.getElementById('aiGoal').value || 'Retention message';
@@ -94,7 +94,7 @@ document.getElementById('draftBtn').addEventListener('click', async function() {
             body: JSON.stringify({ goal, objective, target })
         });
         const data = await response.json();
-        if (data.message) tinymce.get('message').setContent(data.message);
+        if (data.message) setQuillContent('#message', data.message);
     } catch (e) { alert('{{ __("app.client.retention.error") }}'); }
     this.disabled = false;
     this.textContent = '🤖 {{ __("app.client.retention.draft_ai") }}';

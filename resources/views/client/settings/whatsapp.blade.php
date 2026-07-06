@@ -80,6 +80,6 @@
 @endsection
 
 @section('scripts')
-@include('components.tinymce')
-<script>initTinyMCE('#gemini_prompt', 300);</script>
+@include('components.quill')
+<script>initQuill('#gemini_prompt', 300);</script>
 @endsection

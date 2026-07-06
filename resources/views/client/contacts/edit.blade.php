@@ -58,6 +58,6 @@
 @endsection
 
 @section('scripts')
-@include('components.tinymce')
-<script>initTinyMCE('#contact_notes', 220);</script>
+@include('components.quill')
+<script>initQuill('#contact_notes', 220);</script>
 @endsection

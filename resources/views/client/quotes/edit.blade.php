@@ -77,9 +77,9 @@
 @endsection
 
 @section('scripts')
-@include('components.tinymce')
+@include('components.quill')
 <script>
-initTinyMCE('#quote_notes', 200);
+initQuill('#quote_notes', 200);
 let itemIndex = {{ $quote->items->count() }};
 document.getElementById('addItem').addEventListener('click', function() {
     const container = document.getElementById('items-container');

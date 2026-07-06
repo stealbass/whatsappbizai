@@ -72,9 +72,9 @@
 @endsection
 
 @section('scripts')
-@include('components.tinymce')
+@include('components.quill')
 <script>
-initTinyMCE('#notes', 250);
+initQuill('#notes', 250);
 
 let itemIndex = 1;
 document.getElementById('addItem').addEventListener('click', function() {

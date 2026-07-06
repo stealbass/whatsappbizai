@@ -41,7 +41,6 @@ class EditSiteSetting extends EditRecord
 
     protected function getHeaderWidgets(): array
     {
-        // HtmlEditorWidget removed — TinyMce custom field handles everything
         return [];
     }
 }

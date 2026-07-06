@@ -83,9 +83,9 @@
 @endsection
 
 @section('scripts')
-@include('components.tinymce')
+@include('components.quill')
 <script>
-initTinyMCE('#invoice_notes', 200);
+initQuill('#invoice_notes', 200);
 let itemIndex = {{ $invoice->items->count() }};
 document.getElementById('addItem').addEventListener('click', function() {
     const container = document.getElementById('items-container');

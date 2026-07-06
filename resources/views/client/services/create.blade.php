@@ -51,6 +51,6 @@
 @endsection
 
 @section('scripts')
-@include('components.tinymce')
-<script>initTinyMCE('#description', 250);</script>
+@include('components.quill')
+<script>initQuill('#description', 250);</script>
 @endsection
