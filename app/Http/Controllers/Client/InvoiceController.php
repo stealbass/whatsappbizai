@@ -45,7 +45,7 @@ class InvoiceController extends Controller
             'due_date'    => 'nullable|date|after:issue_date',
             'tax_rate'    => 'nullable|numeric|min:0|max:100',
             'discount'    => 'nullable|numeric|min:0',
-            'notes'       => 'nullable|string|max:2000',
+            'notes'       => 'nullable|string|max:100000',
             'items'       => 'required|array|min:1',
             'items.*.description' => 'required|string|max:255',
             'items.*.quantity'    => 'required|numeric|min:0.01',
