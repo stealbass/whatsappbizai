@@ -154,5 +154,16 @@ Route::middleware('auth')->group(function () {
     Route::post('/payment/manual',   [PaymentController::class, 'manualStore'])->name('payment.manual.store');
 });
 
+// Admin language switcher (no auth required for the switch, but only admin accesses /admin)
+Route::get('/admin/language/{locale}', function (string $locale) {
+    if (in_array($locale, ['fr', 'en'])) {
+        \Illuminate\Support\Facades\Session::put('locale', $locale);
+        \Illuminate\Support\Facades\Cookie::queue('wbai_lang', $locale, 60 * 24 * 365);
+        app()->setLocale($locale);
+        config(['app.locale' => $locale]);
+    }
+    return redirect()->back();
+});
+
 // ─── WEBHOOK FLUTTERWAVE (sans CSRF) ─────────────────────────────────────
 Route::post('/webhook/flutterwave', [PaymentController::class, 'webhook'])->name('webhook.flutterwave');
