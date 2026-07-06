@@ -54,6 +54,27 @@
 @section('scripts')
 <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
 <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+
+<style>
+.ql-source-btn { font-size:13px; width:auto !important; padding:0 8px !important; }
+#sourceModal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,.5); z-index:9999; justify-content:center; align-items:center; }
+#sourceModal.active { display:flex; }
+#sourceModal .modal-content { background:#fff; border-radius:12px; padding:24px; width:90%; max-width:700px; max-height:80vh; display:flex; flex-direction:column; }
+#sourceModal textarea { width:100%; min-height:300px; font-family:monospace; font-size:13px; border:1px solid #d1d5db; border-radius:8px; padding:12px; resize:vertical; }
+#sourceModal .modal-btns { display:flex; gap:8px; justify-content:flex-end; margin-top:12px; }
+</style>
+
+<div id="sourceModal">
+    <div class="modal-content">
+        <h3 style="margin-bottom:12px;font-weight:700;">📝 Code source HTML</h3>
+        <textarea id="sourceCode"></textarea>
+        <div class="modal-btns">
+            <button type="button" onclick="closeSourceModal()" class="btn btn-outline" style="padding:6px 16px;">Annuler</button>
+            <button type="button" onclick="applySourceCode()" class="btn btn-primary" style="padding:6px 16px;">Appliquer</button>
+        </div>
+    </div>
+</div>
+
 <script>
 const quill = new Quill('#editor-container', {
     theme: 'snow',
@@ -67,37 +88,43 @@ const quill = new Quill('#editor-container', {
     }
 });
 
+const sourceBtn = document.createElement('button');
+sourceBtn.innerHTML = '&lt;/&gt;';
+sourceBtn.className = 'ql-source-btn';
+sourceBtn.title = 'Code source HTML';
+sourceBtn.onclick = function() {
+    document.getElementById('sourceCode').value = quill.root.innerHTML;
+    document.getElementById('sourceModal').classList.add('active');
+};
+quill.container.previousElementSibling.querySelector('.ql-toolbar').appendChild(sourceBtn);
+
+function closeSourceModal() {
+    document.getElementById('sourceModal').classList.remove('active');
+}
+function applySourceCode() {
+    quill.root.innerHTML = document.getElementById('sourceCode').value;
+    closeSourceModal();
+}
+
 document.getElementById('draftBtn').addEventListener('click', async function() {
     const goal = document.getElementById('aiGoal').value || 'Promote our services';
     const target = document.getElementById('target').value;
-
     this.disabled = true;
     this.textContent = '⏳ {{ __("app.client.broadcast.sending") }}';
-
     try {
         const response = await fetch('{{ url("client/broadcast/draft-ai") }}', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                'Accept': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}', 'Accept': 'application/json' },
             body: JSON.stringify({ goal, target })
         });
-
         const data = await response.json();
-        if (data.message) {
-            quill.root.innerHTML = data.message;
-        }
-    } catch (e) {
-        alert('{{ __("app.client.broadcast.draft_error") }}');
-    }
-
+        if (data.message) quill.root.innerHTML = data.message;
+    } catch (e) { alert('{{ __("app.client.broadcast.draft_error") }}'); }
     this.disabled = false;
     this.textContent = '🤖 {{ __("app.client.broadcast.draft_ai") }}';
 });
 
-document.getElementById('broadcastForm').addEventListener('submit', function(e) {
+document.getElementById('broadcastForm').addEventListener('submit', function() {
     document.getElementById('message').value = quill.root.innerHTML;
 });
 </script>
