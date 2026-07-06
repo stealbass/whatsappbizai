@@ -41,7 +41,8 @@
 
         <div class="form-group">
                 <label>{{ __('app.client.retention.message') }} *</label>
-            <textarea name="message" id="message" rows="5" required maxlength="1024" placeholder="{{ __('app.client.retention.message_placeholder') }}"></textarea>
+            <div id="editor-container" style="background:#fff;border:1px solid #d1d5db;border-radius:8px;min-height:150px;"></div>
+            <input type="hidden" name="message" id="message" required maxlength="1024">
             <p class="form-help">{{ __('app.client.retention.variables') }} : <code>{!! '{{nom}}' !!}</code>, <code>{!! '{{prenom}}' !!}</code>, <code>{!! '{{entreprise}}' !!}</code></p>
         </div>
 
@@ -76,7 +77,21 @@
 @endsection
 
 @section('scripts')
+<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
 <script>
+const quill = new Quill('#editor-container', {
+    theme: 'snow',
+    placeholder: '{{ __("app.client.retention.message_placeholder") }}',
+    modules: {
+        toolbar: [
+            ['bold', 'italic', 'underline'],
+            ['link'],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }]
+        ]
+    }
+});
+
 document.getElementById('draftBtn').addEventListener('click', async function() {
     const goal = document.getElementById('aiGoal').value || 'Retention message';
     const form = document.getElementById('retentionForm') || this.closest('form');
@@ -84,7 +99,7 @@ document.getElementById('draftBtn').addEventListener('click', async function() {
     const target = form.querySelector('[name="target"]').value;
 
     this.disabled = true;
-    this.textContent = '⏳ {{ __('app.client.retention.sending') }}';
+    this.textContent = '⏳ {{ __("app.client.retention.sending") }}';
 
     try {
         const response = await fetch('{{ url("client/retention/draft-ai") }}', {
@@ -99,14 +114,18 @@ document.getElementById('draftBtn').addEventListener('click', async function() {
 
         const data = await response.json();
         if (data.message) {
-            document.getElementById('message').value = data.message;
+            quill.root.innerHTML = data.message;
         }
     } catch (e) {
-        alert('{{ __('app.client.retention.error') }}');
+        alert('{{ __("app.client.retention.error") }}');
     }
 
     this.disabled = false;
-    this.textContent = '🤖 {{ __('app.client.retention.draft_ai') }}';
+    this.textContent = '🤖 {{ __("app.client.retention.draft_ai") }}';
+});
+
+document.getElementById('retentionForm').addEventListener('submit', function(e) {
+    document.getElementById('message').value = quill.root.innerHTML;
 });
 </script>
 @endsection

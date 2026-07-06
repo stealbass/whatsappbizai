@@ -27,7 +27,8 @@
 
         <div class="form-group">
             <label>{{ __('app.client.broadcast.message') }}</label>
-            <textarea name="message" id="message" rows="5" required maxlength="1024" placeholder="{{ __('app.client.broadcast.message_placeholder') }}"></textarea>
+            <div id="editor-container" style="background:#fff;border:1px solid #d1d5db;border-radius:8px;min-height:150px;"></div>
+            <input type="hidden" name="message" id="message" required maxlength="1024">
             <p class="form-help">{{ __('app.client.broadcast.variables') }} : <code>{!! '{{nom}}' !!}</code>, <code>{!! '{{prenom}}' !!}</code>, <code>{!! '{{entreprise}}' !!}</code></p>
         </div>
 
@@ -51,13 +52,27 @@
 @endsection
 
 @section('scripts')
+<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
 <script>
+const quill = new Quill('#editor-container', {
+    theme: 'snow',
+    placeholder: '{{ __("app.client.broadcast.message_placeholder") }}',
+    modules: {
+        toolbar: [
+            ['bold', 'italic', 'underline'],
+            ['link'],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }]
+        ]
+    }
+});
+
 document.getElementById('draftBtn').addEventListener('click', async function() {
     const goal = document.getElementById('aiGoal').value || 'Promote our services';
     const target = document.getElementById('target').value;
 
     this.disabled = true;
-    this.textContent = '⏳ {{ __('app.client.broadcast.sending') }}';
+    this.textContent = '⏳ {{ __("app.client.broadcast.sending") }}';
 
     try {
         const response = await fetch('{{ url("client/broadcast/draft-ai") }}', {
@@ -72,14 +87,18 @@ document.getElementById('draftBtn').addEventListener('click', async function() {
 
         const data = await response.json();
         if (data.message) {
-            document.getElementById('message').value = data.message;
+            quill.root.innerHTML = data.message;
         }
     } catch (e) {
-        alert('{{ __('app.client.broadcast.draft_error') }}');
+        alert('{{ __("app.client.broadcast.draft_error") }}');
     }
 
     this.disabled = false;
-    this.textContent = '🤖 {{ __('app.client.broadcast.draft_ai') }}';
+    this.textContent = '🤖 {{ __("app.client.broadcast.draft_ai") }}';
+});
+
+document.getElementById('broadcastForm').addEventListener('submit', function(e) {
+    document.getElementById('message').value = quill.root.innerHTML;
 });
 </script>
 @endsection
