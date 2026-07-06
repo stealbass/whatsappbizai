@@ -381,6 +381,7 @@ return [
             'title' => 'Quotes',
             'new' => 'New Quote',
             'create' => 'Create Quote',
+            'edit' => 'Edit Quote',
             'number' => 'No.',
             'client' => 'Client',
             'amount' => 'Amount',

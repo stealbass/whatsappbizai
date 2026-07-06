@@ -381,6 +381,7 @@ return [
             'title' => 'Devis',
             'new' => 'Nouveau devis',
             'create' => 'Créer un devis',
+            'edit' => 'Modifier le devis',
             'number' => 'N°',
             'client' => 'Client',
             'amount' => 'Montant',
