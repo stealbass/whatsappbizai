@@ -1,30 +1,7 @@
 <x-filament-panels::page>
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     <form wire:submit="sendCampaign">
         {{ $this->form }}
-
-        <div style="margin-top:16px;">
-            <style>
-            .html-editor-wrap { border:1px solid #d1d5db; border-radius:8px; overflow:hidden; background:#fff; margin-bottom:16px; }
-            .html-editor-tabs { display:flex; background:#f1f5f9; border-bottom:1px solid #d1d5db; }
-            .html-editor-tab { padding:8px 16px; font-size:13px; font-weight:600; cursor:pointer; border:none; background:none; color:#64748b; }
-            .html-editor-tab.active { background:#fff; color:#0ea5e9; border-bottom:2px solid #0ea5e9; }
-            .html-editor-source { width:100%; min-height:200px; font-family:monospace; font-size:13px; border:none; padding:12px; resize:vertical; background:#1e293b; color:#e2e8f0; }
-            .html-editor-preview { width:100%; min-height:200px; border:none; display:none; background:#fff; }
-            .html-editor-preview.active { display:block; }
-            .html-editor-wrap iframe { width:100%; min-height:300px; border:none; }
-            </style>
-
-            <div class="html-editor-wrap" data-field="message">
-                <div class="html-editor-tabs">
-                    <button type="button" class="html-editor-tab active" onclick="htmlEditorSwitchTab(this, 'source')">📝 Code source</button>
-                    <button type="button" class="html-editor-tab" onclick="htmlEditorSwitchTab(this, 'preview')">👁 Aperçu</button>
-                </div>
-                <textarea class="html-editor-source" id="adminHtmlSource" placeholder="Collez votre code HTML ici..."></textarea>
-                <div class="html-editor-preview">
-                    <iframe id="adminHtmlPreview"></iframe>
-                </div>
-            </div>
-        </div>
 
         <div class="mt-6 flex flex-wrap justify-end gap-3">
             <x-filament::button
@@ -71,42 +48,24 @@
         </div>
     </div>
 
+    @script
     <script>
-    function htmlEditorSwitchTab(el, tab) {
-        const wrap = el.closest('.html-editor-wrap');
-        wrap.querySelectorAll('.html-editor-tab').forEach(t => t.classList.remove('active'));
-        el.classList.add('active');
-        const source = wrap.querySelector('.html-editor-source');
-        const previewWrap = wrap.querySelector('.html-editor-preview');
-        if (tab === 'preview') {
-            wrap.querySelector('iframe').srcdoc = source.value;
-            previewWrap.classList.add('active');
-            source.style.display = 'none';
-        } else {
-            previewWrap.classList.remove('active');
-            source.style.display = 'block';
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(function() {
-            const source = document.getElementById('adminHtmlSource');
-            if (!source) return;
-            const targetField = document.querySelector('[wire\\:model*="message"]');
-            if (targetField) {
-                source.value = targetField.value || '';
-                source.addEventListener('input', function() {
-                    targetField.value = source.value;
-                    targetField.dispatchEvent(new Event('input', { bubbles: true }));
+        tinymce.init({
+            selector: '[wire\\:model="message"]',
+            height: 350,
+            menubar: true,
+            plugins: 'lists link image code preview fullscreen table',
+            toolbar: 'undo redo | blocks | bold italic underline strikethrough | forecolor backcolor | link image table | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | code preview fullscreen',
+            content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 14px; }',
+            setup: function(editor) {
+                editor.on('change', function() {
+                    $wire.set('message', editor.getContent());
                 });
-                const observer = new MutationObserver(function() {
-                    if (targetField.value !== source.value) {
-                        source.value = targetField.value;
-                    }
-                });
-                observer.observe(targetField, { attributes: true, attributeFilter: ['value'] });
+            },
+            init_instance_callback: function(editor) {
+                editor.setContent($wire.get('message') || '');
             }
-        }, 500);
-    });
+        });
     </script>
+    @endscript
 </x-filament-panels::page>

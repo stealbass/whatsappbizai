@@ -27,6 +27,8 @@
 
         <div class="form-group">
             <label>{{ __('app.client.broadcast.message') }}</label>
+            <textarea name="message" id="message" class="tinymce" required maxlength="100000" placeholder="{{ __('app.client.broadcast.message_placeholder') }}"></textarea>
+            <p class="form-help">{{ __('app.client.broadcast.variables') }} : <code>{!! '{{nom}}' !!}</code>, <code>{!! '{{prenom}}' !!}</code>, <code>{!! '{{entreprise}}' !!}</code></p>
         </div>
 
         <div style="display:flex;gap:12px;margin-top:20px;">
@@ -49,48 +51,9 @@
 @endsection
 
 @section('scripts')
-<style>
-.html-editor-wrap { border:1px solid #d1d5db; border-radius:8px; overflow:hidden; background:#fff; }
-.html-editor-tabs { display:flex; background:#f1f5f9; border-bottom:1px solid #d1d5db; }
-.html-editor-tab { padding:8px 16px; font-size:13px; font-weight:600; cursor:pointer; border:none; background:none; color:#64748b; }
-.html-editor-tab.active { background:#fff; color:#0ea5e9; border-bottom:2px solid #0ea5e9; }
-.html-editor-source { width:100%; min-height:250px; font-family:monospace; font-size:13px; border:none; padding:12px; resize:vertical; display:block; background:#1e293b; color:#e2e8f0; }
-.html-editor-preview { width:100%; min-height:250px; border:none; display:none; background:#fff; }
-.html-editor-preview.active { display:block; }
-.html-editor-source.active { display:block; }
-#previewFrame { width:100%; min-height:300px; border:none; }
-</style>
-
-<div class="html-editor-wrap">
-    <div class="html-editor-tabs">
-        <button type="button" class="html-editor-tab active" onclick="switchTab('source', this)">📝 Code source</button>
-        <button type="button" class="html-editor-tab" onclick="switchTab('preview', this)">👁 Aperçu</button>
-    </div>
-    <textarea class="html-editor-source active" id="htmlSource" placeholder="Collez votre code HTML ici..."></textarea>
-    <div class="html-editor-preview" id="previewPane">
-        <iframe id="previewFrame"></iframe>
-    </div>
-</div>
-<input type="hidden" name="message" id="message" required maxlength="100000">
-<p class="form-help" style="margin-top:8px;">{{ __('app.client.broadcast.variables') }} : <code>{!! '{{nom}}' !!}</code>, <code>{!! '{{prenom}}' !!}</code>, <code>{!! '{{entreprise}}' !!}</code></p>
-
+@include('components.tinymce')
 <script>
-function switchTab(tab, el) {
-    document.querySelectorAll('.html-editor-tab').forEach(t => t.classList.remove('active'));
-    el.classList.add('active');
-    const source = document.getElementById('htmlSource');
-    const preview = document.getElementById('previewPane');
-    if (tab === 'preview') {
-        const html = source.value;
-        const iframe = document.getElementById('previewFrame');
-        iframe.srcdoc = html;
-        preview.classList.add('active');
-        source.style.display = 'none';
-    } else {
-        preview.classList.remove('active');
-        source.style.display = 'block';
-    }
-}
+initTinyMCE('#message', 400);
 
 document.getElementById('draftBtn').addEventListener('click', async function() {
     const goal = document.getElementById('aiGoal').value || 'Promote our services';
@@ -104,14 +67,10 @@ document.getElementById('draftBtn').addEventListener('click', async function() {
             body: JSON.stringify({ goal, target })
         });
         const data = await response.json();
-        if (data.message) document.getElementById('htmlSource').value = data.message;
+        if (data.message) tinymce.get('message').setContent(data.message);
     } catch (e) { alert('{{ __("app.client.broadcast.draft_error") }}'); }
     this.disabled = false;
     this.textContent = '🤖 {{ __("app.client.broadcast.draft_ai") }}';
-});
-
-document.getElementById('broadcastForm').addEventListener('submit', function() {
-    document.getElementById('message').value = document.getElementById('htmlSource').value;
 });
 </script>
 @endsection

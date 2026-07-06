@@ -30,7 +30,7 @@
         </div>
         <div class="form-group">
             <label>{{ __('app.client.quotes.form.notes') }}</label>
-            <textarea name="notes">{{ old('notes') }}</textarea>
+            <textarea name="notes" id="notes">{{ old('notes') }}</textarea>
         </div>
         <div class="form-row">
             <div class="form-group">
@@ -72,7 +72,10 @@
 @endsection
 
 @section('scripts')
+@include('components.tinymce')
 <script>
+initTinyMCE('#notes', 250);
+
 let itemIndex = 1;
 document.getElementById('addItem').addEventListener('click', function() {
     const container = document.getElementById('items-container');

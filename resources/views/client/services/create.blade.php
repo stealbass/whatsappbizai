@@ -19,7 +19,7 @@
         </div>
         <div class="form-group">
             <label>{{ __('app.client.services.description') }}</label>
-            <textarea name="description">{{ old('description') }}</textarea>
+            <textarea name="description" id="description">{{ old('description') }}</textarea>
         </div>
         <div class="form-row">
             <div class="form-group">
@@ -48,4 +48,9 @@
         </div>
     </form>
 </div>
+@endsection
+
+@section('scripts')
+@include('components.tinymce')
+<script>initTinyMCE('#description', 250);</script>
 @endsection
