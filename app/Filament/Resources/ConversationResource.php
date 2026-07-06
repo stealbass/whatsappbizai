@@ -46,7 +46,7 @@ class ConversationResource extends Resource
                     ->options(['open' => __('app.admin.open'), 'closed' => __('app.admin.closed'), 'waiting' => __('app.admin.waiting')])
                     ->required(),
                 Forms\Components\Toggle::make('ai_enabled')->label(__('app.admin.ai')),
-                TinyMce::make('summary')->label(__('app.admin.summary'))->columnSpanFull(),
+                TinyMce::make('summary')->height(200)->label(__('app.admin.summary'))->columnSpanFull(),
             ])->columns(2),
         ]);
     }

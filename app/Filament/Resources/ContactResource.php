@@ -56,7 +56,7 @@ class ContactResource extends Resource
                     ->options(['prospect' => __('app.admin.prospect'), 'client' => __('app.admin.client'), 'inactif' => __('app.admin.inactive')])
                     ->default('prospect')->required(),
                 Forms\Components\TagsInput::make('tags')->label(__('app.admin.tags')),
-                TinyMce::make('notes')->label(__('app.admin.notes'))->columnSpanFull(),
+                TinyMce::make('notes')->height(200)->label(__('app.admin.notes'))->columnSpanFull(),
             ])->columns(2),
         ]);
     }
@@ -97,7 +97,7 @@ class ContactResource extends Resource
                     ->icon('heroicon-o-chat-bubble-left-ellipsis')
                     ->color('success')
                     ->form([
-                        TinyMce::make('message')
+                        TinyMce::make('message')->height(200)
                             ->label(__('app.admin.whatsapp_message'))
                             ->required()
                             

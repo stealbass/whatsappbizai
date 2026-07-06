@@ -64,7 +64,7 @@ class RetentionCampaigns extends Page implements HasForms
                     ])
                     ->required(),
 
-                TinyMce::make('message')
+                TinyMce::make('message')->height(400)
                     ->label(__('app.admin.retention_message'))
                     
                     ->required(),

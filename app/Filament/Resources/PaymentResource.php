@@ -72,7 +72,7 @@ class PaymentResource extends Resource
                 Forms\Components\Select::make('status')->label(__('app.admin.status'))
                     ->options(['pending' => '⏳ ' . __('app.admin.pending'), 'verified' => '✅ ' . __('app.admin.verified'), 'rejected' => '❌ ' . __('app.admin.rejected')])
                     ->required(),
-                TinyMce::make('admin_notes')->label(__('app.admin.admin_notes')),
+                TinyMce::make('admin_notes')->height(200)->label(__('app.admin.admin_notes')),
                 Forms\Components\FileUpload::make('screenshot_path')
                     ->label(__('app.admin.screenshot'))->image()->disk('public')->directory('payment-proofs'),
             ])->columns(1),
@@ -115,7 +115,7 @@ class PaymentResource extends Resource
                     ->modalDescription(fn(Payment $r) => __('app.admin.activate_subscription') . " : {$r->business?->name} ({$r->amount_formatted}) - {$r->plan} ?")
                     ->visible(fn(Payment $r) => $r->status === 'pending')
                     ->form([
-                        TinyMce::make('admin_notes')
+                        TinyMce::make('admin_notes')->height(200)
                             ->label(__('app.admin.admin_notes')),
                     ])
                     ->action(function (Payment $record, array $data) {
@@ -157,7 +157,7 @@ class PaymentResource extends Resource
                     ->requiresConfirmation()
                     ->visible(fn(Payment $r) => $r->status === 'pending')
                     ->form([
-                        TinyMce::make('admin_notes')
+                        TinyMce::make('admin_notes')->height(200)
                             ->label(__('app.admin.rejection_reason'))->required(),
                     ])
                     ->action(function (Payment $record, array $data) {
