@@ -101,10 +101,11 @@
             DO NOT set display:none here — TinyMCE needs the textarea
             visible to calculate its own height during init.
             TinyMCE will hide it automatically once it takes over.
+            IMPORTANT: use {!! !!} — not {{ }} — to avoid double-escaping HTML content.
         --}}
         <textarea
             id="{{ $editorId }}"
             style="width:100%; min-height:{{ $height }}px;"
-        >{{ $initialVal }}</textarea>
+        >{!! $initialVal !!}</textarea>
     </div>
 </x-dynamic-component>

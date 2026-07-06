@@ -19,7 +19,7 @@
         </div>
         <div class="form-group">
             <label>{{ __('app.client.services.description') }}</label>
-            <textarea name="description" id="description">{{ old('description', $service->description) }}</textarea>
+            <textarea name="description" id="description">{!! old('description', $service->description) !!}</textarea>
         </div>
         <div class="form-row">
             <div class="form-group">
