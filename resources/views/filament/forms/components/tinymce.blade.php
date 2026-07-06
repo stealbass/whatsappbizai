@@ -35,9 +35,25 @@
             editor:     null,
 
             init() {
+                const self = this;
                 this.bootEditor();
+
+                /*
+                 * Watch for EXTERNAL Livewire changes (draftWithAI, form->fill(), etc.)
+                 * wire:ignore blocks DOM updates from Livewire, so we must manually
+                 * push new values from Livewire state → TinyMCE editor.
+                 */
+                this.$wire.$watch(self.statePath, function(newVal) {
+                    if (self.editor) {
+                        const current = self.editor.getContent();
+                        if ((newVal || '') !== current) {
+                            self.editor.setContent(newVal || '');
+                        }
+                    }
+                });
+
                 /* Re-init after Livewire SPA navigation */
-                document.addEventListener('livewire:navigated', () => this.bootEditor());
+                document.addEventListener('livewire:navigated', () => self.bootEditor());
             },
 
             bootEditor() {
