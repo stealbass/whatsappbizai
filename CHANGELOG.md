@@ -1,65 +1,102 @@
-# Modifications
+# Modifications apportées au projet WhatsAppBizAI
 
-## Problème : TinyMCE ne fonctionne pas dans Filament/Livewire
+## Fonctionnalités & Évolutions
 
-Le CDN TinyMCE (`cdn.tiny.cloud/1/no-api-key`) retourne une erreur 403, et l'éditeur ne s'affiche pas dans les pages admin Filament. Plusieurs approches ont été tentées.
+### 1. SEO — SiteSetting + Sitemap + Robots + JSON-LD
 
----
+- Création du modèle `SiteSetting` (singleton, cache 1h)
+- Filament Resource : 7 onglets (Général, SEO, Réseaux sociaux, Contact, Apparence, Légal, Fonctionnalités)
+- 30+ champs : titre, description, mots-clés, logo, favicon, scripts GA, RGPD, réseaux sociaux, etc.
+- View Composer `SiteSettingComposer` partage `$site` avec toutes les vues
+- Métas dynamiques : `<title>`, meta description/keywords, OG, Twitter Card, canonical, hreflang, robots
+- JSON-LD : schema SoftwareApplication + FAQPage (bilingue FR/EN)
+- `sitemap.xml` (7 routes dynamiques) + `robots.txt`
+- Cache rafraîchi automatiquement à la sauvegarde
 
-### 1. Admin Retention — Passage de TinyMCE à Summernote
+### 2. i18n — Internationalisation complète (FR/EN)
 
-**Fichier :** `resources/views/filament/pages/retention.blade.php`
+- **Admin Filament** : ~300 clés de traduction dans `resources/lang/fr/app.php` et `en/app.php`
+- **Client panel** : 24+ vues Blade traduites via `__('app.client.*')` — 150+ clés
+- **Public pages** : Landing, pricing, privacy, terms, contact — bilingues avec SEO partial
+- **Contrôleurs** : 27 messages flash traduits dans 7 contrôleurs client
+- **Locale resolution** : `SetLocale` middleware (session + cookie), `AdminPanelProvider::panel()` pour le panel admin
+- **FR/EN switcher** : Widget admin + sélecteur client dans le layout sidebar
+- **Correction complète** : Passage de `__()` dans les propriétés statiques → méthodes override (PHP 8.2 compat)
+- Audit complet : ~180+ chaînes françaises remplacées, ~120+ nouvelles clés
 
-- Remplacement complet de TinyMCE par **Summernote** (CDN cdnjs)
-- Ajout des dépendances CDN : jQuery 3.7.1 + Summernote 0.8.20 + locale FR
-- Suppression du layout « stratégies » (remplacé par l'éditeur uniquement)
-- Changement du script d'initialisation : plus de re-render pendant la frappe
-- Sync du contenu uniquement au submit avec `$wire.set(..., false)` (pas de re-render)
+### 3. AI — Génération de contenu par IA
 
-**Fichier :** `app/Filament/Pages/RetentionCampaigns.php`
+- **GeminiService** : service Laravel pour l'API Google Gemini
+- **Upload de documents** : Migration `ai_documents`, upload PDF/Word/Excel/PPT/text
+- **Brouillon AI** : Bouton « Draft with AI » dans les pages Broadcast et Retention (client + admin)
+- **Drag-and-drop** dans les paramètres WhatsApp
 
-- Augmentation de `maxLength` de 1024 à 65535 pour accepter le HTML
+### 4. Filament — Super Admin Panel
 
----
+- **Ressources** : Business, Contact, Conversation, Invoice, Quote, Service, Payment, Subscription, User, SiteSetting
+- **Widgets** : StatsOverview, RevenueChart, RecentConversations, LanguageSwitcher
+- **Pages** : Dashboard, RetentionCampaigns
+- **Actions** : PaymentResource → vérification (set `plan_expires_at` sur le business)
+- **Navigation** : Groupes Administration / Messagerie / Marketing / Configuration
+- **Labels** : Tous les labels via méthodes override avec `__()`
 
-### 2. TinyMCE global — Cache les notifications API key
+### 5. Client Panel — Vue d'ensemble
 
-**Fichier :** `resources/views/components/tinymce.blade.php`
+- **Dashboard** : stats cards, factures/échéances récentes, bannière de configuration
+- **Layout sidebar** : navigation par sections, topbar, responsive, FR/EN
+- **CRUD complet** (16+ vues) : Contacts, Invoices, Quotes, Services, Conversations, Settings, Broadcast, Retention
+- **PDF** : Génération de factures et devis
+- **WhatsApp** : Envoi de messages, relance, conversion devis→facture
+- **TVA et remises** sur factures et devis
+- **7 contrôleurs** : ContactController, InvoiceController, QuoteController, ServiceController, ConversationController, SettingsController, BroadcastController, RetentionController
+- **ClientComposer** : partage `$sidebarStats` et `$business` avec toutes les vues client
+- **Inscription** : création `role => 'user'`, redirection vers `/dashboard`
+- **Google OAuth** : LoginController avec `redirectToGoogle()`/`handleGoogleCallback()`
 
-- Ajout CSS `.tox-notification { display: none !important; }` — cache la bannière d'avertissement
-- Ajout `promotion: false` dans la config TinyMCE
-- Ajout `focusin` handler pour éviter le « grisé » de l'éditeur
+### 6. Retention — Séparation Client / Admin
 
----
+- **Client** : Relance des contacts WhatsApp
+- **Admin** : Campagne email pour utilisateurs SaaS (expirés, essai, inactifs)
+- Routes : `/client/retention`, `/send`, `/draft-ai`
+- Sidebar client : section Marketing avec lien Retention
+- **Admin RetentionCampaigns** : Sélection cible + objectif + message + bouton AI + envoi
 
-### 3. SiteSetting HtmlEditor — Refonte de l'initialisation TinyMCE
+### 7. WYSIWYG — Intégration éditeurs
 
-**Fichier :** `resources/views/filament/widgets/html-editor.blade.php`
+- **TinyMCE** : Composant partagé `components/tinymce.blade.php` + fonction `initTinyMCE()`
+- CDN initial `cdn.tiny.cloud/1/no-api-key` retourne 403
+- Ajout CSS `.tox-notification { display: none !important; }` pour cacher l'avertissement
+- Ajout `promotion: false` dans la config
+- Ajout handler `focusin` pour éviter le grisé
+- Auto-hébergement : extraction de TinyMCE 6.8.6 depuis npm dans `public/vendor/tinymce/`
+- Plugins : advlist, code, fullscreen, image, link, lists, preview, table
+- **Summernote** : Remplacement de TinyMCE sur la page admin Retention
+  - CDN cdnjs (pas d'API key)
+  - + jQuery 3.7.1
+  - Sync du contenu au submit uniquement (pas de re-render à la frappe)
+- **HtmlEditorWidget** : TinyMCE pour les champs légaux SiteSetting (privacy, terms, cookies, footer)
 
-- Réécriture complète du script d'initialisation TinyMCE pour SiteSetting
-- Ajout CSS `.tox-notification` pour cacher l'avertissement API key
-- Ajout `promotion: false`
-- Ajout handler `focusin`
-- Support de `livewire:navigated` pour la navigation SPA
-- Ajout du champ `footer_description` manquant
-- Utilisation d'un container div au lieu d'un `display:none` sur la textarea
+### 8. Pages publiques
 
----
+- Landing page : Hero, trust bar, mockup demo, features grid, how-it-works, testimonials, stats, pricing (Free/Starter/Business), CTA, contact form, cookie consent, FAQ
+- Pages légales : Privacy Policy, Terms & Conditions (bilingues)
+- Formulaire de contact : table `contact_messages`, validation, feedback
+- Cookie consent banner avec localStorage
+- Footer professionnel 4 colonnes
 
-### 4. Auto-hébergement TinyMCE
+### 9. DB & Modèles
 
-**Nouveaux fichiers :** `public/vendor/tinymce/`
+- Enum `users.role` : `admin`, `agent`, `user`
+- Enum `contacts.status` : `prospect`, `client`, `inactif`
+- Table `ai_documents` pour uploads IA
+- Colonne `phone` ajoutée à contacts
+- Currencies supportées : XAF, XOF, EUR, USD, GBP, ZAR, MAD, NGN, GHS, KES
 
-- Extraction de TinyMCE 6.8.6 depuis npm
-- Copie des fichiers dans le répertoire public pour chargement local
-- Plugins inclus : advlist, code, fullscreen, image, link, lists, preview, table
-- Skin : oxide
-- (Non utilisé actuellement — Summernote a été préféré)
+## Correctifs techniques
 
----
-
-### 5. AdminPanelProvider — Nettoyage
-
-**Fichier :** `app/Providers/Filament/AdminPanelProvider.php`
-
-- Suppression d'une ligne vide superflue
+- `Artisan::call()` plutôt que `exec()` pour l'installeur (évite les erreurs Apache)
+- Toutes les URLs utilisent le helper `url()` pour compatibilité sous-répertoire
+- `ClientComposer` utilise `$sidebarStats` pour ne pas écraser `$stats` du contrôleur
+- Les propriétés statiques Filament ne peuvent pas utiliser `__()` → méthodes override
+- `maxLength` porté de 1024 à 65535 pour le message HTML de rétention
+- Correction des retraits et espaces superflus dans AdminPanelProvider
