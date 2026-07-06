@@ -50,6 +50,15 @@ class AdminPanelProvider extends PanelProvider
                 'panels::topbar.end',
                 fn() => view('filament.widgets.language-switcher')
             )
+            // Inject TinyMCE self-hosted into every admin page
+            ->renderHook(
+                'panels::body.end',
+                fn() => new \Illuminate\Support\HtmlString(
+                    '<script src="' . asset('vendor/tinymce/tinymce.min.js') . '"></script>' .
+                    '<style>.tox-notification,.tox-statusbar__branding{display:none!important}</style>' .
+                    '<script>document.addEventListener("focusin",function(e){if(e.target.closest&&e.target.closest(".tox-tinymce-aux,.tox-tinymce,.tox-editor-header,.tox-dialog,.tox-pop")){e.stopImmediatePropagation();}},true);</script>'
+                )
+            )
 
             ->navigationGroups([
                 NavigationGroup::make()->label('Administration'),
