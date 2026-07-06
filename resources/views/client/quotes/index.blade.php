@@ -39,6 +39,9 @@
                     <td>{{ $quote->valid_until ? \Carbon\Carbon::parse($quote->valid_until)->format('d/m/Y') : '-' }}</td>
                     <td>
                         <a href="{{ url('client/quotes/' . $quote->id) }}" class="btn btn-ghost btn-sm">👁️</a>
+                        @if(in_array($quote->status, ['draft', 'sent']))
+                        <a href="{{ url('client/quotes/' . $quote->id . '/edit') }}" class="btn btn-ghost btn-sm">✏️</a>
+                        @endif
                         <form action="{{ url('client/quotes/' . $quote->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('{{ __('app.client.quotes.confirm_delete') }}')">
                             @csrf @method('DELETE')
                             <button type="submit" class="btn btn-ghost btn-sm" style="color:var(--red);">🗑️</button>
