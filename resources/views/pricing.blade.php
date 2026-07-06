@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     @include('components.seo')
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{{ $site->favicon_path ? asset('storage/' . $site->favicon_path) : asset('favicon.ico') }}">
 
     <link rel="stylesheet" href="{{ asset('css/switchers.css') }}">
     <style>
@@ -51,7 +52,7 @@
 <body>
 
 <nav>
-    <a class="logo" href="{{ url('/') }}">🟢 WhatsAppBizAI</a>
+    <a class="logo" href="{{ url('/') }}">🟢 {{ $site->site_name ?? 'WhatsAppBizAI' }}</a>
     <div class="nav-right">
         <div class="switcher-wrap">
             <button class="switcher-btn lang-btn" data-lang="fr">FR</button>
@@ -187,7 +188,7 @@
 </div>
 
 <footer>
-    <p>© {{ date('Y') }} WhatsAppBizAI · <a href="{{ url('/') }}" style="color:#0ea5e9" data-t-key="nav.home">Accueil</a> · <a href="/admin" style="color:#0ea5e9" data-t-key="nav.dashboard">Dashboard</a></p>
+    <p>{!! $site->footer_copyright ?? '© ' . date('Y') . ' WhatsAppBizAI' !!} · <a href="{{ url('/') }}" style="color:#0ea5e9" data-t-key="nav.home">Accueil</a> · <a href="/admin" style="color:#0ea5e9" data-t-key="nav.dashboard">Dashboard</a></p>
 </footer>
 
 <script>

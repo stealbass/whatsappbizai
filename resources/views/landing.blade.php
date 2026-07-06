@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     @include('components.seo')
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{{ $site->favicon_path ? asset('storage/' . $site->favicon_path) : asset('favicon.ico') }}">
     <link rel="stylesheet" href="{{ asset('css/switchers.css') }}">
     <style>
         :root { --sky: #0ea5e9; --sky-dark: #0284c7; --dark: #0f172a; --mid: #1e293b; --gray: #64748b; --light: #f8fafc; --green: #22c55e; }
@@ -357,10 +358,10 @@
 <!-- STATS -->
 <div class="stats">
     <div class="stats-inner">
-        <div class="stat"><h3>&lt; 30s</h3><p data-t-key="landing.stat_response">Délai de réponse IA moyen</p></div>
-        <div class="stat"><h3>24/7</h3><p data-t-key="landing.stat_avail">Disponibilité de l'agent</p></div>
-        <div class="stat"><h3>FR + EN</h3><p data-t-key="landing.stat_langs">Langues supportées</p></div>
-        <div class="stat"><h3>100%</h3><p data-t-key="landing.stat_secure">Sécurisé &amp; conforme RGPD</p></div>
+        <div class="stat"><h3>{{ $site->stats_users ?? '&lt; 30s' }}</h3><p data-t-key="landing.stat_response">Délai de réponse IA moyen</p></div>
+        <div class="stat"><h3>{{ $site->stats_invoices ?? '24/7' }}</h3><p data-t-key="landing.stat_avail">Disponibilité de l'agent</p></div>
+        <div class="stat"><h3>{{ $site->stats_messages ?? 'FR + EN' }}</h3><p data-t-key="landing.stat_langs">Langues supportées</p></div>
+        <div class="stat"><h3>{{ $site->stats_countries ?? '100%' }}</h3><p data-t-key="landing.stat_secure">Sécurisé &amp; conforme RGPD</p></div>
     </div>
 </div>
 
@@ -432,21 +433,21 @@
                     <div class="contact-detail-icon">📧</div>
                     <div>
                         <strong>Email</strong><br>
-                        <a href="mailto:contact@whatsappbizai.com">contact@whatsappbizai.com</a>
+                        <a href="mailto:{{ $site->contact_email ?? 'contact@whatsappbizai.com' }}">{{ $site->contact_email ?? 'contact@whatsappbizai.com' }}</a>
                     </div>
                 </div>
                 <div class="contact-detail">
-                    <div class="contact-detail-icon">💬</div>
+                    <div class="contact-detail-icon">📞</div>
                     <div>
-                        <strong>WhatsApp</strong><br>
-                        <span data-t-key="landing.contact_whatsapp">Disponible pour les clients existants</span>
+                        <strong>Téléphone</strong><br>
+                        <span>{{ $site->contact_phone ?? 'Non renseigné' }}</span>
                     </div>
                 </div>
                 <div class="contact-detail">
                     <div class="contact-detail-icon">⏰</div>
                     <div>
-                        <strong data-t-key="landing.contact_hours">Horaires</strong><br>
-                        <span data-t-key="landing.contact_hours_value">Lundi - Vendredi, 9h - 18h (GMT+1)</span>
+                        <strong>WhatsApp</strong><br>
+                        <span>{{ $site->whatsapp_number ?? 'Non renseigné' }}</span>
                     </div>
                 </div>
             </div>
@@ -498,7 +499,7 @@
 
             <details style="border:1px solid #e2e8f0;border-radius:12px;padding:20px 24px;cursor:pointer;">
                 <summary style="font-weight:700;font-size:16px;list-style:none;display:flex;justify-content:space-between;align-items:center;" data-t-key="landing.faq_q2">Combien coûte WhatsAppBizAI ?</summary>
-                <p style="margin-top:12px;color:var(--gray);line-height:1.7;" data-t-key="landing.faq_a2">WhatsAppBizAI propose un plan gratuit pour démarrer, sans carte bancaire requise. Les plans Starter et Business sont disponibles à partir de 4 900 XAF/mois pour accéder à plus de contacts, factures et messages IA.</p>
+                <p style="margin-top:12px;color:var(--gray);line-height:1.7;" data-t-key="landing.faq_a2">WhatsAppBizAI propose un plan gratuit pour démarrer, sans carte bancaire requise. Les plans Starter et Business sont disponibles à partir de 9 900 XAF/mois pour accéder à plus de contacts, factures et messages IA.</p>
             </details>
 
             <details style="border:1px solid #e2e8f0;border-radius:12px;padding:20px 24px;cursor:pointer;">
@@ -528,8 +529,9 @@
 <footer>
     <div class="footer-inner">
         <div class="footer-brand">
-            <a href="{{ url('/') }}" class="logo">WhatsApp<span>BizAI</span></a>
-            <p data-t-key="landing.footer_desc">Back-office intelligent pour PME. Gérez devis, factures et relances directement depuis WhatsApp grâce à l'IA.</p>
+        @php $siteName = $site->site_name ?? 'WhatsAppBizAI'; $parts = explode('BizAI', $siteName); @endphp
+        <a href="{{ url('/') }}" class="logo">{!! $parts[0] ?? $siteName !!}<span>{{ str_contains($siteName, 'BizAI') ? 'BizAI' : '' }}</span></a>
+            <p>{!! $site->footer_description ?? __('app.landing.footer_desc') !!}</p>
         </div>
         <div class="footer-col">
             <h4 data-t-key="landing.footer_product">Produit</h4>
@@ -541,7 +543,12 @@
         <div class="footer-col">
             <h4 data-t-key="landing.footer_company">Entreprise</h4>
             <a href="{{ url('contact') }}" data-t-key="nav.contact">Contact</a>
-            <a href="mailto:contact@whatsappbizai.com">Email</a>
+            <a href="mailto:{{ $site->contact_email ?? 'contact@whatsappbizai.com' }}">Email</a>
+            @if($site->facebook_url)<a href="{{ $site->facebook_url }}" target="_blank" rel="noopener">Facebook</a>@endif
+            @if($site->twitter_url)<a href="{{ $site->twitter_url }}" target="_blank" rel="noopener">Twitter / X</a>@endif
+            @if($site->linkedin_url)<a href="{{ $site->linkedin_url }}" target="_blank" rel="noopener">LinkedIn</a>@endif
+            @if($site->instagram_url)<a href="{{ $site->instagram_url }}" target="_blank" rel="noopener">Instagram</a>@endif
+            @if($site->youtube_url)<a href="{{ $site->youtube_url }}" target="_blank" rel="noopener">YouTube</a>@endif
         </div>
         <div class="footer-col">
             <h4 data-t-key="landing.footer_legal">Légal</h4>
@@ -550,7 +557,7 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <p>© {{ date('Y') }} WhatsAppBizAI. <span data-t-key="landing.footer_all_rights">Tous droits réservés.</span></p>
+        <p>{!! $site->footer_copyright ?? '© ' . date('Y') . ' WhatsAppBizAI. Tous droits réservés.' !!}</p>
         <div>
             <a href="{{ url('privacy') }}" data-t-key="nav.privacy">Confidentialité</a> ·
             <a href="{{ url('terms') }}" data-t-key="nav.terms">Conditions</a> ·

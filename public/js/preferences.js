@@ -57,7 +57,7 @@
     function detectCurrency(lang) {
         var s = localStorage.getItem('wbai_currency');
         if (s && XAF_RATES[s]) return s;
-        return lang === 'fr' ? 'XAF' : 'USD';
+        return 'USD';
     }
 
     var currentLang = detectLanguage();
