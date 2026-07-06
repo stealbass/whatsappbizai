@@ -90,7 +90,7 @@ class InvoiceResource extends Resource
                     ->numeric()->default(0),
                 Forms\Components\TextInput::make('discount')->label(__('app.admin.discount'))
                     ->numeric()->default(0),
-                TinyMce::make('notes')->label(__('app.admin.notes_conditions')),
+                TinyMce::make('notes')->height(200)->label(__('app.admin.notes_conditions')),
                 Forms\Components\TextInput::make('payment_method')->label(__('app.admin.payment_method'))->nullable(),
             ])->columns(3),
         ]);

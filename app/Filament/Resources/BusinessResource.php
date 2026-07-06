@@ -124,7 +124,7 @@ class BusinessResource extends Resource
 
             Forms\Components\Section::make(__('app.admin.ai_instructions'))
                 ->schema([
-                    TinyMce::make('gemini_system_prompt')
+                    TinyMce::make('gemini_system_prompt')->height(300)
                         ->label(__('app.admin.ai_instructions_label'))
                         
                         ->columnSpanFull(),
