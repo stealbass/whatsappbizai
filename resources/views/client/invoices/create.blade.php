@@ -35,7 +35,7 @@
             </div>
             <div class="form-group" style="grid-column:1/-1;">
                 <label>{{ __('app.client.invoices.form.notes') }}</label>
-                <textarea name="notes" id="invoice_notes">{{ old('notes') }}</textarea>
+                <textarea name="notes" id="invoice_notes">{!! old('notes') !!}</textarea>
             </div>
         </div>
         <div class="form-row">

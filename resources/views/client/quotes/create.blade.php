@@ -30,7 +30,7 @@
         </div>
         <div class="form-group">
             <label>{{ __('app.client.quotes.form.notes') }}</label>
-            <textarea name="notes" id="notes">{{ old('notes') }}</textarea>
+            <textarea name="notes" id="notes">{!! old('notes') !!}</textarea>
         </div>
         <div class="form-row">
             <div class="form-group">

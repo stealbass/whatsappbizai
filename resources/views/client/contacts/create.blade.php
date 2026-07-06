@@ -47,7 +47,7 @@
         </div>
         <div class="form-group">
             <label>{{ __('app.client.contacts.notes') }}</label>
-            <textarea name="notes" id="contact_notes">{{ old('notes') }}</textarea>
+            <textarea name="notes" id="contact_notes">{!! old('notes') !!}</textarea>
         </div>
         <div style="display:flex;gap:12px;margin-top:20px;">
             <button type="submit" class="btn btn-primary">{{ __('app.client.contacts.create') }}</button>
