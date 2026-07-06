@@ -32,7 +32,7 @@ class RetentionController extends Controller
         $business = $user->business;
 
         $data = $request->validate([
-            'message'   => 'required|string|max:1024',
+            'message'   => 'required|string|max:100000',
             'target'    => 'required|in:inactive_clients,all_clients,prospects,high_value',
             'objective' => 'required|in:retention,upsell,winback,referral',
         ]);

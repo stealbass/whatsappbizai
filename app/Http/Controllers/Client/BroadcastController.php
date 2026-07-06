@@ -31,7 +31,7 @@ class BroadcastController extends Controller
         $business = $user->business;
 
         $data = $request->validate([
-            'message' => 'required|string|max:1024',
+            'message' => 'required|string|max:100000',
             'target'  => 'required|in:all,clients,prospects',
         ]);
 
