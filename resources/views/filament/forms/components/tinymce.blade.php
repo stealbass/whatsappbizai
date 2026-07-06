@@ -11,11 +11,12 @@
     ─────────────────────────────────────────────────────────────────────────
 --}}
 @php
-    $statePath  = $getStatePath();
-    $editorId   = 'tinymce_' . str_replace(['.', '[', ']', '-', ':'], '_', $statePath);
-    $height     = $getHeight();
-    $initialVal = $getState() ?? '';
-    $isDisabled = $isDisabled();
+    $statePath          = $getStatePath();
+    $editorId           = 'tinymce_' . str_replace(['.', '[', ']', '-', ':'], '_', $statePath);
+    $height             = $getHeight();
+    $initialVal         = $getState() ?? '';
+    $isDisabled         = $isDisabled();
+    $editorPlaceholder  = $getEditorPlaceholder();
 @endphp
 
 <x-dynamic-component
@@ -30,6 +31,7 @@
             statePath: '{{ $statePath }}',
             height:     {{ $height }},
             isDisabled: {{ $isDisabled ? 'true' : 'false' }},
+            placeholder: @js($editorPlaceholder),
             editor:     null,
 
             init() {
@@ -56,6 +58,7 @@
                     branding:    false,
                     license_key: 'gpl',
                     readonly:    self.isDisabled,
+                    placeholder: self.placeholder || undefined,
                     menubar:     'edit view insert format tools table',
                     plugins: [
                         'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',

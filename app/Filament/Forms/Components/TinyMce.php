@@ -16,8 +16,9 @@ class TinyMce extends Field
 {
     protected string $view = 'filament.forms.components.tinymce';
 
-    protected int    $height  = 350;
-    protected bool   $isHtml  = true;   // always renders as rich HTML editor
+    protected int    $height      = 350;
+    protected bool   $isHtml      = true;
+    protected string $editorPlaceholder = '';
 
     // ── Fluent config ─────────────────────────────────────────────────────
 
@@ -33,8 +34,20 @@ class TinyMce extends Field
         return $this;
     }
 
+    /**
+     * Sets placeholder text shown inside TinyMCE when the editor is empty.
+     * Overrides Field::placeholder() to store in a separate property
+     * (avoids conflicts with Filament's own placeholder handling).
+     */
+    public function placeholder(string $text): static
+    {
+        $this->editorPlaceholder = $text;
+        return $this;
+    }
+
     // ── Getters for the Blade view ─────────────────────────────────────────
 
-    public function getHeight(): int    { return $this->height; }
-    public function isHtml(): bool      { return $this->isHtml; }
+    public function getHeight(): int             { return $this->height; }
+    public function isHtml(): bool               { return $this->isHtml; }
+    public function getEditorPlaceholder(): string { return $this->editorPlaceholder; }
 }
