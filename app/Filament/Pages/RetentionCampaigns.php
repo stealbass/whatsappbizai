@@ -131,7 +131,8 @@ class RetentionCampaigns extends Page implements HasForms
         $sent = 0;
         foreach ($users as $user) {
             try {
-                \Illuminate\Support\Facades\Mail::raw($data['message'], function ($mail) use ($user, $data) {
+                // Use Mail::html() so TinyMCE-generated HTML renders in the email
+                \Illuminate\Support\Facades\Mail::html($data['message'], function ($mail) use ($user, $data) {
                     $mail->to($user->email)
                         ->subject(__('app.admin.retention_subject'));
                 });
