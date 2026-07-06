@@ -30,7 +30,7 @@ class ServiceController extends Controller
         $user = Auth::user();
         $data = $request->validate([
             'name'        => 'required|string|max:255',
-            'description' => 'nullable|string|max:1000',
+            'description' => 'nullable|string|max:100000',
             'unit_price'  => 'required|numeric|min:0',
             'unit'        => 'required|string|max:50',
             'currency'    => 'nullable|string|max:3',
@@ -60,7 +60,7 @@ class ServiceController extends Controller
 
         $data = $request->validate([
             'name'        => 'required|string|max:255',
-            'description' => 'nullable|string|max:1000',
+            'description' => 'nullable|string|max:100000',
             'unit_price'  => 'required|numeric|min:0',
             'unit'        => 'required|string|max:50',
             'is_active'   => 'boolean',

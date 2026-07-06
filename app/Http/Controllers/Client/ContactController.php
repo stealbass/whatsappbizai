@@ -35,7 +35,7 @@ class ContactController extends Controller
             'whatsapp_number'  => 'required|string|max:50',
             'company'          => 'nullable|string|max:255',
             'status'           => 'required|in:prospect,client,inactif',
-            'notes'            => 'nullable|string|max:2000',
+            'notes'            => 'nullable|string|max:100000',
         ]);
 
         $data['business_id'] = $user->business_id;
@@ -64,7 +64,7 @@ class ContactController extends Controller
             'whatsapp_number'  => 'required|string|max:50',
             'company'          => 'nullable|string|max:255',
             'status'           => 'required|in:prospect,client,inactif',
-            'notes'            => 'nullable|string|max:2000',
+            'notes'            => 'nullable|string|max:100000',
         ]);
 
         $contact->update($data);
