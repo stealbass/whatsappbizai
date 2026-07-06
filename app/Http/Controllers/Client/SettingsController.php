@@ -55,9 +55,9 @@ class SettingsController extends Controller
 
         $data = $request->validate([
             'whatsapp_phone_number_id'      => 'nullable|string|max:100',
-            'whatsapp_access_token'         => 'nullable|string|max:500',
+            'whatsapp_access_token'         => 'nullable|string|max:2048',
             'whatsapp_business_account_id'  => 'nullable|string|max:100',
-            'gemini_system_prompt'          => 'nullable|string|max:5000',
+            'gemini_system_prompt'          => 'nullable|string|max:100000',
         ]);
 
         $business->update($data);
