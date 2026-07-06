@@ -8,9 +8,14 @@ use Illuminate\Support\Carbon;
 
 class RevenueChartWidget extends ChartWidget
 {
-    protected static ?string $heading    = '📈 ' . __('app.admin.monthly_revenue');
+    protected static ?string $heading    = null;
     protected static ?int    $sort       = 3;
     protected int|string|array $columnSpan = 'full';
+
+    public static function getHeading(): ?string
+    {
+        return '📈 ' . __('app.admin.monthly_revenue');
+    }
 
     protected function getData(): array
     {

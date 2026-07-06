@@ -11,7 +11,12 @@ class RecentConversationsWidget extends BaseWidget
 {
     protected static ?int $sort = 2;
     protected int|string|array $columnSpan = 'full';
-    protected static ?string $heading = 'Conversations récentes';
+    protected static ?string $heading = null;
+
+    public static function getHeading(): ?string
+    {
+        return __('app.admin.recent_conversations');
+    }
 
     public function table(Table $table): Table
     {
