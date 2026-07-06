@@ -7,12 +7,13 @@ use App\Models\Payment;
 use App\Models\Subscription;
 use App\Services\FlutterwaveService;
 use Filament\Forms;
-use Filament\Forms\Components\RichEditor;
+
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use App\Filament\Forms\Components\TinyMce;
 
 class PaymentResource extends Resource
 {
@@ -71,7 +72,7 @@ class PaymentResource extends Resource
                 Forms\Components\Select::make('status')->label(__('app.admin.status'))
                     ->options(['pending' => '⏳ ' . __('app.admin.pending'), 'verified' => '✅ ' . __('app.admin.verified'), 'rejected' => '❌ ' . __('app.admin.rejected')])
                     ->required(),
-                RichEditor::make('admin_notes')->label(__('app.admin.admin_notes')),
+                TinyMce::make('admin_notes')->label(__('app.admin.admin_notes')),
                 Forms\Components\FileUpload::make('screenshot_path')
                     ->label(__('app.admin.screenshot'))->image()->disk('public')->directory('payment-proofs'),
             ])->columns(1),
@@ -114,7 +115,7 @@ class PaymentResource extends Resource
                     ->modalDescription(fn(Payment $r) => __('app.admin.activate_subscription') . " : {$r->business?->name} ({$r->amount_formatted}) - {$r->plan} ?")
                     ->visible(fn(Payment $r) => $r->status === 'pending')
                     ->form([
-                        RichEditor::make('admin_notes')
+                        TinyMce::make('admin_notes')
                             ->label(__('app.admin.admin_notes')),
                     ])
                     ->action(function (Payment $record, array $data) {
@@ -156,7 +157,7 @@ class PaymentResource extends Resource
                     ->requiresConfirmation()
                     ->visible(fn(Payment $r) => $r->status === 'pending')
                     ->form([
-                        RichEditor::make('admin_notes')
+                        TinyMce::make('admin_notes')
                             ->label(__('app.admin.rejection_reason'))->required(),
                     ])
                     ->action(function (Payment $record, array $data) {

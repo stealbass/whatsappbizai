@@ -5,11 +5,12 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ConversationResource\Pages;
 use App\Models\Conversation;
 use Filament\Forms;
-use Filament\Forms\Components\RichEditor;
+
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use App\Filament\Forms\Components\TinyMce;
 
 class ConversationResource extends Resource
 {
@@ -45,7 +46,7 @@ class ConversationResource extends Resource
                     ->options(['open' => __('app.admin.open'), 'closed' => __('app.admin.closed'), 'waiting' => __('app.admin.waiting')])
                     ->required(),
                 Forms\Components\Toggle::make('ai_enabled')->label(__('app.admin.ai')),
-                RichEditor::make('summary')->label(__('app.admin.summary'))->columnSpanFull(),
+                TinyMce::make('summary')->label(__('app.admin.summary'))->columnSpanFull(),
             ])->columns(2),
         ]);
     }

@@ -5,10 +5,11 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\SiteSettingResource\Pages;
 use App\Models\SiteSetting;
 use Filament\Forms;
-use Filament\Forms\Components\RichEditor;
+
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Pages\EditRecord;
+use App\Filament\Forms\Components\TinyMce;
 
 class SiteSettingResource extends Resource
 {
@@ -157,15 +158,15 @@ class SiteSettingResource extends Resource
                 Forms\Components\Tabs\Tab::make('Legal')
                     ->icon('heroicon-o-document-text')
                     ->schema([
-                        RichEditor::make('privacy_policy')
+                        TinyMce::make('privacy_policy')
                             ->label(__('app.admin.privacy_policy'))
                             
                             ->columnSpanFull(),
-                        RichEditor::make('terms_conditions')
+                        TinyMce::make('terms_conditions')
                             ->label(__('app.admin.terms_conditions'))
                             
                             ->columnSpanFull(),
-                        RichEditor::make('cookie_policy')
+                        TinyMce::make('cookie_policy')
                             ->label(__('app.admin.cookie_policy'))
                             
                             ->columnSpanFull(),
@@ -175,7 +176,7 @@ class SiteSettingResource extends Resource
                     ->icon('heroicon-o-bars-3-bottom-left')
                     ->schema([
                         Forms\Components\Section::make(__('app.admin.footer'))->schema([
-                            RichEditor::make('footer_description')
+                            TinyMce::make('footer_description')
                                 ->label(__('app.admin.footer_description'))
                                 
                                 ->columnSpanFull(),
