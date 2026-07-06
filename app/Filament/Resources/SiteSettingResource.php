@@ -15,15 +15,15 @@ class SiteSettingResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
 
-    protected static ?string $navigationGroup = 'app.admin.nav_settings';
+    protected static ?string $navigationGroup = __('app.admin.nav_settings');
 
     protected static ?int $navigationSort = 1;
 
-    protected static ?string $navigationLabel = 'app.admin.site_settings';
+    protected static ?string $navigationLabel = __('app.admin.site_settings');
 
-    protected static ?string $modelLabel = 'app.admin.site_settings';
+    protected static ?string $modelLabel = __('app.admin.site_settings');
 
-    protected static ?string $pluralModelLabel = 'app.admin.site_settings';
+    protected static ?string $pluralModelLabel = __('app.admin.site_settings');
 
     protected static ?string $recordTitleAttribute = 'site_name';
 

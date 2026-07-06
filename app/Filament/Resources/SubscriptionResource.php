@@ -14,10 +14,10 @@ class SubscriptionResource extends Resource
 {
     protected static ?string $model = Subscription::class;
     protected static ?string $navigationIcon  = 'heroicon-o-star';
-    protected static ?string $navigationLabel = 'app.admin.subscriptions';
-    protected static ?string $modelLabel      = 'app.admin.subscription';
-    protected static ?string $pluralModelLabel = 'app.admin.subscriptions';
-    protected static ?string $navigationGroup = 'app.admin.nav_administration';
+    protected static ?string $navigationLabel = __('app.admin.subscriptions');
+    protected static ?string $modelLabel      = __('app.admin.subscription');
+    protected static ?string $pluralModelLabel = __('app.admin.subscriptions');
+    protected static ?string $navigationGroup = __('app.admin.nav_administration');
     protected static ?int    $navigationSort  = 21;
 
     public static function form(Form $form): Form

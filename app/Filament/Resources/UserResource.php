@@ -14,10 +14,10 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
-    protected static ?string $navigationLabel = 'app.admin.users';
-    protected static ?string $modelLabel = 'app.admin.user';
-    protected static ?string $pluralModelLabel = 'app.admin.users';
-    protected static ?string $navigationGroup = 'app.admin.nav_administration';
+    protected static ?string $navigationLabel = __('app.admin.users');
+    protected static ?string $modelLabel = __('app.admin.user');
+    protected static ?string $pluralModelLabel = __('app.admin.users');
+    protected static ?string $navigationGroup = __('app.admin.nav_administration');
     protected static ?int $navigationSort = 5;
 
     public static function form(Form $form): Form

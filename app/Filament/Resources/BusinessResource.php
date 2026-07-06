@@ -18,10 +18,10 @@ class BusinessResource extends Resource
 {
     protected static ?string $model = Business::class;
     protected static ?string $navigationIcon  = 'heroicon-o-building-storefront';
-    protected static ?string $navigationLabel = 'app.admin.businesses';
-    protected static ?string $modelLabel      = 'app.admin.business';
-    protected static ?string $pluralModelLabel = 'app.admin.businesses';
-    protected static ?string $navigationGroup = 'app.admin.nav_administration';
+    protected static ?string $navigationLabel = __('app.admin.businesses');
+    protected static ?string $modelLabel      = __('app.admin.business');
+    protected static ?string $pluralModelLabel = __('app.admin.businesses');
+    protected static ?string $navigationGroup = __('app.admin.nav_administration');
     protected static ?int    $navigationSort  = 10;
 
     /**

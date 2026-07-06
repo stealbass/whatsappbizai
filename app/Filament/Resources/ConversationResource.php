@@ -14,10 +14,10 @@ class ConversationResource extends Resource
 {
     protected static ?string $model = Conversation::class;
     protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
-    protected static ?string $navigationLabel = 'app.admin.conversations';
-    protected static ?string $modelLabel = 'app.admin.conversation';
-    protected static ?string $pluralModelLabel = 'app.admin.conversations';
-    protected static ?string $navigationGroup = 'app.admin.nav_messaging';
+    protected static ?string $navigationLabel = __('app.admin.conversations');
+    protected static ?string $modelLabel = __('app.admin.conversation');
+    protected static ?string $pluralModelLabel = __('app.admin.conversations');
+    protected static ?string $navigationGroup = __('app.admin.nav_messaging');
     protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form

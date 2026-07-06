@@ -19,10 +19,10 @@ class InvoiceResource extends Resource
 {
     protected static ?string $model = Invoice::class;
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
-    protected static ?string $navigationLabel = 'app.admin.invoices';
-    protected static ?string $modelLabel = 'app.admin.invoice';
-    protected static ?string $pluralModelLabel = 'app.admin.invoices';
-    protected static ?string $navigationGroup = 'app.admin.nav_settings';
+    protected static ?string $navigationLabel = __('app.admin.invoices');
+    protected static ?string $modelLabel = __('app.admin.invoice');
+    protected static ?string $pluralModelLabel = __('app.admin.invoices');
+    protected static ?string $navigationGroup = __('app.admin.nav_settings');
     protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form

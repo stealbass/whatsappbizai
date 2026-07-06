@@ -14,10 +14,10 @@ class ServiceResource extends Resource
 {
     protected static ?string $model = Service::class;
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
-    protected static ?string $navigationLabel = 'app.admin.services';
-    protected static ?string $modelLabel = 'app.admin.service';
-    protected static ?string $pluralModelLabel = 'app.admin.services';
-    protected static ?string $navigationGroup = 'app.admin.nav_settings';
+    protected static ?string $navigationLabel = __('app.admin.services');
+    protected static ?string $modelLabel = __('app.admin.service');
+    protected static ?string $pluralModelLabel = __('app.admin.services');
+    protected static ?string $navigationGroup = __('app.admin.nav_settings');
     protected static ?int $navigationSort = 6;
 
     public static function form(Form $form): Form

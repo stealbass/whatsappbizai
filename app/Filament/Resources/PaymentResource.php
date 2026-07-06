@@ -18,12 +18,12 @@ class PaymentResource extends Resource
     protected static ?string $model = Payment::class;
     protected static ?string $navigationIcon = 'heroicon-o-credit-card';
 
-    protected static ?string $navigationGroup = 'app.admin.nav_financial';
+    protected static ?string $navigationGroup = __('app.admin.nav_financial');
 
     protected static ?int $navigationSort = 10;
-    protected static ?string $navigationLabel = 'app.admin.payments';
-    protected static ?string $modelLabel = 'app.admin.payment';
-    protected static ?string $pluralModelLabel = 'app.admin.payments';
+    protected static ?string $navigationLabel = __('app.admin.payments');
+    protected static ?string $modelLabel = __('app.admin.payment');
+    protected static ?string $pluralModelLabel = __('app.admin.payments');
 
     public static function form(Form $form): Form
     {

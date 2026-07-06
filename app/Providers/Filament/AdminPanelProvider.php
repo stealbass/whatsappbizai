@@ -17,12 +17,22 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        // Set locale BEFORE panel boots so static __() calls work
+        $locale = Session::get('locale') ?? Cookie::get('wbai_lang') ?? config('app.locale', 'fr');
+        if (in_array($locale, ['fr', 'en'])) {
+            App::setLocale($locale);
+            config(['app.locale' => $locale]);
+        }
+
         return $panel
             ->default()
             ->id('admin')
