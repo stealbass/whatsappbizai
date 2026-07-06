@@ -47,7 +47,7 @@
             @if($this->record->summary)
             <div class="rounded-xl border border-sky-200 bg-sky-50 p-4 dark:bg-sky-950 dark:border-sky-800">
                 <h3 class="text-sm font-semibold text-sky-700 dark:text-sky-300 mb-2">{{ __('app.admin.ai_summary') }}</h3>
-                <p class="text-sm text-sky-900 dark:text-sky-200 leading-relaxed">{{ $this->record->summary }}</p>
+                <p class="text-sm text-sky-900 dark:text-sky-200 leading-relaxed">{!! nl2br(e(strip_tags($this->record->summary))) !!}</p>
             </div>
             @endif
 

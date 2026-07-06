@@ -136,7 +136,7 @@
 
 @if($invoice->notes)
 <div class="notes">
-    <strong>{{ __('app.pdf.invoice.notes') }}</strong> {{ $invoice->notes }}
+    <strong>{{ __('app.pdf.invoice.notes') }}</strong> {!! strip_tags($invoice->notes, '<b><strong><em><u><ul><ol><li><br><p>') !!}
 </div>
 @endif
 

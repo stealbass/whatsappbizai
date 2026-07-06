@@ -104,7 +104,7 @@
 </div>
 
 @if($quote->notes)
-<div class="notes"><strong>{{ __('app.pdf.quote.conditions') }}</strong> {{ $quote->notes }}</div>
+<div class="notes"><strong>{{ __('app.pdf.quote.conditions') }}</strong> {!! strip_tags($quote->notes, '<b><strong><em><u><ul><ol><li><br><p>') !!}</div>
 @endif
 
 <div class="footer">
