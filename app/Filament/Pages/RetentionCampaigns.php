@@ -62,7 +62,7 @@ class RetentionCampaigns extends Page implements HasForms
                 ->label(__('app.admin.retention_message'))
                 ->rows(10)
                 ->required()
-                ->maxLength(1024),
+                ->maxLength(65535),
         ];
     }
 

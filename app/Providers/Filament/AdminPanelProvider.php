@@ -50,6 +50,7 @@ class AdminPanelProvider extends PanelProvider
                 'panels::topbar.end',
                 fn() => view('filament.widgets.language-switcher')
             )
+
             ->navigationGroups([
                 NavigationGroup::make()->label('Administration'),
                 NavigationGroup::make()->label('Messagerie'),
