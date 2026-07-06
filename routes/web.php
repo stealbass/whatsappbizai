@@ -112,6 +112,11 @@ Route::middleware('auth')->group(function () {
     // Broadcast
     Route::get('/client/broadcast', [BroadcastController::class, 'index'])->name('c.broadcast');
     Route::post('/client/broadcast', [BroadcastController::class, 'send'])->name('c.broadcast.send');
+
+    // Retention (client relance SES contacts)
+    Route::get('/client/retention', [RetentionController::class, 'index'])->name('c.retention');
+    Route::post('/client/retention/send', [RetentionController::class, 'send'])->name('c.retention.send');
+    Route::get('/client/retention/draft-ai', [RetentionController::class, 'draftAI'])->name('c.retention.draftAI');
     Route::post('/client/broadcast/draft-ai', [BroadcastController::class, 'draftAI'])->name('c.broadcast.draftAI');
 
     // Language switcher

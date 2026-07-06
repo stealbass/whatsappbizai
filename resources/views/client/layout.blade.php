@@ -160,6 +160,11 @@
             <span class="icon">📦</span> {{ __('app.client.sidebar.services') }}
         </a>
 
+        <div class="nav-section">{{ __('app.client.sidebar.marketing') }}</div>
+        <a href="{{ url('client/retention') }}" class="nav-item {{ request()->routeIs('c.retention*') ? 'active' : '' }}">
+            <span class="icon">📢</span> {{ __('app.client.sidebar.retention') }}
+        </a>
+
         <div class="nav-section">{{ __('app.client.sidebar.settings') }}</div>
         <a href="{{ url('client/settings/business') }}" class="nav-item {{ request()->routeIs('c.settings.business') ? 'active' : '' }}">
             <span class="icon">🏢</span> {{ __('app.client.sidebar.my_business') }}

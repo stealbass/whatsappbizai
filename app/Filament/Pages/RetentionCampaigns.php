@@ -2,9 +2,7 @@
 
 namespace App\Filament\Pages;
 
-use App\Models\Contact;
-use App\Services\GeminiService;
-use App\Services\MarketingService;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -19,17 +17,21 @@ class RetentionCampaigns extends Page implements HasForms
     protected static ?string $navigationIcon = 'heroicon-m-user-group';
     protected static ?string $navigationGroup = 'Marketing';
     protected static ?int $navigationSort = 5;
-    protected static ?string $title = 'Campagnes de Rétention';
 
     public ?string $message = null;
-    public ?string $target = 'inactive_clients';
-    public ?string $objective = 'retention';
+    public ?string $target = 'expired_subscribers';
+    public ?string $objective = 'renewal';
+
+    public function getHeading(): string
+    {
+        return __('app.admin.retention_title');
+    }
 
     public function mount(): void
     {
         $this->form->fill([
-            'target' => 'inactive_clients',
-            'objective' => 'retention',
+            'target' => 'expired_subscribers',
+            'objective' => 'renewal',
         ]);
     }
 
@@ -37,27 +39,27 @@ class RetentionCampaigns extends Page implements HasForms
     {
         return [
             Forms\Components\Select::make('target')
-                ->label(__('app.client.retention.recipients'))
+                ->label(__('app.admin.retention_target'))
                 ->options([
-                    'inactive_clients' => __('app.admin.inactive_clients_30d'),
-                    'all_clients' => __('app.admin.all_clients'),
-                    'prospects' => __('app.admin.prospects'),
-                    'high_value' => __('app.admin.high_value_clients'),
+                    'expired_subscribers' => __('app.admin.expired_subscribers'),
+                    'trial_users' => __('app.admin.trial_users'),
+                    'inactive_users' => __('app.admin.inactive_users_30d'),
+                    'all_users' => __('app.admin.all_users'),
                 ])
                 ->required(),
 
             Forms\Components\Select::make('objective')
-                ->label(__('app.client.retention.objective'))
+                ->label(__('app.admin.retention_objective'))
                 ->options([
-                    'retention' => __('app.admin.retention'),
-                    'upsell' => __('app.admin.upsell'),
-                    'winback' => __('app.admin.winback'),
-                    'referral' => __('app.admin.referral'),
+                    'renewal' => __('app.admin.obj_renewal'),
+                    'upgrade' => __('app.admin.obj_upgrade'),
+                    'winback' => __('app.admin.obj_winback'),
+                    'feedback' => __('app.admin.obj_feedback'),
                 ])
                 ->required(),
 
             Forms\Components\Textarea::make('message')
-                ->label(__('app.client.retention.message'))
+                ->label(__('app.admin.retention_message'))
                 ->rows(5)
                 ->required()
                 ->maxLength(1024),
@@ -68,36 +70,41 @@ class RetentionCampaigns extends Page implements HasForms
     {
         $data = $this->form->getState();
 
-        $business = auth()->user()->business ?? null;
-        if (!$business) {
-            Notification::make()->title(__('app.notifications.error'))->body(__('app.notifications.no_business'))->danger()->send();
-            return;
-        }
-
         $goal = match($data['objective']) {
-            'retention' => 'Write a retention message to re-engage inactive clients with a special offer',
-            'upsell' => 'Write an upsell message to offer premium services to existing clients',
-            'winback' => 'Write a win-back message for clients who haven\'t purchased in 30+ days',
-            'referral' => 'Write a referral invitation message offering rewards for bringing new clients',
-            default => 'Write a professional marketing message',
+            'renewal' => 'Write a renewal reminder for expired subscriptions with a special offer',
+            'upgrade' => 'Write an upgrade offer message for free/trial users',
+            'winback' => 'Write a win-back message for users inactive for 30+ days',
+            'feedback' => 'Write a feedback request message for churned users',
+            default => 'Write a professional retention message',
         };
 
         $audience = match($data['target']) {
-            'inactive_clients' => 'inactive clients for 30+ days',
-            'all_clients' => 'all active clients',
-            'prospects' => 'prospects who haven\'t purchased yet',
-            'high_value' => 'high-value clients (> 100,000 XAF)',
-            default => 'all contacts',
+            'expired_subscribers' => 'users with expired subscriptions',
+            'trial_users' => 'trial users who haven\'t subscribed yet',
+            'inactive_users' => 'users inactive for 30+ days',
+            'all_users' => 'all platform users',
+            default => 'all users',
         };
 
-        $gemini = app(GeminiService::class);
-        $draft = $gemini->draftBroadcast($business, $goal, $audience);
+        $prompt = "Write a professional retention email/message for a SaaS platform called WhatsAppBizAI.\n";
+        $prompt .= "Goal: {$goal}\n";
+        $prompt .= "Audience: {$audience}\n";
+        $prompt .= "Language: French\n";
+        $prompt .= "Tone: Friendly, professional, not pushy.\n";
+        $prompt .= "Include a clear call-to-action.\n";
+        $prompt .= "Keep it under 200 words.\n";
 
-        if ($draft) {
-            $this->form->fill(['message' => $draft]);
-            Notification::make()->title(__('app.client.retention.draft_generated'))->body(__('app.client.retention.draft_generated_body'))->success()->send();
+        $response = app(\App\Services\GeminiService::class)->chat(
+            auth()->user()->business,
+            $prompt,
+            'You are a professional copywriter for a SaaS platform.'
+        );
+
+        if ($response) {
+            $this->form->fill(['message' => $response]);
+            Notification::make()->title(__('app.client.retention.draft_generated'))->success()->send();
         } else {
-            Notification::make()->title(__('app.notifications.error'))->body(__('app.client.retention.draft_error'))->danger()->send();
+            Notification::make()->title(__('app.notifications.error'))->danger()->send();
         }
     }
 
@@ -105,41 +112,38 @@ class RetentionCampaigns extends Page implements HasForms
     {
         $data = $this->form->getState();
 
-        $user = auth()->user();
-        $business = $user->business ?? null;
-
-        if (!$business) {
-            Notification::make()->title(__('app.notifications.error'))->body(__('app.notifications.no_business'))->danger()->send();
-            return;
-        }
-
-        if (!$business->whatsapp_phone_number_id || !$business->whatsapp_access_token) {
-            Notification::make()->title(__('app.notifications.error'))->body(__('app.notifications.whatsapp_not_configured'))->danger()->send();
-            return;
-        }
-
-        $q = Contact::where('business_id', $business->id)->whereNotNull('whatsapp_number');
+        $q = User::query();
 
         match($data['target']) {
-            'inactive_clients' => $q->where('status', 'client')->where('last_seen_at', '<', now()->subDays(30)),
-            'prospects' => $q->where('status', 'prospect'),
-            'high_value' => $q->where('status', 'client')->where('total_invoiced', '>', 100000),
-            default => $q->where('status', 'client'),
+            'expired_subscribers' => $q->whereHas('business', fn($b) => $b->where('plan', '!=', 'free')->where('plan_expires_at', '<', now())),
+            'trial_users' => $q->whereDoesntHave('business', fn($b) => $b->where('plan', '!=', 'free')),
+            'inactive_users' => $q->where('last_login_at', '<', now()->subDays(30)),
+            default => null,
         };
 
-        $contacts = $q->get();
+        $users = $q->whereNotNull('email')->get();
 
-        if ($contacts->isEmpty()) {
-            Notification::make()->title(__('app.notifications.error'))->body(__('app.notifications.no_contacts'))->danger()->send();
+        if ($users->isEmpty()) {
+            Notification::make()->title(__('app.notifications.error'))->body(__('app.admin.retention_no_users'))->danger()->send();
             return;
         }
 
-        $marketing = app(MarketingService::class);
-        $result = $marketing->sendBroadcast($business, $contacts, $data['message']);
+        $sent = 0;
+        foreach ($users as $user) {
+            try {
+                \Illuminate\Support\Facades\Mail::raw($data['message'], function ($mail) use ($user, $data) {
+                    $mail->to($user->email)
+                        ->subject(__('app.admin.retention_subject'));
+                });
+                $sent++;
+            } catch (\Exception $e) {
+                // continue
+            }
+        }
 
         Notification::make()
             ->title(__('app.client.retention.campaign_completed'))
-            ->body("{$result['sent']} " . __('app.client.retention.campaign_sent') . ($result['failed'] > 0 ? ", {$result['failed']} " . __('app.client.retention.campaign_failed') : ''))
+            ->body("{$sent}/{$users->count()} " . __('app.admin.retention_emails_sent'))
             ->success()
             ->send();
 
