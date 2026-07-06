@@ -462,3 +462,95 @@ INSERT INTO `migrations` (`migration`, `batch`) VALUES
 -- FIN DU SCHEMA — NE PAS insérer de données ici.
 -- Lancez : php artisan db:seed  (depuis SSH) pour les données démo.
 -- ============================================================
+
+-- ------------------------------------------------------------
+-- 20. contact_messages (formulaire de contact public)
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `contact_messages` (
+  `id`         bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name`       varchar(255) NOT NULL,
+  `email`      varchar(255) NOT NULL,
+  `subject`    varchar(255) NOT NULL,
+  `message`    text NOT NULL,
+  `is_read`    tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ------------------------------------------------------------
+-- 21. site_settings (paramètres SEO + branding)
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `site_settings` (
+  `id`                     bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `site_name`              varchar(200) NOT NULL DEFAULT 'WhatsAppBizAI',
+  `site_tagline`           varchar(300) DEFAULT NULL,
+  `logo_path`              varchar(500) DEFAULT NULL,
+  `favicon_path`           varchar(500) DEFAULT NULL,
+  `meta_title`             varchar(200) DEFAULT NULL,
+  `meta_description`       text DEFAULT NULL,
+  `meta_keywords`          text DEFAULT NULL,
+  `og_image_path`          varchar(500) DEFAULT NULL,
+  `canonical_url`          varchar(500) DEFAULT NULL,
+  `contact_email`          varchar(200) DEFAULT NULL,
+  `contact_phone`          varchar(50) DEFAULT NULL,
+  `whatsapp_number`        varchar(50) DEFAULT NULL,
+  `facebook_url`           varchar(500) DEFAULT NULL,
+  `twitter_url`            varchar(500) DEFAULT NULL,
+  `linkedin_url`           varchar(500) DEFAULT NULL,
+  `instagram_url`          varchar(500) DEFAULT NULL,
+  `youtube_url`            varchar(500) DEFAULT NULL,
+  `privacy_policy`         text DEFAULT NULL,
+  `terms_conditions`       text DEFAULT NULL,
+  `cookie_policy`          text DEFAULT NULL,
+  `footer_description`     text DEFAULT NULL,
+  `footer_copyright`       varchar(500) DEFAULT NULL,
+  `business_name`          varchar(200) DEFAULT NULL,
+  `business_city`          varchar(100) DEFAULT NULL,
+  `business_country`       varchar(100) DEFAULT NULL,
+  `business_founding_date` varchar(20) DEFAULT NULL,
+  `stats_users`            int(11) NOT NULL DEFAULT 0,
+  `stats_invoices`         int(11) NOT NULL DEFAULT 0,
+  `stats_messages`         int(11) NOT NULL DEFAULT 0,
+  `stats_countries`        varchar(10) NOT NULL DEFAULT '15+',
+  `created_at`             timestamp NULL DEFAULT NULL,
+  `updated_at`             timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ------------------------------------------------------------
+-- Alter: users.role — ajoute 'user' à l'enum
+-- ------------------------------------------------------------
+ALTER TABLE `users`
+  MODIFY COLUMN `role` enum('admin','agent','user') NOT NULL DEFAULT 'user';
+
+-- ------------------------------------------------------------
+-- Alter: contacts — ajoute colonne phone + portal_token (si absent)
+-- ------------------------------------------------------------
+ALTER TABLE `contacts`
+  ADD COLUMN IF NOT EXISTS `phone`        varchar(50) DEFAULT NULL AFTER `whatsapp_number`,
+  ADD COLUMN IF NOT EXISTS `portal_token` varchar(64) DEFAULT NULL AFTER `notes`;
+
+-- Unicité portal_token (si pas déjà créé)
+-- ALTER TABLE `contacts` ADD UNIQUE KEY `contacts_portal_token_unique` (`portal_token`);
+
+-- ------------------------------------------------------------
+-- Alter: businesses — ajoute ai_documents + plan (si absent)
+-- ------------------------------------------------------------
+ALTER TABLE `businesses`
+  ADD COLUMN IF NOT EXISTS `ai_documents` json DEFAULT NULL AFTER `gemini_system_prompt`,
+  ADD COLUMN IF NOT EXISTS `plan`          enum('free','starter','business','pro') NOT NULL DEFAULT 'free' AFTER `timezone`;
+
+-- ------------------------------------------------------------
+-- Migrations supplémentaires (marquées)
+-- ------------------------------------------------------------
+INSERT IGNORE INTO `migrations` (`migration`, `batch`) VALUES
+  ('2026_07_05_075146_create_contact_messages_table', 2),
+  ('2026_07_05_094423_add_user_role_to_users_table', 2),
+  ('2026_07_05_104419_add_phone_to_contacts_table', 2),
+  ('2026_07_05_161801_add_ai_documents_to_businesses_table', 2),
+  ('2026_07_05_225941_create_site_settings_table', 2);
+
+-- ============================================================
+-- FIN DU SCHEMA COMPLET — 21 tables
+-- ============================================================
