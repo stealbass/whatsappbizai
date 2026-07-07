@@ -20,8 +20,6 @@ class ContactResource extends Resource
     protected static ?string $navigationIcon  = 'heroicon-o-users';
     protected static ?int    $navigationSort  = 2;
     protected static ?string $model = Contact::class;
-    protected static ?string $navigationIcon = 'heroicon-o-users';
-    protected static ?int $navigationSort = 2;
 
     public static function getNavigationLabel(): string
     {

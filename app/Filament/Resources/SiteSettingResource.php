@@ -18,10 +18,6 @@ class SiteSettingResource extends Resource
     protected static ?int    $navigationSort  = 1;
     protected static ?string $model = SiteSetting::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
-
-    protected static ?int $navigationSort = 1;
-
     public static function getNavigationLabel(): string
     {
         return __('app.admin.site_settings');

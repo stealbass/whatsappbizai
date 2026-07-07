@@ -20,10 +20,8 @@ class QuoteResource extends Resource
 {
     protected static ?string $navigationGroup = 'Gestion Financière';
     protected static ?string $navigationIcon  = 'heroicon-o-clipboard-document-list';
-    protected static ?int    $navigationSort  = 2;
+    protected static ?int    $navigationSort  = 3;
     protected static ?string $model = Quote::class;
-    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
-    protected static ?int $navigationSort = 3;
 
     public static function getNavigationLabel(): string
     {
