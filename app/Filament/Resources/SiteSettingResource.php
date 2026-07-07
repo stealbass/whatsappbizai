@@ -13,6 +13,9 @@ use Filament\Resources\Pages\EditRecord;
 
 class SiteSettingResource extends Resource
 {
+    protected static ?string $navigationGroup = 'Paramètres';
+    protected static ?string $navigationIcon  = 'heroicon-o-cog-6-tooth';
+    protected static ?int    $navigationSort  = 1;
     protected static ?string $model = SiteSetting::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
