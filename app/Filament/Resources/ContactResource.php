@@ -47,6 +47,7 @@ class ContactResource extends Resource
                 Forms\Components\TextInput::make('name')->label(__('app.admin.name'))->required(),
                 Forms\Components\TextInput::make('whatsapp_number')->label(__('app.admin.whatsapp_number'))
                     ->placeholder('+237 6XX XXX XXX')->required(),
+                Forms\Components\TextInput::make('phone')->label(__('app.admin.phone'))->tel()->nullable(),
                 Forms\Components\TextInput::make('email')->email()->label(__('app.admin.email')),
                 Forms\Components\TextInput::make('company')->label(__('app.admin.business')),
             ])->columns(2),
