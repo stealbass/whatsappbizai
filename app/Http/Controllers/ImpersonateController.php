@@ -25,11 +25,9 @@ class ImpersonateController extends Controller
             return back()->with('error', 'You cannot impersonate yourself.');
         }
 
-        // Save super-admin ID to return later
-        session([
-            'impersonator_id'    => $superAdmin->id,
-            'impersonated_user'  => $user->id,
-        ]);
+        // Save IDs before invalidating session
+        $impersonatorId = $superAdmin->id;
+        $impersonatedUserId = $user->id;
 
         // Fully logout and invalidate old session
         Auth::guard('web')->logout();
@@ -39,12 +37,16 @@ class ImpersonateController extends Controller
         // Login as the target user
         Auth::guard('web')->login($user);
 
+        // Restore impersonation data into the NEW session
+        session([
+            'impersonator_id'    => $impersonatorId,
+            'impersonated_user'  => $impersonatedUserId,
+        ]);
+
         // Update last login
         $user->forceFill(['last_login_at' => now()])->save();
 
-        // Redirect based on role:
-        // - admin → Filament admin panel (with "Back to admin" topbar button)
-        // - user/agent → client dashboard (/dashboard)
+        // Redirect based on role
         if ($user->role === 'admin') {
             return redirect()->route('filament.admin.pages.dashboard');
         }
@@ -63,9 +65,12 @@ class ImpersonateController extends Controller
         $superAdmin = User::find($impersonatorId);
 
         if (!$superAdmin || !$superAdmin->is_super_admin) {
-            Session::forget('impersonator_id');
+            session()->forget(['impersonator_id', 'impersonated_user']);
             return redirect()->route('home');
         }
+
+        // Save ID before invalidating
+        $adminId = $superAdmin->id;
 
         // Fully logout and invalidate
         Auth::guard('web')->logout();
@@ -75,8 +80,8 @@ class ImpersonateController extends Controller
         // Login back as super-admin
         Auth::guard('web')->login($superAdmin);
 
-        Session::forget('impersonator_id');
-        Session::forget('impersonated_user');
+        // Clear impersonation data
+        session()->forget(['impersonator_id', 'impersonated_user']);
 
         return redirect()->route('filament.super-admin.pages.dashboard');
     }
