@@ -35,6 +35,15 @@ class InvoiceController extends Controller
         return view('client.invoices.create', compact('user', 'contacts', 'services'));
     }
 
+
+    public function show(Invoice $invoice)
+    {
+        $user = Auth::user();
+        abort_unless($invoice->business_id === $user->business_id, 403);
+        $invoice->load(['contact', 'items']);
+        return view('client.invoices.show', compact('user', 'invoice'));
+    }
+
     public function store(Request $request)
     {
         $user = Auth::user();

@@ -36,6 +36,15 @@ class QuoteController extends Controller
         return view('client.quotes.create', compact('user', 'contacts', 'services'));
     }
 
+
+    public function show(Quote $quote)
+    {
+        $user = Auth::user();
+        abort_unless($quote->business_id === $user->business_id, 403);
+        $quote->load(['contact', 'items']);
+        return view('client.quotes.show', compact('user', 'quote'));
+    }
+
     public function store(Request $request)
     {
         $user = Auth::user();
