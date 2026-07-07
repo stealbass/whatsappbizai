@@ -7,6 +7,7 @@ use App\Http\Controllers\ExportController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ClientPortalController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Client\ContactController;
@@ -43,6 +44,10 @@ Route::get('/privacy', [PageController::class, 'privacy'])->name('privacy');
 Route::get('/terms', [PageController::class, 'terms'])->name('terms');
 Route::get('/contact', [PageController::class, 'contactForm'])->name('contact');
 Route::post('/contact', [PageController::class, 'contactStore'])->name('contact.store');
+
+// Blog (public)
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{post}', [BlogController::class, 'show'])->name('blog.show');
 
 // Auth client
 Route::get('/login', [LoginController::class, 'show'])->name('login');

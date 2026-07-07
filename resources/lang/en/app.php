@@ -12,6 +12,7 @@ return [
         'demo' => 'Demo',
         'privacy' => 'Privacy',
         'terms' => 'Terms',
+        'blog' => 'Blog',
     ],
 
     'landing' => [
@@ -1070,5 +1071,16 @@ return [
         'no_admin_found' => 'No admin found',
         'account_disabled' => 'Account disabled',
         'cannot_impersonate_superadmin' => 'Cannot login as super-admin',
+    ],
+
+    'blog' => [
+        'meta_title' => 'Blog — Tips, tutorials and SME news',
+        'meta_description' => 'Discover our tips, tutorials and news to optimize your business management with WhatsApp and artificial intelligence.',
+        'subtitle' => 'Tips, tutorials and news to boost your productivity.',
+        'back_to_blog' => 'Back to blog',
+        'min_read' => 'min read',
+        'related_articles' => 'Related articles',
+        'no_posts' => 'No articles yet. Check back soon!',
+        'read_more' => 'Read more',
     ],
 ];

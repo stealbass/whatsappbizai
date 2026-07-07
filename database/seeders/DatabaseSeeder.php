@@ -15,6 +15,8 @@ class DatabaseSeeder extends Seeder
     {
         // Plans
         $this->call(PlanSeeder::class);
+        // Articles de blog
+        $this->call(PostSeeder::class);
         // Business de démo
         $business = Business::create([
             'name'           => 'Tech Solutions Cameroun',

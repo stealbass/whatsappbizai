@@ -12,6 +12,7 @@ return [
         'demo' => 'Démo',
         'privacy' => 'Confidentialité',
         'terms' => 'Conditions',
+        'blog' => 'Blog',
     ],
 
     'landing' => [
@@ -1074,5 +1075,16 @@ return [
         'no_admin_found' => 'Aucun admin trouvé',
         'account_disabled' => 'Compte désactivé',
         'cannot_impersonate_superadmin' => 'Impossible de se connecter en tant que super-admin',
+    ],
+
+    'blog' => [
+        'meta_title' => 'Blog — Astuces, tutoriels et actualités PME',
+        'meta_description' => 'Découvrez nos astuces, tutoriels et actualités pour optimiser votre gestion d\'entreprise avec WhatsApp et l\'intelligence artificielle.',
+        'subtitle' => 'Conseils, tutoriels et actualités pour booster votre productivité.',
+        'back_to_blog' => 'Retour au blog',
+        'min_read' => 'min de lecture',
+        'related_articles' => 'Articles similaires',
+        'no_posts' => 'Aucun article pour le moment. Revenez bientôt !',
+        'read_more' => 'Lire la suite',
     ],
 ];

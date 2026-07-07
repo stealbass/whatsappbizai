@@ -172,6 +172,7 @@
                 <button class="switcher-btn currency-btn" data-currency="USD">USD</button>
                 <button class="switcher-btn currency-btn" data-currency="EUR">EUR</button>
             </div>
+            <a href="{{ url('blog') }}" class="btn-nav btn-outline" data-t-key="nav.blog">Blog</a>
             <a href="{{ url('contact') }}" class="btn-nav btn-outline" data-t-key="nav.contact">Contact</a>
             <a href="{{ url('register') }}" class="btn-nav btn-outline" data-t-key="nav.free_trial">Essai gratuit</a>
             <a href="{{ url('login') }}" class="btn-nav btn-primary" data-t-key="nav.login">Connexion</a>
@@ -699,6 +700,7 @@
         </div>
         <div class="footer-col">
             <h4 data-t-key="landing.footer_company">Entreprise</h4>
+            <a href="{{ url('blog') }}">Blog</a>
             <a href="{{ url('contact') }}" data-t-key="nav.contact">Contact</a>
             <a href="mailto:{{ $site->contact_email ?? 'contact@whatsappbizai.com' }}">Email</a>
             @if($site->facebook_url)<a href="{{ $site->facebook_url }}" target="_blank" rel="noopener">Facebook</a>@endif
@@ -718,6 +720,7 @@
         <div>
             <a href="{{ url('privacy') }}" data-t-key="nav.privacy">Confidentialité</a> ·
             <a href="{{ url('terms') }}" data-t-key="nav.terms">Conditions</a> ·
+            <a href="{{ url('blog') }}">Blog</a> ·
             <a href="{{ url('contact') }}" data-t-key="nav.contact">Contact</a>
         </div>
     </div>
