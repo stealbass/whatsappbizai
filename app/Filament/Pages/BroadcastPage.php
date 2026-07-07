@@ -113,8 +113,8 @@ class BroadcastPage extends Page implements HasForms
         $q = Contact::query()->whereNotNull('email');
 
         match($data['target'] ?? 'all') {
-            'clients'   => $q->where('type', 'client'),
-            'prospects' => $q->where('type', 'prospect'),
+            'clients'   => $q->where('status', 'client'),
+            'prospects' => $q->where('status', 'prospect'),
             default     => null,
         };
 
