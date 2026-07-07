@@ -1,5 +1,5 @@
-@section('meta_title', 'Contact — WhatsAppBizAI | Support & Démo')
-@section('meta_description', 'Contactez l\'équipe WhatsAppBizAI. Demandez une démo, posez vos questions ou obtenez du support pour votre agent IA WhatsApp.')
+@section('meta_title', 'Contact — ' . ($site->site_name ?? 'WhatsAppBizAI'))
+@section('meta_description', 'Contactez l\'équipe ' . ($site->site_name ?? 'WhatsAppBizAI') . '. Demandez une démo, posez vos questions ou obtenez du support.')
 @section('canonical_url', url('/contact'))
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     @include('components.seo')
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{{ $site->favicon_path ? asset('storage/' . $site->favicon_path) : asset('favicon.ico') }}">
     <link rel="stylesheet" href="{{ asset('css/switchers.css') }}">
     <style>
         :root { --sky: #0ea5e9; --sky-dark: #0284c7; --dark: #0f172a; --gray: #64748b; }
@@ -48,7 +49,12 @@
 
 <nav>
     <div class="nav-inner">
-        <a href="{{ url('/') }}" class="logo">WhatsApp<span>BizAI</span></a>
+        @if($site->logo_path)
+            <a href="{{ url('/') }}"><img src="{{ asset('storage/' . $site->logo_path) }}" alt="{{ $site->site_name ?? 'WhatsAppBizAI' }}" style="height:36px;"></a>
+        @else
+            @php $siteName = $site->site_name ?? 'WhatsAppBizAI'; $parts = explode('BizAI', $siteName); @endphp
+            <a href="{{ url('/') }}" class="logo">{!! $parts[0] ?? $siteName !!}<span>{{ str_contains($siteName, 'BizAI') ? 'BizAI' : '' }}</span></a>
+        @endif
         <div class="nav-links">
             <a href="{{ url('/') }}" class="btn-nav btn-outline">← {{ app()->getLocale() === 'fr' ? 'Accueil' : 'Home' }}</a>
             <a href="{{ url('login') }}" class="btn-nav btn-primary">{{ app()->getLocale() === 'fr' ? 'Connexion' : 'Login' }}</a>
@@ -115,7 +121,7 @@
     <div class="info-cards">
         <div class="info-card">
             <h3>📧 {{ app()->getLocale() === 'fr' ? 'Email' : 'Email' }}</h3>
-            <p><a href="mailto:contact@whatsappbizai.com">contact@whatsappbizai.com</a></p>
+            <p><a href="mailto:{{ $site->contact_email ?? 'contact@whatsappbizai.com' }}">{{ $site->contact_email ?? 'contact@whatsappbizai.com' }}</a></p>
         </div>
         <div class="info-card">
             <h3>⏰ {{ app()->getLocale() === 'fr' ? 'Temps de réponse' : 'Response time' }}</h3>
@@ -133,7 +139,7 @@
 </div>
 
 <footer>
-    <p>© {{ date('Y') }} WhatsAppBizAI · <a href="{{ url('/') }}">{{ app()->getLocale() === 'fr' ? 'Accueil' : 'Home' }}</a> · <a href="{{ url('privacy') }}">{{ app()->getLocale() === 'fr' ? 'Confidentialité' : 'Privacy' }}</a> · <a href="{{ url('terms') }}">{{ app()->getLocale() === 'fr' ? 'Conditions' : 'Terms' }}</a> · <a href="{{ url('contact') }}">{{ app()->getLocale() === 'fr' ? 'Contact' : 'Contact' }}</a></p>
+    <p>{!! $site->footer_copyright ?? '© ' . date('Y') . ' WhatsAppBizAI' !!} · <a href="{{ url('/') }}">{{ app()->getLocale() === 'fr' ? 'Accueil' : 'Home' }}</a> · <a href="{{ url('privacy') }}">{{ app()->getLocale() === 'fr' ? 'Confidentialité' : 'Privacy' }}</a> · <a href="{{ url('terms') }}">{{ app()->getLocale() === 'fr' ? 'Conditions' : 'Terms' }}</a> · <a href="{{ url('contact') }}">{{ app()->getLocale() === 'fr' ? 'Contact' : 'Contact' }}</a></p>
 </footer>
 
 </body>

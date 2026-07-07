@@ -1,5 +1,5 @@
-@section('meta_title', 'Tarifs WhatsAppBizAI — Plans Gratuit, Starter, Business | Devis & Factures IA')
-@section('meta_description', 'Découvrez les tarifs WhatsAppBizAI. Plan gratuit pour démarrer, Starter et Business pour les PME en croissance. Agent IA, devis PDF, facturation automatique.')
+@section('meta_title', 'Tarifs ' . ($site->site_name ?? 'WhatsAppBizAI') . ' — Plans Gratuit, Starter, Business')
+@section('meta_description', 'Découvrez les tarifs ' . ($site->site_name ?? 'WhatsAppBizAI') . '. Plan gratuit pour démarrer, Starter et Business pour les PME en croissance.')
 @section('canonical_url', url('/pricing'))
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">

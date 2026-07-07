@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard — WhatsAppBizAI</title>
+    <title>{{ __('app.dashboard.title') ?? 'Dashboard' }} — {{ $site->site_name ?? 'WhatsAppBizAI' }}</title>
     <style>
         :root { --sky: #0ea5e9; --sky-dark: #0284c7; --dark: #0f172a; --mid: #1e293b; --gray: #64748b; --light: #f8fafc; --green: #22c55e; --red: #ef4444; --orange: #f59e0b; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -62,7 +62,8 @@
 <body>
 
 <div class="topbar">
-    <a href="{{ url('dashboard') }}" class="logo">WhatsApp<span>BizAI</span></a>
+    @php $siteName = $site->site_name ?? 'WhatsAppBizAI'; $parts = explode('BizAI', $siteName); @endphp
+    <a href="{{ url('dashboard') }}" class="logo">{!! $parts[0] ?? $siteName !!}<span>{{ str_contains($siteName, 'BizAI') ? 'BizAI' : '' }}</span></a>
     <div class="topbar-right">
         @if(session('previous_user_id'))
             <a href="{{ url('impersonate/' . session('previous_user_id')) }}" style="background:#6366f1;color:#fff;padding:6px 14px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">

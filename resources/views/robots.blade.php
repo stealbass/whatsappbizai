@@ -4,4 +4,4 @@ Disallow: /admin/
 Disallow: /install/
 Disallow: /client/
 
-Sitemap: http://localhost/testwebsite/whatsappbizai-main/public/sitemap.xml
+Sitemap: {{ url('sitemap.xml') }}

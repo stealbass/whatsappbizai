@@ -15,6 +15,8 @@ class DatabaseSeeder extends Seeder
     {
         // Plans
         $this->call(PlanSeeder::class);
+        // Paramètres du site (legal, footer, etc.)
+        $this->call(SiteSettingSeeder::class);
         // Articles de blog
         $this->call(PostSeeder::class);
         // Business de démo

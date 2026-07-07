@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ __('app.register.title') }} — WhatsAppBizAI</title>
+    <title>{{ __('app.register.title') }} — {{ $site->site_name ?? 'WhatsAppBizAI' }}</title>
+    <link rel="icon" type="image/x-icon" href="{{ $site->favicon_path ? asset('storage/' . $site->favicon_path) : asset('favicon.ico') }}">
     <link rel="stylesheet" href="{{ asset('css/switchers.css') }}">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -32,7 +33,8 @@
 <body>
     <div class="card">
         <div class="logo">
-            <h1>WhatsApp<span>BizAI</span></h1>
+            @php $siteName = $site->site_name ?? 'WhatsAppBizAI'; $parts = explode('BizAI', $siteName); @endphp
+            <h1>{!! $parts[0] ?? $siteName !!}<span>{{ str_contains($siteName, 'BizAI') ? 'BizAI' : '' }}</span></h1>
             <p>{{ __('app.register.subtitle') }}</p>
         </div>
 
