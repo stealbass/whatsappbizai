@@ -162,7 +162,12 @@
 <!-- NAV -->
 <nav>
     <div class="nav-inner">
-        <a href="{{ url('/') }}" class="logo">WhatsApp<span>BizAI</span></a>
+        @if($site->logo_path)
+            <a href="{{ url('/') }}"><img src="{{ asset('storage/' . $site->logo_path) }}" alt="{{ $site->site_name ?? 'WhatsAppBizAI' }}" style="height:36px;"></a>
+        @else
+            @php $siteName = $site->site_name ?? 'WhatsAppBizAI'; $parts = explode('BizAI', $siteName); @endphp
+            <a href="{{ url('/') }}" class="logo">{!! $parts[0] ?? $siteName !!}<span>{{ str_contains($siteName, 'BizAI') ? 'BizAI' : '' }}</span></a>
+        @endif
         <div class="nav-links">
             <div class="switcher-wrap light-theme">
                 <button class="switcher-btn lang-btn" data-lang="fr">FR</button>
@@ -186,6 +191,9 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
         <span data-t-key="landing.hero_badge">Prêt à l'emploi · Des milliers d'utilisateurs dans le monde</span>
     </div>
+    @if($site->site_tagline)
+        <p style="font-size:16px;color:var(--sky);font-weight:600;margin-bottom:12px;font-style:italic;">{{ $site->site_tagline }}</p>
+    @endif
     <h1><span data-t-html="landing.hero_title_1">Votre back-office complet</span><br><span data-t-html="landing.hero_title_2">opéré par l'IA sur WhatsApp</span></h1>
     <p data-t-key="landing.hero_desc">Devis, factures, relances et support client gérés automatiquement par l'IA. Sans changer vos habitudes.</p>
     <div class="hero-cta">

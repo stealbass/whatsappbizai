@@ -7,7 +7,7 @@
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="{{ request()->url() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/x-icon" href="{{ $site->favicon_path ? asset('storage/' . $site->favicon_path) : asset('favicon.ico') }}">
     <style>
         :root { --sky: #0ea5e9; --sky-dark: #0284c7; --dark: #0f172a; --mid: #1e293b; --gray: #64748b; --light: #f8fafc; --green: #22c55e; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -97,8 +97,12 @@
 
 <nav>
     <div class="nav-inner">
-        @php $siteName = $site->site_name ?? 'WhatsAppBizAI'; $parts = explode('BizAI', $siteName); @endphp
-        <a href="{{ url('/') }}" class="logo">{!! $parts[0] ?? $siteName !!}<span>{{ str_contains($siteName, 'BizAI') ? 'BizAI' : '' }}</span></a>
+        @if($site->logo_path)
+            <a href="{{ url('/') }}"><img src="{{ asset('storage/' . $site->logo_path) }}" alt="{{ $site->site_name ?? 'WhatsAppBizAI' }}" style="height:36px;"></a>
+        @else
+            @php $siteName = $site->site_name ?? 'WhatsAppBizAI'; $parts = explode('BizAI', $siteName); @endphp
+            <a href="{{ url('/') }}" class="logo">{!! $parts[0] ?? $siteName !!}<span>{{ str_contains($siteName, 'BizAI') ? 'BizAI' : '' }}</span></a>
+        @endif
         <div class="nav-links">
             <a href="{{ url('/') }}" class="btn-nav btn-outline" data-t-key="nav.home">Accueil</a>
             <a href="{{ url('blog') }}" class="btn-nav btn-outline" style="background:var(--sky);color:#fff;border-color:var(--sky);">Blog</a>

@@ -37,7 +37,8 @@
 
 <nav>
     <div class="nav-inner">
-        <a href="{{ url('/') }}" class="logo">{{ $site->site_name ?? 'WhatsApp' }}<span>{{ $site->site_name ? '' : 'BizAI' }}</span></a>
+        @php $siteName = $site->site_name ?? 'WhatsAppBizAI'; $parts = explode('BizAI', $siteName); @endphp
+        <a href="{{ url('/') }}" class="logo">{!! $parts[0] ?? $siteName !!}<span>{{ str_contains($siteName, 'BizAI') ? 'BizAI' : '' }}</span></a>
         <div class="nav-links">
             <a href="{{ url('/') }}" class="btn-nav btn-outline">← {{ app()->getLocale() === 'fr' ? 'Accueil' : 'Home' }}</a>
             <a href="{{ url('login') }}" class="btn-nav btn-primary">{{ app()->getLocale() === 'fr' ? 'Connexion' : 'Login' }}</a>
@@ -46,6 +47,11 @@
 </nav>
 
 <div class="content">
+    @if($site->privacy_policy)
+        <h1>{{ app()->getLocale() === 'fr' ? 'Politique de confidentialité' : 'Privacy Policy' }}</h1>
+        <p class="date">{{ app()->getLocale() === 'fr' ? 'Dernière mise à jour' : 'Last updated' }} : {{ $site->updated_at->format('d M Y') }}</p>
+        {!! $site->privacy_policy !!}
+    @else
     @if(app()->getLocale() === 'fr')
         <h1>Politique de confidentialité</h1>
         <p class="date">Dernière mise à jour : 5 juillet 2026</p>
@@ -156,6 +162,7 @@
 
         <h2>9. Contact</h2>
         <p>For any questions: <a href="mailto:privacy@whatsappbizai.com">privacy@whatsappbizai.com</a></p>
+    @endif
     @endif
 </div>
 

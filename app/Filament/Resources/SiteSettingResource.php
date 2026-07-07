@@ -209,21 +209,17 @@ class SiteSettingResource extends Resource
                     ->schema([
                         Forms\Components\Section::make(__('app.admin.social_proof'))->schema([
                             Forms\Components\TextInput::make('stats_users')
-                                ->label(__('app.admin.stats_users'))
-                                ->numeric()
-                                ->default(0),
+                                ->label(__('app.admin.stat_response'))
+                                ->default('< 30s'),
                             Forms\Components\TextInput::make('stats_invoices')
-                                ->label(__('app.admin.stats_invoices'))
-                                ->numeric()
-                                ->default(0),
+                                ->label(__('app.admin.stat_avail'))
+                                ->default('24/7'),
                             Forms\Components\TextInput::make('stats_messages')
-                                ->label(__('app.admin.stats_messages'))
-                                ->numeric()
-                                ->default(0),
+                                ->label(__('app.admin.stat_langs'))
+                                ->default('FR + EN'),
                             Forms\Components\TextInput::make('stats_countries')
-                                ->label(__('app.admin.stats_countries'))
-                                ->numeric()
-                                ->default(0),
+                                ->label(__('app.admin.stat_secure'))
+                                ->default('100%'),
                         ])->columns(4),
                     ]),
             ])->columnSpanFull(),
