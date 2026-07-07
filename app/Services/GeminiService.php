@@ -156,6 +156,52 @@ PROMPT;
     }
 
     /**
+     * Generic chat completion — sends a single user prompt with an optional system instruction.
+     * Used by Filament pages (BroadcastPage, RetentionCampaigns) for freeform AI drafting.
+     *
+     * @param  Business  $business  Used for context (model selection, system prompt base)
+     * @param  string    $prompt    The user message / instruction
+     * @param  string    $system    Optional system instruction override
+     * @return string|null
+     */
+    public function chat(Business $business, string $prompt, string $system = ''): ?string
+    {
+        $systemInstruction = $system ?: $this->buildSystemPrompt($business);
+
+        try {
+            $response = Http::timeout(25)->post(
+                "{$this->baseUrl}/models/{$this->model}:generateContent?key={$this->apiKey}",
+                [
+                    'system_instruction' => [
+                        'parts' => [['text' => $systemInstruction]],
+                    ],
+                    'contents'         => [['role' => 'user', 'parts' => [['text' => $prompt]]]],
+                    'generationConfig' => [
+                        'temperature'     => 0.75,
+                        'maxOutputTokens' => 800,
+                        'topP'            => 0.9,
+                    ],
+                    'safetySettings' => $this->safetySettings(),
+                ]
+            );
+
+            if ($response->failed()) {
+                Log::error('GeminiService::chat error', [
+                    'status' => $response->status(),
+                    'body'   => $response->body(),
+                ]);
+                return null;
+            }
+
+            return $response->json('candidates.0.content.parts.0.text');
+
+        } catch (\Throwable $e) {
+            Log::error('GeminiService::chat exception', ['message' => $e->getMessage()]);
+            return null;
+        }
+    }
+
+    /**
      * Draft a marketing broadcast message for a given audience segment.
      */
     public function draftBroadcast(Business $business, string $goal, string $audience): string
