@@ -2,7 +2,7 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Widgets\LanguageSwitcher;
+use App\Filament\SuperAdmin\Widgets\LanguageSwitcher;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
-class AdminPanelProvider extends PanelProvider
+class SuperAdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
@@ -33,26 +33,26 @@ class AdminPanelProvider extends PanelProvider
         }
 
         return $panel
-            ->default()
-            ->id('admin')
-            ->path('admin')
+            ->id('super-admin')
+            ->path('super-admin')
             ->login()
-            ->colors(['primary' => Color::Sky])
-            ->brandName('WhatsAppBizAI')
+            ->colors(['primary' => Color::Indigo])
+            ->brandName('WhatsAppBizAI — Super Admin')
             ->favicon(asset('favicon.ico'))
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+            ->discoverResources(in: app_path('Filament/SuperAdmin/Resources'), for: 'App\\Filament\\SuperAdmin\\Resources')
+            ->discoverPages(in: app_path('Filament/SuperAdmin/Pages'), for: 'App\\Filament\\SuperAdmin\\Pages')
             ->pages([Pages\Dashboard::class])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->discoverWidgets(in: app_path('Filament/SuperAdmin/Widgets'), for: 'App\\Filament\\SuperAdmin\\Widgets')
             ->widgets([LanguageSwitcher::class])
-            ->renderHook('panels::topbar.end', fn() => view('filament.widgets.language-switcher'))
+            ->renderHook('panels::topbar.end', fn() => view('filament.super-admin.widgets.language-switcher'))
             ->navigationGroups([
-                NavigationGroup::make()->label('Administration'),
-                NavigationGroup::make()->label('Messagerie'),
-                NavigationGroup::make()->label('Gestion Financière'),
-                NavigationGroup::make()->label('Catalogue'),
-                NavigationGroup::make()->label('Marketing'),
-                NavigationGroup::make()->label('Paramètres'),
+                NavigationGroup::make()->label('Tableau de bord')->icon('heroicon-o-chart-bar'),
+                NavigationGroup::make()->label('Gestion des Utilisateurs')->icon('heroicon-o-users'),
+                NavigationGroup::make()->label('Gestion des Entreprises')->icon('heroicon-o-building-office-2'),
+                NavigationGroup::make()->label('Abonnements & Paiements')->icon('heroicon-o-currency-dollar'),
+                NavigationGroup::make()->label('Plans & Tarification')->icon('heroicon-o-tag'),
+                NavigationGroup::make()->label('Marketing')->icon('heroicon-o-megaphone'),
+                NavigationGroup::make()->label('Paramètres')->icon('heroicon-o-cog-6-tooth'),
             ])
             ->middleware([
                 EncryptCookies::class,

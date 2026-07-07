@@ -36,14 +36,6 @@ class InvoiceController extends Controller
     }
 
 
-    public function show(Invoice $invoice)
-    {
-        $user = Auth::user();
-        abort_unless($invoice->business_id === $user->business_id, 403);
-        $invoice->load(['contact', 'items']);
-        return view('client.invoices.show', compact('user', 'invoice'));
-    }
-
     public function store(Request $request)
     {
         $user = Auth::user();
@@ -173,6 +165,8 @@ class InvoiceController extends Controller
 
         return redirect(url('client/invoices/' . $invoice->id))->with('success', __('app.client.flash.invoice_updated'));
     }
+
+    public function show(Invoice $invoice)
     {
         $user = Auth::user();
         abort_unless($invoice->business_id === $user->business_id, 403);

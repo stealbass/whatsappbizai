@@ -6,17 +6,23 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
 
-/**
- * Scope global — filtre automatiquement les données par business_id
- * de l'utilisateur connecté. Appliqué sur : Contact, Conversation,
- * Invoice, Quote, Service (tout sauf Business lui-même).
- */
 class BusinessScope implements Scope
 {
     public function apply(Builder $builder, Model $model): void
     {
-        if (auth()->check() && auth()->user()->business_id) {
-            $builder->where($model->getTable() . '.business_id', auth()->user()->business_id);
+        $user = auth()->user();
+
+        if (!$user) {
+            return;
+        }
+
+        // Super-admins bypass BusinessScope — they see everything
+        if ($user->is_super_admin) {
+            return;
+        }
+
+        if ($user->business_id) {
+            $builder->where($model->getTable() . '.business_id', $user->business_id);
         }
     }
 }

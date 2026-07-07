@@ -37,14 +37,6 @@ class QuoteController extends Controller
     }
 
 
-    public function show(Quote $quote)
-    {
-        $user = Auth::user();
-        abort_unless($quote->business_id === $user->business_id, 403);
-        $quote->load(['contact', 'items']);
-        return view('client.quotes.show', compact('user', 'quote'));
-    }
-
     public function store(Request $request)
     {
         $user = Auth::user();
@@ -169,13 +161,6 @@ class QuoteController extends Controller
         }
 
         return redirect(url('client/quotes/' . $quote->id))->with('success', __('app.client.flash.quote_updated'));
-    }
-    {
-        $user = Auth::user();
-        abort_unless($quote->business_id === $user->business_id, 403);
-        $quote->load(['contact', 'items']);
-        $business = $user->business;
-        return view('client.quotes.show', compact('user', 'quote', 'business'));
     }
 
     public function generatePdf(Quote $quote, DocumentService $docs)

@@ -13,6 +13,8 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        // Plans
+        $this->call(PlanSeeder::class);
         // Business de démo
         $business = Business::create([
             'name'           => 'Tech Solutions Cameroun',
@@ -30,13 +32,15 @@ class DatabaseSeeder extends Seeder
             'gemini_system_prompt' => "Tu es l'assistant IA de Tech Solutions Cameroun. Spécialisés en développement web, applications mobiles et conseil digital. Nos délais de livraison sont de 2 à 6 semaines selon le projet.",
         ]);
 
-        // Utilisateur admin
+        // Utilisateur admin (super-admin)
         User::create([
-            'business_id' => $business->id,
-            'name'        => 'Happi Olivier',
-            'email'       => 'admin@whatsappbizai.com',
-            'password'    => Hash::make('password'),
-            'role'        => 'admin',
+            'business_id'    => $business->id,
+            'name'           => 'Happi Olivier',
+            'email'          => 'admin@whatsappbizai.com',
+            'password'       => Hash::make('password'),
+            'role'           => 'admin',
+            'is_super_admin' => true,
+            'is_active'      => true,
         ]);
 
         // Services de démo

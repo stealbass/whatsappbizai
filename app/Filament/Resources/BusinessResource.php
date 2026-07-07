@@ -6,16 +6,12 @@ use App\Filament\Resources\BusinessResource\Pages;
 use App\Models\Business;
 use Filament\Forms;
 use Filament\Forms\Components\RichEditor;
-
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-/**
- * BusinessResource — Visible uniquement par les super-admins.
- * Les utilisateurs normaux gèrent leur profil via Settings.
- */
 class BusinessResource extends Resource
 {
     protected static ?string $navigationGroup = 'Administration';
@@ -43,15 +39,15 @@ class BusinessResource extends Resource
         return __('app.admin.nav_administration');
     }
 
-    /**
-     * Filtre automatiquement pour ne montrer que le business de l'utilisateur connecté
-     */
     public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
     {
         $query = parent::getEloquentQuery();
 
-        if (auth()->user()?->business_id) {
-            $query->where('id', auth()->user()->business_id);
+        $user = auth()->user();
+
+        // Super-admins see everything
+        if ($user && !$user->is_super_admin && $user->business_id) {
+            $query->where('id', $user->business_id);
         }
 
         return $query;
@@ -60,7 +56,6 @@ class BusinessResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-
             Forms\Components\Section::make(__('app.admin.general_info'))->schema([
                 Forms\Components\TextInput::make('name')
                     ->label(__('app.admin.company_name'))->required(),
@@ -128,10 +123,25 @@ class BusinessResource extends Resource
                 ->schema([
                     RichEditor::make('gemini_system_prompt')
                         ->label(__('app.admin.ai_instructions_label'))
-                        
                         ->columnSpanFull(),
                 ]),
 
+            Forms\Components\Section::make('Statut & Plan')->schema([
+                Forms\Components\Toggle::make('is_active')
+                    ->label('Entreprise active')
+                    ->default(true),
+                Forms\Components\Select::make('plan')
+                    ->label('Plan actuel')
+                    ->options([
+                        'free'     => 'Free',
+                        'starter'  => 'Starter',
+                        'business' => 'Business',
+                        'pro'      => 'Pro',
+                    ])
+                    ->default('free'),
+                Forms\Components\DateTimePicker::make('plan_expires_at')
+                    ->label('Expiration du plan'),
+            ])->columns(3),
         ]);
     }
 
@@ -142,13 +152,61 @@ class BusinessResource extends Resource
                 Tables\Columns\TextColumn::make('name')->label(__('app.admin.business'))->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('owner_name')->label(__('app.admin.owner_name'))->searchable(),
                 Tables\Columns\TextColumn::make('city')->label(__('app.admin.city')),
-                Tables\Columns\BadgeColumn::make('plan')->label(__('app.admin.plan'))
-                    ->colors(['gray' => 'free', 'warning' => 'starter', 'primary' => 'business', 'success' => 'pro']),
+                Tables\Columns\TextColumn::make('plan')->label(__('app.admin.plan'))
+                    ->badge()
+                    ->color(fn ($state) => match ($state) {
+                        'free'     => 'gray',
+                        'starter'  => 'warning',
+                        'business' => 'primary',
+                        'pro'      => 'success',
+                        default    => 'gray',
+                    }),
                 Tables\Columns\IconColumn::make('whatsapp_phone_number_id')
                     ->label('WhatsApp ✓')->boolean()
                     ->getStateUsing(fn($record) => !empty($record->whatsapp_phone_number_id)),
+                Tables\Columns\IconColumn::make('is_active')
+                    ->label('Actif')->boolean(),
+                Tables\Columns\TextColumn::make('plan_expires_at')
+                    ->label('Expire le')
+                    ->date('d/m/Y')
+                    ->placeholder('—')
+                    ->color(fn ($record) => $record->plan_expires_at && $record->plan_expires_at->isPast() ? 'danger' : null),
+                Tables\Columns\TextColumn::make('users_count')
+                    ->label('Users')
+                    ->counts('users')
+                    ->alignCenter(),
+                Tables\Columns\TextColumn::make('contacts_count')
+                    ->label('Contacts')
+                    ->counts('contacts')
+                    ->alignCenter(),
             ])
-            ->actions([Tables\Actions\EditAction::make()]);
+            ->actions([
+                Tables\Actions\Action::make('impersonate')
+                    ->label('Voir en tant que')
+                    ->icon('heroicon-o-arrow-right-on-rectangle')
+                    ->color('warning')
+                    ->requiresConfirmation()
+                    ->modalHeading('Se connecter en tant que cette entreprise ?')
+                    ->action(function ($record) {
+                        $owner = $record->users()->where('role', 'admin')->first();
+
+                        if (!$owner) {
+                            Notification::make()
+                                ->title('Aucun admin trouvé')
+                                ->danger()
+                                ->send();
+                            return;
+                        }
+
+                        auth()->login($owner);
+
+                        return redirect()->route('filament.admin.pages.dashboard');
+                    })
+                    ->visible(fn ($record) => auth()->user()?->is_super_admin),
+
+                Tables\Actions\EditAction::make(),
+            ])
+            ->defaultSort('created_at', 'desc');
     }
 
     public static function getPages(): array

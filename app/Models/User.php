@@ -17,7 +17,10 @@ class User extends Authenticatable implements FilamentUser
         'email',
         'password',
         'business_id',
-        'role', // admin | agent
+        'role',
+        'is_super_admin',
+        'is_active',
+        'last_login_at',
     ];
 
     protected $hidden = [
@@ -30,12 +33,24 @@ class User extends Authenticatable implements FilamentUser
         return [
             'email_verified_at' => 'datetime',
             'password'          => 'hashed',
+            'is_super_admin'    => 'boolean',
+            'is_active'         => 'boolean',
+            'last_login_at'     => 'datetime',
         ];
     }
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->role === 'admin';
+        if ($panel->getId() === 'super-admin') {
+            return $this->is_super_admin;
+        }
+
+        return $this->role === 'admin' && $this->is_active;
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->is_super_admin;
     }
 
     public function business()

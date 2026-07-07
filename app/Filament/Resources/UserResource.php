@@ -6,6 +6,7 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -57,6 +58,19 @@ class UserResource extends Resource
                     ->dehydrated(fn($state) => filled($state))
                     ->required(fn($context) => $context === 'create'),
             ])->columns(2),
+
+            Forms\Components\Section::make('Statut & Accès')->schema([
+                Forms\Components\Toggle::make('is_active')
+                    ->label(__('app.admin.active'))
+                    ->default(true),
+                Forms\Components\Toggle::make('is_super_admin')
+                    ->label('Super Admin')
+                    ->helperText('Accès complet au panneau super-admin')
+                    ->default(false),
+                Forms\Components\DateTimePicker::make('last_login_at')
+                    ->label('Dernière connexion')
+                    ->disabled(),
+            ])->columns(3),
         ]);
     }
 
@@ -66,29 +80,60 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')->label(__('app.admin.name'))->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('email')->label(__('app.admin.email'))->searchable(),
-                Tables\Columns\BadgeColumn::make('role')->label(__('app.admin.role'))
-                    ->colors([
-                        'danger'  => 'admin',
-                        'warning' => 'agent',
-                        'gray'    => 'user',
-                    ]),
+                Tables\Columns\TextColumn::make('role')->label(__('app.admin.role'))
+                    ->badge()
+                    ->formatStateUsing(fn ($state) => match ($state) {
+                        'admin' => __('app.admin.admin_role'),
+                        'agent' => __('app.admin.agent_role'),
+                        'user'  => __('app.admin.user_role'),
+                        default => $state,
+                    })
+                    ->color(fn ($state) => match ($state) {
+                        'admin' => 'danger',
+                        'agent' => 'warning',
+                        default => 'gray',
+                    }),
                 Tables\Columns\TextColumn::make('business.name')->label(__('app.admin.business'))->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')->label(__('app.admin.verified'))
-                    ->dateTime('d/m/Y H:i')->sortable()
-                    ->placeholder(__('app.admin.unverified')),
                 Tables\Columns\IconColumn::make('is_active')
                     ->label(__('app.admin.active'))->boolean()->default(true),
+                Tables\Columns\TextColumn::make('last_login_at')
+                    ->label('Dernière connexion')
+                    ->dateTime('d/m/Y H:i')
+                    ->sortable()
+                    ->placeholder('Jamais'),
                 Tables\Columns\TextColumn::make('created_at')->label(__('app.admin.registered'))
                     ->dateTime('d/m/Y')->sortable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('role')
                     ->options(['admin' => __('app.admin.admin_role'), 'agent' => __('app.admin.agent_role'), 'user' => __('app.admin.user_role')]),
-                Tables\Filters\Filter::make('verified')
-                    ->query(fn($q) => $q->whereNotNull('email_verified_at'))
-                    ->label(__('app.admin.email_verified')),
+                Tables\Filters\TernaryFilter::make('is_active')
+                    ->label(__('app.admin.active'))
+                    ->boolean(label: 'Actif', oppositeLabel: 'Inactif'),
             ])
             ->actions([
+                Tables\Actions\Action::make('impersonate')
+                    ->label('Se connecter en tant que')
+                    ->icon('heroicon-o-arrow-right-on-rectangle')
+                    ->color('warning')
+                    ->requiresConfirmation()
+                    ->modalHeading('Se connecter en tant que cet utilisateur ?')
+                    ->action(function ($record) {
+                        if (!$record->is_active) {
+                            Notification::make()
+                                ->title('Impossible')
+                                ->body('Cet utilisateur est désactivé.')
+                                ->danger()
+                                ->send();
+                            return;
+                        }
+
+                        auth()->login($record);
+
+                        return redirect()->route('filament.admin.pages.dashboard');
+                    })
+                    ->visible(fn ($record) => !$record->is_super_admin && $record->id !== auth()->id()),
+
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
