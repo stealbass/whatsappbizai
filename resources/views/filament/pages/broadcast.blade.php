@@ -51,9 +51,6 @@
     </div>
 
     @if($showPreview)
-    {{-- Store raw HTML as base64 so Blade encoding doesn't corrupt it --}}
-    <script type="text/html" id="bcast-data">{!! base64_encode($previewHtml) !!}</script>
-
     <div
         class="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto"
         style="background:rgba(0,0,0,.55); padding: 40px 16px;"
@@ -72,7 +69,7 @@
                 <div><strong>Segment :</strong> {{ $data['target'] ?? 'all' }}</div>
             </div>
             <div style="padding:20px;">
-                <iframe id="broadcast-preview-iframe" style="width:100%;min-height:400px;border:1px solid #e2e8f0;border-radius:8px;" title="Aperçu message"></iframe>
+                <iframe id="bcast-iframe" style="width:100%;min-height:400px;border:1px solid #e2e8f0;border-radius:8px;" title="Aperçu message"></iframe>
             </div>
             <div style="padding:16px 20px;background:#f8fafc;border-top:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
                 <span style="font-size:12px;color:#64748b;"><code>&lt;!DOCTYPE html&gt;</code> détecté automatiquement → rendu tel quel.</span>
@@ -85,22 +82,18 @@
     </div>
     @endif
 
-</x-filament-panels::page>
+    @script
+    <script>
+        $wire.on('previewContent', () => {
+            setTimeout(() => {
+                var html = $wire.previewHtml;
+                var iframe = document.getElementById('bcast-iframe');
+                if (iframe && html) {
+                    iframe.srcdoc = html;
+                }
+            }, 150);
+        });
+    </script>
+    @endscript
 
-@script
-<script>
-    $wire.on('previewContent', () => {
-        setTimeout(() => {
-            var el = document.getElementById('bcast-data');
-            var iframe = document.getElementById('broadcast-preview-iframe');
-            if (el && iframe) {
-                var raw = atob(el.textContent.trim());
-                iframe.srcdoc = raw;
-                iframe.onload = function() {
-                    try { iframe.style.height = Math.max(400, iframe.contentDocument.body.scrollHeight + 40) + 'px'; } catch(e) {}
-                };
-            }
-        }, 50);
-    });
-</script>
-@endscript
+</x-filament-panels::page>
