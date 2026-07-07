@@ -235,36 +235,19 @@ class BusinessResource extends Resource
                     ->color('warning')
                     ->requiresConfirmation()
                     ->modalHeading('Se connecter en tant que cette entreprise ?')
-                    ->modalDescription(fn ($record) => "Vous allez accéder au panneau admin de {$record->name}. Votre session super-admin sera conservée.")
+                    ->modalDescription(fn ($record) => "Vous allez accéder au panneau admin de {$record->name}.")
                     ->action(function ($record) {
-                        $owner = $record->users()->where('role', 'admin')->first();
+                        $owner = $record->users()->first();
 
                         if (!$owner) {
                             Notification::make()
-                                ->title('Aucun admin trouvé')
-                                ->body('Cette entreprise n\'a pas d\'administrateur.')
+                                ->title('Aucun utilisateur trouvé')
                                 ->danger()
                                 ->send();
                             return;
                         }
 
-                        if (!$owner->is_active) {
-                            Notification::make()
-                                ->title('Compte désactivé')
-                                ->body('L\'administrateur de cette entreprise est désactivé.')
-                                ->danger()
-                                ->send();
-                            return;
-                        }
-
-                        // Store super-admin ID in session to allow "Back to admin"
-                        session(['impersonator_id' => auth()->id()]);
-
-                        // Login as target user
-                        \Illuminate\Support\Facades\Auth::login($owner, true);
-                        $owner->forceFill(['last_login_at' => now()])->save();
-
-                        return redirect()->route('filament.admin.pages.dashboard');
+                        return redirect()->route('impersonate.start', $owner);
                     }),
 
                 Tables\Actions\Action::make('toggle_active')

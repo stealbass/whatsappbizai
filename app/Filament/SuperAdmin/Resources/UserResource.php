@@ -175,24 +175,7 @@ class UserResource extends Resource
                     ->requiresConfirmation()
                     ->modalHeading(__('app.super_admin.impersonate'))
                     ->modalDescription(fn ($record) => __('app.super_admin.impersonate_confirm') . " {$record->name} ({$record->email}).")
-                    ->action(function ($record) {
-                        if (!$record->is_active) {
-                            Notification::make()
-                                ->title(__('app.super_admin.account_disabled'))
-                                ->danger()
-                                ->send();
-                            return;
-                        }
-
-                        // Store super-admin ID in session to allow "Back to admin"
-                        session(['impersonator_id' => auth()->id()]);
-
-                        // Login as target user
-                        \Illuminate\Support\Facades\Auth::login($record, true);
-                        $record->forceFill(['last_login_at' => now()])->save();
-
-                        return redirect()->route('filament.admin.pages.dashboard');
-                    })
+                    ->action(fn ($record) => redirect()->route('impersonate.start', $record))
                     ->visible(fn ($record) => !$record->is_super_admin),
 
                 Tables\Actions\Action::make('toggle_active')

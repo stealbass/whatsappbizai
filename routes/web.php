@@ -177,23 +177,11 @@ Route::get('/admin/language/{locale}', function (string $locale) {
 // ─── WEBHOOK FLUTTERWAVE (sans CSRF) ─────────────────────────────────────
 Route::post('/webhook/flutterwave', [PaymentController::class, 'webhook'])->name('webhook.flutterwave');
 
-// ─── IMPERSONATION — Back to admin ──────────────────────────────────────
-Route::get('/impersonate/leave', function () {
-    $impersonatorId = session('impersonator_id');
+// ─── IMPERSONATION — Super-admin login-as ───────────────────────────────
+Route::get('/impersonate/{user}', [\App\Http\Controllers\ImpersonateController::class, 'start'])
+    ->middleware('auth')
+    ->name('impersonate.start');
 
-    if (!$impersonatorId) {
-        return redirect()->route('home');
-    }
-
-    $superAdmin = \App\Models\User::find($impersonatorId);
-
-    if (!$superAdmin || !$superAdmin->is_super_admin) {
-        session()->forget('impersonator_id');
-        return redirect()->route('home');
-    }
-
-    session()->forget('impersonator_id');
-    \Illuminate\Support\Facades\Auth::login($superAdmin, true);
-
-    return redirect()->route('filament.super-admin.pages.dashboard');
-})->middleware('auth')->name('impersonate.leave');
+Route::get('/impersonate/leave', [\App\Http\Controllers\ImpersonateController::class, 'leave'])
+    ->middleware('auth')
+    ->name('impersonate.leave');
