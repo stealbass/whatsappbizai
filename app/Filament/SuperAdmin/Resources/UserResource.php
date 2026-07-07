@@ -17,73 +17,77 @@ class UserResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-users';
     protected static ?string $navigationGroup = 'Gestion des Utilisateurs';
     protected static ?int $navigationSort = 1;
-    protected static ?string $modelLabel = 'Utilisateur';
-    protected static ?string $modelLabelPlural = 'Utilisateurs';
     protected static ?string $slug = 'users';
+
+    public static function getModelLabel(): string
+    {
+        return __('app.super_admin.user');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('app.super_admin.users');
+    }
 
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\Section::make('Informations personnelles')
+            Forms\Components\Section::make(__('app.super_admin.personal_info'))
                 ->icon('heroicon-o-user')
                 ->schema([
                     Forms\Components\TextInput::make('name')
-                        ->label('Nom complet')
+                        ->label(__('app.super_admin.name'))
                         ->required()
                         ->maxLength(255),
 
                     Forms\Components\TextInput::make('email')
-                        ->label('Email')
+                        ->label(__('app.super_admin.email'))
                         ->email()
                         ->required()
                         ->unique(ignoreRecord: true)
                         ->maxLength(255),
 
                     Forms\Components\TextInput::make('password')
-                        ->label('Mot de passe')
+                        ->label(__('app.super_admin.password'))
                         ->password()
                         ->revealable()
                         ->dehydrated(fn ($state) => filled($state))
                         ->dehydrateStateUsing(fn ($state) => \Hash::make($state))
                         ->required(fn ($context) => $context === 'create')
-                        ->maxLength(255)
-                        ->helperText('Laisser vide pour garder le mot de passe actuel (édition)'),
+                        ->maxLength(255),
                 ])->columns(2),
 
-            Forms\Components\Section::make('Rôle & Accès')
+            Forms\Components\Section::make(__('app.super_admin.access_rights'))
                 ->icon('heroicon-o-key')
                 ->schema([
                     Forms\Components\Select::make('role')
-                        ->label('Rôle')
+                        ->label(__('app.super_admin.role'))
                         ->options([
-                            'admin'  => 'Administrateur',
-                            'agent'  => 'Agent',
-                            'user'   => 'Utilisateur',
+                            'admin' => __('app.super_admin.admin_role'),
+                            'agent' => __('app.super_admin.agent_role'),
+                            'user'  => __('app.super_admin.user_role'),
                         ])
                         ->required()
                         ->default('user'),
 
                     Forms\Components\Toggle::make('is_super_admin')
-                        ->label('Super Admin')
-                        ->helperText('Accès complet au panneau super-admin')
+                        ->label(__('app.super_admin.super_admin_label'))
                         ->default(false),
 
                     Forms\Components\Toggle::make('is_active')
-                        ->label('Compte actif')
-                        ->helperText('Désactiver pour bloquer l\'accès')
+                        ->label(__('app.super_admin.active_label'))
                         ->default(true),
                 ])->columns(3),
 
-            Forms\Components\Section::make('Entreprise')
+            Forms\Components\Section::make(__('app.super_admin.company'))
                 ->icon('heroicon-o-building-office-2')
                 ->schema([
                     Forms\Components\Select::make('business_id')
-                        ->label('Entreprise')
+                        ->label(__('app.super_admin.business'))
                         ->relationship('business', 'name')
                         ->searchable()
                         ->preload()
-                        ->nullable()
-                        ->helperText('Laisser vide si pas encore assigné'),
+                        ->nullable(),
                 ]),
         ]);
     }
@@ -92,28 +96,23 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
-                    ->label('ID')
-                    ->sortable()
-                    ->alignCenter(),
-
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Nom')
+                    ->label(__('app.super_admin.name'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('email')
-                    ->label('Email')
+                    ->label(__('app.super_admin.email'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('role')
-                    ->label('Rôle')
+                    ->label(__('app.super_admin.role'))
                     ->badge()
                     ->formatStateUsing(fn ($state) => match ($state) {
-                        'admin' => 'Admin',
-                        'agent' => 'Agent',
-                        'user'  => 'User',
+                        'admin' => __('app.super_admin.admin_role'),
+                        'agent' => __('app.super_admin.agent_role'),
+                        'user'  => __('app.super_admin.user_role'),
                         default => $state,
                     })
                     ->color(fn ($state) => match ($state) {
@@ -124,63 +123,62 @@ class UserResource extends Resource
                     }),
 
                 Tables\Columns\IconColumn::make('is_super_admin')
-                    ->label('Super Admin')
+                    ->label(__('app.super_admin.super_admin_label'))
                     ->boolean(),
 
                 Tables\Columns\IconColumn::make('is_active')
-                    ->label('Actif')
+                    ->label(__('app.super_admin.active_label'))
                     ->boolean(),
 
                 Tables\Columns\TextColumn::make('business.name')
-                    ->label('Entreprise')
+                    ->label(__('app.super_admin.business'))
                     ->sortable()
                     ->placeholder('—'),
 
                 Tables\Columns\TextColumn::make('last_login_at')
-                    ->label('Dernière connexion')
+                    ->label(__('app.super_admin.last_login'))
                     ->dateTime('d/m/Y H:i')
                     ->sortable()
-                    ->placeholder('Jamais'),
+                    ->placeholder(__('app.super_admin.never')),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Inscrit le')
+                    ->label(__('app.super_admin.registered'))
                     ->date('d/m/Y')
                     ->sortable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('role')
-                    ->label('Rôle')
+                    ->label(__('app.super_admin.role'))
                     ->options([
-                        'admin' => 'Admin',
-                        'agent' => 'Agent',
-                        'user'  => 'User',
+                        'admin' => __('app.super_admin.admin_role'),
+                        'agent' => __('app.super_admin.agent_role'),
+                        'user'  => __('app.super_admin.user_role'),
                     ]),
 
                 Tables\Filters\TernaryFilter::make('is_active')
-                    ->label('Statut')
+                    ->label(__('app.super_admin.status'))
                     ->boolean()
-                    ->trueLabel('Actif')
-                    ->falseLabel('Inactif'),
+                    ->trueLabel(__('app.super_admin.active_label'))
+                    ->falseLabel(__('app.super_admin.inactive_label')),
 
                 Tables\Filters\TernaryFilter::make('is_super_admin')
-                    ->label('Super Admin')
+                    ->label(__('app.super_admin.super_admin_label'))
                     ->boolean()
-                    ->trueLabel('Oui')
-                    ->falseLabel('Non'),
+                    ->trueLabel(__('app.super_admin.yes'))
+                    ->falseLabel(__('app.super_admin.no')),
             ])
             ->actions([
                 Tables\Actions\Action::make('impersonate')
-                    ->label('Se connecter en tant que')
+                    ->label(__('app.super_admin.impersonate'))
                     ->icon('heroicon-o-arrow-right-on-rectangle')
                     ->color('warning')
                     ->requiresConfirmation()
-                    ->modalHeading('Se connecter en tant que cet utilisateur ?')
-                    ->modalDescription(fn ($record) => "Vous allez être connecté en tant que {$record->name} ({$record->email}). Votre session super-admin sera conservée.")
+                    ->modalHeading(__('app.super_admin.impersonate'))
+                    ->modalDescription(fn ($record) => __('app.super_admin.impersonate_confirm') . " {$record->name} ({$record->email}).")
                     ->action(function ($record) {
                         if (!$record->is_active) {
                             Notification::make()
-                                ->title('Impossible')
-                                ->body('Cet utilisateur est désactivé.')
+                                ->title(__('app.super_admin.account_disabled'))
                                 ->danger()
                                 ->send();
                             return;
@@ -193,16 +191,15 @@ class UserResource extends Resource
                     ->visible(fn ($record) => !$record->is_super_admin),
 
                 Tables\Actions\Action::make('toggle_active')
-                    ->label(fn ($record) => $record->is_active ? 'Désactiver' : 'Activer')
+                    ->label(fn ($record) => $record->is_active ? __('app.super_admin.deactivated') : __('app.super_admin.activated'))
                     ->icon(fn ($record) => $record->is_active ? 'heroicon-o-no-symbol' : 'heroicon-o-check-circle')
                     ->color(fn ($record) => $record->is_active ? 'danger' : 'success')
                     ->requiresConfirmation()
-                    ->modalHeading(fn ($record) => $record->is_active ? 'Désactiver ce compte ?' : 'Activer ce compte ?')
                     ->action(function ($record) {
                         $record->update(['is_active' => !$record->is_active]);
 
                         Notification::make()
-                            ->title($record->is_active ? 'Compte activé' : 'Compte désactivé')
+                            ->title($record->is_active ? __('app.super_admin.activated') : __('app.super_admin.deactivated'))
                             ->success()
                             ->send();
                     }),
