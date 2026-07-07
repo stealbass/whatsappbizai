@@ -106,7 +106,7 @@
 
     @if($showPreview)
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        (function() {
             var dataEl = document.getElementById('retention-preview-data');
             var iframe = document.getElementById('retention-preview-iframe');
             if (!dataEl || !iframe) return;
@@ -132,7 +132,7 @@
                     iframe.style.height = Math.max(400, h + 40) + 'px';
                 } catch(e) {}
             };
-        });
+        })();
     </script>
     @endif
 
