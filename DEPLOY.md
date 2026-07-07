@@ -143,6 +143,15 @@ GEMINI_API_KEY=
 GEMINI_MODEL=gemini-2.5-flash
 
 MAIL_MAILER=smtp
+MAIL_HOST=smtp.alwaysdata.net
+MAIL_PORT=587
+MAIL_USERNAME=votre_email@votredomaine.com
+MAIL_PASSWORD=votre_mot_de_passe_smtp
+MAIL_ENCRYPTION=tls
 MAIL_FROM_ADDRESS=noreply@whatsappbizai.com
 MAIL_FROM_NAME=WhatsAppBizAI
+
+FLUTTERWAVE_PUBLIC_KEY=FLWPUBK_TEST-xxxxxxxxxxxx-X
+FLUTTERWAVE_SECRET_KEY=FLWSECK_TEST-xxxxxxxxxxxx-X
+FLUTTERWAVE_WEBHOOK_SECRET=votre_secret_webhook
 ```
