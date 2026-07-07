@@ -1,4 +1,4 @@
-@if(session('impersonator_id'))
+@if(Cookie::get('impersonator_id'))
     <a
         href="{{ route('impersonate.leave') }}"
         class="fifi-topbar-item inline-flex items-center justify-center gap-1 rounded-lg bg-primary-600 px-3 py-1.5 text-sm font-medium text-white shadow hover:bg-primary-500 focus:outline-none"

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 
 class ImpersonateController extends Controller
@@ -25,9 +26,8 @@ class ImpersonateController extends Controller
             return back()->with('error', 'You cannot impersonate yourself.');
         }
 
-        // Save IDs before invalidating session
-        $impersonatorId = $superAdmin->id;
-        $impersonatedUserId = $user->id;
+        // Save super-admin ID in a cookie (survives session invalidation)
+        Cookie::queue('impersonator_id', $superAdmin->id, 120); // 2 hours
 
         // Fully logout and invalidate old session
         Auth::guard('web')->logout();
@@ -36,12 +36,6 @@ class ImpersonateController extends Controller
 
         // Login as the target user
         Auth::guard('web')->login($user);
-
-        // Restore impersonation data into the NEW session
-        session([
-            'impersonator_id'    => $impersonatorId,
-            'impersonated_user'  => $impersonatedUserId,
-        ]);
 
         // Update last login
         $user->forceFill(['last_login_at' => now()])->save();
@@ -56,7 +50,7 @@ class ImpersonateController extends Controller
 
     public function leave()
     {
-        $impersonatorId = session('impersonator_id');
+        $impersonatorId = Cookie::get('impersonator_id');
 
         if (!$impersonatorId) {
             return redirect()->route('home');
@@ -65,12 +59,9 @@ class ImpersonateController extends Controller
         $superAdmin = User::find($impersonatorId);
 
         if (!$superAdmin || !$superAdmin->is_super_admin) {
-            session()->forget(['impersonator_id', 'impersonated_user']);
+            Cookie::queue(Cookie::forget('impersonator_id'));
             return redirect()->route('home');
         }
-
-        // Save ID before invalidating
-        $adminId = $superAdmin->id;
 
         // Fully logout and invalidate
         Auth::guard('web')->logout();
@@ -80,8 +71,8 @@ class ImpersonateController extends Controller
         // Login back as super-admin
         Auth::guard('web')->login($superAdmin);
 
-        // Clear impersonation data
-        session()->forget(['impersonator_id', 'impersonated_user']);
+        // Clear the impersonation cookie
+        Cookie::queue(Cookie::forget('impersonator_id'));
 
         return redirect()->route('filament.super-admin.pages.dashboard');
     }
