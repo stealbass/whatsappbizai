@@ -79,6 +79,7 @@ class RetentionCampaigns extends Page implements HasForms
     {
         $this->previewHtml = $this->data['message'] ?? '';
         $this->showPreview  = true;
+        $this->dispatch('previewContent');
     }
 
     public function draftWithAI(): void
