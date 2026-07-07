@@ -141,8 +141,8 @@ class BusinessResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->label(__('app.admin.business'))->sortable(),
-                Tables\Columns\TextColumn::make('owner_name')->label(__('app.admin.owner_name')),
+                Tables\Columns\TextColumn::make('name')->label(__('app.admin.business'))->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('owner_name')->label(__('app.admin.owner_name'))->searchable(),
                 Tables\Columns\TextColumn::make('city')->label(__('app.admin.city')),
                 Tables\Columns\BadgeColumn::make('plan')->label(__('app.admin.plan'))
                     ->colors(['gray' => 'free', 'warning' => 'starter', 'primary' => 'business', 'success' => 'pro']),
