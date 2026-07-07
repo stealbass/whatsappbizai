@@ -18,6 +18,9 @@ use Filament\Tables\Table;
  */
 class BusinessResource extends Resource
 {
+    protected static ?string $navigationGroup = 'Administration';
+    protected static ?string $navigationIcon  = 'heroicon-o-building-office-2';
+    protected static ?int    $navigationSort  = 1;
     protected static ?string $model = Business::class;
     protected static ?string $navigationIcon  = 'heroicon-o-building-storefront';
     protected static ?int    $navigationSort  = 10;
@@ -138,8 +141,8 @@ class BusinessResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->label(__('app.admin.business'))->sortable(),
-                Tables\Columns\TextColumn::make('owner_name')->label(__('app.admin.owner_name')),
+                Tables\Columns\TextColumn::make('name')->label(__('app.admin.business'))->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('owner_name')->label(__('app.admin.owner_name'))->searchable(),
                 Tables\Columns\TextColumn::make('city')->label(__('app.admin.city')),
                 Tables\Columns\BadgeColumn::make('plan')->label(__('app.admin.plan'))
                     ->colors(['gray' => 'free', 'warning' => 'starter', 'primary' => 'business', 'success' => 'pro']),

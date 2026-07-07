@@ -54,7 +54,6 @@ class AdminPanelProvider extends PanelProvider
             ->navigationGroups([
                 NavigationGroup::make()->label('Administration'),
                 NavigationGroup::make()->label('Messagerie'),
-                NavigationGroup::make()->label('Documents'),
                 NavigationGroup::make()->label('Gestion Financière'),
                 NavigationGroup::make()->label('Catalogue'),
                 NavigationGroup::make()->label('Marketing'),

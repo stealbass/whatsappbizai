@@ -100,7 +100,7 @@ class BroadcastPage extends Page implements HasForms
 
         if ($response) {
             $this->data['message'] = $response;
-            Notification::make()->title('✅ Message généré par AI')->success()->send();
+            Notification::make()->title(__('app.client.retention.draft_generated'))->success()->send();
         } else {
             Notification::make()->title(__('app.notifications.error'))->danger()->send();
         }
@@ -123,7 +123,7 @@ class BroadcastPage extends Page implements HasForms
         if ($contacts->isEmpty()) {
             Notification::make()
                 ->title(__('app.notifications.error'))
-                ->body('Aucun contact trouvé pour ce segment.')
+                ->body(__('app.client.flash.no_contacts_found'))
                 ->danger()->send();
             return;
         }
@@ -153,8 +153,8 @@ class BroadcastPage extends Page implements HasForms
         }
 
         Notification::make()
-            ->title('📤 Broadcast envoyé')
-            ->body("{$sent}/{$contacts->count()} emails envoyés.")
+            ->title(__('app.admin.broadcast_sent'))
+            ->body("{$sent}/{$contacts->count()} " . __('app.admin.retention_emails_sent'))
             ->success()->send();
 
         $this->data['message'] = null;
