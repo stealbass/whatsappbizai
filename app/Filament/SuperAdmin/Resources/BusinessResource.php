@@ -214,7 +214,9 @@ class BusinessResource extends Resource
 
                 Tables\Filters\TernaryFilter::make('is_active')
                     ->label('Statut')
-                    ->boolean(label: 'Actif', oppositeLabel: 'Inactif'),
+                    ->boolean()
+                    ->trueLabel('Actif')
+                    ->falseLabel('Inactif'),
 
                 Tables\Filters\Filter::make('expired')
                     ->label('Plan expiré')

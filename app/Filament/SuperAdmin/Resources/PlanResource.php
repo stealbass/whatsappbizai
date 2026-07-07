@@ -186,7 +186,9 @@ class PlanResource extends Resource
             ->filters([
                 Tables\Filters\TernaryFilter::make('is_active')
                     ->label('Statut')
-                    ->boolean(label: 'Actif', oppositeLabel: 'Inactif'),
+                    ->boolean()
+                    ->trueLabel('Actif')
+                    ->falseLabel('Inactif'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

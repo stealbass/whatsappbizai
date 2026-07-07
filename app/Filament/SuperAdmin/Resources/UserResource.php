@@ -158,11 +158,15 @@ class UserResource extends Resource
 
                 Tables\Filters\TernaryFilter::make('is_active')
                     ->label('Statut')
-                    ->boolean(label: 'Actif', oppositeLabel: 'Inactif'),
+                    ->boolean()
+                    ->trueLabel('Actif')
+                    ->falseLabel('Inactif'),
 
                 Tables\Filters\TernaryFilter::make('is_super_admin')
                     ->label('Super Admin')
-                    ->boolean(label: 'Oui', oppositeLabel: 'Non'),
+                    ->boolean()
+                    ->trueLabel('Oui')
+                    ->falseLabel('Non'),
             ])
             ->actions([
                 Tables\Actions\Action::make('impersonate')

@@ -109,7 +109,9 @@ class UserResource extends Resource
                     ->options(['admin' => __('app.admin.admin_role'), 'agent' => __('app.admin.agent_role'), 'user' => __('app.admin.user_role')]),
                 Tables\Filters\TernaryFilter::make('is_active')
                     ->label(__('app.admin.active'))
-                    ->boolean(label: 'Actif', oppositeLabel: 'Inactif'),
+                    ->boolean()
+                    ->trueLabel('Actif')
+                    ->falseLabel('Inactif'),
             ])
             ->actions([
                 Tables\Actions\Action::make('impersonate')
