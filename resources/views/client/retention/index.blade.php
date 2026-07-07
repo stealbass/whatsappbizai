@@ -7,7 +7,7 @@
         <h2>❤️ {{ __('app.client.retention.title') }}</h2>
     </div>
 
-    <form action="{{ url('client/retention') }}" method="POST" id="retentionForm">
+    <form action="{{ route('c.retention.send') }}" method="POST" id="retentionForm">
         @csrf
 
         <div class="form-row">

@@ -26,6 +26,14 @@ Back-office IA complet sur WhatsApp pour petites entreprises de services francop
 - ✅ **CRM intégré** — contacts, historique, statuts
 - ✅ **Catalogue services** — tarifs configurables par entreprise
 - ✅ **Dashboard Filament** — conversations, devis, factures, contacts
+- ✅ **Broadcast WhatsApp** — campagnes segmentées (clients/prospects)
+- ✅ **Campagnes de rétention** — e-mails HTML avec aperçu pré-envoi
+- ✅ **WYSIWYG HTML** — éditeur riche (Quill.js) + toggle source `</>` + aperçu iframe
+- ✅ **Multi-tenant** — chaque entreprise isolée (BusinessScope)
+- ✅ **Portail client** — accès sans login via token, devis/factures
+- ✅ **Install wizard** — `/install` pour déploiement sans SSH
+- ✅ **Abonnements + paiements** — Flutterwave (MoMo, Orange, Wave, carte)
+- ✅ **Bilingue FR/EN** — détection automatique par pays
 
 ---
 
