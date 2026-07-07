@@ -1,0 +1,183 @@
+/* WhatsAppBizAI — Language & Currency Switcher Styles */
+
+.switcher-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.switcher-sep {
+    width: 1px;
+    height: 18px;
+    background: #334155;
+    margin: 0 4px;
+}
+
+.switcher-btn {
+    padding: 5px 10px;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    background: transparent;
+    color: #94a3b8;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s;
+    white-space: nowrap;
+}
+
+.switcher-btn:hover {
+    border-color: #0ea5e9;
+    color: #0ea5e9;
+}
+
+.switcher-btn.active {
+    background: #0ea5e9;
+    border-color: #0ea5e9;
+    color: #fff;
+}
+
+/* Light theme variant */
+.light-theme .switcher-sep {
+    background: #e2e8f0;
+}
+
+.light-theme .switcher-btn {
+    border-color: #e2e8f0;
+    color: #64748b;
+}
+
+.light-theme .switcher-btn:hover {
+    border-color: #0ea5e9;
+    color: #0ea5e9;
+}
+
+.light-theme .switcher-btn.active {
+    background: #0ea5e9;
+    border-color: #0ea5e9;
+    color: #fff;
+}
+
+/* Dropdown variant */
+.switcher-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.switcher-dropdown-trigger {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    background: transparent;
+    color: #94a3b8;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+.switcher-dropdown-trigger:hover {
+    border-color: #0ea5e9;
+    color: #fff;
+}
+
+.switcher-dropdown-trigger .arrow {
+    font-size: 10px;
+    transition: transform .2s;
+}
+
+.switcher-dropdown.open .switcher-dropdown-trigger .arrow {
+    transform: rotate(180deg);
+}
+
+.switcher-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 4px;
+    min-width: 140px;
+    z-index: 200;
+    box-shadow: 0 8px 30px rgba(0,0,0,.3);
+}
+
+.switcher-dropdown.open .switcher-dropdown-menu {
+    display: block;
+}
+
+.switcher-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: #94a3b8;
+    font-size: 13px;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    transition: background .15s;
+}
+
+.switcher-dropdown-item:hover {
+    background: #334155;
+    color: #fff;
+}
+
+.switcher-dropdown-item.active {
+    background: rgba(14,165,233,.15);
+    color: #0ea5e9;
+}
+
+.switcher-dropdown-item .flag {
+    font-size: 16px;
+}
+
+.switcher-dropdown-item .code {
+    font-weight: 700;
+    margin-left: auto;
+    font-size: 11px;
+    color: #64748b;
+}
+
+/* Light theme dropdown */
+.light-theme .switcher-dropdown-trigger {
+    border-color: #e2e8f0;
+    color: #64748b;
+}
+
+.light-theme .switcher-dropdown-trigger:hover {
+    color: #0ea5e9;
+}
+
+.light-theme .switcher-dropdown-menu {
+    background: #fff;
+    border-color: #e2e8f0;
+    box-shadow: 0 8px 30px rgba(0,0,0,.12);
+}
+
+.light-theme .switcher-dropdown-item {
+    color: #374151;
+}
+
+.light-theme .switcher-dropdown-item:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+}
+
+.light-theme .switcher-dropdown-item.active {
+    background: #e0f2fe;
+    color: #0284c7;
+}
+
+.light-theme .switcher-dropdown-item .code {
+    color: #94a3b8;
+}

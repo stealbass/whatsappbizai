@@ -54,19 +54,19 @@
         <p class="mt-2 text-amber-600 dark:text-amber-400">⚠️ WhatsApp requires approved templates for bulk outreach. Use within the 24-hour conversation window.</p>
     </div>
 
-    {{-- Preview Modal --}}
+    {{-- ── Preview Modal ──────────────────────────────────────────────────────── --}}
     @if($showPreview)
     <div
         class="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto"
         style="background:rgba(0,0,0,.55); padding: 40px 16px;"
-        x-data="{ html: '' }"
-        x-init="html = await $wire.get('previewHtml')"
-        x-effect="
-            if (html) {
+        x-data
+        x-init="
+            $nextTick(() => {
                 var iframe = document.getElementById('broadcast-preview-iframe');
                 if (!iframe) return;
-                var isFullDoc = /^\s*<!DOCTYPE/i.test(html) || /^\s*<html/i.test(html);
-                var content = isFullDoc ? html : ('<!DOCTYPE html><html><head>' +
+                var raw = @js($previewHtml);
+                var isFullDoc = /^\s*<!DOCTYPE/i.test(raw) || /^\s*<html/i.test(raw);
+                var content = isFullDoc ? raw : ('<!DOCTYPE html><html><head>' +
                     '<meta charset=\"utf-8\">' +
                     '<style>' +
                         'body{font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif;' +
@@ -78,7 +78,7 @@
                         'pre,code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:13px;}' +
                         'ul,ol{padding-left:24px;}img{max-width:100%;}' +
                     '</style>' +
-                    '</head><body>' + html + '</body></html>');
+                    '</head><body>' + raw + '</body></html>');
                 iframe.srcdoc = content;
                 iframe.onload = function() {
                     try {
@@ -86,7 +86,7 @@
                         iframe.style.height = Math.max(400, h + 40) + 'px';
                     } catch(e) {}
                 };
-            }
+            })
         "
         wire:click.self="$set('showPreview', false)"
     >
