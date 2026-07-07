@@ -46,13 +46,13 @@ class SuperAdminPanelProvider extends PanelProvider
             ->widgets([LanguageSwitcher::class])
             ->renderHook('panels::topbar.end', fn() => view('filament.super-admin.widgets.language-switcher'))
             ->navigationGroups([
-                NavigationGroup::make()->label('Tableau de bord')->icon('heroicon-o-chart-bar'),
-                NavigationGroup::make()->label('Gestion des Utilisateurs')->icon('heroicon-o-users'),
-                NavigationGroup::make()->label('Gestion des Entreprises')->icon('heroicon-o-building-office-2'),
-                NavigationGroup::make()->label('Abonnements & Paiements')->icon('heroicon-o-currency-dollar'),
-                NavigationGroup::make()->label('Plans & Tarification')->icon('heroicon-o-tag'),
-                NavigationGroup::make()->label('Marketing')->icon('heroicon-o-megaphone'),
-                NavigationGroup::make()->label('Paramètres')->icon('heroicon-o-cog-6-tooth'),
+                NavigationGroup::make()->label('Tableau de bord'),
+                NavigationGroup::make()->label('Gestion des Utilisateurs'),
+                NavigationGroup::make()->label('Gestion des Entreprises'),
+                NavigationGroup::make()->label('Abonnements & Paiements'),
+                NavigationGroup::make()->label('Plans & Tarification'),
+                NavigationGroup::make()->label('Marketing'),
+                NavigationGroup::make()->label('Paramètres'),
             ])
             ->middleware([
                 EncryptCookies::class,
