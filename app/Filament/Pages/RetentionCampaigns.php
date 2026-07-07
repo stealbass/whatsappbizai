@@ -23,6 +23,9 @@ class RetentionCampaigns extends Page implements HasForms
 
     public ?array $data = [];
 
+    public string $previewHtml = '';
+    public bool   $showPreview  = false;
+
     public function getHeading(): string
     {
         return __('app.admin.retention_title');
@@ -70,6 +73,12 @@ class RetentionCampaigns extends Page implements HasForms
                     ->required(),
             ])
             ->statePath('data');
+    }
+
+    public function previewContent(): void
+    {
+        $this->previewHtml = $this->data['message'] ?? '';
+        $this->showPreview  = true;
     }
 
     public function draftWithAI(): void
