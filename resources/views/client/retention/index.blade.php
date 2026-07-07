@@ -112,15 +112,17 @@ initQuill('#message', 350);
 
 // ── Aperçu modal ────────────────────────────────────────────────────────────
 document.getElementById('previewBtn').addEventListener('click', function() {
-    var q = window._quillInstances['#message'];
-    var html = q ? q.root.innerHTML : document.querySelector('#message').value;
+    // Read from the hidden textarea — truest raw value, preserves <!DOCTYPE html>
+    var ta   = document.querySelector('#message');
+    var html = ta ? ta.value : '';
     if (!html || html === '<p><br></p>') {
         alert('Rédigez un message avant de prévisualiser.');
         return;
     }
 
-    // Inject a full HTML email document into the iframe
-    var fullHtml = `<!DOCTYPE html><html><head>
+    // Full HTML doc → inject as-is; fragment → wrap in email shell
+    var isFullDoc = /^\s*<!DOCTYPE/i.test(html) || /^\s*<html/i.test(html);
+    var iframeContent = isFullDoc ? html : `<!DOCTYPE html><html><head>
         <meta charset="utf-8">
         <style>
             body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -130,15 +132,13 @@ document.getElementById('previewBtn').addEventListener('click', function() {
             a { color: #0ea5e9; }
             blockquote { border-left: 3px solid #e2e8f0; margin-left: 0; padding-left: 16px; color: #64748b; }
             pre,code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 13px; }
-            ul,ol { padding-left: 24px; }
-            img { max-width: 100%; }
+            ul,ol { padding-left: 24px; } img { max-width: 100%; }
         </style>
     </head><body>${html}</body></html>`;
 
     var iframe = document.getElementById('previewIframe');
-    iframe.srcdoc = fullHtml;
+    iframe.srcdoc = iframeContent;
     iframe.onload = function() {
-        // Auto-resize iframe to content height
         try {
             var h = iframe.contentDocument.body.scrollHeight;
             iframe.style.height = Math.max(300, h + 40) + 'px';
