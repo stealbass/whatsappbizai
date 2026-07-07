@@ -46,11 +46,6 @@ class ImpersonateController extends Controller
             $target->forceFill(['last_login_at' => now()])->save();
         }
 
-        // Redirect to appropriate dashboard
-        if ($target && $target->role === 'admin') {
-            return redirect()->route('filament.admin.pages.dashboard');
-        }
-
-        return redirect('/dashboard');
+        return redirect()->route('filament.admin.pages.dashboard');
     }
 }

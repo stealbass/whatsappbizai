@@ -49,8 +49,12 @@ class AdminPanelProvider extends PanelProvider
             ->renderHook('panels::topbar.end', fn() => view('filament.widgets.language-switcher'))
             ->navigationGroups([
                 NavigationGroup::make()->label('Administration'),
+                NavigationGroup::make()->label('Gestion des Utilisateurs'),
+                NavigationGroup::make()->label('Gestion des Entreprises'),
                 NavigationGroup::make()->label('Messagerie'),
                 NavigationGroup::make()->label('Gestion Financière'),
+                NavigationGroup::make()->label('Abonnements & Paiements'),
+                NavigationGroup::make()->label('Plans & Tarification'),
                 NavigationGroup::make()->label('Catalogue'),
                 NavigationGroup::make()->label('Marketing'),
                 NavigationGroup::make()->label('Paramètres'),

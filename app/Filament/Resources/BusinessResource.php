@@ -18,6 +18,12 @@ class BusinessResource extends Resource
     protected static ?string $navigationIcon  = 'heroicon-o-building-storefront';
     protected static ?int    $navigationSort  = 10;
     protected static ?string $model = Business::class;
+    protected static ?string $slug = 'businesses';
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()?->is_super_admin ?? false;
+    }
 
     public static function getNavigationLabel(): string
     {
@@ -43,11 +49,8 @@ class BusinessResource extends Resource
     {
         $query = parent::getEloquentQuery();
 
-        $user = auth()->user();
-
-        // Super-admins see everything
-        if ($user && !$user->is_super_admin && $user->business_id) {
-            $query->where('id', $user->business_id);
+        if (auth()->user() && !auth()->user()->is_super_admin && auth()->user()->business_id) {
+            $query->where('id', auth()->user()->business_id);
         }
 
         return $query;
@@ -56,92 +59,108 @@ class BusinessResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\Section::make(__('app.admin.general_info'))->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label(__('app.admin.company_name'))->required(),
-                Forms\Components\TextInput::make('owner_name')
-                    ->label(__('app.admin.owner_name'))->required(),
-                Forms\Components\TextInput::make('email')
-                    ->label(__('app.admin.email'))->email()->required(),
-                Forms\Components\TextInput::make('phone')
-                    ->label(__('app.admin.phone'))->placeholder('+237 6XX XXX XXX'),
-                Forms\Components\TextInput::make('address')->label(__('app.admin.address')),
-                Forms\Components\TextInput::make('city')->label(__('app.admin.city'))->default('Douala'),
-                Forms\Components\Select::make('country')->label(__('app.admin.country'))
-                    ->options([
-                        'CM' => '🇨🇲 Cameroun',
-                        'SN' => '🇸🇳 Sénégal',
-                        'CI' => '🇨🇮 Côte d\'Ivoire',
-                        'MA' => '🇲🇦 Maroc',
-                        'FR' => '🇫🇷 France',
-                        'BE' => '🇧🇪 Belgique',
-                    ])->default('CM'),
-                Forms\Components\Select::make('currency')->label(__('app.admin.currency'))
-                    ->options([
-                        'XAF' => 'XAF (FCFA BEAC)',
-                        'XOF' => 'XOF (FCFA BCEAO)',
-                        'EUR' => 'EUR (Euro)',
-                        'USD' => 'USD (Dollar)',
-                        'GBP' => 'GBP (Livre Sterling)',
-                        'ZAR' => 'ZAR (Rand Sud-Africain)',
-                        'MAD' => 'MAD (Dirham)',
-                        'NGN' => 'NGN (Naira)',
-                        'GHS' => 'GHS (Cedi)',
-                        'KES' => 'KES (Shilling)',
-                    ])->default('XAF'),
-                Forms\Components\Select::make('timezone')->label(__('app.admin.timezone'))
-                    ->options([
-                        'Africa/Douala'     => 'Afrique/Douala (WAT)',
-                        'Africa/Dakar'      => 'Afrique/Dakar (GMT)',
-                        'Africa/Abidjan'    => 'Afrique/Abidjan (GMT)',
-                        'Africa/Casablanca' => 'Afrique/Casablanca (WET)',
-                        'Europe/Paris'      => 'Europe/Paris (CET)',
-                    ])->default('Africa/Douala'),
-            ])->columns(2),
+            Forms\Components\Section::make('Informations générales')
+                ->icon('heroicon-o-information-circle')
+                ->schema([
+                    Forms\Components\TextInput::make('name')
+                        ->label('Nom')
+                        ->required(),
+                    Forms\Components\TextInput::make('owner_name')
+                        ->label('Propriétaire')
+                        ->required(),
+                    Forms\Components\TextInput::make('email')
+                        ->label('Email')
+                        ->email()
+                        ->required(),
+                    Forms\Components\TextInput::make('phone')
+                        ->label('Téléphone'),
+                    Forms\Components\TextInput::make('address')
+                        ->label('Adresse'),
+                    Forms\Components\TextInput::make('city')
+                        ->label('Ville')
+                        ->default('Douala'),
+                    Forms\Components\Select::make('country')
+                        ->label('Pays')
+                        ->options([
+                            'CM' => 'Cameroun',
+                            'SN' => 'Sénégal',
+                            'CI' => 'Côte d\'Ivoire',
+                            'MA' => 'Maroc',
+                            'FR' => 'France',
+                        ])
+                        ->default('CM'),
+                    Forms\Components\Select::make('currency')
+                        ->label('Devise')
+                        ->options([
+                            'XAF' => 'XAF',
+                            'XOF' => 'XOF',
+                            'EUR' => 'EUR',
+                            'USD' => 'USD',
+                        ])
+                        ->default('XAF'),
+                    Forms\Components\Select::make('timezone')
+                        ->label('Fuseau horaire')
+                        ->options([
+                            'Africa/Douala'  => 'Douala (WAT)',
+                            'Africa/Dakar'   => 'Dakar (GMT)',
+                            'Europe/Paris'   => 'Paris (CET)',
+                        ])
+                        ->default('Africa/Douala'),
+                ])->columns(2),
 
-            Forms\Components\Section::make(__('app.admin.billing'))->schema([
-                Forms\Components\TextInput::make('invoice_prefix')
-                    ->label(__('app.admin.invoice_prefix'))->default('FAC')->maxLength(10),
-                Forms\Components\TextInput::make('quote_prefix')
-                    ->label(__('app.admin.quote_prefix'))->default('DEV')->maxLength(10),
-            ])->columns(2),
+            Forms\Components\Section::make('Facturation')
+                ->schema([
+                    Forms\Components\TextInput::make('invoice_prefix')
+                        ->label('Préfixe factures')
+                        ->default('FAC')
+                        ->maxLength(10),
+                    Forms\Components\TextInput::make('quote_prefix')
+                        ->label('Préfixe devis')
+                        ->default('DEV')
+                        ->maxLength(10),
+                ])->columns(2),
 
-            Forms\Components\Section::make('🟢 WhatsApp Business')
-                ->description('Identifiants depuis Meta for Developers → WhatsApp → Configuration')
+            Forms\Components\Section::make('WhatsApp & IA')
                 ->schema([
                     Forms\Components\TextInput::make('whatsapp_phone_number_id')
-                        ->label('Phone Number ID')->placeholder('123456789012345'),
+                        ->label('Phone Number ID'),
                     Forms\Components\TextInput::make('whatsapp_business_account_id')
-                        ->label('Business Account ID')->placeholder('987654321098765'),
+                        ->label('Business Account ID'),
                     Forms\Components\TextInput::make('whatsapp_access_token')
-                        ->label(__('app.admin.access_token'))
-                        ->password()->revealable()
-                        ->placeholder('EAAxxxxxxxx...'),
+                        ->label('Access Token')
+                        ->password()
+                        ->revealable(),
+                    RichEditor::make('gemini_system_prompt')
+                        ->label('Prompt IA Gemini')
+                        ->columnSpanFull(),
                 ])->columns(1),
 
-            Forms\Components\Section::make(__('app.admin.ai_instructions'))
+            Forms\Components\Section::make('Statut & Plan')
                 ->schema([
-                    RichEditor::make('gemini_system_prompt')
-                        ->label(__('app.admin.ai_instructions_label'))
-                        ->columnSpanFull(),
-                ]),
+                    Forms\Components\Toggle::make('is_active')
+                        ->label('Active')
+                        ->default(true),
+                    Forms\Components\Select::make('plan')
+                        ->label('Plan')
+                        ->options([
+                            'free'     => 'Free',
+                            'starter'  => 'Starter',
+                            'business' => 'Business',
+                            'pro'      => 'Pro',
+                        ])
+                        ->default('free'),
+                    Forms\Components\DateTimePicker::make('plan_expires_at')
+                        ->label('Expiration du plan'),
+                ])->columns(3),
 
-            Forms\Components\Section::make('Statut & Plan')->schema([
-                Forms\Components\Toggle::make('is_active')
-                    ->label('Entreprise active')
-                    ->default(true),
-                Forms\Components\Select::make('plan')
-                    ->label('Plan actuel')
-                    ->options([
-                        'free'     => 'Free',
-                        'starter'  => 'Starter',
-                        'business' => 'Business',
-                        'pro'      => 'Pro',
-                    ])
-                    ->default('free'),
-                Forms\Components\DateTimePicker::make('plan_expires_at')
-                    ->label('Expiration du plan'),
-            ])->columns(3),
+            Forms\Components\Section::make('Logo')
+                ->schema([
+                    Forms\Components\FileUpload::make('logo_path')
+                        ->label('Logo')
+                        ->image()
+                        ->directory('logos')
+                        ->nullable(),
+                ]),
         ]);
     }
 
@@ -149,36 +168,45 @@ class BusinessResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->label(__('app.admin.business'))->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('owner_name')->label(__('app.admin.owner_name'))->searchable(),
-                Tables\Columns\TextColumn::make('city')->label(__('app.admin.city')),
-                Tables\Columns\TextColumn::make('plan')->label(__('app.admin.plan'))
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Entreprise')
+                    ->searchable()
+                    ->sortable()
+                    ->description(fn ($record) => $record->owner_name),
+
+                Tables\Columns\TextColumn::make('email')
+                    ->label('Email')
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('plan')
+                    ->label('Plan')
                     ->badge()
                     ->color(fn ($state) => match ($state) {
                         'free'     => 'gray',
-                        'starter'  => 'warning',
-                        'business' => 'primary',
-                        'pro'      => 'success',
+                        'starter'  => 'info',
+                        'business' => 'success',
+                        'pro'      => 'warning',
                         default    => 'gray',
                     }),
-                Tables\Columns\IconColumn::make('whatsapp_phone_number_id')
-                    ->label('WhatsApp ✓')->boolean()
-                    ->getStateUsing(fn($record) => !empty($record->whatsapp_phone_number_id)),
+
                 Tables\Columns\IconColumn::make('is_active')
-                    ->label('Actif')->boolean(),
-                Tables\Columns\TextColumn::make('plan_expires_at')
-                    ->label('Expire le')
-                    ->date('d/m/Y')
-                    ->placeholder('—')
-                    ->color(fn ($record) => $record->plan_expires_at && $record->plan_expires_at->isPast() ? 'danger' : null),
+                    ->label('Actif')
+                    ->boolean(),
+
                 Tables\Columns\TextColumn::make('users_count')
                     ->label('Users')
                     ->counts('users')
                     ->alignCenter(),
+
                 Tables\Columns\TextColumn::make('contacts_count')
                     ->label('Contacts')
                     ->counts('contacts')
                     ->alignCenter(),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Créé le')
+                    ->date('d/m/Y')
+                    ->sortable(),
             ])
             ->actions([
                 Tables\Actions\Action::make('impersonate')
@@ -186,23 +214,15 @@ class BusinessResource extends Resource
                     ->icon('heroicon-o-arrow-right-on-rectangle')
                     ->color('warning')
                     ->requiresConfirmation()
-                    ->modalHeading('Se connecter en tant que cette entreprise ?')
                     ->action(function ($record) {
-                        $owner = $record->users()->where('role', 'admin')->first();
-
+                        $owner = $record->users()->first();
                         if (!$owner) {
-                            Notification::make()
-                                ->title('Aucun admin trouvé')
-                                ->danger()
-                                ->send();
+                            Notification::make()->title('Aucun utilisateur')->danger()->send();
                             return;
                         }
-
-                        auth()->login($owner);
-
-                        return redirect()->route('filament.admin.pages.dashboard');
+                        return redirect(url("impersonate/{$owner->id}?save_current=true"));
                     })
-                    ->visible(fn ($record) => auth()->user()?->is_super_admin),
+                    ->visible(fn () => auth()->user()?->is_super_admin ?? false),
 
                 Tables\Actions\EditAction::make(),
             ])

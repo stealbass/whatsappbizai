@@ -41,12 +41,6 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        if ($panel->getId() === 'super-admin') {
-            return $this->is_super_admin;
-        }
-
-        // All active users can access the admin panel
-        // (super-admins can impersonate any user)
         return $this->is_active;
     }
 

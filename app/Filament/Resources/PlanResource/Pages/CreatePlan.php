@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\SuperAdmin\Resources\PlanResource\Pages;
+namespace App\Filament\Resources\PlanResource\Pages;
 
-use App\Filament\SuperAdmin\Resources\PlanResource;
+use App\Filament\Resources\PlanResource;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreatePlan extends CreateRecord
