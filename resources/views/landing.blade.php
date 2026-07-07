@@ -310,6 +310,198 @@
     </div>
 </section>
 
+<!-- INTERACTIVE DEMO CHAT -->
+<section class="section" style="background:#fff;overflow:hidden;">
+    <div class="section-inner" style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1100px;margin:0 auto;">
+        <div>
+            <h2 style="font-size:36px;font-weight:800;line-height:1.2;margin-bottom:20px;" data-t-key="landing.demo_title">Un agent IA qui <span style="color:var(--sky)">comprend</span> vos clients</h2>
+            <p style="font-size:17px;color:var(--gray);line-height:1.8;margin-bottom:16px;" data-t-key="landing.demo_desc">WhatsAppBizAI engage une conversation naturelle avec vos clients, comprend leurs besoins et leur propose vos services — exactement comme un commercial le ferait.</p>
+            <ul style="list-style:none;padding:0;">
+                <li style="padding:10px 0;font-size:15px;color:#334155;display:flex;align-items:center;gap:10px;"><span style="color:#22c55e;font-size:20px;">✓</span> <span data-t-key="landing.demo_li1">Réponses instantanées 24h/24, 7j/7</span></li>
+                <li style="padding:10px 0;font-size:15px;color:#334155;display:flex;align-items:center;gap:10px;"><span style="color:#22c55e;font-size:20px;">✓</span> <span data-t-key="landing.demo_li2">Devis PDF générés en 30 secondes</span></li>
+                <li style="padding:10px 0;font-size:15px;color:#334155;display:flex;align-items:center;gap:10px;"><span style="color:#22c55e;font-size:20px;">✓</span> <span data-t-key="landing.demo_li3">Facturation et relances automatisées</span></li>
+                <li style="padding:10px 0;font-size:15px;color:#334155;display:flex;align-items:center;gap:10px;"><span style="color:#22c55e;font-size:20px;">✓</span> <span data-t-key="landing.demo_li4">Support français + anglais</span></li>
+            </ul>
+        </div>
+
+        {{-- Phone mockup --}}
+        <div style="display:flex;justify-content:center;">
+            <div style="width:320px;background:#fff;border-radius:40px;box-shadow:0 20px 60px rgba(0,0,0,.15),0 0 0 8px #e2e8f0,0 0 0 10px #94a3b8;overflow:hidden;position:relative;">
+                {{-- Phone top bar --}}
+                <div style="background:#075e54;color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+                    <div style="width:36px;height:36px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🤖</div>
+                    <div style="flex:1;min-width:0;">
+                        <div style="font-weight:700;font-size:14px;">WhatsAppBizAI</div>
+                        <div id="agentStatus" style="font-size:11px;color:#b3d9d2;">en ligne</div>
+                    </div>
+                    <div style="display:flex;gap:4px;color:#b3d9d2;font-size:18px;">⋮</div>
+                </div>
+                {{-- Phone notch --}}
+                <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:22px;background:#075e54;border-radius:0 0 16px 16px;z-index:2;"></div>
+                {{-- Chat messages --}}
+                <div id="chatContainer" style="background:#ece5dd;padding:12px 14px;min-height:520px;display:flex;flex-direction:column;gap:6px;position:relative;">
+                    <div style="text-align:center;font-size:11px;color:#8696a0;margin:8px 0;">
+                        <span style="background:#e1f3fb;padding:4px 10px;border-radius:4px;display:inline-block;">Aujourd'hui</span>
+                    </div>
+                    {{-- Messages will be inserted by JS --}}
+                </div>
+                {{-- Phone bottom input --}}
+                <div style="background:#f0f2f5;padding:8px 12px;display:flex;align-items:center;gap:8px;border-top:1px solid #e2e8f0;">
+                    <div style="flex:1;background:#fff;border-radius:24px;padding:8px 14px;font-size:13px;color:#8696a0;">Écrivez un message...</div>
+                    <div style="width:36px;height:36px;border-radius:50%;background:#075e54;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;cursor:pointer;">➤</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+(function() {
+    var msgs = [
+        { from: 'client', text: 'Bonjour, j\'aurais besoin d\'un devis pour créer un site web pour mon salon de coiffure.' },
+        { from: 'ai', text: 'Bonjour ! 🌸 Merci pour votre intérêt. Un site e-commerce avec boutique en ligne et prise de rendez-vous pour un salon de coiffure, c\'est une excellente idée !<br><br>Nous avons une formule <strong>Salon Premium</strong> à <strong>450 000 FCFA</strong> qui inclut :<br>• Design sur mesure<br>• Catalogue produits<br>• Paiement en ligne<br>• Prise de rendez-vous<br>• Formation incluse' },
+        { from: 'client', text: 'Super ! Et le délai de livraison ?' },
+        { from: 'ai', text: 'Le délai est de <strong>3 à 4 semaines</strong> après validation du design. Nous nous occupons de tout !<br><br>Souhaitez-vous que je prépare un devis détaillé avec facture proforma ? 📄' },
+        { from: 'client', text: 'Oui, je suis intéressé. Envoyez-moi le devis.' },
+        { from: 'ai', text: 'Parfait ! Je prépare votre devis dans la foulée. Vous le recevrez au format PDF directement ici dans la conversation. <strong>Merci pour votre confiance !</strong> 🎉' },
+    ];
+
+    var container = document.getElementById('chatContainer');
+    var agentStatus = document.getElementById('agentStatus');
+    var step = 0;
+    var isPlaying = false;
+    var scrollTimeout = null;
+
+    function scrollToBottom() {
+        if (container) {
+            container.scrollTop = container.scrollHeight;
+        }
+    }
+
+    function addTypingDots(from) {
+        var div = document.createElement('div');
+        div.className = 'typing-dots';
+        div.style.cssText = 'display:flex;align-items:center;gap:4px;padding:10px 14px;border-radius:8px;max-width:60%;font-size:20px;' +
+            (from === 'ai'
+                ? 'background:#dcf8c6;align-self:flex-start;border-bottom-left-radius:2px;margin-right:auto;'
+                : 'background:#fff;align-self:flex-end;border-bottom-right-radius:2px;margin-left:auto;');
+        div.innerHTML = '<span class="dot" style="animation:dotPulse 1.4s infinite;animation-delay:0s">·</span>' +
+            '<span class="dot" style="animation:dotPulse 1.4s infinite;animation-delay:0.2s">·</span>' +
+            '<span class="dot" style="animation:dotPulse 1.4s infinite;animation-delay:0.4s">·</span>';
+        div.id = 'typing-' + from;
+        container.appendChild(div);
+        scrollToBottom();
+    }
+
+    function removeTypingDots(from) {
+        var el = document.getElementById('typing-' + from);
+        if (el) el.remove();
+    }
+
+    function addMessage(from, html) {
+        removeTypingDots(from);
+        var div = document.createElement('div');
+        div.style.cssText = 'max-width:80%;padding:8px 14px;border-radius:8px;font-size:13px;line-height:1.5;word-wrap:break-word;animation:fadeInMsg 0.3s ease;' +
+            (from === 'ai'
+                ? 'background:#dcf8c6;align-self:flex-start;border-bottom-left-radius:2px;margin-right:auto;'
+                : 'background:#fff;align-self:flex-end;border-bottom-right-radius:2px;margin-left:auto;');
+        if (from === 'ai') {
+            var label = document.createElement('div');
+            label.style.cssText = 'font-size:10px;color:#075e54;font-weight:700;margin-bottom:3px;';
+            label.textContent = 'Agent IA WhatsAppBizAI';
+            div.appendChild(label);
+        }
+        var text = document.createElement('div');
+        text.innerHTML = html;
+        div.appendChild(text);
+        container.appendChild(div);
+        scrollToBottom();
+    }
+
+    function playStep() {
+        if (step >= msgs.length) {
+            agentStatus.textContent = 'en ligne · terminé';
+            isPlaying = false;
+            return;
+        }
+        var msg = msgs[step];
+        var nextFrom = (step + 1 < msgs.length) ? msgs[step + 1].from : null;
+
+        // Show typing dots for the NEXT speaker
+        if (nextFrom) {
+            addTypingDots(nextFrom);
+        }
+
+        // After a pause, show current message
+        var pause = msg.from === 'ai' ? 2000 : 1200;
+        setTimeout(function() {
+            addMessage(msg.from, msg.text);
+            step++;
+            scrollToBottom();
+
+            // If next is client, mark as "en ligne"
+            if (nextFrom === 'client') {
+                agentStatus.textContent = 'en ligne';
+            } else if (nextFrom === 'ai') {
+                agentStatus.textContent = '🤖 l\'agent écrit...';
+            }
+
+            // Continue after pause
+            setTimeout(playStep, nextFrom ? 400 : 0);
+        }, pause);
+    }
+
+    // Start playing when visible using IntersectionObserver
+    var section = container.closest('section');
+    if (section && 'IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting && !isPlaying) {
+                    isPlaying = true;
+                    // Initial typing dots for AI
+                    addTypingDots('ai');
+                    agentStatus.textContent = '🤖 l\'agent écrit...';
+                    setTimeout(function() {
+                        playStep();
+                    }, 1500);
+                    observer.disconnect();
+                }
+            });
+        }, { threshold: 0.3 });
+        observer.observe(section);
+    } else {
+        // Fallback: start after page load
+        setTimeout(function() {
+            isPlaying = true;
+            addTypingDots('ai');
+            agentStatus.textContent = '🤖 l\'agent écrit...';
+            setTimeout(function() {
+                playStep();
+            }, 1500);
+        }, 4000);
+    }
+})();
+</script>
+
+<style>
+@keyframes fadeInMsg {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes dotPulse {
+    0%, 80%, 100% { opacity: 0; }
+    40% { opacity: 1; }
+}
+#chatContainer { overflow-y: auto; scroll-behavior: smooth; }
+#chatContainer::-webkit-scrollbar { width: 4px; }
+#chatContainer::-webkit-scrollbar-thumb { background: rgba(0,0,0,.1); border-radius: 2px; }
+@media (max-width: 768px) {
+    .section-inner { grid-template-columns: 1fr !important; gap: 32px !important; }
+    .section-inner > div:first-child { order: 2; }
+    .section-inner > div:last-child { order: 1; }
+}
+</style>
+
 <!-- TESTIMONIALS -->
 <section class="section testimonials">
     <div class="section-inner">
