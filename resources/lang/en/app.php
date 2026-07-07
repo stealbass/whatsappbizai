@@ -744,6 +744,8 @@ return [
         'activate_subscription' => 'Activate Subscription',
         'admin_notes' => 'Admin Notes',
         'admin_role' => 'Admin',
+        'total_messages' => 'Total messages',
+        'messages_count' => 'messages',
         'admin_verification' => 'Admin Verification',
         'agent_role' => 'Agent',
         'ai_instructions' => 'AI Instructions',

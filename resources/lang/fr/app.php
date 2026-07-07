@@ -748,6 +748,8 @@ return [
         'activate_subscription' => 'Activer l\'abonnement',
         'admin_notes' => 'Notes admin',
         'admin_role' => 'Admin',
+        'total_messages' => 'Messages totaux',
+        'messages_count' => 'messages',
         'admin_verification' => 'Vérification admin',
         'agent_role' => 'Agent',
         'ai_instructions' => 'Instructions IA',
