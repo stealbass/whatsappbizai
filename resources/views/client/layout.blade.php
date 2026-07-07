@@ -205,6 +205,11 @@
             <h1>@yield('title', 'Dashboard')</h1>
         </div>
         <div class="topbar-right">
+            @if(session('impersonator_id'))
+                <a href="{{ route('impersonate.leave') }}" style="background:#6366f1;color:#fff;padding:6px 14px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
+                    ← Back to admin
+                </a>
+            @endif
             @yield('topbar-right')
         </div>
     </div>

@@ -64,6 +64,11 @@
 <div class="topbar">
     <a href="{{ url('dashboard') }}" class="logo">WhatsApp<span>BizAI</span></a>
     <div class="topbar-right">
+        @if(session('impersonator_id'))
+            <a href="{{ route('impersonate.leave') }}" style="background:#6366f1;color:#fff;padding:6px 14px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
+                ← Back to admin
+            </a>
+        @endif
         <span class="plan-badge">{{ $business ? ucfirst($business->plan) : 'Free' }}</span>
         <span class="user-name">{{ $user->name }}</span>
         <a href="{{ url('logout') }}" class="logout">{{ app()->getLocale() === 'fr' ? 'Déconnexion' : 'Logout' }}</a>

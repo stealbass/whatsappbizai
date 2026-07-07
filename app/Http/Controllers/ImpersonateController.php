@@ -27,8 +27,8 @@ class ImpersonateController extends Controller
 
         // Save super-admin ID to return later
         session([
-            'impersonator_id'     => $superAdmin->id,
-            'impersonator_guard'  => 'web',
+            'impersonator_id'    => $superAdmin->id,
+            'impersonated_user'  => $user->id,
         ]);
 
         // Fully logout and invalidate old session
@@ -36,14 +36,20 @@ class ImpersonateController extends Controller
         Session::invalidate();
         Session::regenerateToken();
 
-        // Login as the target user (without "remember me" to avoid cookie conflicts)
+        // Login as the target user
         Auth::guard('web')->login($user);
 
         // Update last login
         $user->forceFill(['last_login_at' => now()])->save();
 
-        // Redirect to admin panel
-        return redirect()->route('filament.admin.pages.dashboard');
+        // Redirect based on role:
+        // - admin → Filament admin panel (with "Back to admin" topbar button)
+        // - user/agent → client dashboard (/dashboard)
+        if ($user->role === 'admin') {
+            return redirect()->route('filament.admin.pages.dashboard');
+        }
+
+        return redirect('/dashboard');
     }
 
     public function leave()
@@ -70,6 +76,7 @@ class ImpersonateController extends Controller
         Auth::guard('web')->login($superAdmin);
 
         Session::forget('impersonator_id');
+        Session::forget('impersonated_user');
 
         return redirect()->route('filament.super-admin.pages.dashboard');
     }
