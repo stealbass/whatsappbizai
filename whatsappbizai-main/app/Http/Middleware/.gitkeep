@@ -1,9 +1,0 @@
-<?php
-
-/*
-|--------------------------------------------------------------------------
-| WhatsAppBizAI — app/Http/Middleware/
-|--------------------------------------------------------------------------
-| Dossier réservé aux middlewares personnalisés.
-| Laravel 11 utilise bootstrap/app.php pour l'enregistrement.
-*/
