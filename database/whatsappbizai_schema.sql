@@ -109,6 +109,7 @@ CREATE TABLE IF NOT EXISTS `contacts` (
   `id`              bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `business_id`     bigint(20) UNSIGNED NOT NULL,
   `whatsapp_number` varchar(30) NOT NULL,
+  `phone`           varchar(50) DEFAULT NULL,
   `name`            varchar(255) DEFAULT NULL,
   `email`           varchar(255) DEFAULT NULL,
   `company`         varchar(255) DEFAULT NULL,

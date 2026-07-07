@@ -134,7 +134,7 @@ class BroadcastPage extends Page implements HasForms
         foreach ($contacts as $contact) {
             $personalized = str_replace(
                 ['{{nom}}', '{{prenom}}', '{{entreprise}}'],
-                [$contact->last_name ?? '', $contact->first_name ?? '', $contact->company ?? ''],
+                [$contact->name ?? '', explode(' ', $contact->name ?? '')[0], $contact->company ?? ''],
                 $raw
             );
 
