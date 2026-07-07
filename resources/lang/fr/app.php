@@ -898,6 +898,7 @@ return [
         'upsell' => 'Vente additionnelle',
         'winback' => 'Réactivation',
         'referral' => 'Parrainage',
+        'broadcast_title' => '📤 Broadcast',
         'retention_title' => 'Campagnes de Rétention Utilisateurs',
         'retention_target' => 'Cible',
         'retention_objective' => 'Objectif',

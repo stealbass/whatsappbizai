@@ -894,6 +894,7 @@ return [
         'upsell' => 'Upsell',
         'winback' => 'Win-back',
         'referral' => 'Referral',
+        'broadcast_title' => '📤 Broadcast',
         'retention_title' => 'User Retention Campaigns',
         'retention_target' => 'Target',
         'retention_objective' => 'Objective',
