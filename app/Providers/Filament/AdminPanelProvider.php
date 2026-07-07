@@ -45,6 +45,7 @@ class AdminPanelProvider extends PanelProvider
             ->pages([Pages\Dashboard::class])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([LanguageSwitcher::class])
+            ->renderHook('panels::topbar.start', fn() => view('filament.widgets.back-to-admin'))
             ->renderHook('panels::topbar.end', fn() => view('filament.widgets.language-switcher'))
             ->navigationGroups([
                 NavigationGroup::make()->label('Administration'),

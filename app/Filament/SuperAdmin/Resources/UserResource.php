@@ -184,11 +184,12 @@ class UserResource extends Resource
                             return;
                         }
 
-                        // Force proper session switch
-                        auth()->guard('web')->logout();
+                        // Store super-admin ID in session to allow "Back to admin"
+                        session(['impersonator_id' => auth()->id()]);
+
+                        // Login as target user
+                        \Illuminate\Support\Facades\Auth::login($record, true);
                         $record->forceFill(['last_login_at' => now()])->save();
-                        auth()->guard('web')->login($record);
-                        session()->regenerate(true);
 
                         return redirect()->route('filament.admin.pages.dashboard');
                     })
