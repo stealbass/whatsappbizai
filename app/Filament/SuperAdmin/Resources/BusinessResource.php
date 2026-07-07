@@ -257,7 +257,10 @@ class BusinessResource extends Resource
                             return;
                         }
 
-                        auth()->login($owner);
+                        auth()->guard('web')->logout();
+                        $owner->forceFill(['last_login_at' => now()])->save();
+                        auth()->guard('web')->login($owner);
+                        session()->regenerate(true);
 
                         return redirect()->route('filament.admin.pages.dashboard');
                     }),

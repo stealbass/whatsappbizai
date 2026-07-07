@@ -184,7 +184,11 @@ class UserResource extends Resource
                             return;
                         }
 
-                        auth()->login($record);
+                        // Force proper session switch
+                        auth()->guard('web')->logout();
+                        $record->forceFill(['last_login_at' => now()])->save();
+                        auth()->guard('web')->login($record);
+                        session()->regenerate(true);
 
                         return redirect()->route('filament.admin.pages.dashboard');
                     })
