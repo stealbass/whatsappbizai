@@ -167,9 +167,9 @@
 <nav>
     <div class="nav-inner">
         @if($site->logo_path)
-            <a href="{{ url('/') }}"><img src="{{ asset('storage/' . $site->logo_path) }}" alt="{{ $site->site_name ?? 'WhatsAppBizAI' }}" style="height:36px;"></a>
+            <a href="{{ url('/') }}"><img src="{{ asset('storage/' . $site->logo_path) }}" alt="{{ $site->trans('site_name') ?? 'WhatsAppBizAI' }}" style="height:36px;"></a>
         @else
-            @php $siteName = $site->site_name ?? 'WhatsAppBizAI'; $parts = explode('BizAI', $siteName); @endphp
+            @php $siteName = $site->trans('site_name') ?? 'WhatsAppBizAI'; $parts = explode('BizAI', $siteName); @endphp
             <a href="{{ url('/') }}" class="logo">{!! $parts[0] ?? $siteName !!}<span>{{ str_contains($siteName, 'BizAI') ? 'BizAI' : '' }}</span></a>
         @endif
         <div class="nav-links">
@@ -344,7 +344,7 @@
                 <div style="background:#075e54;color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px;">
                     <div style="width:36px;height:36px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🤖</div>
                     <div style="flex:1;min-width:0;">
-                        <div style="font-weight:700;font-size:14px;">{{ $site->site_name ?? 'WhatsAppBizAI' }}</div>
+                        <div style="font-weight:700;font-size:14px;">{{ $site->trans('site_name') ?? 'WhatsAppBizAI' }}</div>
                         <div id="agentStatus" style="font-size:11px;color:#b3d9d2;" data-t-key="landing.demo_online">en ligne</div>
                     </div>
                     <div style="display:flex;gap:4px;color:#b3d9d2;font-size:18px;">⋮</div>
@@ -659,7 +659,7 @@
 <section id="faq" style="padding:80px 24px;background:#fff;">
     <div style="max-width:800px;margin:0 auto;">
         <h2 style="text-align:center;font-size:32px;font-weight:800;margin-bottom:12px;" data-t-key="landing.faq_title">Questions fréquentes</h2>
-        <p style="text-align:center;color:var(--gray);margin-bottom:48px;font-size:16px;">{{ __('app.landing.faq_desc') }} {{ $site->site_name ?? 'WhatsAppBizAI' }}.</p>
+        <p style="text-align:center;color:var(--gray);margin-bottom:48px;font-size:16px;">{{ __('app.landing.faq_desc') }} {{ $site->trans('site_name') ?? 'WhatsAppBizAI' }}.</p>
 
         <div style="display:flex;flex-direction:column;gap:16px;">
             <details style="border:1px solid #e2e8f0;border-radius:12px;padding:20px 24px;cursor:pointer;">
@@ -699,7 +699,7 @@
 <footer>
     <div class="footer-inner">
         <div class="footer-brand">
-        @php $siteName = $site->site_name ?? 'WhatsAppBizAI'; $parts = explode('BizAI', $siteName); @endphp
+        @php $siteName = $site->trans('site_name') ?? 'WhatsAppBizAI'; $parts = explode('BizAI', $siteName); @endphp
         <a href="{{ url('/') }}" class="logo">{!! $parts[0] ?? $siteName !!}<span>{{ str_contains($siteName, 'BizAI') ? 'BizAI' : '' }}</span></a>
             <p>{!! $site->trans('footer_description') ?? __('app.landing.footer_desc') !!}</p>
             <div class="social-icons">

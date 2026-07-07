@@ -152,11 +152,10 @@
 
     function switchLanguage(lang) {
         if (lang !== 'fr' && lang !== 'en') return;
-        currentLang = lang;
         localStorage.setItem('wbai_lang', lang);
         document.cookie = 'wbai_lang=' + lang + ';path=/;max-age=31536000;SameSite=Lax';
-        updateTranslations();
-        updatePrices();
+        var url = '/language/' + lang;
+        window.location.href = url;
     }
 
     function switchCurrency(currency) {

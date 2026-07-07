@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ __('app.payment.manual_title') }} — {{ $site->site_name ?? 'WhatsAppBizAI' }}</title>
+    <title>{{ __('app.payment.manual_title') }} — {{ $site->trans('site_name') ?? 'WhatsAppBizAI' }}</title>
     <meta name="robots" content="noindex">
     <style>
         *{box-sizing:border-box;margin:0;padding:0}
@@ -69,17 +69,17 @@
             <div class="method-block" id="coord-mtn_momo">
                 <strong>MTN MoMo — {{ __('app.payment.receiving_number') }} :</strong><br>
                 📱 <strong>+237 6XX XXX XXX</strong><br>
-                {{ __('app.payment.name') }} : <strong>{{ $site->site_name ?? 'WhatsAppBizAI' }} SARL</strong>
+                {{ __('app.payment.name') }} : <strong>{{ $site->trans('site_name') ?? 'WhatsAppBizAI' }} SARL</strong>
             </div>
             <div class="method-block" id="coord-orange_money">
                 <strong>Orange Money — {{ __('app.payment.receiving_number') }} :</strong><br>
                 📱 <strong>+237 6XX XXX XXX</strong><br>
-                {{ __('app.payment.name') }} : <strong>{{ $site->site_name ?? 'WhatsAppBizAI' }} SARL</strong>
+                {{ __('app.payment.name') }} : <strong>{{ $site->trans('site_name') ?? 'WhatsAppBizAI' }} SARL</strong>
             </div>
             <div class="method-block" id="coord-wave">
                 <strong>Wave — {{ __('app.payment.number') }} :</strong><br>
                 📱 <strong>+221 7X XXX XXXX</strong><br>
-                {{ __('app.payment.name') }} : <strong>{{ $site->site_name ?? 'WhatsAppBizAI' }}</strong>
+                {{ __('app.payment.name') }} : <strong>{{ $site->trans('site_name') ?? 'WhatsAppBizAI' }}</strong>
             </div>
             <div class="method-block" id="coord-bank_transfer">
                 <strong>{{ __('app.payment.bank_transfer') }} :</strong><br>

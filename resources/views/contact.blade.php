@@ -49,13 +49,17 @@
 
 <nav>
     <div class="nav-inner">
-        @if($site->logo_path)
-            <a href="{{ url('/') }}"><img src="{{ asset('storage/' . $site->logo_path) }}" alt="{{ $site->site_name ?? 'WhatsAppBizAI' }}" style="height:36px;"></a>
-        @else
-            @php $siteName = $site->site_name ?? 'WhatsAppBizAI'; $parts = explode('BizAI', $siteName); @endphp
-            <a href="{{ url('/') }}" class="logo">{!! $parts[0] ?? $siteName !!}<span>{{ str_contains($siteName, 'BizAI') ? 'BizAI' : '' }}</span></a>
-        @endif
+    @if($site->logo_path)
+        <a href="{{ url('/') }}"><img src="{{ asset('storage/' . $site->logo_path) }}" alt="{{ $site->trans('site_name') ?? 'WhatsAppBizAI' }}" style="height:36px;"></a>
+    @else
+        @php $siteName = $site->trans('site_name') ?? 'WhatsAppBizAI'; $parts = explode('BizAI', $siteName); @endphp
+        <a href="{{ url('/') }}" class="logo">{!! $parts[0] ?? $siteName !!}<span>{{ str_contains($siteName, 'BizAI') ? 'BizAI' : '' }}</span></a>
+    @endif
         <div class="nav-links">
+            <div class="switcher-wrap light-theme">
+                <button class="switcher-btn lang-btn" data-lang="fr">FR</button>
+                <button class="switcher-btn lang-btn" data-lang="en">EN</button>
+            </div>
             <a href="{{ url('/') }}" class="btn-nav btn-outline">← {{ app()->getLocale() === 'fr' ? 'Accueil' : 'Home' }}</a>
             <a href="{{ url('login') }}" class="btn-nav btn-primary">{{ app()->getLocale() === 'fr' ? 'Connexion' : 'Login' }}</a>
         </div>
@@ -139,8 +143,22 @@
 </div>
 
 <footer>
-    <p>{!! $site->footer_copyright ?? '© ' . date('Y') . ' WhatsAppBizAI' !!} · <a href="{{ url('/') }}">{{ app()->getLocale() === 'fr' ? 'Accueil' : 'Home' }}</a> · <a href="{{ url('privacy') }}">{{ app()->getLocale() === 'fr' ? 'Confidentialité' : 'Privacy' }}</a> · <a href="{{ url('terms') }}">{{ app()->getLocale() === 'fr' ? 'Conditions' : 'Terms' }}</a> · <a href="{{ url('contact') }}">{{ app()->getLocale() === 'fr' ? 'Contact' : 'Contact' }}</a></p>
+    <p>{!! $site->trans('footer_copyright') ?? '© ' . date('Y') . ' WhatsAppBizAI' !!} · <a href="{{ url('/') }}">{{ app()->getLocale() === 'fr' ? 'Accueil' : 'Home' }}</a> · <a href="{{ url('privacy') }}">{{ app()->getLocale() === 'fr' ? 'Confidentialité' : 'Privacy' }}</a> · <a href="{{ url('terms') }}">{{ app()->getLocale() === 'fr' ? 'Conditions' : 'Terms' }}</a> · <a href="{{ url('contact') }}">{{ app()->getLocale() === 'fr' ? 'Contact' : 'Contact' }}</a></p>
 </footer>
+
+<script>
+window.__i18n = {
+    fr: {!! json_encode([
+        'nav' => trans('app.nav', [], 'fr'),
+        'landing' => trans('app.landing', [], 'fr'),
+    ]) !!},
+    en: {!! json_encode([
+        'nav' => trans('app.nav', [], 'en'),
+        'landing' => trans('app.landing', [], 'en'),
+    ]) !!}
+};
+</script>
+<script src="{{ asset('js/preferences.js') }}?v={{ time() }}"></script>
 
 </body>
 </html>

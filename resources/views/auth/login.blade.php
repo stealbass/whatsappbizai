@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ __('app.login.title') }} — {{ $site->site_name ?? 'WhatsAppBizAI' }}</title>
+    <title>{{ __('app.login.title') }} — {{ $site->trans('site_name') ?? 'WhatsAppBizAI' }}</title>
     <link rel="icon" type="image/x-icon" href="{{ $site->favicon_path ? asset('storage/' . $site->favicon_path) : asset('favicon.ico') }}">
     <link rel="stylesheet" href="{{ asset('css/switchers.css') }}">
     <style>
@@ -35,7 +35,7 @@
 <body>
     <div class="card">
         <div class="logo">
-            @php $siteName = $site->site_name ?? 'WhatsAppBizAI'; $parts = explode('BizAI', $siteName); @endphp
+            @php $siteName = $site->trans('site_name') ?? 'WhatsAppBizAI'; $parts = explode('BizAI', $siteName); @endphp
             <h1>{!! $parts[0] ?? $siteName !!}<span>{{ str_contains($siteName, 'BizAI') ? 'BizAI' : '' }}</span></h1>
             <p>{{ __('app.login.subtitle') }}</p>
         </div>
@@ -96,5 +96,14 @@
             <a href="/admin/login">{{ __('app.login.admin') }}</a>
         </div>
     </div>
+
+<script>
+window.__i18n = {
+    fr: {!! json_encode(['nav' => trans('app.nav', [], 'fr'), 'landing' => trans('app.landing', [], 'fr')]) !!},
+    en: {!! json_encode(['nav' => trans('app.nav', [], 'en'), 'landing' => trans('app.landing', [], 'en')]) !!}
+};
+</script>
+<script src="{{ asset('js/preferences.js') }}?v={{ time() }}"></script>
+
 </body>
 </html>

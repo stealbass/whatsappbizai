@@ -114,7 +114,7 @@
 
 <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
-        @php $siteName = $site->site_name ?? 'WhatsAppBizAI'; $parts = explode('BizAI', $siteName); @endphp
+        @php $siteName = $site->trans('site_name') ?? 'WhatsAppBizAI'; $parts = explode('BizAI', $siteName); @endphp
         <a href="{{ url('dashboard') }}" class="logo">{!! $parts[0] ?? $siteName !!}<span>{{ str_contains($siteName, 'BizAI') ? 'BizAI' : '' }}</span></a>
         @if($business ?? null)
             <span class="plan">{{ ucfirst($business->plan) }} {{ __('app.client.common.plan') }}</span>

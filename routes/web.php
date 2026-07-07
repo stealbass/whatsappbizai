@@ -19,6 +19,7 @@ use App\Http\Controllers\Client\SettingsController;
 use App\Http\Controllers\Client\BroadcastController;
 use App\Http\Controllers\Client\RetentionController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +49,17 @@ Route::post('/contact', [PageController::class, 'contactStore'])->name('contact.
 // Blog (public)
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{post}', [BlogController::class, 'show'])->name('blog.show');
+
+// Public language switcher
+Route::get('/language/{locale}', function (string $locale) {
+    if (in_array($locale, ['fr', 'en'])) {
+        Session::put('locale', $locale);
+        \Illuminate\Support\Facades\Cookie::queue('wbai_lang', $locale, 60 * 24 * 365);
+        app()->setLocale($locale);
+        config(['app.locale' => $locale]);
+    }
+    return redirect()->back();
+})->name('language.switch');
 
 // Auth client
 Route::get('/login', [LoginController::class, 'show'])->name('login');

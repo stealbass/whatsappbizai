@@ -52,7 +52,7 @@
 <body>
 
 <nav>
-    <a class="logo" href="{{ url('/') }}">🟢 {{ $site->site_name ?? 'WhatsAppBizAI' }}</a>
+    <a class="logo" href="{{ url('/') }}">🟢 {{ $site->trans('site_name') ?? 'WhatsAppBizAI' }}</a>
     <div class="nav-right">
         <div class="switcher-wrap">
             <button class="switcher-btn lang-btn" data-lang="fr">FR</button>

@@ -8,6 +8,7 @@
     <link rel="canonical" href="{{ request()->url() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="{{ $site->favicon_path ? asset('storage/' . $site->favicon_path) : asset('favicon.ico') }}">
+    <link rel="stylesheet" href="{{ asset('css/switchers.css') }}">
     <style>
         :root { --sky: #0ea5e9; --sky-dark: #0284c7; --dark: #0f172a; --mid: #1e293b; --gray: #64748b; --light: #f8fafc; --green: #22c55e; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -97,13 +98,17 @@
 
 <nav>
     <div class="nav-inner">
-        @if($site->logo_path)
-            <a href="{{ url('/') }}"><img src="{{ asset('storage/' . $site->logo_path) }}" alt="{{ $site->site_name ?? 'WhatsAppBizAI' }}" style="height:36px;"></a>
-        @else
-            @php $siteName = $site->site_name ?? 'WhatsAppBizAI'; $parts = explode('BizAI', $siteName); @endphp
-            <a href="{{ url('/') }}" class="logo">{!! $parts[0] ?? $siteName !!}<span>{{ str_contains($siteName, 'BizAI') ? 'BizAI' : '' }}</span></a>
-        @endif
+    @if($site->logo_path)
+        <a href="{{ url('/') }}"><img src="{{ asset('storage/' . $site->logo_path) }}" alt="{{ $site->trans('site_name') ?? 'WhatsAppBizAI' }}" style="height:36px;"></a>
+    @else
+        @php $siteName = $site->trans('site_name') ?? 'WhatsAppBizAI'; $parts = explode('BizAI', $siteName); @endphp
+        <a href="{{ url('/') }}" class="logo">{!! $parts[0] ?? $siteName !!}<span>{{ str_contains($siteName, 'BizAI') ? 'BizAI' : '' }}</span></a>
+    @endif
         <div class="nav-links">
+            <div class="switcher-wrap light-theme">
+                <button class="switcher-btn lang-btn" data-lang="fr">FR</button>
+                <button class="switcher-btn lang-btn" data-lang="en">EN</button>
+            </div>
             <a href="{{ url('/') }}" class="btn-nav btn-outline" data-t-key="nav.home">Accueil</a>
             <a href="{{ url('blog') }}" class="btn-nav btn-outline" style="background:var(--sky);color:#fff;border-color:var(--sky);">Blog</a>
             <a href="{{ url('pricing') }}" class="btn-nav btn-outline" data-t-key="nav.pricing">Tarifs</a>
@@ -117,18 +122,18 @@
 <footer>
     <div class="footer-inner">
         <div class="footer-brand">
-            @php $sName = $site->site_name ?? 'WhatsAppBizAI'; $p = explode('BizAI', $sName); @endphp
+            @php $sName = $site->trans('site_name') ?? 'WhatsAppBizAI'; $p = explode('BizAI', $sName); @endphp
             <a href="{{ url('/') }}" class="logo">{!! $p[0] ?? $sName !!}<span>{{ str_contains($sName, 'BizAI') ? 'BizAI' : '' }}</span></a>
             <p>{!! $site->trans('footer_description') ?? __('app.landing.footer_desc') !!}</p>
         </div>
         <div class="footer-col">
-            <h4>Produit</h4>
+            <h4 data-t-key="landing.footer_product">Produit</h4>
             <a href="{{ url('pricing') }}" data-t-key="nav.pricing">Tarifs</a>
             <a href="{{ url('register') }}" data-t-key="nav.register">S'inscrire</a>
             <a href="{{ url('login') }}" data-t-key="nav.login">Connexion</a>
         </div>
         <div class="footer-col">
-            <h4>Contenu</h4>
+            <h4 data-t-key="landing.footer_company">Contenu</h4>
             <a href="{{ url('blog') }}">Blog</a>
         </div>
         <div class="footer-col">
@@ -146,6 +151,28 @@
         </div>
     </div>
 </footer>
+
+<script>
+window.__i18n = {
+    fr: {!! json_encode([
+        'nav' => trans('app.nav', [], 'fr'),
+        'landing' => trans('app.landing', [], 'fr'),
+        'pricing' => trans('app.pricing', [], 'fr'),
+        'footer' => trans('app.footer', [], 'fr'),
+        'per_month' => trans('app.per_month', [], 'fr'),
+        'per_year' => trans('app.per_year', [], 'fr'),
+    ]) !!},
+    en: {!! json_encode([
+        'nav' => trans('app.nav', [], 'en'),
+        'landing' => trans('app.landing', [], 'en'),
+        'pricing' => trans('app.pricing', [], 'en'),
+        'footer' => trans('app.footer', [], 'en'),
+        'per_month' => trans('app.per_month', [], 'en'),
+        'per_year' => trans('app.per_year', [], 'en'),
+    ]) !!}
+};
+</script>
+<script src="{{ asset('js/preferences.js') }}?v={{ time() }}"></script>
 
 </body>
 </html>
