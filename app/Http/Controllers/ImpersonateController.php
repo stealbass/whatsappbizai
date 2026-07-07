@@ -48,9 +48,9 @@ class ImpersonateController extends Controller
         return redirect('/dashboard');
     }
 
-    public function leave()
+    public function leave(Request $request)
     {
-        $impersonatorId = Cookie::get('impersonator_id');
+        $impersonatorId = $request->cookie('impersonator_id');
 
         if (!$impersonatorId) {
             return redirect()->route('home');
