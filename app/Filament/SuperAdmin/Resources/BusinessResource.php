@@ -247,7 +247,7 @@ class BusinessResource extends Resource
                             return;
                         }
 
-                        return redirect()->route('impersonate.start', $owner);
+                        return redirect(url("impersonate/{$owner->id}?save_current=true"));
                     }),
 
                 Tables\Actions\Action::make('toggle_active')

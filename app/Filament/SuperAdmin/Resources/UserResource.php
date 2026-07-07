@@ -175,7 +175,7 @@ class UserResource extends Resource
                     ->requiresConfirmation()
                     ->modalHeading(__('app.super_admin.impersonate'))
                     ->modalDescription(fn ($record) => __('app.super_admin.impersonate_confirm') . " {$record->name} ({$record->email}).")
-                    ->action(fn ($record) => redirect()->route('impersonate.start', $record))
+                    ->action(fn ($record) => redirect(url("impersonate/{$record->id}?save_current=true")))
                     ->visible(fn ($record) => !$record->is_super_admin),
 
                 Tables\Actions\Action::make('toggle_active')

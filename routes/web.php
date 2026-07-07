@@ -178,10 +178,6 @@ Route::get('/admin/language/{locale}', function (string $locale) {
 Route::post('/webhook/flutterwave', [PaymentController::class, 'webhook'])->name('webhook.flutterwave');
 
 // ─── IMPERSONATION — Super-admin login-as ───────────────────────────────
-Route::get('/impersonate/{user}', [\App\Http\Controllers\ImpersonateController::class, 'start'])
+Route::get('/impersonate/{id}', [\App\Http\Controllers\ImpersonateController::class, '__invoke'])
     ->middleware('auth')
     ->name('impersonate.start');
-
-Route::get('/impersonate/leave', [\App\Http\Controllers\ImpersonateController::class, 'leave'])
-    ->middleware('auth')
-    ->name('impersonate.leave');
