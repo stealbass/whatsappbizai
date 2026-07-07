@@ -314,7 +314,7 @@
 <section class="section" style="background:#fff;overflow:hidden;">
     <div class="section-inner" style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1100px;margin:0 auto;">
         <div>
-            <h2 style="font-size:36px;font-weight:800;line-height:1.2;margin-bottom:20px;" data-t-key="landing.demo_title">Un agent IA qui <span style="color:var(--sky)">comprend</span> vos clients</h2>
+            <h2 style="font-size:36px;font-weight:800;line-height:1.2;margin-bottom:20px;" data-t-html="landing.demo_title">Un agent IA qui <span style="color:var(--sky)">comprend</span> vos clients</h2>
             <p style="font-size:17px;color:var(--gray);line-height:1.8;margin-bottom:16px;" data-t-key="landing.demo_desc">WhatsAppBizAI engage une conversation naturelle avec vos clients, comprend leurs besoins et leur propose vos services — exactement comme un commercial le ferait.</p>
             <ul style="list-style:none;padding:0;">
                 <li style="padding:10px 0;font-size:15px;color:#334155;display:flex;align-items:center;gap:10px;"><span style="color:#22c55e;font-size:20px;">✓</span> <span data-t-key="landing.demo_li1">Réponses instantanées 24h/24, 7j/7</span></li>
