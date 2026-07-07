@@ -19,11 +19,9 @@ use Filament\Tables\Table;
 class BusinessResource extends Resource
 {
     protected static ?string $navigationGroup = 'Administration';
-    protected static ?string $navigationIcon  = 'heroicon-o-building-office-2';
-    protected static ?int    $navigationSort  = 1;
-    protected static ?string $model = Business::class;
     protected static ?string $navigationIcon  = 'heroicon-o-building-storefront';
     protected static ?int    $navigationSort  = 10;
+    protected static ?string $model = Business::class;
 
     public static function getNavigationLabel(): string
     {
