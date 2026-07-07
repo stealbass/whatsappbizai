@@ -47,10 +47,10 @@
 </nav>
 
 <div class="content">
-    @if($site->terms_conditions)
+    @if($site->trans('terms_conditions'))
         <h1>{{ app()->getLocale() === 'fr' ? 'Conditions d\'utilisation' : 'Terms of Service' }}</h1>
         <p class="date">{{ app()->getLocale() === 'fr' ? 'Dernière mise à jour' : 'Last updated' }} : {{ $site->updated_at->format('d M Y') }}</p>
-        {!! $site->terms_conditions !!}
+        {!! $site->trans('terms_conditions') !!}
     @else
     @if(app()->getLocale() === 'fr')
         <h1>Conditions d'utilisation</h1>

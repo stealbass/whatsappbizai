@@ -47,10 +47,10 @@
 </nav>
 
 <div class="content">
-    @if($site->privacy_policy)
+    @if($site->trans('privacy_policy'))
         <h1>{{ app()->getLocale() === 'fr' ? 'Politique de confidentialité' : 'Privacy Policy' }}</h1>
         <p class="date">{{ app()->getLocale() === 'fr' ? 'Dernière mise à jour' : 'Last updated' }} : {{ $site->updated_at->format('d M Y') }}</p>
-        {!! $site->privacy_policy !!}
+        {!! $site->trans('privacy_policy') !!}
     @else
     @if(app()->getLocale() === 'fr')
         <h1>Politique de confidentialité</h1>

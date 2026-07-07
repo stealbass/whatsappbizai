@@ -1,5 +1,5 @@
-@section('meta_title', 'Contact — ' . ($site->site_name ?? 'WhatsAppBizAI'))
-@section('meta_description', 'Contactez l\'équipe ' . ($site->site_name ?? 'WhatsAppBizAI') . '. Demandez une démo, posez vos questions ou obtenez du support.')
+@section('meta_title', 'Contact — ' . ($site->trans('site_name') ?? 'WhatsAppBizAI'))
+@section('meta_description', 'Contactez l\'équipe ' . ($site->trans('site_name') ?? 'WhatsAppBizAI') . '. Demandez une démo, posez vos questions ou obtenez du support.')
 @section('canonical_url', url('/contact'))
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">

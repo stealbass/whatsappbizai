@@ -23,8 +23,8 @@
                         @if($post->category)
                             <span class="post-card-category">{{ $post->category }}</span>
                         @endif
-                        <h2 class="post-card-title">{{ $post->title }}</h2>
-                        <p class="post-card-excerpt">{{ $post->excerpt ?? Str::limit(strip_tags($post->content), 120) }}</p>
+                        <h2 class="post-card-title">{{ $post->trans('title') }}</h2>
+                        <p class="post-card-excerpt">{{ $post->trans('excerpt') ?? Str::limit(strip_tags($post->trans('content')), 120) }}</p>
                         <div class="post-card-meta">
                             <span>{{ $post->published_at?->format('d M Y') }}</span>
                             <span>{{ $post->reading_time }} min de lecture</span>

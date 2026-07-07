@@ -2,8 +2,8 @@
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
-    <title>@yield('meta_title', __('app.blog.meta_title')) — WhatsAppBizAI</title>
-    <meta name="description" content="@yield('meta_description', __('app.blog.meta_description'))">
+    <title>@yield('meta_title', $site->trans('meta_title') ?? __('app.blog.meta_title')) — {{ $site->trans('site_name') ?? 'WhatsAppBizAI' }}</title>
+    <meta name="description" content="@yield('meta_description', $site->trans('meta_description') ?? __('app.blog.meta_description'))">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="{{ request()->url() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -119,7 +119,7 @@
         <div class="footer-brand">
             @php $sName = $site->site_name ?? 'WhatsAppBizAI'; $p = explode('BizAI', $sName); @endphp
             <a href="{{ url('/') }}" class="logo">{!! $p[0] ?? $sName !!}<span>{{ str_contains($sName, 'BizAI') ? 'BizAI' : '' }}</span></a>
-            <p>{!! $site->footer_description ?? __('app.landing.footer_desc') !!}</p>
+            <p>{!! $site->trans('footer_description') ?? __('app.landing.footer_desc') !!}</p>
         </div>
         <div class="footer-col">
             <h4>Produit</h4>
@@ -138,7 +138,7 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <p>{!! $site->footer_copyright ?? '© ' . date('Y') . ' WhatsAppBizAI. Tous droits réservés.' !!}</p>
+        <p>{!! $site->trans('footer_copyright') ?? '© ' . date('Y') . ' WhatsAppBizAI. Tous droits réservés.' !!}</p>
         <div>
             <a href="{{ url('privacy') }}" data-t-key="nav.privacy">Confidentialité</a> ·
             <a href="{{ url('terms') }}" data-t-key="nav.terms">Conditions</a> ·

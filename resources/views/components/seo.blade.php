@@ -1,7 +1,7 @@
 {{-- SEO Meta Tags --}}
-<title>@yield('meta_title', $site->meta_title ?? 'WhatsAppBizAI')</title>
-<meta name="description" content="@yield('meta_description', $site->meta_description ?? '')">
-<meta name="keywords" content="{{ $site->meta_keywords ?? '' }}">
+<title>@yield('meta_title', $site->trans('meta_title') ?? 'WhatsAppBizAI')</title>
+<meta name="description" content="@yield('meta_description', $site->trans('meta_description') ?? '')">
+<meta name="keywords" content="{{ $site->trans('meta_keywords') ?? '' }}">
 <meta name="author" content="{{ $site->business_name ?? 'WhatsAppBizAI' }}">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <link rel="canonical" href="@yield('canonical_url', $site->canonical_url ?? url('/'))">
@@ -9,22 +9,26 @@
 {{-- Open Graph / Facebook --}}
 <meta property="og:type" content="website">
 <meta property="og:url" content="@yield('canonical_url', url('/'))">
-<meta property="og:title" content="@yield('meta_title', $site->meta_title ?? 'WhatsAppBizAI')">
-<meta property="og:description" content="@yield('meta_description', $site->meta_description ?? '')">
+<meta property="og:title" content="@yield('meta_title', $site->trans('meta_title') ?? 'WhatsAppBizAI')">
+<meta property="og:description" content="@yield('meta_description', $site->trans('meta_description') ?? '')">
 <meta property="og:image" content="{{ $site->og_image_path ? asset('storage/' . $site->og_image_path) : asset('og-default.png') }}">
-<meta property="og:site_name" content="{{ $site->site_name ?? 'WhatsAppBizAI' }}">
+<meta property="og:site_name" content="{{ $site->trans('site_name') ?? 'WhatsAppBizAI' }}">
 <meta property="og:locale" content="{{ app()->getLocale() === 'fr' ? 'fr_FR' : 'en_US' }}">
 
 {{-- Twitter Card --}}
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="@yield('meta_title', $site->meta_title ?? 'WhatsAppBizAI')">
-<meta name="twitter:description" content="@yield('meta_description', $site->meta_description ?? '')">
+<meta name="twitter:title" content="@yield('meta_title', $site->trans('meta_title') ?? 'WhatsAppBizAI')">
+<meta name="twitter:description" content="@yield('meta_description', $site->trans('meta_description') ?? '')">
 <meta name="twitter:image" content="{{ $site->og_image_path ? asset('storage/' . $site->og_image_path) : asset('og-default.png') }}">
 
-{{-- Hreflang for multilingual --}}
-<link rel="alternate" hreflang="fr" href="{{ url('/'). '?' . http_build_query(array_merge(request()->query(), ['lang' => 'fr'])) }}">
-<link rel="alternate" hreflang="en" href="{{ url('/'). '?' . http_build_query(array_merge(request()->query(), ['lang' => 'en'])) }}">
-<link rel="alternate" hreflang="x-default" href="{{ url('/') }}">
+{{-- Hreflang for multilingual SEO --}}
+@php
+$canonicalBase = $site->canonical_url ?: url('/');
+$query = request()->query();
+@endphp
+<link rel="alternate" hreflang="fr" href="{{ $canonicalBase }}?{{ http_build_query(array_merge($query, ['lang' => 'fr'])) }}">
+<link rel="alternate" hreflang="en" href="{{ $canonicalBase }}?{{ http_build_query(array_merge($query, ['lang' => 'en'])) }}">
+<link rel="alternate" hreflang="x-default" href="{{ $canonicalBase }}">
 
 {{-- JSON-LD Structured Data --}}
 <script type="application/ld+json">
@@ -33,8 +37,8 @@ $baseUrl = url('/');
 $ldJson = [
     '@context' => 'https://schema.org',
     '@type' => 'SoftwareApplication',
-    'name' => $site->site_name ?? 'WhatsAppBizAI',
-    'description' => $site->meta_description ?? '',
+    'name' => $site->trans('site_name') ?? 'WhatsAppBizAI',
+    'description' => $site->trans('meta_description') ?? '',
     'url' => $baseUrl,
     'applicationCategory' => 'BusinessApplication',
     'operatingSystem' => 'Web',
@@ -69,7 +73,7 @@ $ldJson = [
 <script type="application/ld+json">
 @php
 $isFr = app()->getLocale() === 'fr';
-$sn = $site->site_name ?? 'WhatsAppBizAI';
+$sn = $site->trans('site_name') ?? 'WhatsAppBizAI';
 $faqJson = [
     '@context' => 'https://schema.org',
     '@type' => 'FAQPage',

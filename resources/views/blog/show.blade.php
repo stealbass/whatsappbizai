@@ -1,7 +1,7 @@
 @extends('blog.layout')
 
-@section('meta_title', $post->meta_title ?: $post->title)
-@section('meta_description', $post->meta_description ?: $post->excerpt)
+@section('meta_title', $post->trans('meta_title') ?: $post->trans('title'))
+@section('meta_description', $post->trans('meta_description') ?: $post->trans('excerpt'))
 
 @section('content')
 <div class="article-header">
@@ -11,7 +11,7 @@
         <span class="category">{{ $post->category }}</span>
     @endif
 
-    <h1>{{ $post->title }}</h1>
+    <h1>{{ $post->trans('title') }}</h1>
 
     <div class="article-meta">
         <span>{{ $post->author_name ?? 'WhatsAppBizAI' }}</span>
@@ -25,7 +25,7 @@
         <img src="{{ asset('storage/' . $post->featured_image) }}" alt="{{ $post->title }}" class="featured-img">
     @endif
 
-    {!! $post->content !!}
+    {!! $post->trans('content') !!}
 </div>
 
 @if($related->count())

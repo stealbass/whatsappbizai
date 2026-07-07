@@ -5,11 +5,9 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\SiteSettingResource\Pages;
 use App\Models\SiteSetting;
 use Filament\Forms;
-use Filament\Forms\Components\RichEditor;
-
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Pages\EditRecord;
+use Filament\Forms\Components\RichEditor;
 
 class SiteSettingResource extends Resource
 {
@@ -44,16 +42,28 @@ class SiteSettingResource extends Resource
     {
         return $form->schema([
             Forms\Components\Tabs::make('settings')->schema([
+
+                // ─── Branding ──────────────────────────────────────────────
                 Forms\Components\Tabs\Tab::make('Branding')
                     ->icon('heroicon-o-paint-brush')
                     ->schema([
-                        Forms\Components\Section::make(__('app.admin.visual_identity'))->schema([
-                            Forms\Components\TextInput::make('site_name')
-                                ->label(__('app.admin.site_name'))
+                        Forms\Components\Section::make('Identité visuelle')->schema([
+                            Forms\Components\TextInput::make('site_name_fr')
+                                ->label('Nom du site (FR)')
                                 ->required()
                                 ->maxLength(255),
-                            Forms\Components\TextInput::make('site_tagline')
-                                ->label(__('app.admin.tagline'))
+                            Forms\Components\TextInput::make('site_name_en')
+                                ->label('Site name (EN)')
+                                ->required()
+                                ->maxLength(255),
+                        ])->columns(2),
+
+                        Forms\Components\Section::make('Slogan / Tagline')->schema([
+                            Forms\Components\TextInput::make('site_tagline_fr')
+                                ->label('Slogan (FR)')
+                                ->maxLength(500),
+                            Forms\Components\TextInput::make('site_tagline_en')
+                                ->label('Tagline (EN)')
                                 ->maxLength(500),
                         ])->columns(2),
 
@@ -73,38 +83,58 @@ class SiteSettingResource extends Resource
                         ])->columns(2),
                     ]),
 
+                // ─── SEO ───────────────────────────────────────────────────
                 Forms\Components\Tabs\Tab::make('SEO')
                     ->icon('heroicon-o-magnifying-glass')
                     ->schema([
-                        Forms\Components\Section::make('SEO')->schema([
-                            Forms\Components\TextInput::make('meta_title')
-                                ->label(__('app.admin.meta_title'))
-                                ->maxLength(255),
-                            Forms\Components\Textarea::make('meta_description')
-                                ->label(__('app.admin.meta_description'))
+                        Forms\Components\Section::make('Meta Tags FR')->schema([
+                            Forms\Components\TextInput::make('meta_title_fr')
+                                ->label('Meta Title (FR)')
+                                ->maxLength(255)
+                                ->helperText('50-60 caractères recommandés'),
+                            Forms\Components\Textarea::make('meta_description_fr')
+                                ->label('Meta Description (FR)')
                                 ->rows(3)
-                                ->maxLength(500),
-                            Forms\Components\Textarea::make('meta_keywords')
-                                ->label(__('app.admin.meta_keywords'))
+                                ->maxLength(500)
+                                ->helperText('120-160 caractères recommandés'),
+                            Forms\Components\Textarea::make('meta_keywords_fr')
+                                ->label('Meta Keywords (FR)')
                                 ->rows(2)
                                 ->maxLength(500),
+                        ])->columns(1),
+
+                        Forms\Components\Section::make('Meta Tags EN')->schema([
+                            Forms\Components\TextInput::make('meta_title_en')
+                                ->label('Meta Title (EN)')
+                                ->maxLength(255)
+                                ->helperText('Recommended: 50-60 characters'),
+                            Forms\Components\Textarea::make('meta_description_en')
+                                ->label('Meta Description (EN)')
+                                ->rows(3)
+                                ->maxLength(500)
+                                ->helperText('Recommended: 120-160 characters'),
+                            Forms\Components\Textarea::make('meta_keywords_en')
+                                ->label('Meta Keywords (EN)')
+                                ->rows(2)
+                                ->maxLength(500),
+                        ])->columns(1),
+
+                        Forms\Components\Section::make('Open Graph & URL')->schema([
                             Forms\Components\TextInput::make('canonical_url')
                                 ->label(__('app.admin.canonical_url'))
                                 ->url()
                                 ->nullable()
                                 ->maxLength(255),
-                        ])->columns(2),
-
-                        Forms\Components\Section::make('Open Graph')->schema([
                             Forms\Components\FileUpload::make('og_image_path')
                                 ->label(__('app.admin.og_image'))
                                 ->image()
                                 ->imageEditor()
                                 ->directory('site')
                                 ->nullable(),
-                        ]),
+                        ])->columns(2),
                     ]),
 
+                // ─── Contact & Social ──────────────────────────────────────
                 Forms\Components\Tabs\Tab::make('Contact & Social')
                     ->icon('heroicon-o-phone')
                     ->schema([
@@ -154,37 +184,64 @@ class SiteSettingResource extends Resource
                         ])->columns(3),
                     ]),
 
+                // ─── Legal ─────────────────────────────────────────────────
                 Forms\Components\Tabs\Tab::make('Legal')
                     ->icon('heroicon-o-document-text')
                     ->schema([
-                        RichEditor::make('privacy_policy')
-                            ->label(__('app.admin.privacy_policy'))
-                            
-                            ->columnSpanFull(),
-                        RichEditor::make('terms_conditions')
-                            ->label(__('app.admin.terms_conditions'))
-                            
-                            ->columnSpanFull(),
-                        RichEditor::make('cookie_policy')
-                            ->label(__('app.admin.cookie_policy'))
-                            
-                            ->columnSpanFull(),
-                    ]),
-
-                Forms\Components\Tabs\Tab::make(__('app.admin.footer'))
-                    ->icon('heroicon-o-bars-3-bottom-left')
-                    ->schema([
-                        Forms\Components\Section::make(__('app.admin.footer'))->schema([
-                            RichEditor::make('footer_description')
-                                ->label(__('app.admin.footer_description'))
-                                
+                        Forms\Components\Section::make('Politique de confidentialité')->schema([
+                            RichEditor::make('privacy_policy_fr')
+                                ->label('Confidentialité (FR)')
                                 ->columnSpanFull(),
-                            Forms\Components\TextInput::make('footer_copyright')
-                                ->label('Copyright')
-                                ->maxLength(255),
+                            RichEditor::make('privacy_policy_en')
+                                ->label('Privacy Policy (EN)')
+                                ->columnSpanFull(),
+                        ]),
+
+                        Forms\Components\Section::make('Conditions d\'utilisation')->schema([
+                            RichEditor::make('terms_conditions_fr')
+                                ->label('Conditions (FR)')
+                                ->columnSpanFull(),
+                            RichEditor::make('terms_conditions_en')
+                                ->label('Terms of Service (EN)')
+                                ->columnSpanFull(),
+                        ]),
+
+                        Forms\Components\Section::make('Politique de cookies')->schema([
+                            RichEditor::make('cookie_policy_fr')
+                                ->label('Cookies (FR)')
+                                ->columnSpanFull(),
+                            RichEditor::make('cookie_policy_en')
+                                ->label('Cookie Policy (EN)')
+                                ->columnSpanFull(),
                         ]),
                     ]),
 
+                // ─── Footer ────────────────────────────────────────────────
+                Forms\Components\Tabs\Tab::make(__('app.admin.footer'))
+                    ->icon('heroicon-o-bars-3-bottom-left')
+                    ->schema([
+                        Forms\Components\Section::make('Description du footer')->schema([
+                            RichEditor::make('footer_description_fr')
+                                ->label('Description footer (FR)')
+                                ->columnSpanFull(),
+                            RichEditor::make('footer_description_en')
+                                ->label('Footer description (EN)')
+                                ->columnSpanFull(),
+                        ]),
+
+                        Forms\Components\Section::make('Copyright')->schema([
+                            Forms\Components\TextInput::make('footer_copyright_fr')
+                                ->label('Copyright (FR)')
+                                ->maxLength(255)
+                                ->default('© ' . date('Y') . ' WhatsAppBizAI. Tous droits réservés.'),
+                            Forms\Components\TextInput::make('footer_copyright_en')
+                                ->label('Copyright (EN)')
+                                ->maxLength(255)
+                                ->default('© ' . date('Y') . ' WhatsAppBizAI. All rights reserved.'),
+                        ])->columns(2),
+                    ]),
+
+                // ─── Business Info ─────────────────────────────────────────
                 Forms\Components\Tabs\Tab::make('Business Info')
                     ->icon('heroicon-o-building-office-2')
                     ->schema([
@@ -204,6 +261,7 @@ class SiteSettingResource extends Resource
                         ])->columns(2),
                     ]),
 
+                // ─── Social Proof ──────────────────────────────────────────
                 Forms\Components\Tabs\Tab::make('Social Proof')
                     ->icon('heroicon-o-chart-bar')
                     ->schema([

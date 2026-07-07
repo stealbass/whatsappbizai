@@ -33,41 +33,17 @@ class PostResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Contenu')
+                Forms\Components\Section::make('Slug & Image')
                     ->schema([
-                        Forms\Components\TextInput::make('title')
-                            ->required()
-                            ->maxLength(255)
-                            ->live(onBlur: true)
-                            ->afterStateUpdated(fn ($state, $set) => $set('slug', \Illuminate\Support\Str::slug($state))),
-
                         Forms\Components\TextInput::make('slug')
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->maxLength(255),
 
-                        Forms\Components\Textarea::make('excerpt')
-                            ->rows(3)
-                            ->maxLength(500),
-
-                        Forms\Components\RichEditor::make('content')
-                            ->required()
-                            ->toolbarButtons([
-                                'bold', 'italic', 'underline', 'strike',
-                                'link', 'h2', 'h3',
-                                'bulletList', 'orderedList',
-                                'blockquote', 'codeBlock',
-                                'undo', 'redo',
-                            ]),
-                    ])->columns(1),
-
-                Forms\Components\Section::make('Image & Catégorie')
-                    ->schema([
                         Forms\Components\FileUpload::make('featured_image')
                             ->image()
                             ->directory('blog')
-                            ->maxSize(2048)
-                            ->columnSpanFull(),
+                            ->maxSize(2048),
 
                         Forms\Components\Select::make('category')
                             ->options([
@@ -85,6 +61,76 @@ class PostResource extends Resource
                             ->maxLength(255),
                     ])->columns(2),
 
+                Forms\Components\Tabs::make('content_tabs')->schema([
+                    Forms\Components\Tabs\Tab::make('Français')
+                        ->icon('heroicon-o-language')
+                        ->schema([
+                            Forms\Components\TextInput::make('title_fr')
+                                ->label('Titre')
+                                ->required()
+                                ->maxLength(255),
+
+                            Forms\Components\Textarea::make('excerpt_fr')
+                                ->label('Extrait')
+                                ->rows(3)
+                                ->maxLength(500),
+
+                            Forms\Components\RichEditor::make('content_fr')
+                                ->label('Contenu')
+                                ->required()
+                                ->toolbarButtons([
+                                    'bold', 'italic', 'underline', 'strike',
+                                    'link', 'h2', 'h3',
+                                    'bulletList', 'orderedList',
+                                    'blockquote', 'codeBlock',
+                                    'undo', 'redo',
+                                ]),
+
+                            Forms\Components\TextInput::make('meta_title_fr')
+                                ->label('Meta Title')
+                                ->maxLength(255),
+
+                            Forms\Components\Textarea::make('meta_description_fr')
+                                ->label('Meta Description')
+                                ->rows(2)
+                                ->maxLength(500),
+                        ]),
+
+                    Forms\Components\Tabs\Tab::make('English')
+                        ->icon('heroicon-o-language')
+                        ->schema([
+                            Forms\Components\TextInput::make('title_en')
+                                ->label('Title')
+                                ->required()
+                                ->maxLength(255),
+
+                            Forms\Components\Textarea::make('excerpt_en')
+                                ->label('Excerpt')
+                                ->rows(3)
+                                ->maxLength(500),
+
+                            Forms\Components\RichEditor::make('content_en')
+                                ->label('Content')
+                                ->required()
+                                ->toolbarButtons([
+                                    'bold', 'italic', 'underline', 'strike',
+                                    'link', 'h2', 'h3',
+                                    'bulletList', 'orderedList',
+                                    'blockquote', 'codeBlock',
+                                    'undo', 'redo',
+                                ]),
+
+                            Forms\Components\TextInput::make('meta_title_en')
+                                ->label('Meta Title')
+                                ->maxLength(255),
+
+                            Forms\Components\Textarea::make('meta_description_en')
+                                ->label('Meta Description')
+                                ->rows(2)
+                                ->maxLength(500),
+                        ]),
+                ])->columnSpanFull(),
+
                 Forms\Components\Section::make('Publication')
                     ->schema([
                         Forms\Components\Toggle::make('is_published')
@@ -95,23 +141,10 @@ class PostResource extends Resource
                             ->label('Date de publication'),
 
                         Forms\Components\TextInput::make('sort_order')
+                            ->label('Ordre')
                             ->numeric()
                             ->default(0),
                     ])->columns(3),
-
-                Forms\Components\Section::make('SEO')
-                    ->schema([
-                        Forms\Components\TextInput::make('meta_title')
-                            ->label('Meta Title')
-                            ->maxLength(70)
-                            ->helperText('Recommandé: 50-60 caractères'),
-
-                        Forms\Components\Textarea::make('meta_description')
-                            ->label('Meta Description')
-                            ->rows(3)
-                            ->maxLength(160)
-                            ->helperText('Recommandé: 120-160 caractères'),
-                    ])->collapsible(),
             ]);
     }
 
@@ -123,10 +156,14 @@ class PostResource extends Resource
                     ->label('Image')
                     ->circular(),
 
-                Tables\Columns\TextColumn::make('title')
-                    ->label('Titre')
+                Tables\Columns\TextColumn::make('title_fr')
+                    ->label('Titre (FR)')
                     ->searchable()
                     ->sortable(),
+
+                Tables\Columns\TextColumn::make('title_en')
+                    ->label('Title (EN)')
+                    ->searchable(),
 
                 Tables\Columns\TextColumn::make('category')
                     ->badge()
@@ -147,10 +184,6 @@ class PostResource extends Resource
                     ->label('Publié le')
                     ->dateTime('d/m/Y H:i')
                     ->sortable(),
-
-                Tables\Columns\TextColumn::make('reading_time')
-                    ->label('Temps')
-                    ->suffix(' min'),
 
                 Tables\Columns\TextColumn::make('sort_order')
                     ->label('Ordre')
