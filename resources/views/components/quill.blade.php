@@ -198,20 +198,36 @@ function initQuill(textareaSelector, height) {
     quill.on('text-change', syncToTextarea);
 
     // ── Source textarea → Quill sync ──────────────────────────────────────────
-    srcTA.addEventListener('input', function() {
-        quill.root.innerHTML = srcTA.value;
-        syncToTextarea();
-    });
+    // If the user typed a full HTML document (<!DOCTYPE / <html>), bypass Quill
+    // entirely and write straight to the hidden textarea — Quill only handles fragments.
+    function isFullHtmlDoc(str) {
+        return /^\s*<!DOCTYPE/i.test(str) || /^\s*<html/i.test(str);
+    }
+
+    function syncFromSource() {
+        var val = srcTA.value;
+        if (isFullHtmlDoc(val)) {
+            // Full doc — store raw in hidden textarea, leave Quill editor untouched
+            ta.value = val;
+            ta.dispatchEvent(new Event('input',  { bubbles: true }));
+            ta.dispatchEvent(new Event('change', { bubbles: true }));
+        } else {
+            quill.root.innerHTML = val;
+            syncToTextarea();
+        }
+    }
+
+    srcTA.addEventListener('input', syncFromSource);
 
     // ── Force sync on form submit ─────────────────────────────────────────────
     var form = ta.closest('form');
     if (form) {
         form.addEventListener('submit', function() {
-            // If HTML source view is active, sync from source textarea
             if (srcTA.style.display !== 'none') {
-                quill.root.innerHTML = srcTA.value;
+                syncFromSource();
+            } else {
+                syncToTextarea();
             }
-            syncToTextarea();
         }, true);
     }
 }
@@ -223,24 +239,31 @@ function toggleHTMLSource(quill, editorDiv, srcTA) {
     var isSourceView = srcTA.style.display !== 'none';
 
     if (isSourceView) {
-        // Switch back to editor — sync source → editor
-        quill.root.innerHTML = srcTA.value;
+        // Switch back to visual editor
+        // Only update Quill if the content is a fragment (not a full HTML doc)
+        if (!isFullHtmlDoc(srcTA.value)) {
+            quill.root.innerHTML = srcTA.value;
+        }
+        // Always update the hidden textarea with raw value
+        var ta = srcTA.closest('.ql-wrapper').querySelector('textarea[data-quill-ready]');
+        if (ta) {
+            ta.value = srcTA.value;
+            ta.dispatchEvent(new Event('input',  { bubbles: true }));
+            ta.dispatchEvent(new Event('change', { bubbles: true }));
+        }
         srcTA.style.display = 'none';
         editorDiv.style.display = '';
-        // Remove active state from button
-        var btn = editorDiv.closest('.ql-wrapper')
-                    ?.querySelector('.ql-html-source');
+        var btn = editorDiv.closest('.ql-wrapper')?.querySelector('.ql-html-source');
         if (btn) btn.classList.remove('ql-active');
     } else {
         // Switch to HTML source view
-        srcTA.value = quill.root.innerHTML === '<p><br></p>'
-            ? '' : quill.root.innerHTML;
+        // Read from hidden textarea (truest value) not quill.root.innerHTML
+        var ta = editorDiv.closest('.ql-wrapper').querySelector('textarea[data-quill-ready]');
+        srcTA.value = ta ? ta.value : (quill.root.innerHTML === '<p><br></p>' ? '' : quill.root.innerHTML);
         editorDiv.style.display = 'none';
         srcTA.style.display = 'block';
         srcTA.focus();
-        // Add active state to button
-        var btn = editorDiv.closest('.ql-wrapper')
-                    ?.querySelector('.ql-html-source');
+        var btn = editorDiv.closest('.ql-wrapper')?.querySelector('.ql-html-source');
         if (btn) btn.classList.add('ql-active');
     }
 }

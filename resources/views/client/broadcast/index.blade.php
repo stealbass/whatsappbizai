@@ -93,8 +93,10 @@ var targetLabels = {
 };
 
 document.getElementById('previewBtn').addEventListener('click', function() {
-    var q = window._quillInstances['#message'];
-    var html = q ? q.root.innerHTML : document.querySelector('#message').value;
+    // Always read from the hidden textarea — it holds the true raw value,
+    // including full <!DOCTYPE html> documents that Quill cannot represent.
+    var ta  = document.querySelector('#message');
+    var html = ta ? ta.value : '';
     if (!html || html === '<p><br></p>') {
         alert('Rédigez un message avant de prévisualiser.');
         return;
@@ -102,7 +104,10 @@ document.getElementById('previewBtn').addEventListener('click', function() {
     var target = document.getElementById('target').value;
     document.getElementById('previewTarget').textContent = targetLabels[target] || target;
 
-    var fullHtml = `<!DOCTYPE html><html><head>
+    // If the content is a full HTML document, inject it as-is into the iframe.
+    // Otherwise wrap it in a minimal email shell.
+    var isFullDoc = /^\s*<!DOCTYPE/i.test(html) || /^\s*<html/i.test(html);
+    var iframeContent = isFullDoc ? html : `<!DOCTYPE html><html><head>
         <meta charset="utf-8">
         <style>
             body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -117,7 +122,7 @@ document.getElementById('previewBtn').addEventListener('click', function() {
     </head><body>${html}</body></html>`;
 
     var iframe = document.getElementById('previewIframe');
-    iframe.srcdoc = fullHtml;
+    iframe.srcdoc = iframeContent;
     iframe.onload = function() {
         try {
             var h = iframe.contentDocument.body.scrollHeight;
@@ -127,7 +132,6 @@ document.getElementById('previewBtn').addEventListener('click', function() {
     document.getElementById('previewModal').style.display = 'block';
     document.body.style.overflow = 'hidden';
 });
-
 // Confirm send from modal
 document.getElementById('confirmSendBtn').addEventListener('click', function() {
     document.getElementById('previewModal').style.display = 'none';
