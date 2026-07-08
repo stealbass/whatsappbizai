@@ -154,8 +154,7 @@
         if (lang !== 'fr' && lang !== 'en') return;
         localStorage.setItem('wbai_lang', lang);
         document.cookie = 'wbai_lang=' + lang + ';path=/;max-age=31536000;SameSite=Lax';
-        var url = '/language/' + lang;
-        window.location.href = url;
+        window.location.reload();
     }
 
     function switchCurrency(currency) {
