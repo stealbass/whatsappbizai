@@ -29,15 +29,16 @@ class RegisterController extends Controller
 
         // Crée le business
         $business = Business::create([
-            'name'       => $data['business_name'],
-            'owner_name' => $data['owner_name'],
-            'email'      => $data['email'],
-            'city'       => $data['city'],
-            'country'    => 'CM',
-            'currency'   => 'XAF',
-            'timezone'   => 'Africa/Douala',
-            'plan'       => 'free',
-            'is_active'  => true,
+            'name'        => $data['business_name'],
+            'owner_name'  => $data['owner_name'],
+            'email'       => $data['email'],
+            'city'        => $data['city'],
+            'country'     => 'CM',
+            'currency'    => 'XAF',
+            'timezone'    => 'Africa/Douala',
+            'plan'        => 'free',
+            'is_active'   => true,
+            'sandbox_mode' => true,   // mode démo par défaut — aucun compte Meta requis
         ]);
 
         // Crée l'utilisateur lié au business

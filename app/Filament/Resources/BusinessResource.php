@@ -190,6 +190,14 @@ class BusinessResource extends Resource
                     ->label('Actif')
                     ->boolean(),
 
+                Tables\Columns\IconColumn::make('sandbox_mode')
+                    ->label('Sandbox')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-beaker')
+                    ->falseIcon('heroicon-o-check-circle')
+                    ->trueColor('warning')
+                    ->falseColor('success'),
+
                 Tables\Columns\TextColumn::make('users_count')
                     ->label('Users')
                     ->counts('users')
