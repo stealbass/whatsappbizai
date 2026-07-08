@@ -153,6 +153,7 @@
 </footer>
 
 <script>
+window.__langSwitchUrl = '{{ url("language") }}';
 window.__i18n = {
     fr: {!! json_encode([
         'nav' => trans('app.nav', [], 'fr'),

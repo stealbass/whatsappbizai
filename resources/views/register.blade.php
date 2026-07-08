@@ -110,6 +110,7 @@
     </div>
 
 <script>
+window.__langSwitchUrl = '{{ url("language") }}';
 window.__i18n = {
     fr: {!! json_encode([
         'register' => trans('app.register', [], 'fr'),

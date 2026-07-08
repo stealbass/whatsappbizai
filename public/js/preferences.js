@@ -153,8 +153,12 @@
     function switchLanguage(lang) {
         if (lang !== 'fr' && lang !== 'en') return;
         localStorage.setItem('wbai_lang', lang);
-        document.cookie = 'wbai_lang=' + lang + ';path=/;max-age=31536000;SameSite=Lax';
-        window.location.reload();
+        if (window.__langSwitchUrl) {
+            window.location.href = window.__langSwitchUrl + '/' + lang;
+        } else {
+            document.cookie = 'wbai_lang=' + lang + ';path=/;max-age=31536000;SameSite=Lax';
+            window.location.reload();
+        }
     }
 
     function switchCurrency(currency) {
