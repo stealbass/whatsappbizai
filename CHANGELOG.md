@@ -223,3 +223,51 @@ resources/views/components/seo.blade.php
 resources/views/blog/show.blade.php
 database/seeders/PostSeeder.php
 ```
+
+---
+
+## Session du 8 juillet 2026 (suite)
+
+### 15. Mode Sandbox — test sans compte Meta
+
+**Problème résolu :** Un client devait créer un compte Meta Business, activer WABA (délai de plusieurs jours), récupérer 3 identifiants techniques et configurer un webhook — avant de pouvoir tester quoi que ce soit.
+
+**Solution :** `sandbox_mode=true` par défaut sur tout nouveau compte. Les messages WhatsApp sont enregistrés localement sans jamais appeler l'API Meta.
+
+| Fichier | Rôle |
+|---|---|
+| `database/migrations/2026_07_08_100000_add_sandbox_mode_to_businesses_table.php` | Colonne `sandbox_mode` (default: true) |
+| `database/migrations/2026_07_08_100001_create_sandbox_messages_table.php` | Table `sandbox_messages` (to, contact_name, type, content, trigger) |
+| `app/Models/SandboxMessage.php` | Modèle Eloquent |
+| `app/Services/WhatsAppService.php` | **Refactorisé** : `sendText/sendDocument/markAsRead` prennent `Business` au lieu de `phoneNumberId + token`. Intercepte automatiquement si `sandbox_mode=true` |
+| `app/Http/Controllers/Client/SettingsController.php` | Toggle sandbox + `sandboxClear()` + passe `$sandboxMessages` à la vue |
+| `resources/views/client/settings/whatsapp.blade.php` | **Redesign complet** : 5 sections (sandbox toggle + messages simulés, Embedded Signup, webhook info lecture seule, config manuelle masquée, IA) |
+| `resources/views/client/dashboard.blade.php` | 3 états : pas de business / sandbox actif (bandeau orange) / WhatsApp non configuré |
+| `app/Http/Controllers/RegisterController.php` | `sandbox_mode => true` à la création de tout nouveau Business |
+| `app/Filament/Resources/BusinessResource.php` | Colonne `sandbox_mode` (icône 🧪/✅) dans le tableau admin |
+| `database/whatsappbizai_schema.sql` | Mis à jour avec `sandbox_mode` + table `sandbox_messages` |
+
+**Call sites mis à jour (6) :** `SendDailyReport`, `ContactResource`, `ViewConversation`, `InvoiceController`, `QuoteController`, `ProcessWhatsAppMessage`
+
+### 16. Meta Embedded Signup — connexion WhatsApp en 1 clic
+
+**Problème résolu :** 5 étapes hors-app pour connecter WhatsApp → réduit à 1 bouton.
+
+**Flow :**
+1. Client clique "Connecter mon WhatsApp" → popup Meta s'ouvre (JS SDK Facebook)
+2. L'utilisateur se connecte à Meta et sélectionne son WABA
+3. Meta retourne un `code` OAuth
+4. `WhatsAppConnectController` échange le code → token long-durée, récupère Phone Number ID + WABA ID via `debug_token`
+5. Credentials sauvegardés sur Business, `sandbox_mode` désactivé automatiquement
+
+| Fichier | Rôle |
+|---|---|
+| `app/Http/Controllers/Client/WhatsAppConnectController.php` | Nouveau — échange OAuth + récupération Phone ID |
+| `config/whatsapp.php` | Ajout `meta_app_id`, `meta_app_secret`, `meta_config_id` |
+| `.env.example` | `META_APP_ID`, `META_APP_SECRET`, `META_CONFIG_ID` |
+| `routes/web.php` | POST `/client/settings/whatsapp/connect` + GET `/client/settings/whatsapp/sandbox/clear` |
+
+**Le bouton est masqué si `META_APP_ID` n'est pas configuré** — les clients configurent alors manuellement (section "avancé" dépliable).
+
+**i18n ajoutées (FR+EN) :** `sandbox_mode_label`, `sandbox_badge`, `sandbox_off_badge`, `connect_whatsapp`, `webhook_url_label`, `verify_token_label`, `sandbox_messages_title`, `sandbox_clear`, `sandbox_cleared`, `sandbox_title`, `sandbox_desc`, `sandbox_btn`
+
