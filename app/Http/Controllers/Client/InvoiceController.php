@@ -215,8 +215,8 @@ class InvoiceController extends Controller
         $sent = $whatsapp->sendText(
             $invoice->contact->whatsapp_number,
             $message,
-            $business->whatsapp_phone_number_id,
-            $business->whatsapp_access_token
+            $business,
+            'reminder'
         );
 
         return $sent
@@ -242,10 +242,6 @@ class InvoiceController extends Controller
 
         $business = $user->business;
 
-        if (!$business->whatsapp_phone_number_id || !$business->whatsapp_access_token) {
-            return back()->with('error', __('app.client.flash.whatsapp_not_configured'));
-        }
-
         if (!$invoice->contact || !$invoice->contact->whatsapp_number) {
             return back()->with('error', __('app.client.flash.no_whatsapp_number'));
         }
@@ -260,8 +256,8 @@ class InvoiceController extends Controller
             $url,
             "{$invoice->number}.pdf",
             "Voici la facture {$invoice->number} d'un montant de " . number_format($invoice->total, 0, ',', ' ') . " {$invoice->currency}.",
-            $business->whatsapp_phone_number_id,
-            $business->whatsapp_access_token
+            $business,
+            'invoice'
         );
 
         $invoice->update(['status' => 'sent']);

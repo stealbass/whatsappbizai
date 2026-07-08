@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\SandboxMessage;
 
 class Business extends Model
 {
@@ -27,6 +28,7 @@ class Business extends Model
         'invoice_prefix',
         'quote_prefix',
         'is_active',
+        'sandbox_mode',
         'plan',           // free | starter | business | pro
         'plan_expires_at',
         'timezone',
@@ -36,6 +38,7 @@ class Business extends Model
     {
         return [
             'is_active'       => 'boolean',
+            'sandbox_mode'    => 'boolean',
             'plan_expires_at' => 'datetime',
             'ai_documents'    => 'array',
         ];
@@ -79,6 +82,11 @@ class Business extends Model
     public function payments()
     {
         return $this->hasMany(\App\Models\Payment::class);
+    }
+
+    public function sandboxMessages()
+    {
+        return $this->hasMany(SandboxMessage::class);
     }
 
     public function activeSubscription()

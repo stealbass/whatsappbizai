@@ -181,10 +181,6 @@ class QuoteController extends Controller
 
         $business = $user->business;
 
-        if (!$business->whatsapp_phone_number_id || !$business->whatsapp_access_token) {
-            return back()->with('error', __('app.client.flash.whatsapp_not_configured'));
-        }
-
         if (!$quote->contact || !$quote->contact->whatsapp_number) {
             return back()->with('error', __('app.client.flash.no_whatsapp_number'));
         }
@@ -199,8 +195,8 @@ class QuoteController extends Controller
             $url,
             "{$quote->number}.pdf",
             "Voici le devis {$quote->number} d'un montant de " . number_format($quote->total, 0, ',', ' ') . " {$quote->currency}.",
-            $business->whatsapp_phone_number_id,
-            $business->whatsapp_access_token
+            $business,
+            'quote'
         );
 
         $quote->update(['status' => 'sent']);

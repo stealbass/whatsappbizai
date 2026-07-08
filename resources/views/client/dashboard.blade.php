@@ -7,7 +7,26 @@
     <p style="color:var(--gray);font-size:14px;">{{ __('app.client.dashboard.summary') }}</p>
 </div>
 
-@if(!$business || !$business->whatsapp_phone_number_id)
+@if(!$business)
+<div class="alert alert-warning" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+    <div>
+        <strong>📱 {{ __('app.client.dashboard.setup_title') }}</strong><br>
+        <span style="font-size:13px;">{{ __('app.client.dashboard.setup_desc') }}</span>
+    </div>
+    <a href="{{ url('client/settings/whatsapp') }}" class="btn btn-primary btn-sm">{{ __('app.client.dashboard.setup_btn') }}</a>
+</div>
+@elseif($business->sandbox_mode)
+<div class="alert" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;background:#fffbeb;border:1px solid #fde68a;color:#92400e;">
+    <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:22px;">🧪</span>
+        <div>
+            <strong>{{ __('app.client.dashboard.sandbox_title') }}</strong><br>
+            <span style="font-size:13px;">{{ __('app.client.dashboard.sandbox_desc') }}</span>
+        </div>
+    </div>
+    <a href="{{ url('client/settings/whatsapp') }}" class="btn btn-sm" style="background:#f59e0b;color:#fff;border:none;">{{ __('app.client.dashboard.sandbox_btn') }}</a>
+</div>
+@elseif(!$business->whatsapp_phone_number_id)
 <div class="alert alert-warning" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
     <div>
         <strong>📱 {{ __('app.client.dashboard.setup_title') }}</strong><br>

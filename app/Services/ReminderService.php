@@ -45,8 +45,8 @@ class ReminderService
             $ok = $this->whatsapp->sendText(
                 $contact->whatsapp_number,
                 $message,
-                $business->whatsapp_phone_number_id,
-                $business->whatsapp_access_token
+                $business,
+                'reminder'
             );
 
             if ($ok) {
@@ -81,8 +81,8 @@ class ReminderService
         return $this->whatsapp->sendText(
             $contact->whatsapp_number,
             $message,
-            $business->whatsapp_phone_number_id,
-            $business->whatsapp_access_token
+            $business,
+            'reminder'
         );
     }
 

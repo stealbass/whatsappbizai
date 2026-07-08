@@ -19,8 +19,14 @@ class SendDailyReport extends Command
     public function handle(WhatsAppService $whatsapp): int
     {
         $businesses = Business::where('is_active', true)
-            ->whereNotNull('whatsapp_phone_number_id')
-            ->whereNotNull('whatsapp_access_token')
+            ->where(function ($q) {
+                // Envoie rapport si sandbox OU si credentials réels configurés
+                $q->where('sandbox_mode', true)
+                  ->orWhere(function ($q2) {
+                      $q2->whereNotNull('whatsapp_phone_number_id')
+                         ->whereNotNull('whatsapp_access_token');
+                  });
+            })
             ->whereNotNull('phone')
             ->get();
 
@@ -31,8 +37,8 @@ class SendDailyReport extends Command
                 $sent = $whatsapp->sendText(
                     $business->phone,
                     $report,
-                    $business->whatsapp_phone_number_id,
-                    $business->whatsapp_access_token
+                    $business,
+                    'daily_report'
                 );
 
                 if ($sent) {

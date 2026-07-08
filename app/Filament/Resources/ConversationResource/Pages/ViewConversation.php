@@ -107,7 +107,7 @@ class ViewConversation extends ViewRecord
         $business = auth()->user()?->business;
         $contact  = $this->record->contact;
 
-        if (!$business?->whatsapp_phone_number_id) {
+        if (!$business?->whatsapp_phone_number_id && !$business?->sandbox_mode) {
             Notification::make()
                 ->title(__('app.admin.whatsapp_not_configured'))
                 ->body(__('app.admin.whatsapp_config_desc2'))
@@ -119,8 +119,8 @@ class ViewConversation extends ViewRecord
         $sent = $whatsapp->sendText(
             $contact->whatsapp_number,
             $this->replyText,
-            $business->whatsapp_phone_number_id,
-            $business->whatsapp_access_token
+            $business,
+            'manual_reply'
         );
 
         if ($sent) {

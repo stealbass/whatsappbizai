@@ -74,7 +74,7 @@ class ProcessWhatsAppMessage implements ShouldQueue
         ]);
 
         // Marque comme lu
-        $whatsapp->markAsRead($parsed['message_id'], $phoneNumberId, $business->whatsapp_access_token);
+        $whatsapp->markAsRead($parsed['message_id'], $business);
 
         // 6. Si l'IA est désactivée pour cette conversation, on s'arrête
         if (!$conversation->ai_enabled) {
@@ -94,8 +94,8 @@ class ProcessWhatsAppMessage implements ShouldQueue
         $sent = $whatsapp->sendText(
             $parsed['from'],
             $reply,
-            $phoneNumberId,
-            $business->whatsapp_access_token
+            $business,
+            'ai_reply'
         );
 
         // 9. Enregistre la réponse envoyée

@@ -43,9 +43,21 @@ class SettingsController extends Controller
 
     public function whatsapp()
     {
-        $user = Auth::user();
+        $user     = Auth::user();
         $business = $user->business;
-        return view('client.settings.whatsapp', compact('user', 'business'));
+        $sandboxMessages = $business
+            ? $business->sandboxMessages()->latest()->take(50)->get()
+            : collect();
+        return view('client.settings.whatsapp', compact('user', 'business', 'sandboxMessages'));
+    }
+
+    public function sandboxClear(): \Illuminate\Http\RedirectResponse
+    {
+        $business = Auth::user()->business;
+        if ($business) {
+            $business->sandboxMessages()->delete();
+        }
+        return redirect(url('client/settings/whatsapp'))->with('success', __('app.client.flash.sandbox_cleared'));
     }
 
     public function whatsappUpdate(Request $request)
@@ -58,7 +70,11 @@ class SettingsController extends Controller
             'whatsapp_access_token'         => 'nullable|string|max:2048',
             'whatsapp_business_account_id'  => 'nullable|string|max:100',
             'gemini_system_prompt'          => 'nullable|string|max:100000',
+            'sandbox_mode'                  => 'nullable|boolean',
         ]);
+
+        // Checkbox non cochée → absent de la requête → false
+        $data['sandbox_mode'] = $request->boolean('sandbox_mode');
 
         $business->update($data);
 

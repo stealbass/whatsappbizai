@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Business;
+use App\Models\Contact;
+use App\Models\SandboxMessage;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -17,22 +20,23 @@ class WhatsAppService
     }
 
     /**
-     * Envoie un message texte simple.
-     * HTML provenant de TinyMCE est automatiquement strippé —
-     * WhatsApp n'accepte que du texte brut.
+     * Envoie un message texte — ou simule si sandbox_mode actif.
      */
-    public function sendText(string $to, string $message, string $phoneNumberId, string $token): bool
+    public function sendText(string $to, string $message, Business $business, string $trigger = 'manual'): bool
     {
-        // Strip HTML tags + decode entities (TinyMCE output → plain text)
+        // Strip HTML tags + decode entities
         $plain = html_entity_decode(
             strip_tags(str_replace(['<br>', '<br/>', '<br />', '</p>', '</div>', '</li>'], "\n", $message)),
             ENT_QUOTES | ENT_HTML5,
             'UTF-8'
         );
-        // Collapse more than 2 consecutive newlines
         $plain = preg_replace("/\n{3,}/", "\n\n", trim($plain));
 
-        return $this->send($phoneNumberId, $token, [
+        if ($business->sandbox_mode) {
+            return $this->simulateText($business, $to, $plain, $trigger);
+        }
+
+        return $this->send($business->whatsapp_phone_number_id, $business->whatsapp_access_token, [
             'messaging_product' => 'whatsapp',
             'recipient_type'    => 'individual',
             'to'                => $to,
@@ -42,17 +46,21 @@ class WhatsAppService
     }
 
     /**
-     * Envoie un document PDF (devis ou facture)
+     * Envoie un document PDF — ou simule si sandbox_mode actif.
      */
     public function sendDocument(
         string $to,
         string $mediaUrl,
         string $filename,
         string $caption,
-        string $phoneNumberId,
-        string $token
+        Business $business,
+        string $trigger = 'document'
     ): bool {
-        return $this->send($phoneNumberId, $token, [
+        if ($business->sandbox_mode) {
+            return $this->simulateDocument($business, $to, $filename, $mediaUrl, $trigger);
+        }
+
+        return $this->send($business->whatsapp_phone_number_id, $business->whatsapp_access_token, [
             'messaging_product' => 'whatsapp',
             'recipient_type'    => 'individual',
             'to'                => $to,
@@ -66,11 +74,13 @@ class WhatsAppService
     }
 
     /**
-     * Marque un message comme "lu"
+     * Marque un message comme lu (no-op en sandbox).
      */
-    public function markAsRead(string $messageId, string $phoneNumberId, string $token): bool
+    public function markAsRead(string $messageId, Business $business): bool
     {
-        return $this->send($phoneNumberId, $token, [
+        if ($business->sandbox_mode) return true;
+
+        return $this->send($business->whatsapp_phone_number_id, $business->whatsapp_access_token, [
             'messaging_product' => 'whatsapp',
             'status'            => 'read',
             'message_id'        => $messageId,
@@ -78,81 +88,62 @@ class WhatsAppService
     }
 
     /**
-     * Envoie un message avec boutons de réponse rapide
+     * Résout le nom du contact depuis son numéro.
      */
-    public function sendButtons(
-        string $to,
-        string $bodyText,
-        array  $buttons, // [['id' => 'btn_1', 'title' => 'Oui'], ...]
-        string $phoneNumberId,
-        string $token
-    ): bool {
-        $buttonList = array_map(fn($b) => [
-            'type'  => 'reply',
-            'reply' => ['id' => $b['id'], 'title' => $b['title']],
-        ], $buttons);
-
-        return $this->send($phoneNumberId, $token, [
-            'messaging_product' => 'whatsapp',
-            'recipient_type'    => 'individual',
-            'to'                => $to,
-            'type'              => 'interactive',
-            'interactive'       => [
-                'type' => 'button',
-                'body' => ['text' => $bodyText],
-                'action' => ['buttons' => $buttonList],
-            ],
-        ]);
-    }
-
-    /**
-     * Parse le payload webhook Meta pour extraire le message entrant
-     */
-    public function parseInboundMessage(array $payload): ?array
+    private function resolveContactName(Business $business, string $to): string
     {
-        try {
-            $entry   = $payload['entry'][0] ?? null;
-            $changes = $entry['changes'][0] ?? null;
-            $value   = $changes['value'] ?? null;
+        $contact = Contact::where('business_id', $business->id)
+            ->where('whatsapp_number', $to)
+            ->first();
 
-            if (!$value || !isset($value['messages'])) {
-                return null;
-            }
-
-            $message  = $value['messages'][0];
-            $contact  = $value['contacts'][0] ?? null;
-            $metadata = $value['metadata'] ?? null;
-
-            $type    = $message['type'] ?? 'text';
-            $content = match ($type) {
-                'text'              => $message['text']['body'] ?? '',
-                'button'            => $message['button']['text'] ?? '',
-                'interactive'       => $message['interactive']['button_reply']['title']
-                                    ?? $message['interactive']['list_reply']['title'] ?? '',
-                'document'          => $message['document']['caption'] ?? '[document reçu]',
-                'image'             => $message['image']['caption'] ?? '[image reçue]',
-                'audio'             => '[message vocal reçu]',
-                default             => '[media reçu]',
-            };
-
-            return [
-                'message_id'       => $message['id'],
-                'from'             => $message['from'],
-                'contact_name'     => $contact['profile']['name'] ?? null,
-                'type'             => $type,
-                'content'          => $content,
-                'phone_number_id'  => $metadata['phone_number_id'] ?? null,
-                'timestamp'        => $message['timestamp'],
-            ];
-
-        } catch (\Throwable $e) {
-            Log::error('WhatsApp parse error', ['error' => $e->getMessage(), 'payload' => $payload]);
-            return null;
-        }
+        return $contact?->name ?? $to;
     }
 
     /**
-     * Appel HTTP générique vers l'API Graph
+     * Enregistre un message texte simulé.
+     */
+    private function simulateText(Business $business, string $to, string $content, string $trigger): bool
+    {
+        SandboxMessage::create([
+            'business_id'  => $business->id,
+            'to'           => $to,
+            'contact_name' => $this->resolveContactName($business, $to),
+            'type'         => 'text',
+            'content'      => $content,
+            'trigger'      => $trigger,
+        ]);
+        Log::info('[SANDBOX] Message texte simulé', [
+            'business' => $business->name,
+            'to'       => $to,
+            'trigger'  => $trigger,
+        ]);
+        return true;
+    }
+
+    /**
+     * Enregistre un envoi de document simulé.
+     */
+    private function simulateDocument(Business $business, string $to, string $filename, string $mediaUrl, string $trigger): bool
+    {
+        SandboxMessage::create([
+            'business_id'  => $business->id,
+            'to'           => $to,
+            'contact_name' => $this->resolveContactName($business, $to),
+            'type'         => 'document',
+            'content'      => $filename,
+            'media_url'    => $mediaUrl,
+            'trigger'      => $trigger,
+        ]);
+        Log::info('[SANDBOX] Document simulé', [
+            'business' => $business->name,
+            'to'       => $to,
+            'file'     => $filename,
+        ]);
+        return true;
+    }
+
+    /**
+     * Appel HTTP générique vers l'API Graph.
      */
     private function send(string $phoneNumberId, string $token, array $payload): bool
     {

@@ -124,6 +124,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/client/settings/business', [SettingsController::class, 'businessUpdate'])->name('c.settings.business.update');
     Route::get('/client/settings/whatsapp', [SettingsController::class, 'whatsapp'])->name('c.settings.whatsapp');
     Route::put('/client/settings/whatsapp', [SettingsController::class, 'whatsappUpdate'])->name('c.settings.whatsapp.update');
+    Route::get('/client/settings/whatsapp/sandbox/clear', [SettingsController::class, 'sandboxClear'])->name('c.settings.whatsapp.sandbox.clear');
+    Route::post('/client/settings/whatsapp/connect', [\App\Http\Controllers\Client\WhatsAppConnectController::class, 'connect'])->name('c.whatsapp.connect');
     Route::get('/client/settings/profile', [SettingsController::class, 'profile'])->name('c.settings.profile');
     Route::put('/client/settings/profile', [SettingsController::class, 'profileUpdate'])->name('c.settings.profile.update');
     Route::get('/client/settings/password', [SettingsController::class, 'password'])->name('c.settings.password');

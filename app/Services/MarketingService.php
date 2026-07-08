@@ -42,8 +42,8 @@ class MarketingService
             $ok = $this->whatsapp->sendText(
                 $contact->whatsapp_number,
                 $personalised,
-                $business->whatsapp_phone_number_id,
-                $business->whatsapp_access_token
+                $business,
+                'broadcast'
             );
 
             $ok ? $sent++ : $failed++;
@@ -76,8 +76,8 @@ class MarketingService
             $pdfUrl,
             $filename,
             $caption,
-            $business->whatsapp_phone_number_id,
-            $business->whatsapp_access_token
+            $business,
+            'document'
         );
     }
 
