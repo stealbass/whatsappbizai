@@ -11,9 +11,9 @@ class SetLocale
 {
     public function handle(Request $request, Closure $next)
     {
-        // Priority: session > cookie > config default
+        // Priority: session > raw cookie (set by JS) > config default
         $locale = Session::get('locale')
-            ?? $request->cookie('wbai_lang')
+            ?? $_COOKIE['wbai_lang']
             ?? config('app.locale', 'fr');
 
         if (!in_array($locale, ['fr', 'en'])) {
