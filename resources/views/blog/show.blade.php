@@ -4,6 +4,45 @@
 @section('meta_description', $post->trans('meta_description') ?: $post->trans('excerpt'))
 
 @section('content')
+<script type="application/ld+json">
+@php
+$articleJson = [
+    '@context' => 'https://schema.org',
+    '@type' => 'Article',
+    'headline' => $post->trans('title'),
+    'description' => $post->trans('excerpt') ?: $post->trans('meta_description'),
+    'url' => url('blog/' . $post->slug),
+    'datePublished' => $post->published_at?->toIso8601String(),
+    'dateModified' => $post->updated_at?->toIso8601String() ?? $post->published_at?->toIso8601String(),
+    'author' => [
+        '@type' => 'Organization',
+        'name' => $post->author_name ?? 'WhatsAppBizAI',
+        'url' => url('/'),
+    ],
+    'publisher' => [
+        '@type' => 'Organization',
+        'name' => $site->trans('site_name') ?? 'WhatsAppBizAI',
+        'logo' => [
+            '@type' => 'ImageObject',
+            'url' => $site->logo_path ? asset('storage/' . $site->logo_path) : asset('logo.png'),
+        ],
+    ],
+    'mainEntityOfPage' => [
+        '@type' => 'WebPage',
+        '@id' => url('blog/' . $post->slug),
+    ],
+    'inLanguage' => app()->getLocale(),
+];
+if ($post->featured_image) {
+    $articleJson['image'] = asset('storage/' . $post->featured_image);
+}
+if ($post->category) {
+    $articleJson['articleSection'] = $post->category;
+}
+@endphp
+{!! json_encode($articleJson, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+</script>
+
 <div class="article-header">
     <a href="{{ url('blog') }}" class="back-link">← {{ __('app.blog.back_to_blog') }}</a>
 
