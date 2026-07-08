@@ -131,6 +131,7 @@ class BroadcastPage extends Page implements HasForms
 
         $raw  = $data['message'] ?? '';
         $sent = 0;
+        $business = auth()->user()->business;
 
         foreach ($contacts as $contact) {
             $personalized = str_replace(
@@ -140,13 +141,8 @@ class BroadcastPage extends Page implements HasForms
             );
 
             try {
-                \Illuminate\Support\Facades\Mail::html(
-                    $personalized,
-                    function ($mail) use ($contact) {
-                        $mail->to($contact->email)
-                             ->subject('Message de ' . (auth()->user()->business?->name ?? 'WhatsAppBizAI'));
-                    }
-                );
+                \Illuminate\Support\Facades\Mail::to($contact->email)
+                    ->send(new \App\Mail\BroadcastMail($business, $personalized));
                 $sent++;
             } catch (\Exception $e) {
                 // continue silently

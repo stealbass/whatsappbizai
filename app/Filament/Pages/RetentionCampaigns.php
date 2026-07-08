@@ -152,12 +152,9 @@ class RetentionCampaigns extends Page implements HasForms
         $sent = 0;
         foreach ($users as $user) {
             try {
-                \Illuminate\Support\Facades\Mail::html(
-                    $data['message'],
-                    function ($mail) use ($user) {
-                        $mail->to($user->email)->subject(__('app.admin.retention_subject'));
-                    }
-                );
+                $business = $user->business;
+                \Illuminate\Support\Facades\Mail::to($user->email)
+                    ->send(new \App\Mail\RetentionMail($business, $data['message']));
                 $sent++;
             } catch (\Exception $e) {
                 // continue silently

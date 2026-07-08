@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\PaymentPendingMail;
+use App\Mail\SubscriptionActivatedMail;
 use App\Models\Business;
 use App\Models\Payment;
 use App\Services\FlutterwaveService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class PaymentController extends Controller
 {
@@ -74,6 +78,14 @@ class PaymentController extends Controller
             $payment->update(['flutterwave_tx_id' => $transactionId ?? $verification['tx_id']]);
             $subscription = $this->flutterwave->activateSubscription($payment);
 
+            // Envoie l'email de confirmation d'abonnement
+            try {
+                Mail::to($payment->business->email ?? $payment->business->owner_name)
+                    ->send(new SubscriptionActivatedMail($subscription));
+            } catch (\Exception $e) {
+                Log::warning('Subscription activated email failed', ['error' => $e->getMessage()]);
+            }
+
             return redirect(url('client/settings/billing'))->with('success',
                 "🎉 Abonnement {$subscription->plan} activé ! Merci pour votre confiance."
             );
@@ -102,7 +114,15 @@ class PaymentController extends Controller
 
             if ($payment) {
                 $payment->update(['flutterwave_tx_id' => (string) ($event['data']['id'] ?? '')]);
-                $this->flutterwave->activateSubscription($payment);
+                $subscription = $this->flutterwave->activateSubscription($payment);
+
+                // Envoie l'email de confirmation d'abonnement (webhook)
+                try {
+                    Mail::to($payment->business->email ?? $payment->business->owner_name)
+                        ->send(new SubscriptionActivatedMail($subscription));
+                } catch (\Exception $e) {
+                    Log::warning('Subscription activated email (webhook) failed', ['error' => $e->getMessage()]);
+                }
             }
         }
 
@@ -146,7 +166,7 @@ class PaymentController extends Controller
             $screenshotPath = $request->file('screenshot')->store('payment-proofs', 'public');
         }
 
-        Payment::create([
+        $payment = Payment::create([
             'business_id'    => $business->id,
             'method'         => $request->method,
             'status'         => 'pending',
@@ -159,6 +179,14 @@ class PaymentController extends Controller
             'screenshot_path'=> $screenshotPath,
             'notes'          => $request->notes,
         ]);
+
+        // Envoie une notification à l'admin
+        try {
+            $adminEmail = config('mail.from.address', 'hello@whatsappbizai.com');
+            Mail::to($adminEmail)->send(new PaymentPendingMail($payment));
+        } catch (\Exception $e) {
+            Log::warning('Payment pending email failed', ['error' => $e->getMessage()]);
+        }
 
         return redirect(url('client/settings/billing'))
             ->with('success', 'Votre preuve de paiement a été soumise. L\'équipe vérifiera sous 24h et activera votre abonnement.');

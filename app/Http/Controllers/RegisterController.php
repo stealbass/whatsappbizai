@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\WelcomeMail;
 use App\Models\Business;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
 {
@@ -48,6 +50,13 @@ class RegisterController extends Controller
         ]);
 
         Auth::login($user);
+
+        // Envoie l'email de bienvenue
+        try {
+            Mail::to($user->email)->send(new WelcomeMail($user));
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::warning('Welcome email failed', ['error' => $e->getMessage()]);
+        }
 
         return redirect(url('dashboard'))->with('success', 'Bienvenue sur WhatsAppBizAI ! Configurez votre compte WhatsApp pour démarrer.');
     }

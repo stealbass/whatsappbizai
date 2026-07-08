@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactFormMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class PageController extends Controller
@@ -31,7 +33,7 @@ class PageController extends Controller
             'message' => 'required|string|max:5000',
         ]);
 
-        // Store in database for now (no mail setup yet)
+        // Store in database
         \Illuminate\Support\Facades\DB::table('contact_messages')->insert([
             'name'      => $validated['name'],
             'email'     => $validated['email'],
@@ -40,6 +42,19 @@ class PageController extends Controller
             'created_at'=> now(),
             'updated_at'=> now(),
         ]);
+
+        // Envoie une notification à l'admin
+        try {
+            $adminEmail = config('mail.from.address', 'hello@whatsappbizai.com');
+            Mail::to($adminEmail)->send(new ContactFormMail(
+                senderName: $validated['name'],
+                senderEmail: $validated['email'],
+                subject: $validated['subject'],
+                message: $validated['message'],
+            ));
+        } catch (\Exception $e) {
+            Log::warning('Contact form email failed', ['error' => $e->getMessage()]);
+        }
 
         $msg = app()->getLocale() === 'fr'
             ? 'Votre message a bien été envoyé. Nous vous répondrons sous 24h.'
