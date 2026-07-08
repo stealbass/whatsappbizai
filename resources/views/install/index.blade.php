@@ -160,14 +160,9 @@
         <p class="subtitle">Vous pouvez configurer ces clés plus tard dans le fichier .env.</p>
 
         <div class="divider-text">WhatsApp Cloud API (Meta)</div>
-        <label>Phone Number ID</label>
-        <input type="text" id="whatsapp_phone_number_id" placeholder="Ex: 1234567890">
-        <label>Access Token</label>
-        <input type="text" id="whatsapp_access_token" placeholder="Token d'accès WhatsApp">
         <label>Verify Token</label>
         <input type="text" id="whatsapp_verify_token" value="your_custom_verify_token_here">
-        <label>Business Account ID</label>
-        <input type="text" id="whatsapp_business_account_id" placeholder="ID du compte WhatsApp Business">
+        <p style="font-size:12px;color:#666;margin-top:-8px;margin-bottom:12px;">Token secret pour la vérification du webhook. Les credentials WhatsApp (Phone Number ID, Access Token) sont configurés par chaque business dans son espace client.</p>
 
         <div class="divider-text">Gemini AI (Google)</div>
         <label>Clé API Gemini</label>
@@ -373,10 +368,7 @@ function runInstallation() {
         'db_name=' + encodeURIComponent(document.getElementById('db_name').value),
         'db_username=' + encodeURIComponent(document.getElementById('db_username').value),
         'db_password=' + encodeURIComponent(document.getElementById('db_password').value),
-        'whatsapp_phone_number_id=' + encodeURIComponent(document.getElementById('whatsapp_phone_number_id').value),
-        'whatsapp_access_token=' + encodeURIComponent(document.getElementById('whatsapp_access_token').value),
         'whatsapp_verify_token=' + encodeURIComponent(document.getElementById('whatsapp_verify_token').value),
-        'whatsapp_business_account_id=' + encodeURIComponent(document.getElementById('whatsapp_business_account_id').value),
         'gemini_api_key=' + encodeURIComponent(document.getElementById('gemini_api_key').value),
         'flutterwave_public_key=' + encodeURIComponent(document.getElementById('flutterwave_public_key').value),
         'flutterwave_secret_key=' + encodeURIComponent(document.getElementById('flutterwave_secret_key').value),

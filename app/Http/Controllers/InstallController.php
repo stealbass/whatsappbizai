@@ -245,10 +245,7 @@ MAIL_ENCRYPTION=null
 MAIL_FROM_ADDRESS="hello@whatsappbizai.com"
 MAIL_FROM_NAME="\${APP_NAME}"
 
-WHATSAPP_PHONE_NUMBER_ID={$request->input('whatsapp_phone_number_id', '')}
-WHATSAPP_ACCESS_TOKEN={$request->input('whatsapp_access_token', '')}
 WHATSAPP_VERIFY_TOKEN={$request->input('whatsapp_verify_token', 'your_custom_verify_token_here')}
-WHATSAPP_BUSINESS_ACCOUNT_ID={$request->input('whatsapp_business_account_id', '')}
 WHATSAPP_API_VERSION=v20.0
 
 GEMINI_API_KEY={$request->input('gemini_api_key', '')}

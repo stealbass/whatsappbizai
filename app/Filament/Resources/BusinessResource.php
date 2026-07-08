@@ -120,16 +120,8 @@ class BusinessResource extends Resource
                         ->maxLength(10),
                 ])->columns(2),
 
-            Forms\Components\Section::make('WhatsApp & IA')
+            Forms\Components\Section::make('Intelligence Artificielle')
                 ->schema([
-                    Forms\Components\TextInput::make('whatsapp_phone_number_id')
-                        ->label('Phone Number ID'),
-                    Forms\Components\TextInput::make('whatsapp_business_account_id')
-                        ->label('Business Account ID'),
-                    Forms\Components\TextInput::make('whatsapp_access_token')
-                        ->label('Access Token')
-                        ->password()
-                        ->revealable(),
                     RichEditor::make('gemini_system_prompt')
                         ->label('Prompt IA Gemini')
                         ->columnSpanFull(),
@@ -188,6 +180,11 @@ class BusinessResource extends Resource
                         'pro'      => 'warning',
                         default    => 'gray',
                     }),
+
+                Tables\Columns\TextColumn::make('whatsapp_phone_number_id')
+                    ->label('WhatsApp Phone ID')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\IconColumn::make('is_active')
                     ->label('Actif')
