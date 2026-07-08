@@ -107,9 +107,10 @@ class PaymentResource extends Resource
                     Forms\Components\DateTimePicker::make('verified_at')
                         ->label('Vérifié le')
                         ->nullable(),
-                    Forms\Components\Textarea::make('admin_notes')
+                    Forms\Components\RichEditor::make('admin_notes')
                         ->label('Notes admin')
-                        ->rows(3),
+                        ->toolbarButtons(['bold', 'italic', 'underline', 'bulletList', 'orderedList', 'link'])
+                        ->columnSpanFull(),
                     Forms\Components\FileUpload::make('screenshot_path')
                         ->label('Capture d\'écran')
                         ->image()

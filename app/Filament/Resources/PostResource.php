@@ -70,9 +70,9 @@ class PostResource extends Resource
                                 ->required()
                                 ->maxLength(255),
 
-                            Forms\Components\Textarea::make('excerpt_fr')
+                            Forms\Components\RichEditor::make('excerpt_fr')
                                 ->label('Extrait')
-                                ->rows(3)
+                                ->toolbarButtons(['bold', 'italic', 'underline', 'link'])
                                 ->maxLength(500),
 
                             Forms\Components\RichEditor::make('content_fr')
@@ -104,9 +104,9 @@ class PostResource extends Resource
                                 ->required()
                                 ->maxLength(255),
 
-                            Forms\Components\Textarea::make('excerpt_en')
+                            Forms\Components\RichEditor::make('excerpt_en')
                                 ->label('Excerpt')
-                                ->rows(3)
+                                ->toolbarButtons(['bold', 'italic', 'underline', 'link'])
                                 ->maxLength(500),
 
                             Forms\Components\RichEditor::make('content_en')

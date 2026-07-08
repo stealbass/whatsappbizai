@@ -50,9 +50,9 @@ class PlanResource extends Resource
                         ->label('Nom du plan')
                         ->required()
                         ->maxLength(100),
-                    Forms\Components\Textarea::make('description')
+                    Forms\Components\RichEditor::make('description')
                         ->label('Description')
-                        ->rows(3)
+                        ->toolbarButtons(['bold', 'italic', 'underline', 'bulletList', 'orderedList', 'link'])
                         ->maxLength(500),
                 ])->columns(2),
 
