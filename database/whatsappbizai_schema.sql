@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS `businesses` (
   `invoice_prefix`               varchar(20) NOT NULL DEFAULT 'FAC',
   `quote_prefix`                 varchar(20) NOT NULL DEFAULT 'DEV',
   `is_active`                    tinyint(1) NOT NULL DEFAULT 1,
+  `sandbox_mode`                 tinyint(1) NOT NULL DEFAULT 1,
   `plan`                         enum('free','starter','business','pro') NOT NULL DEFAULT 'free',
   `plan_expires_at`              timestamp NULL DEFAULT NULL,
   `timezone`                     varchar(255) NOT NULL DEFAULT 'Africa/Douala',
@@ -555,3 +556,23 @@ INSERT IGNORE INTO `migrations` (`migration`, `batch`) VALUES
 -- ============================================================
 -- FIN DU SCHEMA COMPLET — 21 tables
 -- ============================================================
+
+--
+-- Table structure for table `sandbox_messages`
+--
+
+CREATE TABLE IF NOT EXISTS `sandbox_messages` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `business_id` bigint(20) UNSIGNED NOT NULL,
+  `to` varchar(50) NOT NULL,
+  `contact_name` varchar(255) DEFAULT NULL,
+  `type` enum('text','document') NOT NULL DEFAULT 'text',
+  `content` text DEFAULT NULL,
+  `media_url` varchar(500) DEFAULT NULL,
+  `trigger` varchar(50) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `sandbox_messages_business_id_foreign` (`business_id`),
+  CONSTRAINT `sandbox_messages_business_id_foreign` FOREIGN KEY (`business_id`) REFERENCES `businesses` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
