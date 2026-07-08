@@ -46,7 +46,7 @@
             <li>Click <strong>👁️ Aperçu</strong> to preview the rendered HTML before sending</li>
             <li>Click <strong>Send broadcast</strong> to dispatch to all recipients</li>
         </ol>
-        <p class="mt-3">Variables: <code class="bg-gray-200 dark:bg-gray-800 px-1 rounded">{!! '{{nom}}' !!}</code>, <code class="bg-gray-200 dark:bg-gray-800 px-1 rounded">{!! '{{prenom}}' !!}</code>, <code class="bg-gray-200 dark:bg-gray-800 px-1 rounded">{!! '{{entreprise}}' !!}</code></p>
+        <p class="mt-3">Variables: <code class="bg-gray-200 dark:bg-gray-800 px-1 rounded">@php echo '{{nom}}' @endphp</code>, <code class="bg-gray-200 dark:bg-gray-800 px-1 rounded">@php echo '{{prenom}}' @endphp</code>, <code class="bg-gray-200 dark:bg-gray-800 px-1 rounded">@php echo '{{entreprise}}' @endphp</code></p>
         <p class="mt-2 text-amber-600 dark:text-amber-400">⚠️ WhatsApp requires approved templates for bulk outreach. Use within the 24-hour conversation window.</p>
     </div>
 

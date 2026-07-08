@@ -28,7 +28,7 @@
         <div class="form-group">
             <label>{{ __('app.client.broadcast.message') }}</label>
             <textarea name="message" id="message"  required maxlength="100000" placeholder="{{ __('app.client.broadcast.message_placeholder') }}"></textarea>
-            <p class="form-help">{{ __('app.client.broadcast.variables') }} : <code>{!! '{{nom}}' !!}</code>, <code>{!! '{{prenom}}' !!}</code>, <code>{!! '{{entreprise}}' !!}</code></p>
+            <p class="form-help">{{ __('app.client.broadcast.variables') }} : <code>@php echo '{{nom}}' @endphp</code>, <code>@php echo '{{prenom}}' @endphp</code>, <code>@php echo '{{entreprise}}' @endphp</code></p>
         </div>
 
         <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">

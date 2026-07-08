@@ -34,6 +34,11 @@
         </div>
     </form>
 
+    <div class="mt-6 rounded-xl border border-gray-200 bg-gray-50 dark:bg-gray-900 dark:border-gray-700 p-5 text-sm text-gray-500">
+        <p class="mb-2">💡 <strong>Variables disponibles :</strong></p>
+        <p>Variables: <code class="bg-gray-200 dark:bg-gray-800 px-1 rounded">@php echo '{{nom}}' @endphp</code>, <code class="bg-gray-200 dark:bg-gray-800 px-1 rounded">@php echo '{{prenom}}' @endphp</code>, <code class="bg-gray-200 dark:bg-gray-800 px-1 rounded">@php echo '{{entreprise}}' @endphp</code></p>
+    </div>
+
     @if($showPreview)
     <div
         class="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto"
