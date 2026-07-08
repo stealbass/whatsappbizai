@@ -100,3 +100,126 @@
 - Les propriétés statiques Filament ne peuvent pas utiliser `__()` → méthodes override
 - `maxLength` porté de 1024 à 65535 pour le message HTML de rétention
 - Correction des retraits et espaces superflus dans AdminPanelProvider
+
+---
+
+## Session du 8 juillet 2026
+
+### 10. Variables broadcast/retention — Correction d'affichage
+
+- `client/broadcast/index.blade.php` — `{!! '{{nom}}' !!}` → `@php echo '{{nom}}' @endphp` pour les 3 variables
+- `client/retention/index.blade.php` — Idem
+- `filament/pages/broadcast.blade.php` — Idem (admin)
+- `filament/pages/retention.blade.php` — Ajout de la section "Variables disponibles" (manquait dans l'admin)
+
+### 11. Blog posts bilingues (FR/EN)
+
+- `database/seeders/PostSeeder.php` — Ajout des colonnes `_fr`/`_en` pour les 4 articles (title, excerpt, content, meta_title, meta_description)
+- Changé `Post::create()` → `Post::updateOrCreate()` pour les mises à jour
+
+### 12. Architecture WhatsApp — Credentials déplacés vers le client
+
+Avant : l'admin devait entrer les credentials WhatsApp (Phone Number ID, Access Token, Business Account ID) pour chaque business — impossible en pratique.
+Après : le client configure ses propres credentials dans `client/settings/whatsapp`.
+
+| Fichier | Changement |
+|---|---|
+| `BusinessResource.php` | Supprimé les 3 champs du formulaire admin. Ajouté `whatsapp_phone_number_id` en colonne cachée du tableau (débogage) |
+| `config/whatsapp.php` | Supprimé les 3 variables inutilisées. Gardé `verify_token` et `api_version` |
+| `.env` | Supprimé `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_ACCESS_TOKEN`, `WHATSAPP_BUSINESS_ACCOUNT_ID` |
+| `.env.example` | Idem + commentaire |
+| `InstallController.php` | Supprimé l'écriture des 3 variables |
+| `install/index.blade.php` | Supprimé les 3 champs du formulaire d'installation |
+
+### 13. Système d'emails complet (6 Mailables + templates)
+
+Avant : aucun email n'était envoyé.
+
+**Mailables créés :**
+
+| Mailable | Déclencheur | Destinataire |
+|---|---|---|
+| `WelcomeMail` | Inscription | Nouveau client |
+| `SubscriptionActivatedMail` | Paiement validé (callback/webhook Flutterwave) | Client |
+| `PaymentPendingMail` | Paiement manuel soumis | Admin |
+| `ContactFormMail` | Formulaire contact soumis | Admin |
+| `BroadcastMail` | Campagne broadcast admin | Contacts |
+| `RetentionMail` | Campagne retention admin | Utilisateurs |
+
+**Templates créés :**
+
+```
+resources/views/emails/
+├── layouts/email.blade.php           ← layout commun (header WhatsAppBizAI + footer)
+├── welcome.blade.php                 ← étapes à suivre + bouton dashboard
+├── subscription_activated.blade.php  ← récapitulatif plan/montant/durée
+├── payment_pending.blade.php         ← détails du paiement + lien admin
+└── contact_form.blade.php            ← nom/email/sujet/message + bouton répondre
+```
+
+**Controllers modifiés :**
+
+| Controller | Email envoyé |
+|---|---|
+| `RegisterController::store` | `WelcomeMail` |
+| `PaymentController::callback` | `SubscriptionActivatedMail` |
+| `PaymentController::webhook` | `SubscriptionActivatedMail` |
+| `PaymentController::manualStore` | `PaymentPendingMail` → admin |
+| `PageController::contactStore` | `ContactFormMail` → admin |
+| `BroadcastPage::send` | `BroadcastMail` (remplacé `Mail::html()` brut) |
+| `RetentionCampaigns::sendCampaign` | `RetentionMail` (remplacé `Mail::html()` brut) |
+
+### 14. SEO — Schema.org Structured Data
+
+**`seo.blade.php` (toutes les pages) :**
+
+| Schema | Contenu |
+|---|---|
+| **Organization** | Nom, logo, adresse, téléphone, email, date fondation, réseaux sociaux (`sameAs`), `aggregateRating` (4.8/5), 3 reviews (Happi Olivier, Fatima Diallo, Aminata Touré) |
+| **SoftwareApplication** | Catégorie BusinessApplication, 4 offres (Free/Starter/Business/Pro) avec prix XAF, `aggregateRating` |
+| **FAQPage** | 6 questions dynamiques depuis les lang files FR/EN (homepage uniquement) |
+
+**`blog/show.blade.php` (chaque article) :**
+
+| Schema | Contenu |
+|---|---|
+| **Article** | headline, description, datePublished, dateModified, author, publisher (logo), image, articleSection, mainEntityOfPage |
+
+### Fichiers créés (16)
+
+```
+app/Mail/WelcomeMail.php
+app/Mail/SubscriptionActivatedMail.php
+app/Mail/PaymentPendingMail.php
+app/Mail/ContactFormMail.php
+app/Mail/BroadcastMail.php
+app/Mail/RetentionMail.php
+resources/views/emails/layouts/email.blade.php
+resources/views/emails/welcome.blade.php
+resources/views/emails/subscription_activated.blade.php
+resources/views/emails/payment_pending.blade.php
+resources/views/emails/contact_form.blade.php
+```
+
+### Fichiers modifiés (14)
+
+```
+app/Filament/Resources/BusinessResource.php
+app/Filament/Pages/BroadcastPage.php
+app/Filament/Pages/RetentionCampaigns.php
+app/Http/Controllers/RegisterController.php
+app/Http/Controllers/PaymentController.php
+app/Http/Controllers/PageController.php
+app/Http/Controllers/InstallController.php
+config/whatsapp.php
+.env
+.env.example
+resources/views/install/index.blade.php
+resources/views/client/broadcast/index.blade.php
+resources/views/client/retention/index.blade.php
+resources/views/filament/pages/broadcast.blade.php
+resources/views/filament/pages/retention.blade.php
+resources/views/components/seo.blade.php
+resources/views/blog/show.blade.php
+database/seeders/PostSeeder.php
+```
