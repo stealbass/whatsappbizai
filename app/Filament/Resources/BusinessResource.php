@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BusinessResource\Pages;
+use App\Helpers\Country;
 use App\Models\Business;
 use Filament\Forms;
 use Filament\Forms\Components\RichEditor;
@@ -19,11 +20,6 @@ class BusinessResource extends Resource
     protected static ?int    $navigationSort  = 10;
     protected static ?string $model = Business::class;
     protected static ?string $slug = 'businesses';
-
-    public static function shouldRegisterNavigation(): bool
-    {
-        return auth()->user()?->is_super_admin ?? false;
-    }
 
     public static function getNavigationLabel(): string
     {
@@ -81,14 +77,17 @@ class BusinessResource extends Resource
                         ->default('Douala'),
                     Forms\Components\Select::make('country')
                         ->label('Pays')
-                        ->options([
-                            'CM' => 'Cameroun',
-                            'SN' => 'Sénégal',
-                            'CI' => 'Côte d\'Ivoire',
-                            'MA' => 'Maroc',
-                            'FR' => 'France',
-                        ])
-                        ->default('CM'),
+                        ->searchable()
+                        ->options(Country::options())
+                        ->default('CM')
+                        ->reactive()
+                        ->afterStateUpdated(function ($state, $set) {
+                            if ($state) {
+                                $timezones = Country::timezones($state);
+                                $set('timezone', $timezones[0] ?? 'UTC');
+                                $set('currency', Country::defaultCurrency($state));
+                            }
+                        }),
                     Forms\Components\Select::make('currency')
                         ->label('Devise')
                         ->options([
@@ -96,14 +95,85 @@ class BusinessResource extends Resource
                             'XOF' => 'XOF',
                             'EUR' => 'EUR',
                             'USD' => 'USD',
+                            'GBP' => 'GBP',
+                            'ZAR' => 'ZAR',
+                            'NGN' => 'NGN',
+                            'GHS' => 'GHS',
+                            'KES' => 'KES',
+                            'MAD' => 'MAD',
+                            'GNF' => 'GNF',
+                            'EGP' => 'EGP',
+                            'TND' => 'TND',
+                            'DZD' => 'DZD',
+                            'TZS' => 'TZS',
+                            'UGX' => 'UGX',
+                            'RWF' => 'RWF',
+                            'ETB' => 'ETB',
+                            'MGA' => 'MGA',
+                            'MUR' => 'MUR',
+                            'CAD' => 'CAD',
+                            'AED' => 'AED',
+                            'CNY' => 'CNY',
+                            'INR' => 'INR',
+                            'TRY' => 'TRY',
+                            'AOA' => 'AOA',
+                            'ZMW' => 'ZMW',
+                            'MWK' => 'MWK',
+                            'BWP' => 'BWP',
+                            'SZL' => 'SZL',
                         ])
                         ->default('XAF'),
                     Forms\Components\Select::make('timezone')
                         ->label('Fuseau horaire')
                         ->options([
-                            'Africa/Douala'  => 'Douala (WAT)',
-                            'Africa/Dakar'   => 'Dakar (GMT)',
-                            'Europe/Paris'   => 'Paris (CET)',
+                            'Africa/Douala'        => 'Douala (WAT)',
+                            'Africa/Brazzaville'   => 'Brazzaville (WAT)',
+                            'Africa/Kinshasa'      => 'Kinshasa (WAT)',
+                            'Africa/Lubumbashi'    => 'Lubumbashi (CAT)',
+                            'Africa/Libreville'    => 'Libreville (WAT)',
+                            'Africa/Malabo'        => 'Malabo (WAT)',
+                            'Africa/Bangui'        => 'Bangui (WAT)',
+                            'Africa/Ndjamena'      => 'N\'Djamena (WAT)',
+                            'Africa/Dakar'         => 'Dakar (GMT)',
+                            'Africa/Abidjan'       => 'Abidjan (GMT)',
+                            'Africa/Bamako'        => 'Bamako (GMT)',
+                            'Africa/Ouagadougou'   => 'Ouagadougou (GMT)',
+                            'Africa/Niamey'        => 'Niamey (GMT)',
+                            'Africa/Lome'          => 'Lomé (GMT)',
+                            'Africa/Porto-Novo'    => 'Porto-Novo (WAT)',
+                            'Africa/Conakry'       => 'Conakry (GMT)',
+                            'Africa/Lagos'         => 'Lagos (WAT)',
+                            'Africa/Accra'         => 'Accra (GMT)',
+                            'Africa/Casablanca'    => 'Casablanca (WET)',
+                            'Africa/Tunis'         => 'Tunis (CET)',
+                            'Africa/Algiers'       => 'Alger (CET)',
+                            'Africa/Cairo'         => 'Le Caire (EET)',
+                            'Africa/Nairobi'       => 'Nairobi (EAT)',
+                            'Africa/Dar_es_Salaam' => 'Dar es Salaam (EAT)',
+                            'Africa/Kampala'       => 'Kampala (EAT)',
+                            'Africa/Kigali'        => 'Kigali (CAT)',
+                            'Africa/Addis_Ababa'   => 'Addis-Abeba (EAT)',
+                            'Africa/Johannesburg'  => 'Johannesburg (SAST)',
+                            'Africa/Maputo'        => 'Maputo (CAT)',
+                            'Africa/Lusaka'        => 'Lusaka (CAT)',
+                            'Africa/Harare'        => 'Harare (CAT)',
+                            'Africa/Blantyre'      => 'Blantyre (CAT)',
+                            'Africa/Luanda'        => 'Luanda (WAT)',
+                            'Indian/Antananarivo'  => 'Antananarivo (EAT)',
+                            'Indian/Mauritius'     => 'Port Louis (MUT)',
+                            'Europe/Paris'         => 'Paris (CET)',
+                            'Europe/Brussels'      => 'Bruxelles (CET)',
+                            'Europe/London'        => 'Londres (GMT)',
+                            'America/New_York'     => 'New York (EST)',
+                            'America/Chicago'      => 'Chicago (CST)',
+                            'America/Los_Angeles'  => 'Los Angeles (PST)',
+                            'America/Toronto'      => 'Toronto (EST)',
+                            'America/Vancouver'    => 'Vancouver (PST)',
+                            'Asia/Dubai'           => 'Dubaï (GST)',
+                            'Asia/Shanghai'        => 'Shanghai (CST)',
+                            'Asia/Kolkata'         => 'Kolkata (IST)',
+                            'Europe/Istanbul'      => 'Istanbul (TRT)',
+                            'UTC'                  => 'UTC',
                         ])
                         ->default('Africa/Douala'),
                 ])->columns(2),
@@ -208,6 +278,12 @@ class BusinessResource extends Resource
                     ->counts('contacts')
                     ->alignCenter(),
 
+                Tables\Columns\TextColumn::make('sandbox_messages_count')
+                    ->label('Sandbox Msgs')
+                    ->counts('sandboxMessages')
+                    ->alignCenter()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Créé le')
                     ->date('d/m/Y')
@@ -226,8 +302,27 @@ class BusinessResource extends Resource
                             return;
                         }
                         return redirect(url("impersonate/{$owner->id}?save_current=true"));
-                    })
-                    ->visible(fn () => auth()->user()?->is_super_admin ?? false),
+                    }),
+
+                Tables\Actions\Action::make('viewSandboxMessages')
+                    ->label('Sandbox')
+                    ->icon('heroicon-o-chat-bubble-left-ellipsis')
+                    ->color('info')
+                    ->modalHeading('Messages Sandbox')
+                    ->modalContent(function ($record) {
+                        $messages = $record->sandboxMessages()
+                            ->orderByDesc('created_at')
+                            ->limit(50)
+                            ->get();
+
+                        if ($messages->isEmpty()) {
+                            return view('filament.resources.business-resource.sandbox-messages-empty');
+                        }
+
+                        return view('filament.resources.business-resource.sandbox-messages', [
+                            'messages' => $messages,
+                        ]);
+                    }),
 
                 Tables\Actions\EditAction::make(),
             ])

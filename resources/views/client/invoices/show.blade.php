@@ -3,6 +3,23 @@
 
 @section('content')
 <div class="card" style="max-width:800px;">
+
+    {{-- En-tête entreprise --}}
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid var(--border);">
+        <div style="display:flex;align-items:center;gap:12px;">
+            @if(!empty($business->logo_path) && \Storage::disk('public')->exists($business->logo_path))
+                <img src="{{ asset('storage/' . $business->logo_path) }}" alt="{{ $business->name }}" style="max-height:50px;border-radius:6px;">
+            @endif
+            <div>
+                <div style="font-size:16px;font-weight:700;">{{ $business->name }}</div>
+                @if($business->address)<div style="font-size:12px;color:var(--gray);">{{ $business->address }}</div>@endif
+                @if($business->city || $business->country)<div style="font-size:12px;color:var(--gray);">{{ $business->city }}{{ $business->city && $business->country ? ', ' : '' }}{{ $business->country }}</div>@endif
+                @if($business->email)<div style="font-size:12px;color:var(--gray);">{{ $business->email }}</div>@endif
+                @if($business->phone)<div style="font-size:12px;color:var(--gray);">{{ $business->phone }}</div>@endif
+            </div>
+        </div>
+    </div>
+
     <div class="card-header">
         <h2>{{ __('app.client.invoices.title') }} {{ $invoice->number }}</h2>
         <span class="status {{ $invoice->status }}">
@@ -104,6 +121,13 @@
                     <button type="submit" class="btn btn-outline">📲 {{ __('app.client.invoices.send_whatsapp') }}</button>
                 </form>
             @endif
+        @endif
+
+        @if($invoice->contact && $invoice->contact->email && !in_array($invoice->status, ['paid']))
+            <form action="{{ url('client/invoices/' . $invoice->id . '/email') }}" method="POST" onsubmit="return confirm('{{ __('app.client.invoices.confirm_send_email') }}')">
+                @csrf
+                <button type="submit" class="btn btn-outline">✉️ {{ __('app.client.invoices.send_email') }}</button>
+            </form>
         @endif
 
         <a href="{{ url('client/invoices/' . $invoice->id . '/pdf') }}" class="btn btn-outline" target="_blank">📥 {{ __('app.client.invoices.download_pdf') }}</a>

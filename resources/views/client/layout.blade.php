@@ -143,6 +143,9 @@
         <a href="{{ url('client/broadcast') }}" class="nav-item {{ request()->routeIs('c.broadcast') ? 'active' : '' }}">
             <span class="icon">📤</span> {{ __('app.client.sidebar.broadcast') }}
         </a>
+        <a href="{{ url('client/test-chat') }}" class="nav-item {{ request()->routeIs('c.test-chat*') ? 'active' : '' }}">
+            <span class="icon">🧪</span> {{ __('app.client.sidebar.test_chat') }}
+        </a>
 
         <div class="nav-section">{{ __('app.client.sidebar.invoicing') }}</div>
         <a href="{{ url('client/quotes') }}" class="nav-item {{ request()->routeIs('c.quotes*') ? 'active' : '' }}">

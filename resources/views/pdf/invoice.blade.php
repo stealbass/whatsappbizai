@@ -36,12 +36,24 @@
 <body>
 
 <div class="header">
-    <div>
-        <div class="brand">{{ $invoice->business->name }}</div>
-        <div style="font-size:11px; color:#94a3b8; margin-top:6px;">
-            {{ $invoice->business->address }}<br>
-            {{ $invoice->business->city }}, {{ $invoice->business->country }}<br>
-            {{ $invoice->business->email }}
+    <div style="display:flex;align-items:center;gap:14px;">
+        @if(!empty($invoice->business->logo_path) && \Storage::disk('public')->exists($invoice->business->logo_path))
+            @php
+                $logoPath = storage_path('app/public/' . $invoice->business->logo_path);
+                $logoMime = mime_content_type($logoPath);
+                $logoData = base64_encode(file_get_contents($logoPath));
+                $logoSrc = 'data:' . $logoMime . ';base64,' . $logoData;
+            @endphp
+            <img src="{{ $logoSrc }}" alt="{{ $invoice->business->name }}" style="max-height:60px;border-radius:6px;">
+        @endif
+        <div>
+            <div class="brand">{{ $invoice->business->name }}</div>
+            <div style="font-size:11px; color:#94a3b8; margin-top:6px;">
+                @if($invoice->business->address) {{ $invoice->business->address }}<br> @endif
+                @if($invoice->business->city || $invoice->business->country) {{ $invoice->business->city }}{{ $invoice->business->city && $invoice->business->country ? ', ' : '' }}{{ $invoice->business->country }}<br> @endif
+                @if($invoice->business->email) {{ $invoice->business->email }} @endif
+                @if($invoice->business->phone) · {{ $invoice->business->phone }} @endif
+            </div>
         </div>
     </div>
     <div>
@@ -141,9 +153,20 @@
 @endif
 
 <div class="footer">
+    @if(!empty($invoice->business->logo_path) && \Storage::disk('public')->exists($invoice->business->logo_path))
+        @php
+            $footerLogoPath = storage_path('app/public/' . $invoice->business->logo_path);
+            $footerLogoMime = mime_content_type($footerLogoPath);
+            $footerLogoData = base64_encode(file_get_contents($footerLogoPath));
+            $footerLogoSrc = 'data:' . $footerLogoMime . ';base64,' . $footerLogoData;
+        @endphp
+        <img src="{{ $footerLogoSrc }}" alt="{{ $invoice->business->name }}" style="height:24px;margin-bottom:6px;">
+    @endif
+    <br>
     {{ $invoice->business->name }} — {{ $invoice->business->email }}
     @if($invoice->business->phone) · {{ $invoice->business->phone }} @endif
-    · {{ __('app.pdf.invoice.generated_by') }}
+    <br>
+    {{ __('app.pdf.invoice.generated_by') }} <a href="{{ url('/') }}" style="color:#38bdf8;text-decoration:none;">WhatsAppBizAI</a>
 </div>
 
 </body>

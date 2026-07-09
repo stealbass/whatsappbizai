@@ -13,6 +13,7 @@ use App\Services\DocumentService;
 use App\Services\WhatsAppService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class QuoteController extends Controller
 {
@@ -169,9 +170,9 @@ class QuoteController extends Controller
         abort_unless($quote->business_id === $user->business_id, 403);
 
         $path = $docs->generateQuotePdf($quote);
-        $url = $docs->getPublicUrl($path);
+        $fullPath = storage_path('app/public/' . $path);
 
-        return response()->download(public_path($url), "{$quote->number}.pdf");
+        return response()->download($fullPath, "{$quote->number}.pdf");
     }
 
     public function sendWhatsApp(Quote $quote)
@@ -204,6 +205,36 @@ class QuoteController extends Controller
         return $sent
             ? back()->with('success', __('app.client.flash.quote_sent'))
             : back()->with('error', __('app.client.flash.send_failed'));
+    }
+
+    public function sendEmail(Quote $quote)
+    {
+        $user = Auth::user();
+        abort_unless($quote->business_id === $user->business_id, 403);
+
+        $business = $user->business;
+
+        if (!$quote->contact || !$quote->contact->email) {
+            return back()->with('error', __('app.client.flash.no_email'));
+        }
+
+        $docs = app(DocumentService::class);
+        $path = $docs->generateQuotePdf($quote);
+
+        Mail::to($quote->contact->email)->send(
+            new \App\Mail\DocumentMail(
+                $business,
+                'quote',
+                $quote->number,
+                $quote->total,
+                $quote->currency,
+                $path,
+            )
+        );
+
+        $quote->update(['status' => 'sent']);
+
+        return back()->with('success', __('app.client.flash.quote_email_sent'));
     }
 
     public function convertToInvoice(Quote $quote)

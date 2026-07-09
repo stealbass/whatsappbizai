@@ -34,8 +34,17 @@ class SettingsController extends Controller
             'timezone'    => 'nullable|string|max:50',
             'invoice_prefix' => 'nullable|string|max:10',
             'quote_prefix'   => 'nullable|string|max:10',
+            'logo'        => 'nullable|image|max:2048',
         ]);
 
+        if ($request->hasFile('logo')) {
+            if ($business->logo_path && \Storage::disk('public')->exists($business->logo_path)) {
+                \Storage::disk('public')->delete($business->logo_path);
+            }
+            $data['logo_path'] = $request->file('logo')->store('logos', 'public');
+        }
+
+        unset($data['logo']);
         $business->update($data);
 
         return redirect(url('client/settings/business'))->with('success', __('app.client.flash.business_updated'));

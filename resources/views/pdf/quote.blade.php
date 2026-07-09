@@ -31,12 +31,24 @@
 <body>
 
 <div class="header">
-    <div>
-        <div class="brand">{{ $quote->business->name }}</div>
-        <div style="font-size:11px;color:#a7f3d0;margin-top:6px;">
-            {{ $quote->business->address }}<br>
-            {{ $quote->business->city }}, {{ $quote->business->country }}<br>
-            {{ $quote->business->email }}
+    <div style="display:flex;align-items:center;gap:14px;">
+        @if(!empty($quote->business->logo_path) && \Storage::disk('public')->exists($quote->business->logo_path))
+            @php
+                $logoPath = storage_path('app/public/' . $quote->business->logo_path);
+                $logoMime = mime_content_type($logoPath);
+                $logoData = base64_encode(file_get_contents($logoPath));
+                $logoSrc = 'data:' . $logoMime . ';base64,' . $logoData;
+            @endphp
+            <img src="{{ $logoSrc }}" alt="{{ $quote->business->name }}" style="max-height:60px;border-radius:6px;">
+        @endif
+        <div>
+            <div class="brand">{{ $quote->business->name }}</div>
+            <div style="font-size:11px;color:#a7f3d0;margin-top:6px;">
+                @if($quote->business->address) {{ $quote->business->address }}<br> @endif
+                @if($quote->business->city || $quote->business->country) {{ $quote->business->city }}{{ $quote->business->city && $quote->business->country ? ', ' : '' }}{{ $quote->business->country }}<br> @endif
+                @if($quote->business->email) {{ $quote->business->email }} @endif
+                @if($quote->business->phone) · {{ $quote->business->phone }} @endif
+            </div>
         </div>
     </div>
     <div>
@@ -108,9 +120,20 @@
 @endif
 
 <div class="footer">
+    @if(!empty($quote->business->logo_path) && \Storage::disk('public')->exists($quote->business->logo_path))
+        @php
+            $footerLogoPath = storage_path('app/public/' . $quote->business->logo_path);
+            $footerLogoMime = mime_content_type($footerLogoPath);
+            $footerLogoData = base64_encode(file_get_contents($footerLogoPath));
+            $footerLogoSrc = 'data:' . $footerLogoMime . ';base64,' . $footerLogoData;
+        @endphp
+        <img src="{{ $footerLogoSrc }}" alt="{{ $quote->business->name }}" style="height:24px;margin-bottom:6px;">
+    @endif
+    <br>
     {{ $quote->business->name }} — {{ $quote->business->email }}
     @if($quote->business->phone) · {{ $quote->business->phone }} @endif
-    · {{ __('app.pdf.quote.generated_by') }}
+    <br>
+    {{ __('app.pdf.quote.generated_by') }} <a href="{{ url('/') }}" style="color:#6ee7b7;text-decoration:none;">WhatsAppBizAI</a>
 </div>
 </body>
 </html>

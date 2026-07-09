@@ -19,11 +19,6 @@ class PaymentResource extends Resource
     protected static ?int $navigationSort = 2;
     protected static ?string $slug = 'payments';
 
-    public static function shouldRegisterNavigation(): bool
-    {
-        return auth()->user()?->is_super_admin ?? false;
-    }
-
     public static function getModelLabel(): string
     {
         return 'Paiement';

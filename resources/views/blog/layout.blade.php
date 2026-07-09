@@ -2,10 +2,7 @@
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
-    <title>@yield('meta_title', $site->trans('meta_title') ?? __('app.blog.meta_title')) — {{ $site->trans('site_name') ?? 'WhatsAppBizAI' }}</title>
-    <meta name="description" content="@yield('meta_description', $site->trans('meta_description') ?? __('app.blog.meta_description'))">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="{{ request()->url() }}">
+    @include('components.seo')
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="{{ $site->favicon_path ? asset('storage/' . $site->favicon_path) : asset('favicon.ico') }}">
     <link rel="stylesheet" href="{{ asset('css/switchers.css') }}">

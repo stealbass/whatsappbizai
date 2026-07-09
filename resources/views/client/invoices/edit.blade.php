@@ -44,7 +44,7 @@
         <div class="form-row">
             <div class="form-group">
                 <label>{{ __('app.client.invoices.form.tax_rate') }}</label>
-                <input type="number" name="tax_rate" value="{{ old('tax_rate', $invoice->tax_rate) }}" min="0" max="100" step="0.1">
+                <input type="number" name="tax_rate" value="{{ old('tax_rate', $invoice->tax_rate) }}" min="0" max="100" step="0.01">
             </div>
             <div class="form-group">
                 <label>{{ __('app.client.invoices.form.discount') }}</label>

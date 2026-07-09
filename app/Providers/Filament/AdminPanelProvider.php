@@ -44,7 +44,12 @@ class AdminPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([Pages\Dashboard::class])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-            ->widgets([LanguageSwitcher::class])
+            ->widgets([
+                LanguageSwitcher::class,
+                \App\Filament\Widgets\PlatformStats::class,
+                \App\Filament\Widgets\RecentBusinessesWidget::class,
+                \App\Filament\Widgets\PlatformRevenueChart::class,
+            ])
             ->renderHook('panels::topbar.start', fn() => view('filament.widgets.back-to-admin'))
             ->renderHook('panels::topbar.end', fn() => view('filament.widgets.language-switcher'))
             ->navigationGroups([

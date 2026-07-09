@@ -46,6 +46,11 @@ class ImpersonateController extends Controller
             $target->forceFill(['last_login_at' => now()])->save();
         }
 
-        return redirect()->route('filament.admin.pages.dashboard');
+        // If going back to admin (no save_current), redirect to admin panel
+        if (!$request->has('save_current') && $target && $target->is_super_admin) {
+            return redirect(url('/admin'));
+        }
+
+        return redirect()->route('dashboard');
     }
 }

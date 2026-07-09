@@ -18,11 +18,6 @@ class SubscriptionResource extends Resource
     protected static ?int $navigationSort = 1;
     protected static ?string $slug = 'subscriptions';
 
-    public static function shouldRegisterNavigation(): bool
-    {
-        return auth()->user()?->is_super_admin ?? false;
-    }
-
     public static function getModelLabel(): string
     {
         return 'Abonnement';

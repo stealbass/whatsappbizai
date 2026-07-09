@@ -93,6 +93,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/client/invoices/{invoice}/reminder', [InvoiceController::class, 'sendReminder'])->name('c.invoices.reminder');
     Route::get('/client/invoices/{invoice}/pdf', [InvoiceController::class, 'generatePdf'])->name('c.invoices.pdf');
     Route::post('/client/invoices/{invoice}/whatsapp', [InvoiceController::class, 'sendWhatsApp'])->name('c.invoices.whatsapp');
+    Route::post('/client/invoices/{invoice}/email', [InvoiceController::class, 'sendEmail'])->name('c.invoices.email');
     Route::delete('/client/invoices/{invoice}', [InvoiceController::class, 'destroy'])->name('c.invoices.destroy');
 
     // Quotes
@@ -104,6 +105,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/client/quotes/{quote}', [QuoteController::class, 'update'])->name('c.quotes.update');
     Route::get('/client/quotes/{quote}/pdf', [QuoteController::class, 'generatePdf'])->name('c.quotes.pdf');
     Route::post('/client/quotes/{quote}/whatsapp', [QuoteController::class, 'sendWhatsApp'])->name('c.quotes.whatsapp');
+    Route::post('/client/quotes/{quote}/email', [QuoteController::class, 'sendEmail'])->name('c.quotes.email');
     Route::post('/client/quotes/{quote}/convert', [QuoteController::class, 'convertToInvoice'])->name('c.quotes.convert');
     Route::delete('/client/quotes/{quote}', [QuoteController::class, 'destroy'])->name('c.quotes.destroy');
 
@@ -142,6 +144,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/client/retention/send', [RetentionController::class, 'send'])->name('c.retention.send');
     Route::post('/client/retention/draft-ai', [RetentionController::class, 'draftAI'])->name('c.retention.draftAI');
     Route::post('/client/broadcast/draft-ai', [BroadcastController::class, 'draftAI'])->name('c.broadcast.draftAI');
+
+    // Test Chat
+    Route::get('/client/test-chat', [\App\Http\Controllers\Client\TestChatController::class, 'index'])->name('c.test-chat');
+    Route::post('/client/test-chat/send', [\App\Http\Controllers\Client\TestChatController::class, 'send'])->name('c.test-chat.send');
+    Route::get('/client/test-chat/clear', [\App\Http\Controllers\Client\TestChatController::class, 'clear'])->name('c.test-chat.clear');
 
     // Language switcher
     Route::get('/client/language/{locale}', [DashboardController::class, 'setLanguage'])->name('c.language');

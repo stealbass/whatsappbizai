@@ -11,6 +11,7 @@ use App\Services\DocumentService;
 use App\Services\WhatsAppService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Filament\Notifications\Notification;
 
 class InvoiceController extends Controller
@@ -230,9 +231,9 @@ class InvoiceController extends Controller
         abort_unless($invoice->business_id === $user->business_id, 403);
 
         $path = $docs->generateInvoicePdf($invoice);
-        $url = $docs->getPublicUrl($path);
+        $fullPath = storage_path('app/public/' . $path);
 
-        return response()->download(public_path($url), "{$invoice->number}.pdf");
+        return response()->download($fullPath, "{$invoice->number}.pdf");
     }
 
     public function sendWhatsApp(Invoice $invoice)
@@ -265,6 +266,36 @@ class InvoiceController extends Controller
         return $sent
             ? back()->with('success', __('app.client.flash.invoice_sent'))
             : back()->with('error', __('app.client.flash.send_failed'));
+    }
+
+    public function sendEmail(Invoice $invoice)
+    {
+        $user = Auth::user();
+        abort_unless($invoice->business_id === $user->business_id, 403);
+
+        $business = $user->business;
+
+        if (!$invoice->contact || !$invoice->contact->email) {
+            return back()->with('error', __('app.client.flash.no_email'));
+        }
+
+        $docs = app(DocumentService::class);
+        $path = $docs->generateInvoicePdf($invoice);
+
+        Mail::to($invoice->contact->email)->send(
+            new \App\Mail\DocumentMail(
+                $business,
+                'invoice',
+                $invoice->number,
+                $invoice->total,
+                $invoice->currency,
+                $path,
+            )
+        );
+
+        $invoice->update(['status' => 'sent']);
+
+        return back()->with('success', __('app.client.flash.invoice_email_sent'));
     }
 
     public function destroy(Invoice $invoice)

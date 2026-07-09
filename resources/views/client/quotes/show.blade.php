@@ -86,6 +86,13 @@
                 </form>
             @endif
 
+            @if($quote->contact && $quote->contact->email)
+                <form action="{{ url('client/quotes/' . $quote->id . '/email') }}" method="POST" onsubmit="return confirm('{{ __('app.client.quotes.confirm_send_email') }}')">
+                    @csrf
+                    <button type="submit" class="btn btn-outline">✉️ {{ __('app.client.quotes.send_email') }}</button>
+                </form>
+            @endif
+
             <form action="{{ url('client/quotes/' . $quote->id . '/convert') }}" method="POST" onsubmit="return confirm('{{ __('app.client.quotes.confirm_convert') }}')">
                 @csrf
                 <button type="submit" class="btn btn-primary">→ {{ __('app.client.quotes.convert_invoice') }}</button>

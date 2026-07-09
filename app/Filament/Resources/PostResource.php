@@ -24,11 +24,6 @@ class PostResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Articles';
 
-    public static function shouldRegisterNavigation(): bool
-    {
-        return auth()->user()->is_super_admin ?? false;
-    }
-
     public static function form(Form $form): Form
     {
         return $form
