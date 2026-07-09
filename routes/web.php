@@ -8,6 +8,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ClientPortalController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\HelpController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Client\ContactController;
@@ -49,6 +50,12 @@ Route::post('/contact', [PageController::class, 'contactStore'])->name('contact.
 // Blog (public)
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{post}', [BlogController::class, 'show'])->name('blog.show');
+
+// Help Center (public)
+Route::get('/help', [HelpController::class, 'index'])->name('help.index');
+Route::get('/help/search', [HelpController::class, 'search'])->name('help.search');
+Route::get('/help/article/{slug}', [HelpController::class, 'show'])->name('help.show');
+Route::get('/help/{slug}', [HelpController::class, 'category'])->name('help.category');
 
 // Public language switcher
 Route::get('/language/{locale}', function (string $locale) {

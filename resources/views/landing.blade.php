@@ -736,6 +736,7 @@
         <div class="footer-col">
             <h4 data-t-key="landing.footer_company">Entreprise</h4>
             <a href="{{ url('blog') }}">Blog</a>
+            <a href="{{ url('help') }}">Help Center</a>
             <a href="{{ url('contact') }}" data-t-key="nav.contact">Contact</a>
         </div>
         <div class="footer-col">
@@ -750,6 +751,7 @@
             <a href="{{ url('privacy') }}" data-t-key="nav.privacy">Confidentialité</a> ·
             <a href="{{ url('terms') }}" data-t-key="nav.terms">Conditions</a> ·
             <a href="{{ url('blog') }}">Blog</a> ·
+            <a href="{{ url('help') }}">Help Center</a> ·
             <a href="{{ url('contact') }}" data-t-key="nav.contact">Contact</a>
         </div>
     </div>

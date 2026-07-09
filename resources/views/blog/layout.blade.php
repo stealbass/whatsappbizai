@@ -108,6 +108,7 @@
             </div>
             <a href="{{ url('/') }}" class="btn-nav btn-outline" data-t-key="nav.home">Accueil</a>
             <a href="{{ url('blog') }}" class="btn-nav btn-outline" style="background:var(--sky);color:#fff;border-color:var(--sky);">Blog</a>
+            <a href="{{ url('help') }}" class="btn-nav btn-outline">Help Center</a>
             <a href="{{ url('pricing') }}" class="btn-nav btn-outline" data-t-key="nav.pricing">Tarifs</a>
             <a href="{{ url('login') }}" class="btn-nav btn-primary" data-t-key="nav.login">Connexion</a>
         </div>
@@ -132,6 +133,7 @@
         <div class="footer-col">
             <h4 data-t-key="landing.footer_company">Contenu</h4>
             <a href="{{ url('blog') }}">Blog</a>
+            <a href="{{ url('help') }}">Help Center</a>
         </div>
         <div class="footer-col">
             <h4 data-t-key="landing.footer_legal">Légal</h4>
@@ -144,7 +146,8 @@
         <div>
             <a href="{{ url('privacy') }}" data-t-key="nav.privacy">Confidentialité</a> ·
             <a href="{{ url('terms') }}" data-t-key="nav.terms">Conditions</a> ·
-            <a href="{{ url('blog') }}">Blog</a>
+            <a href="{{ url('blog') }}">Blog</a> ·
+            <a href="{{ url('help') }}">Help Center</a>
         </div>
     </div>
 </footer>
