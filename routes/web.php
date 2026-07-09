@@ -122,6 +122,7 @@ Route::middleware('auth')->group(function () {
     // Settings
     Route::get('/client/settings/business', [SettingsController::class, 'business'])->name('c.settings.business');
     Route::put('/client/settings/business', [SettingsController::class, 'businessUpdate'])->name('c.settings.business.update');
+    Route::get('/client/dashboard/dismiss-onboarding', [\App\Http\Controllers\DashboardController::class, 'dismissOnboarding'])->name('c.dashboard.dismiss-onboarding');
     Route::get('/client/settings/whatsapp', [SettingsController::class, 'whatsapp'])->name('c.settings.whatsapp');
     Route::put('/client/settings/whatsapp', [SettingsController::class, 'whatsappUpdate'])->name('c.settings.whatsapp.update');
     Route::get('/client/settings/whatsapp/sandbox/clear', [SettingsController::class, 'sandboxClear'])->name('c.settings.whatsapp.sandbox.clear');
