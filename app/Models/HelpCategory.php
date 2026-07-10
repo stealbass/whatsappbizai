@@ -32,8 +32,8 @@ class HelpCategory extends Model
     {
         $locale = App::getLocale();
         return match ($locale) {
-            'en' => $this->{"${field}_en"} ?? $this->{"${field}_fr"},
-            default => $this->{"${field}_fr"} ?? $this->{"${field}_en"},
+            'en' => $this->{"{$field}_en"} ?? $this->{"{$field}_fr"},
+            default => $this->{"{$field}_fr"} ?? $this->{"{$field}_en"},
         };
     }
 

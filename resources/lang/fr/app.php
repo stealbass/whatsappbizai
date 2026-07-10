@@ -803,6 +803,7 @@ return [
         'nav_catalogue' => 'Catalogue',
         'nav_marketing' => 'Marketing',
         'nav_settings' => 'Paramètres',
+        'nav_help_center' => 'Centre d\'aide',
         // Common actions
         'create' => 'Créer',
         'edit' => 'Modifier',
@@ -1159,5 +1160,9 @@ return [
         'related_articles' => 'Articles similaires',
         'no_posts' => 'Aucun article pour le moment. Revenez bientôt !',
         'read_more' => 'Lire la suite',
+    ],
+    'help' => [
+        'meta_title' => 'Centre d\'aide',
+        'meta_description' => 'Trouvez des réponses, tutoriels et guides pour tirer le meilleur de WhatsAppBizAI.',
     ],
 ];

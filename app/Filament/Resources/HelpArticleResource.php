@@ -22,9 +22,9 @@ class HelpArticleResource extends Resource
     protected static ?string $pluralModelLabel = 'Articles Help';
     protected static ?int    $navigationSort   = 2;
 
-    public static function shouldRegisterNavigation(): bool
+    public static function getNavigationGroup(): ?string
     {
-        return auth()->check() && (auth()->user()->is_super_admin ?? false);
+        return __('app.admin.nav_help_center') ?? 'Help Center';
     }
 
     public static function form(Form $form): Form

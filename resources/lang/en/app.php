@@ -801,6 +801,7 @@ return [
         'nav_catalogue' => 'Catalog',
         'nav_marketing' => 'Marketing',
         'nav_settings' => 'Settings',
+        'nav_help_center' => 'Help Center',
         'create' => 'Create',
         'edit' => 'Edit',
         'delete' => 'Delete',
@@ -1156,4 +1157,9 @@ return [
         'no_posts' => 'No articles yet. Check back soon!',
         'read_more' => 'Read more',
     ],
+    'help' => [
+        'meta_title' => 'Help Center',
+        'meta_description' => 'Find answers, tutorials and guides to get the most out of WhatsAppBizAI.',
+    ],
+];
 ];
