@@ -2,10 +2,31 @@
 @section('title', __('app.client.contacts.title'))
 
 @section('topbar-right')
+    <a href="{{ url('client/contacts/import') }}" class="btn btn-ghost">📥 {{ __('app.client.contacts.import') }}</a>
     <a href="{{ url('client/contacts/create') }}" class="btn btn-primary">+ {{ __('app.client.contacts.new') }}</a>
 @endsection
 
 @section('content')
+@if(session('import_results'))
+    @php $r = session('import_results'); @endphp
+    <div class="card" style="border-left:4px solid var(--green);margin-bottom:16px;">
+        <h3 style="margin:0 0 8px;">{{ __('app.client.contacts.import_results_title') }}</h3>
+        <p style="margin:0;">
+            ✅ {{ $r['imported'] }} {{ __('app.client.contacts.import_results_imported') }}
+            @if($r['skipped'] > 0)
+                &middot; ⚠️ {{ $r['skipped'] }} {{ __('app.client.contacts.import_results_skipped') }}
+            @endif
+        </p>
+        @if(!empty($r['errors']))
+            <ul style="margin:8px 0 0;padding-left:20px;color:var(--red);font-size:13px;">
+                @foreach($r['errors'] as $err)
+                    <li>{{ $err }}</li>
+                @endforeach
+            </ul>
+        @endif
+    </div>
+@endif
+
 <div class="card">
     <div class="card-header">
         <h2>{{ __('app.client.contacts.title_all') }} <span class="badge">{{ $contacts->total() }}</span></h2>

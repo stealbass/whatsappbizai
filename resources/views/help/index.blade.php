@@ -26,7 +26,7 @@
 {{-- HERO --}}
 <div class="help-hero">
     <div class="badge">{{ app()->getLocale()==='en' ? '📚 Help Center' : '📚 Centre d\'aide' }}</div>
-    <h1>{{ app()->getLocale()==='en' ? 'How can we <span>help you?</span>' : 'Comment pouvons-nous <span>vous aider ?</span>' }}</h1>
+    <h1>{!! app()->getLocale()==='en' ? 'How can we <span>help you?</span>' : 'Comment pouvons-nous <span>vous aider ?</span>' !!}</h1>
     <p>{{ app()->getLocale()==='en'
         ? 'Browse our articles, tutorials and step-by-step guides to master WhatsAppBizAI.'
         : 'Parcourez nos articles, tutoriels et guides pas à pas pour maîtriser WhatsAppBizAI.' }}</p>

@@ -88,6 +88,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/client/contacts/{contact}/edit', [ContactController::class, 'edit'])->name('c.contacts.edit');
     Route::put('/client/contacts/{contact}', [ContactController::class, 'update'])->name('c.contacts.update');
     Route::delete('/client/contacts/{contact}', [ContactController::class, 'destroy'])->name('c.contacts.destroy');
+    Route::get('/client/contacts/import', [ContactController::class, 'import'])->name('c.contacts.import');
+    Route::post('/client/contacts/import', [ContactController::class, 'importStore'])->name('c.contacts.import.store');
+    Route::get('/client/contacts/import/template', [ContactController::class, 'importTemplate'])->name('c.contacts.import.template');
 
     // Invoices
     Route::get('/client/invoices', [InvoiceController::class, 'index'])->name('c.invoices');

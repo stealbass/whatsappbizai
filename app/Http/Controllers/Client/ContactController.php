@@ -79,4 +79,42 @@ class ContactController extends Controller
         $contact->delete();
         return redirect(url('client/contacts'))->with('success', __('app.client.flash.contact_deleted'));
     }
+
+    public function import()
+    {
+        $user = Auth::user();
+        return view('client.contacts.import', compact('user'));
+    }
+
+    public function importStore(Request $request)
+    {
+        $user = Auth::user();
+        $request->validate([
+            'csv_file' => 'required|file|mimes:csv,txt|max:10240',
+        ]);
+
+        $path     = $request->file('csv_file')->store('imports/tmp');
+        $fullPath = storage_path('app/' . $path);
+
+        $importer = new \App\Imports\ContactsImport($user->business_id);
+        $results  = $importer->import($fullPath);
+
+        @unlink($fullPath);
+
+        return redirect(url('client/contacts'))->with('import_results', $results);
+    }
+
+    public function importTemplate()
+    {
+        $csv = "\xEF\xBB\xBF";
+        $csv .= "name;whatsapp_number;email;company;status;notes\n";
+        $csv .= "Jean Dupont;+237600000001;jean@example.com;Dupont SARL;client;Client depuis 2023\n";
+        $csv .= "Marie Mbarga;+237699000002;;Mbarga Tech;prospect;\n";
+        $csv .= "Ali Hassan;+221771234567;ali@gmail.com;;inactif;\n";
+
+        return response($csv, 200, [
+            'Content-Type'        => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="contacts-import-template.csv"',
+        ]);
+    }
 }

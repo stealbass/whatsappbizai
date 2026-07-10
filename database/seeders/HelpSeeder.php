@@ -19,8 +19,8 @@ class HelpSeeder extends Seeder
                 'is_active' => true,
                 'name_fr' => 'Prise en main',
                 'name_en' => 'Getting Started',
-                'description_fr' => 'Comprendre WhatsAppBizAI, configurer votre compte et démarrer rapidement avec un espace de travail opérationnel.',
-                'description_en' => 'Understand WhatsAppBizAI, configure your account, and get productive quickly with a ready-to-use workspace.',
+                'description_fr' => 'Inscrivez-vous, configurez votre entreprise et lancez-vous en quelques minutes.',
+                'description_en' => 'Sign up, configure your business, and get started in minutes.',
             ],
             [
                 'slug' => 'crm-contacts',
@@ -28,21 +28,21 @@ class HelpSeeder extends Seeder
                 'color' => '#8b5cf6',
                 'sort_order' => 2,
                 'is_active' => true,
-                'name_fr' => 'CRM & contacts',
+                'name_fr' => 'CRM & Contacts',
                 'name_en' => 'CRM & Contacts',
-                'description_fr' => 'Importer, segmenter, suivre et relancer vos prospects et clients directement depuis votre CRM connecté à WhatsApp.',
-                'description_en' => 'Import, segment, track, and follow up with prospects and customers directly from your WhatsApp-connected CRM.',
+                'description_fr' => 'Ajoutez, importez et gérez vos contacts. Comprenez les statuts et le pipeline commercial.',
+                'description_en' => 'Add, import, and manage your contacts. Understand statuses and the sales pipeline.',
             ],
             [
-                'slug' => 'quotes-invoices-payments',
+                'slug' => 'documents',
                 'icon' => '💼',
                 'color' => '#14b8a6',
                 'sort_order' => 3,
                 'is_active' => true,
-                'name_fr' => 'Devis, factures & paiements',
+                'name_fr' => 'Devis, Factures & Paiements',
                 'name_en' => 'Quotes, Invoices & Payments',
-                'description_fr' => 'Créer des devis, envoyer des factures, suivre les règlements et accélérer votre cycle de vente.',
-                'description_en' => 'Create quotes, send invoices, track payments, and speed up your sales cycle.',
+                'description_fr' => 'Créez des devis, générez des factures PDF et envoyez-les par WhatsApp ou email.',
+                'description_en' => 'Create quotes, generate PDF invoices, and send them via WhatsApp or email.',
             ],
             [
                 'slug' => 'automation-ai',
@@ -52,8 +52,8 @@ class HelpSeeder extends Seeder
                 'is_active' => true,
                 'name_fr' => 'Automatisation & IA',
                 'name_en' => 'Automation & AI',
-                'description_fr' => 'Exploiter l’assistant IA, les relances intelligentes et les automatisations pour gagner du temps sans perdre la touche humaine.',
-                'description_en' => 'Use the AI assistant, smart follow-ups, and automations to save time without losing the human touch.',
+                'description_fr' => 'Assistant IA, relances automatiques, broadcast et campagnes de rétention.',
+                'description_en' => 'AI assistant, automated follow-ups, broadcasts, and retention campaigns.',
             ],
         ];
 
@@ -67,173 +67,189 @@ class HelpSeeder extends Seeder
         $categoryIds = HelpCategory::query()->pluck('id', 'slug');
 
         $articles = [
+            // ═══════════════════════════════════════════════════════════
+            // CATEGORY: Getting Started
+            // ═══════════════════════════════════════════════════════════
             [
                 'help_category_id' => $categoryIds['getting-started'],
                 'slug' => 'what-is-whatsappbizai',
                 'type' => 'article',
-                'title_fr' => 'Qu’est-ce que WhatsAppBizAI et à qui s’adresse la plateforme ?',
-                'title_en' => 'What is WhatsAppBizAI and who is it for?',
-                'excerpt_fr' => 'Une vue d’ensemble claire de la plateforme, de ses cas d’usage et de la manière dont elle aide les indépendants et PME à vendre plus vite.',
-                'excerpt_en' => 'A clear overview of the platform, its use cases, and how it helps freelancers and small businesses sell faster.',
+                'title_fr' => 'Qu\'est-ce que WhatsAppBizAI ?',
+                'title_en' => 'What is WhatsAppBizAI?',
+                'excerpt_fr' => 'Vue d\'ensemble complète : CRM, devis, factures, IA et messages WhatsApp pour les PME.',
+                'excerpt_en' => 'Complete overview: CRM, quotes, invoices, AI, and WhatsApp messaging for SMEs.',
                 'content_fr' => <<<'HTML'
-<h2>Une plateforme pensée pour les ventes conversationnelles</h2>
-<p>WhatsAppBizAI aide les entreprises qui gèrent leurs opportunités commerciales sur WhatsApp à structurer leur activité sans quitter leurs conversations. Au lieu d’alterner entre plusieurs outils, vous centralisez vos contacts, devis, factures, suivis et relances dans une seule interface.</p>
-<p>La plateforme a été pensée pour les freelances, agences, prestataires de services, commerces, consultants et petites équipes commerciales qui ont besoin de répondre vite, de rester organisés et d’éviter les oublis.</p>
+<h2>Une plateforme tout-en-un pour les PME</h2>
+<p>WhatsAppBizAI est un espace de travail SaaS qui combine CRM, facturation, automatisation IA et envoi de messages WhatsApp dans une seule interface. Vous gérez vos contacts, créez des devis et factures, relancez vos clients et utilisez l\'IA pour rédiger vos messages — sans quitter l\'application.</p>
 
-<h2>À quoi sert concrètement WhatsAppBizAI ?</h2>
+<h2>Les modules principaux</h2>
 <ul>
-<li>Conserver un historique client exploitable.</li>
-<li>Créer rapidement des devis professionnels.</li>
-<li>Transformer un devis accepté en facture en quelques clics.</li>
-<li>Suivre les paiements, relancer les clients et réduire les impayés.</li>
-<li>Utiliser l’IA pour rédiger, reformuler et personnaliser des messages commerciaux.</li>
+<li><strong>Contacts</strong> — Créez et gérez vos prospects et clients avec statut (prospect, client, inactif), historique des paiements et totaux facturés. Importez vos contacts depuis un fichier CSV.</li>
+<li><strong>Conversations IA</strong> — Vos échanges WhatsApp sont synchronisés et l\'IA peut répondre automatiquement selon votre prompt personnalisé.</li>
+<li><strong>Devis</strong> — Créez des devis professionnels, envoyez-les par WhatsApp ou email, et convertissez-les en facture en un clic.</li>
+<li><strong>Factures</strong> — Générez des factures avec votre logo, suivez les paiements, relancez vos clients et téléchargez les PDF.</li>
+<li><strong>Services</strong> — Définissez vos prestations avec prix et unité pour accélérer la création de documents.</li>
+<li><strong>Broadcast</strong> — Envoyez des messages en masse à vos contacts WhatsApp.</li>
+<li><strong>Rétention</strong> — Lancez des campagnes ciblées (fidélisation, relance, upsell, parrainage) avec assistant IA.</li>
+<li><strong>Test Chat IA</strong> — Simulez une conversation WhatsApp pour tester les réponses de l\'IA avant de connecter un vrai compte.</li>
 </ul>
 
-<h2>Pourquoi ce modèle fonctionne bien pour les PME</h2>
-<p>Beaucoup de petites entreprises vendent déjà via WhatsApp, mais sans véritable système. Les messages s’accumulent, les demandes urgentes passent entre les mailles du filet et les relances se font tardivement. WhatsAppBizAI apporte une couche d’organisation et d’automatisation sans casser vos habitudes.</p>
-<p>Vous conservez la proximité du canal WhatsApp, tout en ajoutant une vraie logique CRM et facturation derrière.</p>
-
-<h2>Les bénéfices les plus visibles</h2>
-<ul>
-<li>Réduction du temps administratif.</li>
-<li>Meilleure réactivité commerciale.</li>
-<li>Moins d’erreurs dans les devis et factures.</li>
-<li>Meilleur suivi des prospects chauds.</li>
-<li>Expérience client plus professionnelle.</li>
-</ul>
+<h2>Pour qui est-ce conçu ?</h2>
+<p>Freelances, agences, prestataires de services, commerces, consultants et petites équipes commerciales qui vendent via WhatsApp et ont besoin d\'organiser leur activité sans multiplier les outils.</p>
 
 <h2>Par où commencer ?</h2>
-<p>Le plus simple est de configurer votre entreprise, créer vos premiers services, importer vos contacts et tester la création d’un devis. Une fois ces bases en place, vous pouvez activer les fonctions d’IA et de relance pour accélérer vos ventes.</p>
+<ol>
+<li>Inscrivez-vous avec votre adresse email et créez votre compte.</li>
+<li>Configurez votre profil entreprise (nom, pays, devise, logo).</li>
+<li>Créez vos services principaux.</li>
+<li>Ajoutez quelques contacts ou importez-les depuis un CSV.</li>
+<li>Créez un premier devis ou facture.</li>
+<li>Testez l\'IA avec le Test Chat IA.</li>
+</ol>
 HTML,
                 'content_en' => <<<'HTML'
-<h2>A platform built for conversational sales</h2>
-<p>WhatsAppBizAI helps businesses that manage sales opportunities on WhatsApp bring structure to their workflow without leaving conversations. Instead of switching between multiple tools, you centralize contacts, quotes, invoices, follow-ups, and reminders in one interface.</p>
-<p>The platform is designed for freelancers, agencies, service providers, consultants, retail businesses, and small sales teams that need to reply quickly, stay organized, and avoid missed opportunities.</p>
+<h2>An all-in-one platform for SMEs</h2>
+<p>WhatsAppBizAI is a SaaS workspace that combines CRM, invoicing, AI automation, and WhatsApp messaging in a single interface. You manage contacts, create quotes and invoices, follow up with clients, and use AI to draft messages — all without leaving the app.</p>
 
-<h2>What does WhatsAppBizAI actually help you do?</h2>
+<h2>Key modules</h2>
 <ul>
-<li>Keep a usable client history.</li>
-<li>Create professional quotes quickly.</li>
-<li>Turn an accepted quote into an invoice in a few clicks.</li>
-<li>Track payments, follow up with clients, and reduce overdue invoices.</li>
-<li>Use AI to draft, rewrite, and personalize sales messages.</li>
+<li><strong>Contacts</strong> — Create and manage prospects and clients with status (prospect, client, inactive), payment history, and invoiced totals. Import contacts from a CSV file.</li>
+<li><strong>AI Conversations</strong> — Your WhatsApp conversations are synced and the AI can respond automatically based on your custom prompt.</li>
+<li><strong>Quotes</strong> — Create professional quotes, send them via WhatsApp or email, and convert them to invoices in one click.</li>
+<li><strong>Invoices</strong> — Generate invoices with your logo, track payments, follow up with clients, and download PDFs.</li>
+<li><strong>Services</strong> — Define your offerings with pricing and unit to speed up document creation.</li>
+<li><strong>Broadcast</strong> — Send bulk messages to your WhatsApp contacts.</li>
+<li><strong>Retention</strong> — Run targeted campaigns (loyalty, win-back, upsell, referral) with AI assistance.</li>
+<li><strong>Test Chat AI</strong> — Simulate a WhatsApp conversation to test AI responses before connecting a real account.</li>
 </ul>
 
-<h2>Why this works well for small businesses</h2>
-<p>Many small businesses already sell through WhatsApp, but without a real system. Messages pile up, urgent requests slip through the cracks, and follow-ups happen too late. WhatsAppBizAI adds organization and automation without forcing you to change how you sell.</p>
-<p>You keep the closeness of WhatsApp while adding real CRM and invoicing logic behind it.</p>
+<h2>Who is it for?</h2>
+<p>Freelancers, agencies, service providers, retail businesses, consultants, and small sales teams who sell via WhatsApp and need to organize their activity without juggling multiple tools.</p>
 
-<h2>Most visible benefits</h2>
-<ul>
-<li>Less admin time.</li>
-<li>Faster commercial response time.</li>
-<li>Fewer quote and invoice errors.</li>
-<li>Better follow-up on warm leads.</li>
-<li>A more professional customer experience.</li>
-</ul>
-
-<h2>Where should you start?</h2>
-<p>The easiest path is to configure your business, create your first services, import your contacts, and test a quote. Once those basics are in place, you can enable AI and follow-up features to accelerate sales.</p>
+<h2>Where to start?</h2>
+<ol>
+<li>Sign up with your email address and create your account.</li>
+<li>Configure your business profile (name, country, currency, logo).</li>
+<li>Create your main services.</li>
+<li>Add a few contacts or import them from a CSV.</li>
+<li>Create your first quote or invoice.</li>
+<li>Test the AI with Test Chat AI.</li>
+</ol>
 HTML,
-                'meta_title_fr' => 'Qu’est-ce que WhatsAppBizAI ? Guide complet pour PME et freelances',
-                'meta_title_en' => 'What is WhatsAppBizAI? Complete guide for SMEs and freelancers',
-                'meta_description_fr' => 'Découvrez à quoi sert WhatsAppBizAI, pour qui la plateforme est conçue et comment elle aide les PME à gérer CRM, devis, factures et relances sur WhatsApp.',
-                'meta_description_en' => 'Learn what WhatsAppBizAI does, who it is built for, and how it helps small businesses manage CRM, quotes, invoices, and follow-ups on WhatsApp.',
+                'meta_title_fr' => 'Qu\'est-ce que WhatsAppBizAI ? CRM, devis, factures et IA pour PME',
+                'meta_title_en' => 'What is WhatsAppBizAI? CRM, quotes, invoices, and AI for SMEs',
+                'meta_description_fr' => 'Découvrez WhatsAppBizAI : CRM, devis, factures, broadcast WhatsApp et assistant IA pour les PME et freelances.',
+                'meta_description_en' => 'Discover WhatsAppBizAI: CRM, quotes, invoices, WhatsApp broadcast, and AI assistant for SMEs and freelancers.',
                 'author_name' => 'WhatsAppBizAI',
                 'is_published' => true,
                 'published_at' => now()->subDays(20),
                 'sort_order' => 1,
                 'views' => 220,
                 'difficulty' => 'beginner',
-                'reading_minutes' => 5,
+                'reading_minutes' => 4,
                 'steps' => null,
             ],
             [
                 'help_category_id' => $categoryIds['getting-started'],
                 'slug' => 'configure-your-business-profile',
                 'type' => 'tutorial',
-                'title_fr' => 'Configurer votre profil entreprise pour partir sur de bonnes bases',
-                'title_en' => 'Configure your business profile the right way',
-                'excerpt_fr' => 'Un tutoriel pas à pas pour renseigner votre activité, vos coordonnées, votre devise et vos paramètres essentiels.',
-                'excerpt_en' => 'A step-by-step tutorial to set up your business details, currency, contact information, and essential settings.',
+                'title_fr' => 'Configurer votre profil entreprise',
+                'title_en' => 'Configure your business profile',
+                'excerpt_fr' => 'Tutoriel complet : nom, pays, devise, logo, fuseau horaire — tout pour un profil professionnel.',
+                'excerpt_en' => 'Complete tutorial: name, country, currency, logo, timezone — everything for a professional profile.',
                 'content_fr' => <<<'HTML'
 <h2>Pourquoi cette configuration est importante</h2>
-<p>Votre profil entreprise alimente une grande partie des informations utilisées dans vos devis, factures, exports et messages assistés par IA. Une configuration propre évite des corrections manuelles plus tard.</p>
+<p>Votre profil entreprise alimente les informations affichées sur vos devis, factures et PDF. Un nom, une adresse et un logo bien configurés donnent un aspect professionnel à tous vos documents.</p>
 
-<h2>Ce que vous devez préparer avant de commencer</h2>
+<h2>Les champs du formulaire</h2>
 <ul>
-<li>Nom commercial exact.</li>
-<li>Nom du responsable ou du signataire.</li>
-<li>Adresse email principale.</li>
-<li>Numéro de téléphone ou WhatsApp professionnel.</li>
-<li>Ville, pays et fuseau horaire.</li>
-<li>Devise de facturation principale.</li>
+<li><strong>Nom de l\'entreprise</strong> — Nom commercial affiché sur tous les documents.</li>
+<li><strong>Propriétaire</strong> — Nom du responsable ou signataire.</li>
+<li><strong>Email</strong> — Adresse de contact principale.</li>
+<li><strong>Téléphone</strong> — Numéro professionnel.</li>
+<li><strong>Adresse, Ville</strong> — Adresse complète pour vos factures.</li>
+<li><strong>Pays</strong> — Dropdown de 54 pays africains et internationaux. Sélectionnez votre pays et la devise + fuseau horaire se mettent à jour automatiquement.</li>
+<li><strong>Devise</strong> — 30 devises disponibles (XAF, XOF, EUR, USD, etc.).</li>
+<li><strong>Fuseau horaire</strong> — 51 fuseaux horaires avec labels lisibles.</li>
+<li><strong>Logo</strong> — Uploadez votre logo (PNG, JPG, SVG — max 2 Mo). Il apparaîtra sur vos factures et devis PDF.</li>
+<li><strong>Préfixe factures / devis</strong> — Personnalisez les numéros (ex: FAC-0001, DEV-0001).</li>
 </ul>
 
-<h2>Bonnes pratiques</h2>
-<p>Choisissez une devise cohérente avec votre marché principal. Vérifiez votre fuseau horaire pour éviter les erreurs sur les dates d’échéance. Utilisez une adresse email réellement surveillée afin que les réponses clients ne soient pas perdues.</p>
+<h2>Où trouver ces paramètres ?</h2>
+<p>Dans votre espace client, allez dans <strong>Paramètres → Mon entreprise</strong>. Modifiez les champs et cliquez sur Enregistrer.</p>
 
-<h2>Après la configuration</h2>
-<p>Une fois votre profil enregistré, créez vos services ou prestations standards. Cela accélèrera énormément la génération de devis et de factures.</p>
+<h2>Vérification</h2>
+<p>Créez un devis ou une facture test pour vérifier que les informations s\'affichent correctement dans le PDF généré.</p>
 HTML,
                 'content_en' => <<<'HTML'
 <h2>Why this setup matters</h2>
-<p>Your business profile powers much of the information used in quotes, invoices, exports, and AI-assisted messages. Setting it up correctly now saves a lot of manual correction later.</p>
+<p>Your business profile powers the information displayed on your quotes, invoices, and PDFs. A properly configured name, address, and logo give a professional look to all your documents.</p>
 
-<h2>What to prepare first</h2>
+<h2>Form fields</h2>
 <ul>
-<li>Your exact business name.</li>
-<li>The owner or signatory name.</li>
-<li>Your main email address.</li>
-<li>Your professional phone or WhatsApp number.</li>
-<li>City, country, and timezone.</li>
-<li>Your default billing currency.</li>
+<li><strong>Business name</strong> — Trade name shown on all documents.</li>
+<li><strong>Owner</strong> — Name of the responsible person or signatory.</li>
+<li><strong>Email</strong> — Main contact address.</li>
+<li><strong>Phone</strong> — Professional phone number.</li>
+<li><strong>Address, City</strong> — Full address for your invoices.</li>
+<li><strong>Country</strong> — Dropdown of 54 African and international countries. Select your country and the currency + timezone update automatically.</li>
+<li><strong>Currency</strong> — 30 currencies available (XAF, XOF, EUR, USD, etc.).</li>
+<li><strong>Timezone</strong> — 51 timezones with readable labels.</li>
+<li><strong>Logo</strong> — Upload your logo (PNG, JPG, SVG — max 2 MB). It will appear on your invoice and quote PDFs.</li>
+<li><strong>Invoice / Quote prefix</strong> — Customize numbering (e.g., INV-0001, QUO-0001).</li>
 </ul>
 
-<h2>Best practices</h2>
-<p>Choose a currency that matches your main market. Double-check your timezone to avoid due-date mistakes. Use an email address that is actively monitored so customer replies are not missed.</p>
+<h2>Where to find these settings?</h2>
+<p>In your client space, go to <strong>Settings → My Business</strong>. Edit the fields and click Save.</p>
 
-<h2>After setup</h2>
-<p>Once the profile is saved, create your standard services or offers. That makes quote and invoice generation much faster.</p>
+<h2>Verification</h2>
+<p>Create a test quote or invoice to verify that the information appears correctly in the generated PDF.</p>
 HTML,
-                'meta_title_fr' => 'Configurer le profil entreprise sur WhatsAppBizAI',
+                'meta_title_fr' => 'Configurer son profil entreprise sur WhatsAppBizAI',
                 'meta_title_en' => 'How to configure your business profile in WhatsAppBizAI',
-                'meta_description_fr' => 'Tutoriel pour configurer le profil entreprise, la devise, les coordonnées et les paramètres clés dans WhatsAppBizAI.',
-                'meta_description_en' => 'Tutorial for configuring your business profile, currency, contact details, and key settings in WhatsAppBizAI.',
+                'meta_description_fr' => 'Tutoriel pour configurer le profil entreprise, la devise, le logo et les paramètres dans WhatsAppBizAI.',
+                'meta_description_en' => 'Tutorial for configuring your business profile, currency, logo, and settings in WhatsAppBizAI.',
                 'author_name' => 'WhatsAppBizAI',
                 'is_published' => true,
                 'published_at' => now()->subDays(18),
                 'sort_order' => 2,
                 'views' => 180,
                 'difficulty' => 'beginner',
-                'reading_minutes' => 6,
+                'reading_minutes' => 5,
                 'steps' => [
                     [
-                        'title_fr' => 'Ouvrez les paramètres entreprise',
+                        'title_fr' => 'Ouvrir les paramètres entreprise',
                         'title_en' => 'Open business settings',
-                        'description_fr' => 'Depuis votre tableau de bord, accédez à la section des paramètres de votre entreprise.',
-                        'description_en' => 'From your dashboard, open the business settings section.',
+                        'description_fr' => 'Dans votre espace client, cliquez sur "Mon entreprise" dans le menu latéral.',
+                        'description_en' => 'In your client space, click "My Business" in the sidebar.',
                         'icon' => '⚙️',
                     ],
                     [
-                        'title_fr' => 'Renseignez les informations légales et commerciales',
-                        'title_en' => 'Fill in legal and commercial details',
-                        'description_fr' => 'Ajoutez le nom de l’entreprise, le responsable, l’email et le numéro principal.',
-                        'description_en' => 'Add the company name, owner, email, and main contact number.',
+                        'title_fr' => 'Renseigner les informations de base',
+                        'title_en' => 'Fill in basic information',
+                        'description_fr' => 'Ajoutez le nom, le propriétaire, l\'email et le téléphone.',
+                        'description_en' => 'Add the business name, owner, email, and phone number.',
                         'icon' => '🏢',
                     ],
                     [
-                        'title_fr' => 'Choisissez la devise et le fuseau horaire',
-                        'title_en' => 'Choose currency and timezone',
-                        'description_fr' => 'Définissez la devise de facturation et le fuseau horaire adaptés à votre activité.',
-                        'description_en' => 'Set the billing currency and timezone that best fit your operations.',
+                        'title_fr' => 'Sélectionner le pays et la devise',
+                        'title_en' => 'Select country and currency',
+                        'description_fr' => 'Choisissez votre pays — la devise et le fuseau horaire se mettent à jour automatiquement.',
+                        'description_en' => 'Choose your country — currency and timezone update automatically.',
                         'icon' => '💱',
                     ],
                     [
-                        'title_fr' => 'Enregistrez et vérifiez vos documents',
-                        'title_en' => 'Save and verify your documents',
-                        'description_fr' => 'Testez ensuite un devis ou une facture pour contrôler le rendu final.',
-                        'description_en' => 'Then test a quote or invoice to verify the final output.',
+                        'title_fr' => 'Ajouter le logo',
+                        'title_en' => 'Upload the logo',
+                        'description_fr' => 'Uploadez votre logo pour qu\'il apparaisse sur les factures et devis.',
+                        'description_en' => 'Upload your logo so it appears on invoices and quotes.',
+                        'icon' => '🎨',
+                    ],
+                    [
+                        'title_fr' => 'Enregistrer et vérifier',
+                        'title_en' => 'Save and verify',
+                        'description_fr' => 'Créez un devis test pour contrôler le rendu du PDF.',
+                        'description_en' => 'Create a test quote to check the PDF output.',
                         'icon' => '✅',
                     ],
                 ],
@@ -242,480 +258,717 @@ HTML,
                 'help_category_id' => $categoryIds['getting-started'],
                 'slug' => 'first-day-setup-checklist',
                 'type' => 'guide',
-                'title_fr' => 'Checklist interactive : réussir votre premier jour sur WhatsAppBizAI',
-                'title_en' => 'Interactive checklist: make your first day on WhatsAppBizAI a success',
-                'excerpt_fr' => 'Une checklist actionnable pour mettre en place votre compte, vos services et votre premier flux commercial en moins d’une heure.',
-                'excerpt_en' => 'An actionable checklist to set up your account, services, and first sales workflow in under an hour.',
+                'title_fr' => 'Checklist : réussir votre premier jour',
+                'title_en' => 'Checklist: make your first day a success',
+                'excerpt_fr' => 'Checklist complète pour configurer votre compte, ajouter vos services et créer votre premier devis en une heure.',
+                'excerpt_en' => 'Complete checklist to set up your account, add your services, and create your first quote in one hour.',
                 'content_fr' => <<<'HTML'
-<h2>Objectif de cette checklist</h2>
-<p>Cette checklist vous aide à passer d’un compte fraîchement créé à un espace de travail prêt à l’usage. Elle est idéale si vous voulez obtenir un résultat concret rapidement, sans passer trop de temps à explorer chaque menu.</p>
+<h2>Objectif</h2>
+<p>Cette checklist vous passe d\'un compte fraîchement créé à un espace prêt à l\'usage. Suivez les étapes dans l\'ordre.</p>
 
-<h2>Comment utiliser ce guide</h2>
-<p>Suivez les étapes dans l’ordre. À chaque étape, validez l’action réalisée. Lorsque toutes les étapes sont terminées, vous aurez une base propre pour commencer à vendre, relancer et facturer.</p>
+<h2>Avant de commencer</h2>
+<p>Ayez sous la main : le nom de votre entreprise, votre numéro WhatsApp professionnel, une adresse email, et les tarifs de vos services principaux.</p>
 
-<h2>Conseil pratique</h2>
-<p>Ne cherchez pas la perfection dès le départ. Le plus important est d’avoir un système fonctionnel. Vous pourrez enrichir vos catégories, modèles de messages et paramètres avancés ensuite.</p>
+<h2>Étape 1 : Profil entreprise (5 min)</h2>
+<p>Allez dans <strong>Paramètres → Mon entreprise</strong>. Remplissez le nom, sélectionnez votre pays (la devise se met à jour automatiquement), ajoutez votre logo et enregistrez.</p>
+
+<h2>Étape 2 : Services (5 min)</h2>
+<p>Allez dans <strong>Services</strong> et créez au moins 2-3 de vos prestations principales avec prix et unité. Ces services seront utilisés dans vos devis et factures.</p>
+
+<h2>Étape 3 : Contacts (5 min)</h2>
+<p>Allez dans <strong>Contacts</strong> et ajoutez 2-3 contacts test. Vous pouvez aussi importer un fichier CSV si vous avez une liste existante.</p>
+
+<h2>Étape 4 : Premier devis (10 min)</h2>
+<p>Allez dans <strong>Devis → Nouveau devis</strong>. Sélectionnez un contact, ajoutez vos services, et créez le devis. Téléchargez le PDF pour vérifier le rendu.</p>
+
+<h2>Étape 5 : Envoyer le devis (5 min)</h2>
+<p>Depuis la page de détail du devis, cliquez sur "Envoyer WhatsApp" ou "Envoyer par email" pour tester l\'envoi.</p>
+
+<h2>Étape 6 : Test Chat IA (5 min)</h2>
+<p>Ouvrez le <strong>Test Chat IA</strong> depuis la barre latérale. Posez des questions typiques de vos clients pour vérifier que l\'IA répond correctement.</p>
+
+<h2>Bonus : Connecter WhatsApp</h2>
+<p>Allez dans <strong>Paramètres → WhatsApp</strong> et connectez votre compte WhatsApp Business via le portail Meta. En attendant, le mode sandbox est activé pour tester les envois.</p>
 HTML,
                 'content_en' => <<<'HTML'
-<h2>The goal of this checklist</h2>
-<p>This checklist helps you move from a newly created account to a usable workspace. It is ideal if you want a concrete result quickly without spending too much time exploring every menu.</p>
+<h2>Goal</h2>
+<p>This checklist takes you from a freshly created account to a workspace ready for use. Follow the steps in order.</p>
 
-<h2>How to use this guide</h2>
-<p>Follow the steps in order. Mark each step as done once completed. By the end, you will have a clean foundation to start selling, following up, and invoicing.</p>
+<h2>Before you start</h2>
+<p>Have ready: your business name, your professional WhatsApp number, an email address, and the pricing for your main services.</p>
 
-<h2>Practical advice</h2>
-<p>Do not aim for perfection on day one. The priority is to have a system that works. You can refine categories, message templates, and advanced settings later.</p>
+<h2>Step 1: Business profile (5 min)</h2>
+<p>Go to <strong>Settings → My Business</strong>. Fill in the name, select your country (currency updates automatically), add your logo, and save.</p>
+
+<h2>Step 2: Services (5 min)</h2>
+<p>Go to <strong>Services</strong> and create at least 2-3 of your main offerings with pricing and unit. These services will be used in your quotes and invoices.</p>
+
+<h2>Step 3: Contacts (5 min)</h2>
+<p>Go to <strong>Contacts</strong> and add 2-3 test contacts. You can also import a CSV file if you have an existing list.</p>
+
+<h2>Step 4: First quote (10 min)</h2>
+<p>Go to <strong>Quotes → New Quote</strong>. Select a contact, add your services, and create the quote. Download the PDF to check the output.</p>
+
+<h2>Step 5: Send the quote (5 min)</h2>
+<p>From the quote detail page, click "Send via WhatsApp" or "Send via Email" to test sending.</p>
+
+<h2>Step 6: Test Chat AI (5 min)</h2>
+<p>Open <strong>Test Chat AI</strong> from the sidebar. Ask typical customer questions to verify the AI responds correctly.</p>
+
+<h2>Bonus: Connect WhatsApp</h2>
+<p>Go to <strong>Settings → WhatsApp</strong> and connect your WhatsApp Business account via the Meta portal. Meanwhile, sandbox mode is enabled for testing.</p>
 HTML,
                 'meta_title_fr' => 'Checklist premier jour WhatsAppBizAI',
                 'meta_title_en' => 'WhatsAppBizAI first-day setup checklist',
-                'meta_description_fr' => 'Guide interactif pour configurer votre compte WhatsAppBizAI, vos services et vos premiers flux en moins d’une heure.',
-                'meta_description_en' => 'Interactive guide to set up your WhatsAppBizAI account, services, and first workflows in under an hour.',
+                'meta_description_fr' => 'Guide complet pour configurer votre compte et démarrer avec WhatsAppBizAI en moins d\'une heure.',
+                'meta_description_en' => 'Complete guide to set up your account and get started with WhatsAppBizAI in under an hour.',
                 'author_name' => 'WhatsAppBizAI',
                 'is_published' => true,
                 'published_at' => now()->subDays(16),
                 'sort_order' => 3,
                 'views' => 140,
                 'difficulty' => 'beginner',
-                'reading_minutes' => 7,
+                'reading_minutes' => 5,
                 'steps' => [
-                    ['title_fr' => 'Configurer le profil entreprise', 'title_en' => 'Set up the business profile', 'description_fr' => 'Complétez les informations de base de votre activité.', 'description_en' => 'Complete your core business details.', 'icon' => '🏁'],
-                    ['title_fr' => 'Créer vos services principaux', 'title_en' => 'Create your main services', 'description_fr' => 'Ajoutez vos offres les plus vendues avec leurs tarifs.', 'description_en' => 'Add your most common offers with pricing.', 'icon' => '🧩'],
-                    ['title_fr' => 'Importer ou créer quelques contacts', 'title_en' => 'Import or create a few contacts', 'description_fr' => 'Commencez avec de vrais prospects ou clients tests.', 'description_en' => 'Start with real prospects or test customers.', 'icon' => '👥'],
-                    ['title_fr' => 'Créer un premier devis', 'title_en' => 'Create your first quote', 'description_fr' => 'Vérifiez le rendu et la clarté du document.', 'description_en' => 'Check the output and clarity of the document.', 'icon' => '🧾'],
-                    ['title_fr' => 'Tester une relance ou un message IA', 'title_en' => 'Test an AI message or follow-up', 'description_fr' => 'Validez le ton et l’utilité de l’assistant.', 'description_en' => 'Validate the tone and usefulness of the assistant.', 'icon' => '🤖'],
+                    ['title_fr' => 'Configurer le profil entreprise', 'title_en' => 'Set up the business profile', 'description_fr' => 'Nom, email, téléphone, pays, devise et logo.', 'description_en' => 'Name, email, phone, country, currency, and logo.', 'icon' => '🏁'],
+                    ['title_fr' => 'Créer vos services', 'title_en' => 'Create your services', 'description_fr' => 'Ajoutez vos prestations avec prix et unité.', 'description_en' => 'Add your offerings with pricing and unit.', 'icon' => '🧩'],
+                    ['title_fr' => 'Ajouter des contacts', 'title_en' => 'Add contacts', 'description_fr' => 'Créez au moins 2-3 contacts ou importez un CSV.', 'description_en' => 'Create at least 2-3 contacts or import a CSV.', 'icon' => '👥'],
+                    ['title_fr' => 'Créer un devis', 'title_en' => 'Create a quote', 'description_fr' => 'Liez-le à un contact et ajoutez des services.', 'description_en' => 'Link it to a contact and add services.', 'icon' => '🧾'],
+                    ['title_fr' => 'Envoyer le devis', 'title_en' => 'Send the quote', 'description_fr' => 'Envoyez par WhatsApp ou email depuis la page de détail.', 'description_en' => 'Send via WhatsApp or email from the detail page.', 'icon' => '📤'],
+                    ['title_fr' => 'Tester le Test Chat IA', 'title_en' => 'Test the AI Test Chat', 'description_fr' => 'Simulez une conversation pour voir les réponses de l\'IA.', 'description_en' => 'Simulate a conversation to see AI responses.', 'icon' => '🤖'],
+                ],
+            ],
+
+            // ═══════════════════════════════════════════════════════════
+            // CATEGORY: CRM & Contacts
+            // ═══════════════════════════════════════════════════════════
+            [
+                'help_category_id' => $categoryIds['crm-contacts'],
+                'slug' => 'import-contacts-csv',
+                'type' => 'tutorial',
+                'title_fr' => 'Importer vos contacts depuis un fichier CSV',
+                'title_en' => 'Import your contacts from a CSV file',
+                'excerpt_fr' => 'Comment importer en masse vos contacts existants depuis Excel, Google Sheets ou un fichier CSV.',
+                'excerpt_en' => 'How to bulk import your existing contacts from Excel, Google Sheets, or a CSV file.',
+                'content_fr' => <<<'HTML'
+<h2>Pourquoi importer un CSV ?</h2>
+<p>Si vous avez déjà une liste de contacts dans Excel, Google Sheets ou un autre outil, l\'import CSV vous permet de tous les ajouter en une seule action au lieu de les saisir un par un.</p>
+
+<h2>Étape 1 : Préparer le fichier</h2>
+<p>Votre fichier CSV doit avoir :</p>
+<ul>
+<li>Une <strong>première ligne d\'en-tête</strong> avec les noms de colonnes.</li>
+<li>Un <strong>séparateur</strong> point-virgule (;) ou virgule (,).</li>
+<li>La colonne <strong>whatsapp_number</strong> (ou équivalent) est obligatoire.</li>
+</ul>
+
+<h2>Colonnes acceptées</h2>
+<p>Le système reconnaît automatiquement les alias de colonnes (insensible à la casse) :</p>
+<ul>
+<li><strong>Nom</strong> : name, nom, full_name</li>
+<li><strong>WhatsApp</strong> : whatsapp, whatsapp_number, phone, telephone, tel, numéro</li>
+<li><strong>Email</strong> : email, e-mail, courriel</li>
+<li><strong>Entreprise</strong> : company, entreprise, société</li>
+<li><strong>Statut</strong> : status, statut (prospect, client, inactif)</li>
+<li><strong>Notes</strong> : notes, remarques</li>
+</ul>
+
+<h2>Étape 2 : Télécharger le modèle</h2>
+<p>Depuis la page d\'import (<strong>Contacts → Importer CSV</strong>), cliquez sur "Télécharger le modèle" pour obtenir un fichier CSV exemple avec le bon format.</p>
+
+<h2>Étape 3 : Importer</h2>
+<ol>
+<li>Cliquez sur "Importer CSV" depuis la page Contacts.</li>
+<li>Sélectionnez votre fichier CSV.</li>
+<li>Cliquez sur "Importer les contacts".</li>
+<li>Le système affiche le résultat : nombre de contacts importés, ignorés et erreurs éventuelles.</li>
+</ol>
+
+<h2>Comportement de l\'import</h2>
+<ul>
+<li><strong>Création</strong> — Les nouveaux contacts sont créés avec le statut par défaut "prospect".</li>
+<li><strong>Mise à jour</strong> — Si un contact avec le même numéro WhatsApp existe déjà, il est mis à jour.</li>
+<li><strong>Numéros normalisés</strong> — Les numéros sont nettoyés et formatés en format international (+...).</li>
+<li><strong>Statuts</strong> — Les valeurs acceptées sont : client, customer, active → client ; inactif, inactive → inactif ; sinon → prospect.</li>
+</ul>
+HTML,
+                'content_en' => <<<'HTML'
+<h2>Why import a CSV?</h2>
+<p>If you already have a contact list in Excel, Google Sheets, or another tool, CSV import lets you add them all in one action instead of entering them one by one.</p>
+
+<h2>Step 1: Prepare the file</h2>
+<p>Your CSV file must have:</p>
+<ul>
+<li>A <strong>header row</strong> with column names.</li>
+<li>A <strong>delimiter</strong> of semicolon (;) or comma (,).</li>
+<li>The <strong>whatsapp_number</strong> column (or equivalent) is required.</li>
+</ul>
+
+<h2>Accepted columns</h2>
+<p>The system automatically recognizes column aliases (case-insensitive):</p>
+<ul>
+<li><strong>Name</strong>: name, nom, full_name</li>
+<li><strong>WhatsApp</strong>: whatsapp, whatsapp_number, phone, telephone, tel, numéro</li>
+<li><strong>Email</strong>: email, e-mail, courriel</li>
+<li><strong>Company</strong>: company, entreprise, société</li>
+<li><strong>Status</strong>: status, statut (prospect, client, inactif)</li>
+<li><strong>Notes</strong>: notes, remarques</li>
+</ul>
+
+<h2>Step 2: Download the template</h2>
+<p>From the import page (<strong>Contacts → CSV Import</strong>), click "Download template" to get a sample CSV file with the correct format.</p>
+
+<h2>Step 3: Import</h2>
+<ol>
+<li>Click "CSV Import" from the Contacts page.</li>
+<li>Select your CSV file.</li>
+<li>Click "Import contacts".</li>
+<li>The system shows results: number of contacts imported, skipped, and any errors.</li>
+</ol>
+
+<h2>Import behavior</h2>
+<ul>
+<li><strong>Creation</strong> — New contacts are created with the default "prospect" status.</li>
+<li><strong>Update</strong> — If a contact with the same WhatsApp number already exists, it is updated.</li>
+<li><strong>Number normalization</strong> — Numbers are cleaned and formatted in international format (+...).</li>
+<li><strong>Statuses</strong> — Accepted values: client, customer, active → client; inactif, inactive → inactif; otherwise → prospect.</li>
+</ul>
+HTML,
+                'meta_title_fr' => 'Importer des contacts CSV sur WhatsAppBizAI',
+                'meta_title_en' => 'Import CSV contacts in WhatsAppBizAI',
+                'meta_description_fr' => 'Tutoriel pour importer vos contacts depuis un fichier CSV dans WhatsAppBizAI.',
+                'meta_description_en' => 'Tutorial for importing contacts from a CSV file in WhatsAppBizAI.',
+                'author_name' => 'WhatsAppBizAI',
+                'is_published' => true,
+                'published_at' => now()->subDays(17),
+                'sort_order' => 1,
+                'views' => 165,
+                'difficulty' => 'beginner',
+                'reading_minutes' => 4,
+                'steps' => [
+                    ['title_fr' => 'Préparer le fichier CSV', 'title_en' => 'Prepare the CSV file', 'description_fr' => 'Utilisez le modèle téléchargé ou créez votre fichier avec les bonnes colonnes.', 'description_en' => 'Use the downloaded template or create your file with the right columns.', 'icon' => '📄'],
+                    ['title_fr' => 'Ouvrir la page d\'import', 'title_en' => 'Open the import page', 'description_fr' => 'Cliquez sur "Importer CSV" depuis la page Contacts.', 'description_en' => 'Click "CSV Import" from the Contacts page.', 'icon' => '📥'],
+                    ['title_fr' => 'Sélectionner le fichier', 'title_en' => 'Select the file', 'description_fr' => 'Choisissez votre fichier CSV et cliquez sur Importer.', 'description_en' => 'Choose your CSV file and click Import.', 'icon' => '📁'],
+                    ['title_fr' => 'Vérifier les résultats', 'title_en' => 'Check results', 'description_fr' => 'Contrôlez le nombre de contacts importés et les éventuelles erreurs.', 'description_en' => 'Review the number of imported contacts and any errors.', 'icon' => '✅'],
                 ],
             ],
             [
                 'help_category_id' => $categoryIds['crm-contacts'],
-                'slug' => 'organize-contact-pipeline',
+                'slug' => 'manage-contact-statuses',
                 'type' => 'article',
-                'title_fr' => 'Comment organiser un pipeline simple avec vos contacts',
-                'title_en' => 'How to organize a simple pipeline with your contacts',
-                'excerpt_fr' => 'Une méthode pragmatique pour distinguer prospects froids, opportunités chaudes et clients actifs dans votre CRM.',
-                'excerpt_en' => 'A practical way to separate cold leads, warm opportunities, and active customers in your CRM.',
+                'title_fr' => 'Comprendre les statuts de contacts : prospect, client, inactif',
+                'title_en' => 'Understanding contact statuses: prospect, client, inactive',
+                'excerpt_fr' => 'Comment les statuts organisent votre pipeline commercial et permettent de cibler vos actions.',
+                'excerpt_en' => 'How statuses organize your sales pipeline and enable targeted actions.',
                 'content_fr' => <<<'HTML'
-<h2>Pourquoi la segmentation est essentielle</h2>
-<p>Un bon CRM n’est pas seulement un carnet d’adresses numérique. C’est un outil de décision. Lorsque vos contacts sont bien rangés, vous savez immédiatement qui relancer, qui convertir et qui fidéliser.</p>
-
-<h2>Une structure simple qui fonctionne</h2>
+<h2>Les trois statuts disponibles</h2>
+<p>Chaque contact dans WhatsAppBizAI peut avoir l\'un des trois statuts suivants :</p>
 <ul>
-<li><strong>Prospect</strong> : la personne a manifesté un intérêt, mais rien n’est encore engagé.</li>
-<li><strong>Client</strong> : une vente a déjà eu lieu ou une relation commerciale est active.</li>
-<li><strong>À relancer</strong> : le contact était chaud, mais la conversation s’est arrêtée.</li>
-<li><strong>Inactif</strong> : pas d’échange utile depuis un certain temps.</li>
+<li><strong>Prospect</strong> — La personne a manifesté un intérêt mais n\'a pas encore acheté. C\'est le statut par défaut lors de l\'import CSV.</li>
+<li><strong>Client</strong> — Une vente a eu lieu ou une relation commerciale est active. Le système calcule automatiquement les totaux facturés et payés.</li>
+<li><strong>Inactif</strong> — Pas d\'échange utile depuis un certain temps.</li>
 </ul>
 
-<h2>Ce qu’il faut éviter</h2>
-<p>Ne créez pas trop de statuts au départ. Un pipeline trop complexe ralentit vos équipes. Mieux vaut quatre statuts vraiment utilisés qu’une dizaine laissés à l’abandon.</p>
+<h2>Pourquoi c\'est utile</h2>
+<p>Les statuts vous permettent de filtrer vos contacts et de cibler vos actions :</p>
+<ul>
+<li>Envoyer un <strong>broadcast</strong> uniquement aux prospects pour les convertir.</li>
+<li>Lancer une <strong>campagne de rétention</strong> aux clients inactifs depuis 30+ jours.</li>
+<li>Cibler les <strong>clients à forte valeur</strong> (plus de 100 000 XAF facturés) avec une offre upsell.</li>
+</ul>
 
-<h2>Mesurez l’utilité du système</h2>
-<p>Si votre segmentation vous aide à décider qui contacter aujourd’hui, elle est bonne. Si elle vous oblige à trop réfléchir, simplifiez-la.</p>
+<h2>Où modifier le statut ?</h2>
+<p>Allez dans <strong>Contacts</strong>, cliquez sur un contact, et modifiez le champ "Statut" lors de la création ou de la modification.</p>
+
+<h2>Le statut et la rétention</h2>
+<p>Le module <strong>Rétention</strong> utilise ces statuts pour cibler automatiquement vos campagnes : clients inactifs, prospects, clients à forte valeur.</p>
 HTML,
                 'content_en' => <<<'HTML'
-<h2>Why segmentation matters</h2>
-<p>A good CRM is more than a digital address book. It is a decision tool. When your contacts are organized well, you instantly know who to follow up with, who to convert, and who to retain.</p>
-
-<h2>A simple structure that works</h2>
+<h2>The three available statuses</h2>
+<p>Each contact in WhatsAppBizAI can have one of three statuses:</p>
 <ul>
-<li><strong>Prospect</strong>: the person has shown interest, but nothing is committed yet.</li>
-<li><strong>Customer</strong>: a sale has happened already or the relationship is active.</li>
-<li><strong>Needs follow-up</strong>: the contact was warm, but the conversation stalled.</li>
-<li><strong>Inactive</strong>: no meaningful exchange for a while.</li>
+<li><strong>Prospect</strong> — The person has shown interest but has not purchased yet. This is the default status on CSV import.</li>
+<li><strong>Client</strong> — A sale has occurred or the business relationship is active. The system automatically calculates invoiced and paid totals.</li>
+<li><strong>Inactive</strong> — No meaningful exchange for a while.</li>
 </ul>
 
-<h2>What to avoid</h2>
-<p>Do not create too many statuses at the start. An overly complex pipeline slows teams down. Four real, used statuses are better than ten abandoned ones.</p>
+<h2>Why it matters</h2>
+<p>Statuses let you filter contacts and target your actions:</p>
+<ul>
+<li>Send a <strong>broadcast</strong> only to prospects to convert them.</li>
+<li>Run a <strong>retention campaign</strong> for clients inactive for 30+ days.</li>
+<li>Target <strong>high-value clients</strong> (over 100,000 XAF invoiced) with an upsell offer.</li>
+</ul>
 
-<h2>How to judge the system</h2>
-<p>If your segmentation helps you decide who to contact today, it is working. If it makes you think too hard, simplify it.</p>
+<h2>Where to change the status?</h2>
+<p>Go to <strong>Contacts</strong>, click on a contact, and edit the "Status" field when creating or editing.</p>
+
+<h2>Status and retention</h2>
+<p>The <strong>Retention</strong> module uses these statuses to automatically target your campaigns: inactive clients, prospects, and high-value clients.</p>
 HTML,
-                'meta_title_fr' => 'Organiser ses contacts CRM sur WhatsAppBizAI',
-                'meta_title_en' => 'Organize CRM contacts in WhatsAppBizAI',
-                'meta_description_fr' => 'Apprenez à organiser vos prospects et clients avec un pipeline simple et efficace dans WhatsAppBizAI.',
-                'meta_description_en' => 'Learn how to organize leads and customers with a simple, efficient pipeline in WhatsAppBizAI.',
+                'meta_title_fr' => 'Statuts de contacts : prospect, client, inactif sur WhatsAppBizAI',
+                'meta_title_en' => 'Contact statuses: prospect, client, inactive in WhatsAppBizAI',
+                'meta_description_fr' => 'Comprenez les statuts de contacts et utilisez-les pour organiser votre pipeline commercial.',
+                'meta_description_en' => 'Understand contact statuses and use them to organize your sales pipeline.',
                 'author_name' => 'WhatsAppBizAI',
                 'is_published' => true,
                 'published_at' => now()->subDays(15),
-                'sort_order' => 1,
+                'sort_order' => 2,
                 'views' => 125,
                 'difficulty' => 'beginner',
-                'reading_minutes' => 4,
+                'reading_minutes' => 3,
                 'steps' => null,
             ],
             [
                 'help_category_id' => $categoryIds['crm-contacts'],
-                'slug' => 'import-contacts-from-csv',
-                'type' => 'tutorial',
-                'title_fr' => 'Importer vos contacts depuis un fichier CSV sans désordre',
-                'title_en' => 'Import contacts from CSV without creating a mess',
-                'excerpt_fr' => 'Le bon format, les champs à vérifier et les erreurs à éviter pour un import propre.',
-                'excerpt_en' => 'The right format, fields to check, and mistakes to avoid for a clean import.',
-                'content_fr' => <<<'HTML'
-<h2>Avant l’import : nettoyez votre fichier</h2>
-<p>Un import réussi commence dans votre tableur. Supprimez les doublons, uniformisez les numéros de téléphone et vérifiez que chaque ligne correspond à une seule personne ou entreprise.</p>
-
-<h2>Colonnes recommandées</h2>
-<ul>
-<li>Nom</li>
-<li>Numéro WhatsApp</li>
-<li>Email</li>
-<li>Statut</li>
-<li>Ville ou marché</li>
-</ul>
-
-<h2>Vérifications importantes</h2>
-<p>Les numéros doivent être au format international si possible. Les statuts doivent suivre une logique cohérente. Évitez les colonnes inutiles qui alourdissent l’import sans servir à vos actions commerciales.</p>
-
-<h2>Après l’import</h2>
-<p>Contrôlez un échantillon de contacts dans l’interface. Si les noms et numéros sont propres, vous pouvez continuer avec une segmentation plus fine ou lancer des relances ciblées.</p>
-HTML,
-                'content_en' => <<<'HTML'
-<h2>Before import: clean your file</h2>
-<p>A successful import starts in your spreadsheet. Remove duplicates, standardize phone numbers, and make sure each row represents only one person or company.</p>
-
-<h2>Recommended columns</h2>
-<ul>
-<li>Name</li>
-<li>WhatsApp number</li>
-<li>Email</li>
-<li>Status</li>
-<li>City or market</li>
-</ul>
-
-<h2>Important checks</h2>
-<p>Numbers should be in international format whenever possible. Statuses should follow a consistent logic. Avoid useless columns that make the import heavier without helping your sales actions.</p>
-
-<h2>After import</h2>
-<p>Review a sample of contacts in the interface. If names and numbers look clean, you can move on to deeper segmentation or targeted follow-ups.</p>
-HTML,
-                'meta_title_fr' => 'Importer des contacts CSV dans WhatsAppBizAI',
-                'meta_title_en' => 'Import CSV contacts into WhatsAppBizAI',
-                'meta_description_fr' => 'Tutoriel pour importer proprement vos contacts CSV dans WhatsAppBizAI sans erreurs ni doublons.',
-                'meta_description_en' => 'Tutorial for importing CSV contacts into WhatsAppBizAI cleanly without errors or duplicates.',
-                'author_name' => 'WhatsAppBizAI',
-                'is_published' => true,
-                'published_at' => now()->subDays(13),
-                'sort_order' => 2,
-                'views' => 132,
-                'difficulty' => 'beginner',
-                'reading_minutes' => 5,
-                'steps' => [
-                    ['title_fr' => 'Préparer le fichier CSV', 'title_en' => 'Prepare the CSV file', 'description_fr' => 'Nettoyez les données et supprimez les doublons.', 'description_en' => 'Clean the data and remove duplicates.', 'icon' => '🧹'],
-                    ['title_fr' => 'Vérifier les colonnes clés', 'title_en' => 'Verify key columns', 'description_fr' => 'Assurez-vous que les noms et numéros sont bien remplis.', 'description_en' => 'Make sure names and phone numbers are filled correctly.', 'icon' => '📋'],
-                    ['title_fr' => 'Lancer l’import', 'title_en' => 'Run the import', 'description_fr' => 'Chargez le fichier depuis la section import des contacts.', 'description_en' => 'Upload the file from the contact import section.', 'icon' => '⬆️'],
-                    ['title_fr' => 'Contrôler les résultats', 'title_en' => 'Review the results', 'description_fr' => 'Vérifiez un petit échantillon avant d’aller plus loin.', 'description_en' => 'Check a small sample before moving forward.', 'icon' => '🔎'],
-                ],
-            ],
-            [
-                'help_category_id' => $categoryIds['crm-contacts'],
-                'slug' => 'lead-follow-up-checklist',
+                'slug' => 'broadcast-to-contacts',
                 'type' => 'guide',
-                'title_fr' => 'Guide interactif : ne laisser aucun prospect chaud sans relance',
-                'title_en' => 'Interactive guide: never leave a warm lead without follow-up',
-                'excerpt_fr' => 'Un cadre simple pour relancer au bon moment, avec le bon message et sans harceler vos prospects.',
-                'excerpt_en' => 'A simple framework to follow up at the right time, with the right message, without annoying prospects.',
+                'title_fr' => 'Guide : envoyer un broadcast WhatsApp à vos contacts',
+                'title_en' => 'Guide: send a WhatsApp broadcast to your contacts',
+                'excerpt_fr' => 'Comment utiliser le module Broadcast pour envoyer un message personnalisé à plusieurs contacts.',
+                'excerpt_en' => 'How to use the Broadcast module to send a personalized message to multiple contacts.',
                 'content_fr' => <<<'HTML'
-<h2>Pourquoi les relances ratent souvent</h2>
-<p>Dans beaucoup de petites équipes, les relances dépendent de la mémoire ou du courage du moment. Résultat : soit rien n’est envoyé, soit le message arrive trop tard. Ce guide vous aide à créer une routine plus fiable.</p>
+<h2>Le module Broadcast</h2>
+<p>Le module <strong>Broadcast</strong> vous permet d\'envoyer un message WhatsApp à une liste de contacts en une seule action. C\'est idéal pour les annonces, promotions ou informations générales.</p>
 
-<h2>La logique à adopter</h2>
-<p>Chaque relance doit partir d’un contexte clair : intérêt exprimé, devis envoyé, silence après proposition, ou échéance proche. L’objectif n’est pas de pousser au hasard, mais de débloquer une décision.</p>
+<h2>Prérequis</h2>
+<ul>
+<li>Votre WhatsApp doit être connecté (pas en mode sandbox).</li>
+<li>Les contacts doivent avoir un numéro WhatsApp renseigné.</li>
+</ul>
+
+<h2>Étapes</h2>
+<ol>
+<li>Allez dans <strong>Broadcast</strong> depuis le menu latéral.</li>
+<li>Sélectionnez les contacts destinataires.</li>
+<li>Rédigez votre message. Vous pouvez utiliser des variables : <code>{{nom}}</code>, <code>{{prenom}}</code>, <code>{{entreprise}}</code>.</li>
+<li>Cliquez sur Envoyer.</li>
+</ol>
+
+<h2>Bonnes pratiques</h2>
+<ul>
+<li>Personnalisez le message avec le nom du contact.</li>
+<li>Envoyez à des créneaux raisonnables (8h-20h).</li>
+<li>N\'envoyez pas trop fréquemment pour éviter le spam.</li>
+<li>Testez d\'abord avec le Test Chat IA pour vérifier la qualité du message.</li>
+</ul>
 HTML,
                 'content_en' => <<<'HTML'
-<h2>Why follow-ups often fail</h2>
-<p>In many small teams, follow-ups depend on memory or motivation in the moment. The result: either nothing gets sent, or the message arrives too late. This guide helps you build a more reliable routine.</p>
+<h2>The Broadcast module</h2>
+<p>The <strong>Broadcast</strong> module lets you send a WhatsApp message to a list of contacts in one action. It is ideal for announcements, promotions, or general information.</p>
 
-<h2>The right mindset</h2>
-<p>Every follow-up should come from a clear context: expressed interest, quote sent, silence after a proposal, or an upcoming deadline. The goal is not random pressure, but helping a decision move forward.</p>
+<h2>Prerequisites</h2>
+<ul>
+<li>Your WhatsApp must be connected (not in sandbox mode).</li>
+<li>Contacts must have a WhatsApp number filled in.</li>
+</ul>
+
+<h2>Steps</h2>
+<ol>
+<li>Go to <strong>Broadcast</strong> from the sidebar.</li>
+<li>Select the recipient contacts.</li>
+<li>Write your message. You can use variables: <code>{{nom}}</code>, <code>{{prenom}}</code>, <code>{{entreprise}}</code>.</li>
+<li>Click Send.</li>
+</ol>
+
+<h2>Best practices</h2>
+<ul>
+<li>Personalize the message with the contact\'s name.</li>
+<li>Send during reasonable hours (8am-8pm).</li>
+<li>Don\'t send too frequently to avoid being flagged as spam.</li>
+<li>Test with Test Chat AI first to verify message quality.</li>
+</ul>
 HTML,
-                'meta_title_fr' => 'Guide de relance prospects sur WhatsAppBizAI',
-                'meta_title_en' => 'Lead follow-up guide in WhatsAppBizAI',
-                'meta_description_fr' => 'Guide interactif pour relancer vos prospects chauds au bon moment dans WhatsAppBizAI.',
-                'meta_description_en' => 'Interactive guide for following up with warm leads at the right time in WhatsAppBizAI.',
+                'meta_title_fr' => 'Envoyer un broadcast WhatsApp sur WhatsAppBizAI',
+                'meta_title_en' => 'Send a WhatsApp broadcast in WhatsAppBizAI',
+                'meta_description_fr' => 'Guide pour envoyer un message broadcast à vos contacts WhatsApp depuis WhatsAppBizAI.',
+                'meta_description_en' => 'Guide for sending a broadcast message to your WhatsApp contacts from WhatsAppBizAI.',
                 'author_name' => 'WhatsAppBizAI',
                 'is_published' => true,
                 'published_at' => now()->subDays(11),
                 'sort_order' => 3,
                 'views' => 111,
-                'difficulty' => 'intermediate',
-                'reading_minutes' => 6,
+                'difficulty' => 'beginner',
+                'reading_minutes' => 4,
                 'steps' => [
-                    ['title_fr' => 'Identifier les prospects silencieux', 'title_en' => 'Identify silent warm leads', 'description_fr' => 'Repérez les conversations où l’intérêt existait mais aucune décision n’a suivi.', 'description_en' => 'Spot conversations where interest existed but no decision followed.', 'icon' => '🔥'],
-                    ['title_fr' => 'Relire le dernier contexte', 'title_en' => 'Review the latest context', 'description_fr' => 'Vérifiez l’historique pour relancer de manière pertinente.', 'description_en' => 'Review message history before following up.', 'icon' => '🧠'],
-                    ['title_fr' => 'Rédiger un message court', 'title_en' => 'Write a short message', 'description_fr' => 'Privilégiez la clarté, une seule question et un ton humain.', 'description_en' => 'Prefer clarity, one question, and a human tone.', 'icon' => '✍️'],
-                    ['title_fr' => 'Planifier la prochaine action', 'title_en' => 'Plan the next action', 'description_fr' => 'Décidez quand relancer à nouveau ou quand classer le prospect.', 'description_en' => 'Decide when to follow up again or when to close the lead.', 'icon' => '📅'],
+                    ['title_fr' => 'Ouvrir le module Broadcast', 'title_en' => 'Open the Broadcast module', 'description_fr' => 'Cliquez sur "Broadcast" dans le menu latéral.', 'description_en' => 'Click "Broadcast" in the sidebar.', 'icon' => '📢'],
+                    ['title_fr' => 'Sélectionner les contacts', 'title_en' => 'Select contacts', 'description_fr' => 'Choisissez les destinataires dans la liste.', 'description_en' => 'Choose recipients from the list.', 'icon' => '👥'],
+                    ['title_fr' => 'Rédiger le message', 'title_en' => 'Write the message', 'description_fr' => 'Utilisez {{nom}} pour personnaliser.', 'description_en' => 'Use {{nom}} to personalize.', 'icon' => '✍️'],
+                    ['title_fr' => 'Envoyer', 'title_en' => 'Send', 'description_fr' => 'Vérifiez et cliquez sur Envoyer.', 'description_en' => 'Review and click Send.', 'icon' => '📤'],
                 ],
             ],
+
+            // ═══════════════════════════════════════════════════════════
+            // CATEGORY: Quotes, Invoices & Payments
+            // ═══════════════════════════════════════════════════════════
             [
-                'help_category_id' => $categoryIds['quotes-invoices-payments'],
+                'help_category_id' => $categoryIds['documents'],
                 'slug' => 'quote-to-invoice-workflow',
                 'type' => 'article',
-                'title_fr' => 'Du devis à la facture : construire un flux commercial propre',
-                'title_en' => 'From quote to invoice: build a clean sales workflow',
-                'excerpt_fr' => 'Comment fluidifier vos documents commerciaux pour accélérer les signatures et les encaissements.',
-                'excerpt_en' => 'How to streamline your commercial documents to accelerate approvals and payments.',
+                'title_fr' => 'Du devis à la facture : le flux commercial complet',
+                'title_en' => 'From quote to invoice: the complete sales workflow',
+                'excerpt_fr' => 'Le flux complet : créer un devis, l\'envoyer, le convertir en facture et suivre le paiement.',
+                'excerpt_en' => 'The complete workflow: create a quote, send it, convert to invoice, and track payment.',
                 'content_fr' => <<<'HTML'
-<h2>Pourquoi le flux complet compte plus que le document isolé</h2>
-<p>Un devis parfait ne sert pas à grand-chose si son suivi est mauvais. Une facture claire arrive trop tard si la validation client traîne. Le vrai gain vient d’un système où chaque document prépare l’étape suivante.</p>
-
-<h2>Le flux recommandé</h2>
+<h2>Le flux en 5 étapes</h2>
 <ol>
-<li>Créer un devis clair avec un périmètre bien défini.</li>
-<li>Envoyer le document rapidement après l’échange commercial.</li>
-<li>Relancer si nécessaire avec un rappel contextualisé.</li>
-<li>Convertir le devis accepté en facture sans ressaisie.</li>
-<li>Suivre le paiement jusqu’à encaissement.</li>
+<li><strong>Créer un devis</strong> — Sélectionnez le contact, ajoutez les services, définissez la validité.</li>
+<li><strong>Envoyer le devis</strong> — Par WhatsApp (📤 Envoyer WhatsApp) ou par email (✉️ Envoyer par email). Le statut passe à "Envoyé".</li>
+<li><strong>Relancer si nécessaire</strong> — Utilisez le bouton "🔔 Relance WhatsApp" pour envoyer un rappel.</li>
+<li><strong>Convertir en facture</strong> — Si le devis est accepté, cliquez sur "→ Convertir en facture". Tout est copié automatiquement.</li>
+<li><strong>Suivre le paiement</strong> — Sur la facture, cliquez sur "✅ Marquer payée" une fois le règlement reçu.</li>
 </ol>
 
-<h2>Les erreurs à éviter</h2>
+<h2>Les options d\'envoi</h2>
 <ul>
-<li>Modifier les prix manuellement à chaque étape.</li>
-<li>Changer le vocabulaire entre le devis et la facture.</li>
-<li>Attendre trop longtemps avant de relancer.</li>
-<li>Oublier les échéances de paiement.</li>
+<li><strong>WhatsApp</strong> — Génère le PDF et l\'envoie via l\'API WhatsApp Business. Nécessite un contact avec un numéro WhatsApp et un business connecté.</li>
+<li><strong>Email</strong> — Génère le PDF et l\'envoie en pièce jointe par email. Nécessite un contact avec une adresse email.</li>
+<li><strong>Télécharger PDF</strong> — Télécharge le fichier sur votre appareil pour envoi manuel.</li>
 </ul>
+
+<h2>Numérotation automatique</h2>
+<p>Les numéros sont générés automatiquement : <code>FAC-2026-0001</code> pour les factures, <code>DEV-2026-0001</code> pour les devis. Vous pouvez personnaliser les préfixes dans les paramètres entreprise.</p>
 HTML,
                 'content_en' => <<<'HTML'
-<h2>Why the full workflow matters more than a single document</h2>
-<p>A perfect quote is not that useful if the follow-up is weak. A clear invoice still arrives too late if customer approval drags on. The real value comes from a system where each document prepares the next step.</p>
-
-<h2>The recommended workflow</h2>
+<h2>The 5-step workflow</h2>
 <ol>
-<li>Create a clear quote with a well-defined scope.</li>
-<li>Send the document quickly after the sales conversation.</li>
-<li>Follow up when needed with contextual reminders.</li>
-<li>Convert the accepted quote into an invoice without retyping.</li>
-<li>Track payment until collection.</li>
+<li><strong>Create a quote</strong> — Select the contact, add services, set the validity period.</li>
+<li><strong>Send the quote</strong> — Via WhatsApp (📤 Send WhatsApp) or email (✉️ Send via Email). Status changes to "Sent".</li>
+<li><strong>Follow up if needed</strong> — Use the "🔔 WhatsApp Reminder" button to send a reminder.</li>
+<li><strong>Convert to invoice</strong> — If the quote is accepted, click "→ Convert to Invoice". Everything is copied automatically.</li>
+<li><strong>Track payment</strong> — On the invoice, click "✅ Mark as Paid" once payment is received.</li>
 </ol>
 
-<h2>Mistakes to avoid</h2>
+<h2>Sending options</h2>
 <ul>
-<li>Editing prices manually at every stage.</li>
-<li>Changing wording between quote and invoice.</li>
-<li>Waiting too long before following up.</li>
-<li>Forgetting payment deadlines.</li>
+<li><strong>WhatsApp</strong> — Generates the PDF and sends it via the WhatsApp Business API. Requires a contact with a WhatsApp number and a connected business.</li>
+<li><strong>Email</strong> — Generates the PDF and sends it as an email attachment. Requires a contact with an email address.</li>
+<li><strong>Download PDF</strong> — Downloads the file to your device for manual sending.</li>
 </ul>
+
+<h2>Automatic numbering</h2>
+<p>Numbers are generated automatically: <code>INV-2026-0001</code> for invoices, <code>QUO-2026-0001</code> for quotes. You can customize prefixes in business settings.</p>
 HTML,
-                'meta_title_fr' => 'Workflow devis facture sur WhatsAppBizAI',
-                'meta_title_en' => 'Quote to invoice workflow in WhatsAppBizAI',
-                'meta_description_fr' => 'Créez un flux devis-facture fluide pour accélérer vos ventes et vos paiements avec WhatsAppBizAI.',
-                'meta_description_en' => 'Build a smooth quote-to-invoice workflow to speed up sales and payments with WhatsAppBizAI.',
+                'meta_title_fr' => 'Workflow devis → facture sur WhatsAppBizAI',
+                'meta_title_en' => 'Quote → invoice workflow in WhatsAppBizAI',
+                'meta_description_fr' => 'Créez un devis, envoyez-le par WhatsApp ou email, convertissez-le en facture et suivez le paiement.',
+                'meta_description_en' => 'Create a quote, send it via WhatsApp or email, convert it to an invoice, and track payment.',
                 'author_name' => 'WhatsAppBizAI',
                 'is_published' => true,
                 'published_at' => now()->subDays(10),
                 'sort_order' => 1,
                 'views' => 118,
-                'difficulty' => 'intermediate',
-                'reading_minutes' => 5,
+                'difficulty' => 'beginner',
+                'reading_minutes' => 4,
                 'steps' => null,
             ],
             [
-                'help_category_id' => $categoryIds['quotes-invoices-payments'],
+                'help_category_id' => $categoryIds['documents'],
                 'slug' => 'create-and-send-first-quote',
                 'type' => 'tutorial',
-                'title_fr' => 'Créer et envoyer votre premier devis professionnel',
-                'title_en' => 'Create and send your first professional quote',
-                'excerpt_fr' => 'Le tutoriel essentiel pour passer d’une demande client à un devis propre, lisible et rapidement envoyé.',
-                'excerpt_en' => 'The essential tutorial to move from a client request to a clean, readable quote sent quickly.',
+                'title_fr' => 'Créer et envoyer votre premier devis',
+                'title_en' => 'Create and send your first quote',
+                'excerpt_fr' => 'Tutoriel pas à pas pour créer un devis avec votre logo, l\'envoyer et vérifier le PDF.',
+                'excerpt_en' => 'Step-by-step tutorial to create a quote with your logo, send it, and verify the PDF.',
                 'content_fr' => <<<'HTML'
-<h2>L’objectif</h2>
-<p>Créer un devis ne doit pas devenir une tâche lourde. Avec un bon paramétrage, vous pouvez partir d’une demande reçue sur WhatsApp et envoyer un devis professionnel en quelques minutes.</p>
+<h2>Créer un devis</h2>
+<ol>
+<li>Allez dans <strong>Devis → Nouveau devis</strong>.</li>
+<li>Sélectionnez un contact existant (ou créez-en un d\'abord).</li>
+<li>Ajoutez les lignes de services : description, quantité, prix unitaire.</li>
+<li>Optionnel : ajoutez une TVA (%) et une remise.</li>
+<li>Définissez la date d\'émission et la date de validité.</li>
+<li>Cliquez sur "Créer le devis".</li>
+</ol>
 
-<h2>Ce qui fait un bon devis</h2>
+<h2>Envoyer le devis</h2>
+<p>Sur la page de détail du devis, vous avez trois options :</p>
 <ul>
-<li>Un périmètre compréhensible.</li>
-<li>Des lignes de services claires.</li>
-<li>Un total sans ambiguïté.</li>
-<li>Une durée de validité.</li>
-<li>Une prochaine étape explicite.</li>
+<li><strong>📲 Envoyer WhatsApp</strong> — Le PDF est généré et envoyé via WhatsApp. Le contact doit avoir un numéro WhatsApp.</li>
+<li><strong>✉️ Envoyer par email</strong> — Le PDF est généré et envoyé en pièce jointe. Le contact doit avoir une adresse email.</li>
+<li><strong>📥 Télécharger PDF</strong> — Vous téléchargez le fichier pour l\'envoyer vous-même.</li>
 </ul>
 
-<h2>Conseil commercial</h2>
-<p>Envoyez toujours le devis avec un message d’accompagnement humain. Même si le document est bon, le texte qui l’introduit influence fortement la réponse du prospect.</p>
+<h2>Convertir en facture</h2>
+<p>Si le client accepte le devis, cliquez sur <strong>"→ Convertir en facture"</strong>. Toutes les lignes, montants et informations sont copiés automatiquement dans une nouvelle facture.</p>
 HTML,
                 'content_en' => <<<'HTML'
-<h2>The goal</h2>
-<p>Creating a quote should not become heavy admin work. With the right setup, you can take a request received on WhatsApp and send a professional quote in minutes.</p>
+<h2>Creating a quote</h2>
+<ol>
+<li>Go to <strong>Quotes → New Quote</strong>.</li>
+<li>Select an existing contact (or create one first).</li>
+<li>Add service lines: description, quantity, unit price.</li>
+<li>Optional: add tax (%) and discount.</li>
+<li>Set the issue date and validity date.</li>
+<li>Click "Create Quote".</li>
+</ol>
 
-<h2>What makes a good quote</h2>
+<h2>Sending the quote</h2>
+<p>On the quote detail page, you have three options:</p>
 <ul>
-<li>A clear scope.</li>
-<li>Easy-to-understand service lines.</li>
-<li>An unambiguous total.</li>
-<li>A validity period.</li>
-<li>A clear next step.</li>
+<li><strong>📲 Send via WhatsApp</strong> — The PDF is generated and sent via WhatsApp. The contact must have a WhatsApp number.</li>
+<li><strong>✉️ Send via Email</strong> — The PDF is generated and sent as an attachment. The contact must have an email address.</li>
+<li><strong>📥 Download PDF</strong> — You download the file to send it yourself.</li>
 </ul>
 
-<h2>Sales tip</h2>
-<p>Always send a quote with a human message around it. Even if the document is strong, the message that introduces it has a major impact on the prospect’s response.</p>
+<h2>Converting to invoice</h2>
+<p>If the client accepts the quote, click <strong>"→ Convert to Invoice"</strong>. All lines, amounts, and information are automatically copied to a new invoice.</p>
 HTML,
-                'meta_title_fr' => 'Créer un devis professionnel sur WhatsAppBizAI',
-                'meta_title_en' => 'Create a professional quote in WhatsAppBizAI',
-                'meta_description_fr' => 'Tutoriel pour créer un devis professionnel et l’envoyer rapidement depuis WhatsAppBizAI.',
-                'meta_description_en' => 'Tutorial for creating a professional quote and sending it quickly from WhatsAppBizAI.',
+                'meta_title_fr' => 'Créer un devis sur WhatsAppBizAI — Tutoriel',
+                'meta_title_en' => 'Create a quote in WhatsAppBizAI — Tutorial',
+                'meta_description_fr' => 'Tutoriel pour créer un devis, l\'envoyer par WhatsApp ou email, et le convertir en facture.',
+                'meta_description_en' => 'Tutorial for creating a quote, sending it via WhatsApp or email, and converting it to an invoice.',
                 'author_name' => 'WhatsAppBizAI',
                 'is_published' => true,
                 'published_at' => now()->subDays(8),
                 'sort_order' => 2,
                 'views' => 126,
                 'difficulty' => 'beginner',
-                'reading_minutes' => 6,
+                'reading_minutes' => 5,
                 'steps' => [
-                    ['title_fr' => 'Choisir le contact', 'title_en' => 'Select the contact', 'description_fr' => 'Associez le devis au bon client ou prospect.', 'description_en' => 'Link the quote to the right client or lead.', 'icon' => '👤'],
-                    ['title_fr' => 'Ajouter les services', 'title_en' => 'Add services', 'description_fr' => 'Sélectionnez les prestations adaptées à la demande.', 'description_en' => 'Select the services that match the request.', 'icon' => '🧾'],
-                    ['title_fr' => 'Vérifier les montants', 'title_en' => 'Review totals', 'description_fr' => 'Contrôlez la devise, les quantités et le total final.', 'description_en' => 'Check the currency, quantities, and final total.', 'icon' => '💰'],
-                    ['title_fr' => 'Envoyer le devis', 'title_en' => 'Send the quote', 'description_fr' => 'Partagez-le avec un message d’accompagnement clair.', 'description_en' => 'Send it with a clear supporting message.', 'icon' => '📤'],
+                    ['title_fr' => 'Ouvrir la page Devis', 'title_en' => 'Open the Quotes page', 'description_fr' => 'Cliquez sur "Devis" dans le menu latéral.', 'description_en' => 'Click "Quotes" in the sidebar.', 'icon' => '🧾'],
+                    ['title_fr' => 'Sélectionner le contact', 'title_en' => 'Select the contact', 'description_fr' => 'Choisissez le client ou prospect concerné.', 'description_en' => 'Choose the relevant client or lead.', 'icon' => '👤'],
+                    ['title_fr' => 'Ajouter les services', 'title_en' => 'Add services', 'description_fr' => 'Décrivez chaque prestation avec quantité et prix.', 'description_en' => 'Describe each service with quantity and price.', 'icon' => '📋'],
+                    ['title_fr' => 'Créer et envoyer', 'title_en' => 'Create and send', 'description_fr' => 'Cliquez sur Créer, puis choisissez WhatsApp ou email.', 'description_en' => 'Click Create, then choose WhatsApp or email.', 'icon' => '📤'],
                 ],
             ],
             [
-                'help_category_id' => $categoryIds['quotes-invoices-payments'],
-                'slug' => 'invoice-payment-collection-checklist',
-                'type' => 'guide',
-                'title_fr' => 'Guide interactif : sécuriser le paiement après envoi de facture',
-                'title_en' => 'Interactive guide: secure payment after sending an invoice',
-                'excerpt_fr' => 'Une checklist simple pour éviter qu’une facture envoyée tombe dans l’oubli et dégrade votre trésorerie.',
-                'excerpt_en' => 'A simple checklist to prevent sent invoices from being forgotten and hurting cash flow.',
+                'help_category_id' => $categoryIds['documents'],
+                'slug' => 'invoice-pdf-and-sending',
+                'type' => 'tutorial',
+                'title_fr' => 'Créer une facture et l\'envoyer par email ou WhatsApp',
+                'title_en' => 'Create an invoice and send it via email or WhatsApp',
+                'excerpt_fr' => 'Comment créer une facture avec votre logo, générer le PDF et l\'envoyer par email ou WhatsApp.',
+                'excerpt_en' => 'How to create an invoice with your logo, generate the PDF, and send it via email or WhatsApp.',
                 'content_fr' => <<<'HTML'
-<h2>Le vrai sujet n’est pas l’envoi</h2>
-<p>Beaucoup d’entreprises pensent que le travail est terminé une fois la facture envoyée. En réalité, c’est là que le suivi commence. Une bonne discipline de relance améliore fortement l’encaissement.</p>
+<h2>Créer une facture</h2>
+<ol>
+<li>Allez dans <strong>Factures → Nouvelle facture</strong>.</li>
+<li>Sélectionnez un contact.</li>
+<li>Ajoutez les lignes de prestation.</li>
+<li>Optionnel : TVA, remise, notes (ex: "Payer par OM/MOMO").</li>
+<li>Cliquez sur "Créer la facture".</li>
+</ol>
 
-<h2>La logique du guide</h2>
-<p>Ce guide vous aide à vérifier la réception, cadrer l’échéance, relancer avec tact et archiver correctement le dossier une fois payé.</p>
+<h2>Le PDF de la facture</h2>
+<p>Le PDF contient automatiquement :</p>
+<ul>
+<li>Votre <strong>logo entreprise</strong> (si uploadé dans les paramètres).</li>
+<li>Votre nom, adresse, email et téléphone.</li>
+<li>Les informations du client (nom, email, WhatsApp).</li>
+<li>Le détail des lignes avec quantités et prix.</li>
+<li>Les totaux (sous-total, TVA, remise, total).</li>
+<li>Le lien "Généré par WhatsAppBizAI" dans le footer.</li>
+</ul>
+
+<h2>Envoyer la facture</h2>
+<ul>
+<li><strong>📲 Envoyer WhatsApp</strong> — Envoie le PDF via WhatsApp et passe le statut à "Envoyé".</li>
+<li><strong>✉️ Envoyer par email</strong> — Envoie le PDF en pièce jointe et passe le statut à "Envoyé". Le contact doit avoir une adresse email.</li>
+<li><strong>🔔 Relance WhatsApp</strong> — Envoie un message de rappel avec le montant et l\'échéance.</li>
+<li><strong>📥 Télécharger PDF</strong> — Télécharge le fichier.</li>
+</ul>
+
+<h2>Suivi des paiements</h2>
+<p>Quand le client paie, cliquez sur <strong>"✅ Marquer payée"</strong> pour mettre à jour le statut. Le total payé du contact est automatiquement mis à jour.</p>
 HTML,
                 'content_en' => <<<'HTML'
-<h2>Sending is not the finish line</h2>
-<p>Many businesses assume the job is done once the invoice is sent. In reality, that is where follow-up starts. Good reminder discipline has a strong impact on collection rates.</p>
+<h2>Creating an invoice</h2>
+<ol>
+<li>Go to <strong>Invoices → New Invoice</strong>.</li>
+<li>Select a contact.</li>
+<li>Add service lines.</li>
+<li>Optional: tax, discount, notes (e.g., "Pay via OM/MOMO").</li>
+<li>Click "Create Invoice".</li>
+</ol>
 
-<h2>The logic behind this guide</h2>
-<p>This guide helps you confirm receipt, frame the due date, follow up tactfully, and archive the case properly once payment is received.</p>
+<h2>The invoice PDF</h2>
+<p>The PDF automatically contains:</p>
+<ul>
+<li>Your <strong>business logo</strong> (if uploaded in settings).</li>
+<li>Your name, address, email, and phone.</li>
+<li>Client information (name, email, WhatsApp).</li>
+<li>Line details with quantities and prices.</li>
+<li>Totals (subtotal, tax, discount, total).</li>
+<li>The "Generated by WhatsAppBizAI" link in the footer.</li>
+</ul>
+
+<h2>Sending the invoice</h2>
+<ul>
+<li><strong>📲 Send via WhatsApp</strong> — Sends the PDF via WhatsApp and sets status to "Sent".</li>
+<li><strong>✉️ Send via Email</strong> — Sends the PDF as an attachment and sets status to "Sent". The contact must have an email address.</li>
+<li><strong>🔔 WhatsApp Reminder</strong> — Sends a reminder message with the amount and due date.</li>
+<li><strong>📥 Download PDF</strong> — Downloads the file.</li>
+</ul>
+
+<h2>Tracking payments</h2>
+<p>When the client pays, click <strong>"✅ Mark as Paid"</strong> to update the status. The contact\'s paid total is automatically updated.</p>
 HTML,
-                'meta_title_fr' => 'Checklist de suivi paiement facture',
-                'meta_title_en' => 'Invoice payment follow-up checklist',
-                'meta_description_fr' => 'Guide interactif pour suivre une facture jusqu’au paiement dans WhatsAppBizAI.',
-                'meta_description_en' => 'Interactive guide for tracking an invoice through payment in WhatsAppBizAI.',
+                'meta_title_fr' => 'Créer et envoyer une facture sur WhatsAppBizAI',
+                'meta_title_en' => 'Create and send an invoice in WhatsAppBizAI',
+                'meta_description_fr' => 'Tutoriel pour créer une facture avec logo, générer le PDF et l\'envoyer par WhatsApp ou email.',
+                'meta_description_en' => 'Tutorial for creating an invoice with logo, generating the PDF, and sending it via WhatsApp or email.',
                 'author_name' => 'WhatsAppBizAI',
                 'is_published' => true,
                 'published_at' => now()->subDays(7),
                 'sort_order' => 3,
                 'views' => 104,
-                'difficulty' => 'intermediate',
+                'difficulty' => 'beginner',
                 'reading_minutes' => 5,
                 'steps' => [
-                    ['title_fr' => 'Confirmer la réception', 'title_en' => 'Confirm receipt', 'description_fr' => 'Assurez-vous que le client a bien reçu le document.', 'description_en' => 'Make sure the client actually received the invoice.', 'icon' => '📨'],
-                    ['title_fr' => 'Rappeler l’échéance', 'title_en' => 'Restate the due date', 'description_fr' => 'Mentionnez clairement la date prévue de paiement.', 'description_en' => 'State the expected payment date clearly.', 'icon' => '⏳'],
-                    ['title_fr' => 'Relancer sans agressivité', 'title_en' => 'Follow up without sounding aggressive', 'description_fr' => 'Utilisez un ton ferme mais professionnel.', 'description_en' => 'Use a firm but professional tone.', 'icon' => '🤝'],
-                    ['title_fr' => 'Clôturer et archiver', 'title_en' => 'Close and archive', 'description_fr' => 'Une fois payé, mettez le statut à jour et conservez la trace.', 'description_en' => 'Once paid, update the status and keep the record.', 'icon' => '✅'],
+                    ['title_fr' => 'Ouvrir la page Factures', 'title_en' => 'Open the Invoices page', 'description_fr' => 'Cliquez sur "Factures" dans le menu.', 'description_en' => 'Click "Invoices" in the menu.', 'icon' => '🧾'],
+                    ['title_fr' => 'Créer la facture', 'title_en' => 'Create the invoice', 'description_fr' => 'Sélectionnez le contact et ajoutez les lignes.', 'description_en' => 'Select the contact and add lines.', 'icon' => '➕'],
+                    ['title_fr' => 'Vérifier le PDF', 'title_en' => 'Verify the PDF', 'description_fr' => 'Téléchargez le PDF pour vérifier le rendu avec votre logo.', 'description_en' => 'Download the PDF to check the output with your logo.', 'icon' => '📥'],
+                    ['title_fr' => 'Envoyer', 'title_en' => 'Send', 'description_fr' => 'Envoyez par WhatsApp ou email depuis la page de détail.', 'description_en' => 'Send via WhatsApp or email from the detail page.', 'icon' => '📤'],
                 ],
             ],
+
+            // ═══════════════════════════════════════════════════════════
+            // CATEGORY: Automation & AI
+            // ═══════════════════════════════════════════════════════════
             [
                 'help_category_id' => $categoryIds['automation-ai'],
-                'slug' => 'using-ai-assistant-safely',
+                'slug' => 'understanding-ai-responses',
                 'type' => 'article',
-                'title_fr' => 'Utiliser l’assistant IA sans perdre votre voix commerciale',
-                'title_en' => 'Use the AI assistant without losing your sales voice',
-                'excerpt_fr' => 'Comment profiter de la vitesse de l’IA tout en gardant des réponses crédibles, humaines et alignées avec votre marque.',
-                'excerpt_en' => 'How to benefit from AI speed while keeping responses credible, human, and aligned with your brand.',
+                'title_fr' => 'Comment fonctionne l\'IA et que peut-elle faire ?',
+                'title_en' => 'How does the AI work and what can it do?',
+                'excerpt_fr' => 'Comprendre l\'assistant IA : réponses automatiques, Test Chat et rédaction assistée.',
+                'excerpt_en' => 'Understand the AI assistant: auto-responses, Test Chat, and assisted writing.',
                 'content_fr' => <<<'HTML'
-<h2>L’IA doit accélérer, pas déshumaniser</h2>
-<p>L’assistant IA est excellent pour proposer un premier jet, reformuler un message, synthétiser une demande ou suggérer une relance. En revanche, il fonctionne mieux quand vous gardez la supervision du ton et du contexte.</p>
+<h2>L\'IA dans WhatsAppBizAI</h2>
+<p>L\'assistant IA (basé sur Gemini) est intégré à plusieurs endroits de la plateforme :</p>
 
-<h2>Ce que l’IA fait bien</h2>
+<h2>1. Réponses automatiques aux conversations</h2>
+<p>Quand un client vous envoie un message WhatsApp, l\'IA peut répondre automatiquement en se basant sur :</p>
 <ul>
-<li>Résumer des échanges longs.</li>
-<li>Rédiger des relances courtes.</li>
-<li>Adapter le niveau de formalité.</li>
-<li>Structurer une proposition commerciale.</li>
+<li>Le <strong>prompt système</strong> que vous configurez dans les paramètres (personnalité, ton, règles).</li>
+<li>Les <strong>documents IA</strong> (texte libre) que vous fournissez comme contexte.</li>
+<li>L\'historique de la conversation.</li>
 </ul>
 
-<h2>Ce que vous devez relire</h2>
+<h2>2. Test Chat IA</h2>
+<p>Le module <strong>Test Chat IA</strong> (barre latérale) vous permet de simuler une conversation WhatsApp sans connecter un vrai compte. C\'est idéal pour :</p>
 <ul>
-<li>Les promesses de délai.</li>
-<li>Les montants ou conditions commerciales.</li>
-<li>Les formulations trop génériques.</li>
-<li>Les réponses envoyées à un client sensible ou important.</li>
+<li>Tester les réponses de l\'IA avant de mettre le bot en production.</li>
+<li>Ajuster le prompt système.</li>
+<li>Vérifier que l\'IA comprend votre activité.</li>
 </ul>
 
-<h2>La bonne méthode</h2>
-<p>Considérez l’IA comme un copilote rédactionnel. Laissez-la vous faire gagner du temps, mais gardez toujours la décision finale sur le message envoyé.</p>
+<h2>3. Rédaction assistée</h2>
+<p>Dans le module <strong>Rétention</strong>, l\'IA peut rédiger des messages de relance personnalisés en se basant sur l\'objectif (fidélisation, upsell, win-back, parrainage) et le profil du contact.</li>
+
+<h2>Ce que l\'IA ne fait pas</h2>
+<ul>
+<li>Elle ne valide pas les paiements.</li>
+<li>Elle ne modifie pas vos factures ou devis.</li>
+<li>Elle ne remplace pas votre jugement commercial.</li>
+</ul>
 HTML,
                 'content_en' => <<<'HTML'
-<h2>AI should speed you up, not flatten your personality</h2>
-<p>The AI assistant is great for first drafts, rewriting messages, summarizing requests, or suggesting follow-ups. It works best when you still supervise tone and context.</p>
+<h2>AI in WhatsAppBizAI</h2>
+<p>The AI assistant (powered by Gemini) is integrated into several parts of the platform:</p>
 
-<h2>What AI does well</h2>
+<h2>1. Automatic conversation responses</h2>
+<p>When a client sends you a WhatsApp message, the AI can respond automatically based on:</p>
 <ul>
-<li>Summarizing long exchanges.</li>
-<li>Drafting short follow-ups.</li>
-<li>Adapting tone and formality.</li>
-<li>Structuring a commercial proposal.</li>
+<li>The <strong>system prompt</strong> you configure in settings (personality, tone, rules).</li>
+<li>The <strong>AI documents</strong> (free text) you provide as context.</li>
+<li>The conversation history.</li>
 </ul>
 
-<h2>What you should always review</h2>
+<h2>2. Test Chat AI</h2>
+<p>The <strong>Test Chat AI</strong> module (sidebar) lets you simulate a WhatsApp conversation without connecting a real account. It is ideal for:</p>
 <ul>
-<li>Deadline promises.</li>
-<li>Prices or commercial terms.</li>
-<li>Overly generic wording.</li>
-<li>Responses going to sensitive or high-value clients.</li>
+<li>Testing AI responses before going live.</li>
+<li>Adjusting the system prompt.</li>
+<li>Verifying the AI understands your business.</li>
 </ul>
 
-<h2>The right approach</h2>
-<p>Treat AI as a writing copilot. Let it save time, but keep the final decision on what gets sent.</p>
+<h2>3. Assisted writing</h2>
+<p>In the <strong>Retention</strong> module, the AI can write personalized follow-up messages based on the objective (loyalty, upsell, win-back, referral) and the contact\'s profile.</p>
+
+<h2>What AI does not do</h2>
+<ul>
+<li>It does not validate payments.</li>
+<li>It does not modify your invoices or quotes.</li>
+<li>It does not replace your business judgment.</li>
+</ul>
 HTML,
-                'meta_title_fr' => 'Bien utiliser l’IA dans WhatsAppBizAI',
-                'meta_title_en' => 'How to use AI well in WhatsAppBizAI',
-                'meta_description_fr' => 'Conseils pour exploiter l’assistant IA de WhatsAppBizAI tout en gardant un ton humain et crédible.',
-                'meta_description_en' => 'Tips for using the WhatsAppBizAI AI assistant while keeping a human and credible tone.',
+                'meta_title_fr' => 'Comment fonctionne l\'IA dans WhatsAppBizAI',
+                'meta_title_en' => 'How AI works in WhatsAppBizAI',
+                'meta_description_fr' => 'Comprenez l\'assistant IA : réponses automatiques, Test Chat et rédaction assistée dans WhatsAppBizAI.',
+                'meta_description_en' => 'Understand the AI assistant: auto-responses, Test Chat, and assisted writing in WhatsAppBizAI.',
                 'author_name' => 'WhatsAppBizAI',
                 'is_published' => true,
                 'published_at' => now()->subDays(6),
                 'sort_order' => 1,
                 'views' => 143,
-                'difficulty' => 'intermediate',
-                'reading_minutes' => 5,
+                'difficulty' => 'beginner',
+                'reading_minutes' => 4,
                 'steps' => null,
             ],
             [
                 'help_category_id' => $categoryIds['automation-ai'],
-                'slug' => 'create-ai-follow-up-message',
+                'slug' => 'configure-ai-prompt',
                 'type' => 'tutorial',
-                'title_fr' => 'Créer une relance assistée par IA qui donne envie de répondre',
-                'title_en' => 'Create an AI-assisted follow-up that gets replies',
-                'excerpt_fr' => 'Un pas à pas pour produire des relances courtes, utiles et moins robotiques.',
-                'excerpt_en' => 'A walkthrough for creating short, useful follow-ups that feel less robotic.',
+                'title_fr' => 'Configurer le prompt de votre assistant IA',
+                'title_en' => 'Configure your AI assistant\'s prompt',
+                'excerpt_fr' => 'Comment personnaliser le comportement de l\'IA pour qu\'elle réponde comme un vrai membre de votre équipe.',
+                'excerpt_en' => 'How to customize the AI\'s behavior so it responds like a real member of your team.',
                 'content_fr' => <<<'HTML'
-<h2>Le problème des mauvaises relances IA</h2>
-<p>Les relances générées automatiquement peuvent vite paraître froides, répétitives ou insistantes. Pour obtenir de bons résultats, il faut cadrer la demande et relire le résultat.</p>
-
-<h2>Le bon objectif</h2>
-<p>Une bonne relance ne répète pas simplement “je reviens vers vous”. Elle rappelle le contexte, réduit la friction et appelle une réponse simple.</p>
-
-<h2>Exemple de logique</h2>
+<h2>Où se trouve le prompt ?</h2>
+<p>Le prompt système est configuré dans <strong>Paramètres → Mon entreprise</strong>, dans la section <strong>Intelligence Artificielle</strong>. C\'est un champ de texte riche (RichEditor) où vous décrivez :</p>
 <ul>
-<li>Rappeler la dernière interaction.</li>
-<li>Montrer que vous comprenez le besoin.</li>
-<li>Proposer une prochaine étape facile.</li>
-<li>Rester bref.</li>
+<li>Qui est l\'IA (ex: "Vous êtes l\'assistant commercial de Coiffure Élégance").</li>
+<li>Quel ton adopter (professionnel, amical, formel).</li>
+<li>Quelles règles suivre (ne pas divulguer les prix à des concurrents, toujours proposer un rendez-vous, etc.).</li>
+<li>Des informations sur vos services et tarifs.</li>
 </ul>
+
+<h2>Conseils pour un bon prompt</h2>
+<ul>
+<li>Soyez spécifique : plus le contexte est précis, meilleures seront les réponses.</li>
+<li>Définissez des limites : dites à l\'IA ce qu\'elle ne doit pas faire.</li>
+<li>Incluez vos tarifs et conditions pour que l\'IA puisse renseigner les clients.</li>
+<li>Testez avec le <strong>Test Chat IA</strong> avant d\'activer en production.</li>
+<li>Mettez à jour le prompt quand vos services ou tarifs changent.</li>
+</ul>
+
+<h2>Exemple de prompt</h2>
+<p>"Vous êtes l\'assistant commercial de [Nom]. Vous êtes amical et professionnel. Vous pouvez proposer nos services suivants : [liste]. Les prix commencent à [prix]. Pour les devis, invitez le client à fournir plus de détails. Ne divulguez jamais les prix aux concurrents."</p>
+
+<h2>Testez votre prompt</h2>
+<p>Après modification, ouvrez le <strong>Test Chat IA</strong> depuis la barre latéral et posez des questions typiques de vos clients. Vérifiez que les réponses sont pertinentes et dans le bon ton.</p>
 HTML,
                 'content_en' => <<<'HTML'
-<h2>The problem with weak AI follow-ups</h2>
-<p>Automatically generated follow-ups can quickly sound cold, repetitive, or pushy. To get good results, you need to frame the prompt well and review the output.</p>
-
-<h2>The right goal</h2>
-<p>A strong follow-up does more than say “just checking in.” It reminds the client of the context, reduces friction, and asks for an easy response.</p>
-
-<h2>A useful structure</h2>
+<h2>Where is the prompt?</h2>
+<p>The system prompt is configured in <strong>Settings → My Business</strong>, in the <strong>Artificial Intelligence</strong> section. It is a rich text field where you describe:</p>
 <ul>
-<li>Reference the last interaction.</li>
-<li>Show that you understand the need.</li>
-<li>Suggest an easy next step.</li>
-<li>Keep it short.</li>
+<li>Who the AI is (e.g., "You are the sales assistant for Coiffure Élégance").</li>
+<li>What tone to use (professional, friendly, formal).</li>
+<li>What rules to follow (don\'t share prices with competitors, always propose an appointment, etc.).</li>
+<li>Information about your services and pricing.</li>
 </ul>
+
+<h2>Tips for a good prompt</h2>
+<ul>
+<li>Be specific: the more precise the context, the better the responses.</li>
+<li>Set boundaries: tell the AI what it must not do.</li>
+<li>Include your pricing and conditions so the AI can inform clients.</li>
+<li>Test with <strong>Test Chat AI</strong> before going live.</li>
+<li>Update the prompt when your services or pricing change.</li>
+</ul>
+
+<h2>Example prompt</h2>
+<p>"You are the sales assistant for [Name]. You are friendly and professional. You can offer the following services: [list]. Prices start at [price]. For quotes, ask the client to provide more details. Never share prices with competitors."</p>
+
+<h2>Test your prompt</h2>
+<p>After editing, open <strong>Test Chat AI</strong> from the sidebar and ask typical customer questions. Verify that the responses are relevant and in the right tone.</p>
 HTML,
-                'meta_title_fr' => 'Créer une relance IA efficace sur WhatsAppBizAI',
-                'meta_title_en' => 'Create an effective AI follow-up in WhatsAppBizAI',
-                'meta_description_fr' => 'Tutoriel pour créer des relances IA plus humaines et plus efficaces dans WhatsAppBizAI.',
-                'meta_description_en' => 'Tutorial for creating more human and effective AI follow-ups in WhatsAppBizAI.',
+                'meta_title_fr' => 'Configurer le prompt IA sur WhatsAppBizAI',
+                'meta_title_en' => 'Configure the AI prompt in WhatsAppBizAI',
+                'meta_description_fr' => 'Tutoriel pour personnaliser le prompt de l\'assistant IA et adapter ses réponses à votre activité.',
+                'meta_description_en' => 'Tutorial for customizing the AI assistant\'s prompt and adapting its responses to your business.',
                 'author_name' => 'WhatsAppBizAI',
                 'is_published' => true,
                 'published_at' => now()->subDays(5),
@@ -724,50 +977,105 @@ HTML,
                 'difficulty' => 'intermediate',
                 'reading_minutes' => 5,
                 'steps' => [
-                    ['title_fr' => 'Choisir la bonne conversation', 'title_en' => 'Choose the right conversation', 'description_fr' => 'Utilisez l’IA sur un prospect réellement pertinent à relancer.', 'description_en' => 'Use AI for a genuinely relevant lead.', 'icon' => '🎯'],
-                    ['title_fr' => 'Donner le bon contexte', 'title_en' => 'Provide the right context', 'description_fr' => 'Mentionnez le besoin, la dernière date et l’objectif.', 'description_en' => 'Mention the need, last touchpoint, and objective.', 'icon' => '🧩'],
-                    ['title_fr' => 'Relire et simplifier', 'title_en' => 'Review and simplify', 'description_fr' => 'Supprimez les phrases creuses et gardez l’essentiel.', 'description_en' => 'Remove filler and keep only what matters.', 'icon' => '✂️'],
-                    ['title_fr' => 'Envoyer au bon moment', 'title_en' => 'Send at the right time', 'description_fr' => 'Une bonne relance dépend aussi du timing.', 'description_en' => 'Timing matters as much as wording.', 'icon' => '⏰'],
+                    ['title_fr' => 'Ouvrir les paramètres entreprise', 'title_en' => 'Open business settings', 'description_fr' => 'Allez dans Mon entreprise depuis le menu.', 'description_en' => 'Go to My Business from the menu.', 'icon' => '⚙️'],
+                    ['title_fr' => 'Trouver la section IA', 'title_en' => 'Find the AI section', 'description_fr' => 'Le champ "Prompt IA Gemini" est en bas du formulaire.', 'description_en' => 'The "Gemini AI Prompt" field is at the bottom of the form.', 'icon' => '🤖'],
+                    ['title_fr' => 'Rédiger le prompt', 'title_en' => 'Write the prompt', 'description_fr' => 'Décrivez le rôle, le ton et les règles de l\'IA.', 'description_en' => 'Describe the AI\'s role, tone, and rules.', 'icon' => '✍️'],
+                    ['title_fr' => 'Tester avec Test Chat', 'title_en' => 'Test with Test Chat', 'description_fr' => 'Ouvrez le Test Chat IA et posez des questions tests.', 'description_en' => 'Open Test Chat AI and ask test questions.', 'icon' => '🧪'],
                 ],
             ],
             [
                 'help_category_id' => $categoryIds['automation-ai'],
-                'slug' => 'automation-readiness-checklist',
+                'slug' => 'retention-campaigns',
                 'type' => 'guide',
-                'title_fr' => 'Guide interactif : êtes-vous prêt à automatiser vos ventes ?',
-                'title_en' => 'Interactive guide: are you ready to automate your sales?',
-                'excerpt_fr' => 'Validez les prérequis avant d’activer davantage d’automatisation dans vos processus commerciaux.',
-                'excerpt_en' => 'Validate the prerequisites before adding more automation to your sales process.',
+                'title_fr' => 'Guide : lancer une campagne de rétention',
+                'title_en' => 'Guide: launch a retention campaign',
+                'excerpt_fr' => 'Comment créer des campagnes ciblées (fidélisation, win-back, upsell, parrainage) avec l\'aide de l\'IA.',
+                'excerpt_en' => 'How to create targeted campaigns (loyalty, win-back, upsell, referral) with AI assistance.',
                 'content_fr' => <<<'HTML'
-<h2>L’automatisation n’est utile que si les bases sont stables</h2>
-<p>Automatiser un processus flou ne fait qu’accélérer le désordre. Avant d’aller plus loin, vérifiez que vos données, services, statuts et routines de suivi sont déjà suffisamment propres.</p>
+<h2>Le module Rétention</h2>
+<p>Le module <strong>Rétention</strong> vous permet d\'envoyer des messages ciblés à différents segments de contacts via WhatsApp. L\'IA peut rédiger le message pour vous.</p>
 
-<h2>Ce guide vous aide à évaluer votre maturité</h2>
-<p>Si vous cochez toutes les étapes, vous êtes dans une bonne position pour intensifier l’usage de l’IA et des relances automatiques.</p>
+<h2>Les 4 types de campagne</h2>
+<ul>
+<li><strong>🔒 Rétention</strong> — Fidéliser les clients actifs avec une offre spéciale.</li>
+<li><strong>📈 Upsell</strong> — Proposer des services premium aux clients existants.</li>
+<li><strong>🔄 Win-back</strong> — Réactiver les clients inactifs depuis 30+ jours.</li>
+<li><strong>👥 Parrainage</strong> — Demander aux clients de recommander votre service.</li>
+</ul>
+
+<h2>Les segments cibles</h2>
+<ul>
+<li><strong>Clients inactifs</strong> — Pas de contact depuis 30+ jours.</li>
+<li><strong>Tous les clients</strong> — L\'ensemble de vos clients actifs.</li>
+<li><strong>Prospects</strong> — Les contacts avec le statut "prospect".</li>
+<li><strong>Clients à forte valeur</strong> — Plus de 100 000 XAF facturés.</li>
+</ul>
+
+<h2>Étapes pour lancer une campagne</h2>
+<ol>
+<li>Allez dans <strong>Rétention</strong> depuis le menu latéral.</li>
+<li>Choisissez le type de campagne.</li>
+<li>Sélectionnez le segment cible.</li>
+<li>Entrez l\'objectif (ex: "-20% sur les services premium").</li>
+<li>Cliquez sur "🤖 Rédiger avec l\'IA" pour générer un message.</li>
+<li>Vérifiez et personnalisez le message.</li>
+<li>Cliquez sur "📤 Envoyer la campagne".</li>
+</ol>
+
+<h2>Prérequis</h2>
+<p>Votre WhatsApp doit être connecté (pas en mode sandbox) pour que les messages soient réellement envoyés.</p>
 HTML,
                 'content_en' => <<<'HTML'
-<h2>Automation only helps when the basics are stable</h2>
-<p>Automating a messy process only speeds up the mess. Before going further, make sure your data, service catalog, statuses, and follow-up routines are already reasonably clean.</p>
+<h2>The Retention module</h2>
+<p>The <strong>Retention</strong> module lets you send targeted messages to different contact segments via WhatsApp. The AI can draft the message for you.</p>
 
-<h2>This guide helps you assess readiness</h2>
-<p>If you can complete all the steps, you are in a strong position to deepen your use of AI and automated follow-ups.</p>
+<h2>The 4 campaign types</h2>
+<ul>
+<li><strong>🔒 Retention</strong> — Loyalty offers for active clients.</li>
+<li><strong>📈 Upsell</strong> — Propose premium services to existing clients.</li>
+<li><strong>🔄 Win-back</strong> — Re-engage clients inactive for 30+ days.</li>
+<li><strong>👥 Referral</strong> — Ask clients to recommend your service.</li>
+</ul>
+
+<h2>Target segments</h2>
+<ul>
+<li><strong>Inactive clients</strong> — No contact for 30+ days.</li>
+<li><strong>All clients</strong> — All your active clients.</li>
+<li><strong>Prospects</strong> — Contacts with "prospect" status.</li>
+<li><strong>High-value clients</strong> — Over 100,000 XAF invoiced.</li>
+</ul>
+
+<h2>Steps to launch a campaign</h2>
+<ol>
+<li>Go to <strong>Retention</strong> from the sidebar.</li>
+<li>Choose the campaign type.</li>
+<li>Select the target segment.</li>
+<li>Enter the objective (e.g., "-20% on premium services").</li>
+<li>Click "🤖 Draft with AI" to generate a message.</li>
+<li>Review and customize the message.</li>
+<li>Click "📤 Send campaign".</li>
+</ol>
+
+<h2>Prerequisites</h2>
+<p>Your WhatsApp must be connected (not in sandbox mode) for messages to be actually sent.</p>
 HTML,
-                'meta_title_fr' => 'Checklist pour automatiser ses ventes',
-                'meta_title_en' => 'Sales automation readiness checklist',
-                'meta_description_fr' => 'Guide interactif pour vérifier si votre activité est prête à automatiser davantage les ventes avec WhatsAppBizAI.',
-                'meta_description_en' => 'Interactive guide to assess whether your business is ready for deeper sales automation with WhatsAppBizAI.',
+                'meta_title_fr' => 'Lancer une campagne de rétention sur WhatsAppBizAI',
+                'meta_title_en' => 'Launch a retention campaign in WhatsAppBizAI',
+                'meta_description_fr' => 'Guide pour créer et envoyer des campagnes de rétention, win-back et parrainage avec l\'IA.',
+                'meta_description_en' => 'Guide for creating and sending retention, win-back, and referral campaigns with AI.',
                 'author_name' => 'WhatsAppBizAI',
                 'is_published' => true,
                 'published_at' => now()->subDays(4),
                 'sort_order' => 3,
                 'views' => 97,
-                'difficulty' => 'advanced',
-                'reading_minutes' => 6,
+                'difficulty' => 'intermediate',
+                'reading_minutes' => 5,
                 'steps' => [
-                    ['title_fr' => 'Vos contacts sont-ils propres ?', 'title_en' => 'Are your contacts clean?', 'description_fr' => 'Vérifiez la qualité de vos données CRM.', 'description_en' => 'Check the quality of your CRM data.', 'icon' => '🧼'],
-                    ['title_fr' => 'Vos services sont-ils standardisés ?', 'title_en' => 'Are your services standardized?', 'description_fr' => 'Des offres claires rendent l’automatisation plus fiable.', 'description_en' => 'Clear offers make automation more reliable.', 'icon' => '📦'],
-                    ['title_fr' => 'Vos statuts commerciaux sont-ils utilisés ?', 'title_en' => 'Are your sales statuses actually used?', 'description_fr' => 'Un pipeline réel vaut mieux qu’un pipeline théorique.', 'description_en' => 'A real pipeline is better than a theoretical one.', 'icon' => '📊'],
-                    ['title_fr' => 'Relisez-vous les messages sensibles ?', 'title_en' => 'Do you review sensitive messages?', 'description_fr' => 'Gardez une boucle humaine là où c’est critique.', 'description_en' => 'Keep a human checkpoint where it matters.', 'icon' => '🛡️'],
+                    ['title_fr' => 'Ouvrir le module Rétention', 'title_en' => 'Open the Retention module', 'description_fr' => 'Cliquez sur "Rétention" dans le menu.', 'description_en' => 'Click "Retention" in the menu.', 'icon' => '📢'],
+                    ['title_fr' => 'Choisir le type de campagne', 'title_en' => 'Choose campaign type', 'description_fr' => 'Rétention, upsell, win-back ou parrainage.', 'description_en' => 'Retention, upsell, win-back, or referral.', 'icon' => '🎯'],
+                    ['title_fr' => 'Sélectionner le segment', 'title_en' => 'Select the segment', 'description_fr' => 'Clients inactifs, tous les clients, prospects ou forte valeur.', 'description_en' => 'Inactive clients, all clients, prospects, or high-value.', 'icon' => '👥'],
+                    ['title_fr' => 'Générer le message avec l\'IA', 'title_en' => 'Generate the message with AI', 'description_fr' => 'Cliquez sur "🤖 Rédiger avec l\'IA" puis vérifiez le résultat.', 'description_en' => 'Click "🤖 Draft with AI" then review the result.', 'icon' => '🤖'],
+                    ['title_fr' => 'Envoyer la campagne', 'title_en' => 'Send the campaign', 'description_fr' => 'Vérifiez et cliquez sur Envoyer.', 'description_en' => 'Review and click Send.', 'icon' => '📤'],
                 ],
             ],
         ];

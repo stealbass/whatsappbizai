@@ -45,7 +45,7 @@
 @endsection
 
 @section('content')
-<div class="help-layout">
+<div class="help-layout no-hero">
     {{-- SIDEBAR --}}
     <aside class="help-sidebar">
         <p class="sidebar-title">{{ app()->getLocale()==='en' ? 'Categories' : 'Catégories' }}</p>
@@ -65,10 +65,10 @@
     <main class="help-main">
         <article class="article-wrap">
             {{-- Breadcrumb --}}
-            <nav style="font-size:13px;color:var(--gray);margin-bottom:20px;">
-                <a href="{{ url('help') }}" style="color:var(--sky);text-decoration:none;">Help Center</a>
+            <nav class="breadcrumb">
+                <a href="{{ url('help') }}">Help Center</a>
                 <span style="margin:0 6px;">›</span>
-                <a href="{{ url('help/'.$article->category->slug) }}" style="color:var(--sky);text-decoration:none;">{{ $article->category->trans('name') }}</a>
+                <a href="{{ url('help/'.$article->category->slug) }}">{{ $article->category->trans('name') }}</a>
                 <span style="margin:0 6px;">›</span>
                 <span>{{ $article->trans('title') }}</span>
             </nav>

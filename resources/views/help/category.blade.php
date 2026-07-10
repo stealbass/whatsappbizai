@@ -24,7 +24,7 @@
 @endsection
 
 @section('content')
-<div class="help-layout">
+<div class="help-layout no-hero">
     {{-- SIDEBAR --}}
     <aside class="help-sidebar">
         <p class="sidebar-title">{{ app()->getLocale()==='en' ? 'Categories' : 'Catégories' }}</p>
@@ -44,8 +44,8 @@
     {{-- MAIN --}}
     <main class="help-main">
         {{-- Breadcrumb --}}
-        <nav style="font-size:13px;color:var(--gray);margin-bottom:24px;">
-            <a href="{{ url('help') }}" style="color:var(--sky);text-decoration:none;">Help Center</a>
+        <nav class="breadcrumb">
+            <a href="{{ url('help') }}">Help Center</a>
             <span style="margin:0 6px;">›</span>
             <span>{{ $category->trans('name') }}</span>
         </nav>
