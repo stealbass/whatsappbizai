@@ -80,22 +80,22 @@ class HelpSeeder extends Seeder
                 'excerpt_en' => 'Complete overview: CRM, quotes, invoices, AI, and WhatsApp messaging for SMEs.',
                 'content_fr' => <<<'HTML'
 <h2>Une plateforme tout-en-un pour les PME</h2>
-<p>WhatsAppBizAI est un espace de travail SaaS qui combine CRM, facturation, automatisation IA et envoi de messages WhatsApp dans une seule interface. Vous gérez vos contacts, créez des devis et factures, relancez vos clients et utilisez l\'IA pour rédiger vos messages — sans quitter l\'application.</p>
+<p>WhatsAppBizAI est un espace de travail SaaS qui combine CRM, facturation, automatisation IA et envoi de messages WhatsApp dans une seule interface. Vous gérez vos contacts, créez des devis et factures, relancez vos clients et utilisez l'IA pour rédiger vos messages — sans quitter l'application.</p>
 
 <h2>Les modules principaux</h2>
 <ul>
 <li><strong>Contacts</strong> — Créez et gérez vos prospects et clients avec statut (prospect, client, inactif), historique des paiements et totaux facturés. Importez vos contacts depuis un fichier CSV.</li>
-<li><strong>Conversations IA</strong> — Vos échanges WhatsApp sont synchronisés et l\'IA peut répondre automatiquement selon votre prompt personnalisé.</li>
+<li><strong>Conversations IA</strong> — Vos échanges WhatsApp sont synchronisés et l'IA peut répondre automatiquement selon votre prompt personnalisé.</li>
 <li><strong>Devis</strong> — Créez des devis professionnels, envoyez-les par WhatsApp ou email, et convertissez-les en facture en un clic.</li>
 <li><strong>Factures</strong> — Générez des factures avec votre logo, suivez les paiements, relancez vos clients et téléchargez les PDF.</li>
 <li><strong>Services</strong> — Définissez vos prestations avec prix et unité pour accélérer la création de documents.</li>
 <li><strong>Broadcast</strong> — Envoyez des messages en masse à vos contacts WhatsApp.</li>
 <li><strong>Rétention</strong> — Lancez des campagnes ciblées (fidélisation, relance, upsell, parrainage) avec assistant IA.</li>
-<li><strong>Test Chat IA</strong> — Simulez une conversation WhatsApp pour tester les réponses de l\'IA avant de connecter un vrai compte.</li>
+<li><strong>Test Chat IA</strong> — Simulez une conversation WhatsApp pour tester les réponses de l'IA avant de connecter un vrai compte.</li>
 </ul>
 
 <h2>Pour qui est-ce conçu ?</h2>
-<p>Freelances, agences, prestataires de services, commerces, consultants et petites équipes commerciales qui vendent via WhatsApp et ont besoin d\'organiser leur activité sans multiplier les outils.</p>
+<p>Freelances, agences, prestataires de services, commerces, consultants et petites équipes commerciales qui vendent via WhatsApp et ont besoin d'organiser leur activité sans multiplier les outils.</p>
 
 <h2>Par où commencer ?</h2>
 <ol>
@@ -104,7 +104,7 @@ class HelpSeeder extends Seeder
 <li>Créez vos services principaux.</li>
 <li>Ajoutez quelques contacts ou importez-les depuis un CSV.</li>
 <li>Créez un premier devis ou facture.</li>
-<li>Testez l\'IA avec le Test Chat IA.</li>
+<li>Testez l'IA avec le Test Chat IA.</li>
 </ol>
 HTML,
                 'content_en' => <<<'HTML'
@@ -163,7 +163,7 @@ HTML,
 
 <h2>Les champs du formulaire</h2>
 <ul>
-<li><strong>Nom de l\'entreprise</strong> — Nom commercial affiché sur tous les documents.</li>
+<li><strong>Nom de l'entreprise</strong> — Nom commercial affiché sur tous les documents.</li>
 <li><strong>Propriétaire</strong> — Nom du responsable ou signataire.</li>
 <li><strong>Email</strong> — Adresse de contact principale.</li>
 <li><strong>Téléphone</strong> — Numéro professionnel.</li>
@@ -179,7 +179,7 @@ HTML,
 <p>Dans votre espace client, allez dans <strong>Paramètres → Mon entreprise</strong>. Modifiez les champs et cliquez sur Enregistrer.</p>
 
 <h2>Vérification</h2>
-<p>Créez un devis ou une facture test pour vérifier que les informations s\'affichent correctement dans le PDF généré.</p>
+<p>Créez un devis ou une facture test pour vérifier que les informations s'affichent correctement dans le PDF généré.</p>
 HTML,
                 'content_en' => <<<'HTML'
 <h2>Why this setup matters</h2>
@@ -264,7 +264,7 @@ HTML,
                 'excerpt_en' => 'Complete checklist to set up your account, add your services, and create your first quote in one hour.',
                 'content_fr' => <<<'HTML'
 <h2>Objectif</h2>
-<p>Cette checklist vous passe d\'un compte fraîchement créé à un espace prêt à l\'usage. Suivez les étapes dans l\'ordre.</p>
+<p>Cette checklist vous passe d'un compte fraîchement créé à un espace prêt à l'usage. Suivez les étapes dans l'ordre.</p>
 
 <h2>Avant de commencer</h2>
 <p>Ayez sous la main : le nom de votre entreprise, votre numéro WhatsApp professionnel, une adresse email, et les tarifs de vos services principaux.</p>
@@ -282,10 +282,10 @@ HTML,
 <p>Allez dans <strong>Devis → Nouveau devis</strong>. Sélectionnez un contact, ajoutez vos services, et créez le devis. Téléchargez le PDF pour vérifier le rendu.</p>
 
 <h2>Étape 5 : Envoyer le devis (5 min)</h2>
-<p>Depuis la page de détail du devis, cliquez sur "Envoyer WhatsApp" ou "Envoyer par email" pour tester l\'envoi.</p>
+<p>Depuis la page de détail du devis, cliquez sur "Envoyer WhatsApp" ou "Envoyer par email" pour tester l'envoi.</p>
 
 <h2>Étape 6 : Test Chat IA (5 min)</h2>
-<p>Ouvrez le <strong>Test Chat IA</strong> depuis la barre latérale. Posez des questions typiques de vos clients pour vérifier que l\'IA répond correctement.</p>
+<p>Ouvrez le <strong>Test Chat IA</strong> depuis la barre latérale. Posez des questions typiques de vos clients pour vérifier que l'IA répond correctement.</p>
 
 <h2>Bonus : Connecter WhatsApp</h2>
 <p>Allez dans <strong>Paramètres → WhatsApp</strong> et connectez votre compte WhatsApp Business via le portail Meta. En attendant, le mode sandbox est activé pour tester les envois.</p>
@@ -352,12 +352,12 @@ HTML,
                 'excerpt_en' => 'How to bulk import your existing contacts from Excel, Google Sheets, or a CSV file.',
                 'content_fr' => <<<'HTML'
 <h2>Pourquoi importer un CSV ?</h2>
-<p>Si vous avez déjà une liste de contacts dans Excel, Google Sheets ou un autre outil, l\'import CSV vous permet de tous les ajouter en une seule action au lieu de les saisir un par un.</p>
+<p>Si vous avez déjà une liste de contacts dans Excel, Google Sheets ou un autre outil, l'import CSV vous permet de tous les ajouter en une seule action au lieu de les saisir un par un.</p>
 
 <h2>Étape 1 : Préparer le fichier</h2>
 <p>Votre fichier CSV doit avoir :</p>
 <ul>
-<li>Une <strong>première ligne d\'en-tête</strong> avec les noms de colonnes.</li>
+<li>Une <strong>première ligne d'en-tête</strong> avec les noms de colonnes.</li>
 <li>Un <strong>séparateur</strong> point-virgule (;) ou virgule (,).</li>
 <li>La colonne <strong>whatsapp_number</strong> (ou équivalent) est obligatoire.</li>
 </ul>
@@ -374,7 +374,7 @@ HTML,
 </ul>
 
 <h2>Étape 2 : Télécharger le modèle</h2>
-<p>Depuis la page d\'import (<strong>Contacts → Importer CSV</strong>), cliquez sur "Télécharger le modèle" pour obtenir un fichier CSV exemple avec le bon format.</p>
+<p>Depuis la page d'import (<strong>Contacts → Importer CSV</strong>), cliquez sur "Télécharger le modèle" pour obtenir un fichier CSV exemple avec le bon format.</p>
 
 <h2>Étape 3 : Importer</h2>
 <ol>
@@ -384,7 +384,7 @@ HTML,
 <li>Le système affiche le résultat : nombre de contacts importés, ignorés et erreurs éventuelles.</li>
 </ol>
 
-<h2>Comportement de l\'import</h2>
+<h2>Comportement de l'import</h2>
 <ul>
 <li><strong>Création</strong> — Les nouveaux contacts sont créés avec le statut par défaut "prospect".</li>
 <li><strong>Mise à jour</strong> — Si un contact avec le même numéro WhatsApp existe déjà, il est mis à jour.</li>
@@ -462,14 +462,14 @@ HTML,
                 'excerpt_en' => 'How statuses organize your sales pipeline and enable targeted actions.',
                 'content_fr' => <<<'HTML'
 <h2>Les trois statuts disponibles</h2>
-<p>Chaque contact dans WhatsAppBizAI peut avoir l\'un des trois statuts suivants :</p>
+<p>Chaque contact dans WhatsAppBizAI peut avoir l'un des trois statuts suivants :</p>
 <ul>
-<li><strong>Prospect</strong> — La personne a manifesté un intérêt mais n\'a pas encore acheté. C\'est le statut par défaut lors de l\'import CSV.</li>
+<li><strong>Prospect</strong> — La personne a manifesté un intérêt mais n'a pas encore acheté. C'est le statut par défaut lors de l'import CSV.</li>
 <li><strong>Client</strong> — Une vente a eu lieu ou une relation commerciale est active. Le système calcule automatiquement les totaux facturés et payés.</li>
-<li><strong>Inactif</strong> — Pas d\'échange utile depuis un certain temps.</li>
+<li><strong>Inactif</strong> — Pas d'échange utile depuis un certain temps.</li>
 </ul>
 
-<h2>Pourquoi c\'est utile</h2>
+<h2>Pourquoi c'est utile</h2>
 <p>Les statuts vous permettent de filtrer vos contacts et de cibler vos actions :</p>
 <ul>
 <li>Envoyer un <strong>broadcast</strong> uniquement aux prospects pour les convertir.</li>
@@ -529,7 +529,7 @@ HTML,
                 'excerpt_en' => 'How to use the Broadcast module to send a personalized message to multiple contacts.',
                 'content_fr' => <<<'HTML'
 <h2>Le module Broadcast</h2>
-<p>Le module <strong>Broadcast</strong> vous permet d\'envoyer un message WhatsApp à une liste de contacts en une seule action. C\'est idéal pour les annonces, promotions ou informations générales.</p>
+<p>Le module <strong>Broadcast</strong> vous permet d'envoyer un message WhatsApp à une liste de contacts en une seule action. C'est idéal pour les annonces, promotions ou informations générales.</p>
 
 <h2>Prérequis</h2>
 <ul>
@@ -549,8 +549,8 @@ HTML,
 <ul>
 <li>Personnalisez le message avec le nom du contact.</li>
 <li>Envoyez à des créneaux raisonnables (8h-20h).</li>
-<li>N\'envoyez pas trop fréquemment pour éviter le spam.</li>
-<li>Testez d\'abord avec le Test Chat IA pour vérifier la qualité du message.</li>
+<li>N'envoyez pas trop fréquemment pour éviter le spam.</li>
+<li>Testez d'abord avec le Test Chat IA pour vérifier la qualité du message.</li>
 </ul>
 HTML,
                 'content_en' => <<<'HTML'
@@ -573,9 +573,9 @@ HTML,
 
 <h2>Best practices</h2>
 <ul>
-<li>Personalize the message with the contact\'s name.</li>
+<li>Personalize the message with the contact's name.</li>
 <li>Send during reasonable hours (8am-8pm).</li>
-<li>Don\'t send too frequently to avoid being flagged as spam.</li>
+<li>Don't send too frequently to avoid being flagged as spam.</li>
 <li>Test with Test Chat AI first to verify message quality.</li>
 </ul>
 HTML,
@@ -619,10 +619,10 @@ HTML,
 <li><strong>Suivre le paiement</strong> — Sur la facture, cliquez sur "✅ Marquer payée" une fois le règlement reçu.</li>
 </ol>
 
-<h2>Les options d\'envoi</h2>
+<h2>Les options d'envoi</h2>
 <ul>
-<li><strong>WhatsApp</strong> — Génère le PDF et l\'envoie via l\'API WhatsApp Business. Nécessite un contact avec un numéro WhatsApp et un business connecté.</li>
-<li><strong>Email</strong> — Génère le PDF et l\'envoie en pièce jointe par email. Nécessite un contact avec une adresse email.</li>
+<li><strong>WhatsApp</strong> — Génère le PDF et l'envoie via l'API WhatsApp Business. Nécessite un contact avec un numéro WhatsApp et un business connecté.</li>
+<li><strong>Email</strong> — Génère le PDF et l'envoie en pièce jointe par email. Nécessite un contact avec une adresse email.</li>
 <li><strong>Télécharger PDF</strong> — Télécharge le fichier sur votre appareil pour envoi manuel.</li>
 </ul>
 
@@ -674,10 +674,10 @@ HTML,
 <h2>Créer un devis</h2>
 <ol>
 <li>Allez dans <strong>Devis → Nouveau devis</strong>.</li>
-<li>Sélectionnez un contact existant (ou créez-en un d\'abord).</li>
+<li>Sélectionnez un contact existant (ou créez-en un d'abord).</li>
 <li>Ajoutez les lignes de services : description, quantité, prix unitaire.</li>
 <li>Optionnel : ajoutez une TVA (%) et une remise.</li>
-<li>Définissez la date d\'émission et la date de validité.</li>
+<li>Définissez la date d'émission et la date de validité.</li>
 <li>Cliquez sur "Créer le devis".</li>
 </ol>
 
@@ -686,7 +686,7 @@ HTML,
 <ul>
 <li><strong>📲 Envoyer WhatsApp</strong> — Le PDF est généré et envoyé via WhatsApp. Le contact doit avoir un numéro WhatsApp.</li>
 <li><strong>✉️ Envoyer par email</strong> — Le PDF est généré et envoyé en pièce jointe. Le contact doit avoir une adresse email.</li>
-<li><strong>📥 Télécharger PDF</strong> — Vous téléchargez le fichier pour l\'envoyer vous-même.</li>
+<li><strong>📥 Télécharger PDF</strong> — Vous téléchargez le fichier pour l'envoyer vous-même.</li>
 </ul>
 
 <h2>Convertir en facture</h2>
@@ -765,7 +765,7 @@ HTML,
 <ul>
 <li><strong>📲 Envoyer WhatsApp</strong> — Envoie le PDF via WhatsApp et passe le statut à "Envoyé".</li>
 <li><strong>✉️ Envoyer par email</strong> — Envoie le PDF en pièce jointe et passe le statut à "Envoyé". Le contact doit avoir une adresse email.</li>
-<li><strong>🔔 Relance WhatsApp</strong> — Envoie un message de rappel avec le montant et l\'échéance.</li>
+<li><strong>🔔 Relance WhatsApp</strong> — Envoie un message de rappel avec le montant et l'échéance.</li>
 <li><strong>📥 Télécharger PDF</strong> — Télécharge le fichier.</li>
 </ul>
 
@@ -802,7 +802,7 @@ HTML,
 </ul>
 
 <h2>Tracking payments</h2>
-<p>When the client pays, click <strong>"✅ Mark as Paid"</strong> to update the status. The contact\'s paid total is automatically updated.</p>
+<p>When the client pays, click <strong>"✅ Mark as Paid"</strong> to update the status. The contact's paid total is automatically updated.</p>
 HTML,
                 'meta_title_fr' => 'Créer et envoyer une facture sur WhatsAppBizAI',
                 'meta_title_en' => 'Create and send an invoice in WhatsAppBizAI',
@@ -835,29 +835,29 @@ HTML,
                 'excerpt_fr' => 'Comprendre l\'assistant IA : réponses automatiques, Test Chat et rédaction assistée.',
                 'excerpt_en' => 'Understand the AI assistant: auto-responses, Test Chat, and assisted writing.',
                 'content_fr' => <<<'HTML'
-<h2>L\'IA dans WhatsAppBizAI</h2>
-<p>L\'assistant IA (basé sur Gemini) est intégré à plusieurs endroits de la plateforme :</p>
+<h2>L'IA dans WhatsAppBizAI</h2>
+<p>L'assistant IA (basé sur Gemini) est intégré à plusieurs endroits de la plateforme :</p>
 
 <h2>1. Réponses automatiques aux conversations</h2>
-<p>Quand un client vous envoie un message WhatsApp, l\'IA peut répondre automatiquement en se basant sur :</p>
+<p>Quand un client vous envoie un message WhatsApp, l'IA peut répondre automatiquement en se basant sur :</p>
 <ul>
 <li>Le <strong>prompt système</strong> que vous configurez dans les paramètres (personnalité, ton, règles).</li>
 <li>Les <strong>documents IA</strong> (texte libre) que vous fournissez comme contexte.</li>
-<li>L\'historique de la conversation.</li>
+<li>L'historique de la conversation.</li>
 </ul>
 
 <h2>2. Test Chat IA</h2>
-<p>Le module <strong>Test Chat IA</strong> (barre latérale) vous permet de simuler une conversation WhatsApp sans connecter un vrai compte. C\'est idéal pour :</p>
+<p>Le module <strong>Test Chat IA</strong> (barre latérale) vous permet de simuler une conversation WhatsApp sans connecter un vrai compte. C'est idéal pour :</p>
 <ul>
-<li>Tester les réponses de l\'IA avant de mettre le bot en production.</li>
+<li>Tester les réponses de l'IA avant de mettre le bot en production.</li>
 <li>Ajuster le prompt système.</li>
-<li>Vérifier que l\'IA comprend votre activité.</li>
+<li>Vérifier que l'IA comprend votre activité.</li>
 </ul>
 
 <h2>3. Rédaction assistée</h2>
-<p>Dans le module <strong>Rétention</strong>, l\'IA peut rédiger des messages de relance personnalisés en se basant sur l\'objectif (fidélisation, upsell, win-back, parrainage) et le profil du contact.</li>
+<p>Dans le module <strong>Rétention</strong>, l'IA peut rédiger des messages de relance personnalisés en se basant sur l'objectif (fidélisation, upsell, win-back, parrainage) et le profil du contact.</li>
 
-<h2>Ce que l\'IA ne fait pas</h2>
+<h2>Ce que l'IA ne fait pas</h2>
 <ul>
 <li>Elle ne valide pas les paiements.</li>
 <li>Elle ne modifie pas vos factures ou devis.</li>
@@ -885,7 +885,7 @@ HTML,
 </ul>
 
 <h2>3. Assisted writing</h2>
-<p>In the <strong>Retention</strong> module, the AI can write personalized follow-up messages based on the objective (loyalty, upsell, win-back, referral) and the contact\'s profile.</p>
+<p>In the <strong>Retention</strong> module, the AI can write personalized follow-up messages based on the objective (loyalty, upsell, win-back, referral) and the contact's profile.</p>
 
 <h2>What AI does not do</h2>
 <ul>
@@ -917,9 +917,9 @@ HTML,
                 'excerpt_en' => 'How to customize the AI\'s behavior so it responds like a real member of your team.',
                 'content_fr' => <<<'HTML'
 <h2>Où se trouve le prompt ?</h2>
-<p>Le prompt système est configuré dans <strong>Paramètres → Mon entreprise</strong>, dans la section <strong>Intelligence Artificielle</strong>. C\'est un champ de texte riche (RichEditor) où vous décrivez :</p>
+<p>Le prompt système est configuré dans <strong>Paramètres → Mon entreprise</strong>, dans la section <strong>Intelligence Artificielle</strong>. C'est un champ de texte riche (RichEditor) où vous décrivez :</p>
 <ul>
-<li>Qui est l\'IA (ex: "Vous êtes l\'assistant commercial de Coiffure Élégance").</li>
+<li>Qui est l'IA (ex: "Vous êtes l'assistant commercial de Coiffure Élégance").</li>
 <li>Quel ton adopter (professionnel, amical, formel).</li>
 <li>Quelles règles suivre (ne pas divulguer les prix à des concurrents, toujours proposer un rendez-vous, etc.).</li>
 <li>Des informations sur vos services et tarifs.</li>
@@ -928,14 +928,14 @@ HTML,
 <h2>Conseils pour un bon prompt</h2>
 <ul>
 <li>Soyez spécifique : plus le contexte est précis, meilleures seront les réponses.</li>
-<li>Définissez des limites : dites à l\'IA ce qu\'elle ne doit pas faire.</li>
-<li>Incluez vos tarifs et conditions pour que l\'IA puisse renseigner les clients.</li>
-<li>Testez avec le <strong>Test Chat IA</strong> avant d\'activer en production.</li>
+<li>Définissez des limites : dites à l'IA ce qu'elle ne doit pas faire.</li>
+<li>Incluez vos tarifs et conditions pour que l'IA puisse renseigner les clients.</li>
+<li>Testez avec le <strong>Test Chat IA</strong> avant d'activer en production.</li>
 <li>Mettez à jour le prompt quand vos services ou tarifs changent.</li>
 </ul>
 
 <h2>Exemple de prompt</h2>
-<p>"Vous êtes l\'assistant commercial de [Nom]. Vous êtes amical et professionnel. Vous pouvez proposer nos services suivants : [liste]. Les prix commencent à [prix]. Pour les devis, invitez le client à fournir plus de détails. Ne divulguez jamais les prix aux concurrents."</p>
+<p>"Vous êtes l'assistant commercial de [Nom]. Vous êtes amical et professionnel. Vous pouvez proposer nos services suivants : [liste]. Les prix commencent à [prix]. Pour les devis, invitez le client à fournir plus de détails. Ne divulguez jamais les prix aux concurrents."</p>
 
 <h2>Testez votre prompt</h2>
 <p>Après modification, ouvrez le <strong>Test Chat IA</strong> depuis la barre latéral et posez des questions typiques de vos clients. Vérifiez que les réponses sont pertinentes et dans le bon ton.</p>
@@ -946,7 +946,7 @@ HTML,
 <ul>
 <li>Who the AI is (e.g., "You are the sales assistant for Coiffure Élégance").</li>
 <li>What tone to use (professional, friendly, formal).</li>
-<li>What rules to follow (don\'t share prices with competitors, always propose an appointment, etc.).</li>
+<li>What rules to follow (don't share prices with competitors, always propose an appointment, etc.).</li>
 <li>Information about your services and pricing.</li>
 </ul>
 
@@ -993,7 +993,7 @@ HTML,
                 'excerpt_en' => 'How to create targeted campaigns (loyalty, win-back, upsell, referral) with AI assistance.',
                 'content_fr' => <<<'HTML'
 <h2>Le module Rétention</h2>
-<p>Le module <strong>Rétention</strong> vous permet d\'envoyer des messages ciblés à différents segments de contacts via WhatsApp. L\'IA peut rédiger le message pour vous.</p>
+<p>Le module <strong>Rétention</strong> vous permet d'envoyer des messages ciblés à différents segments de contacts via WhatsApp. L'IA peut rédiger le message pour vous.</p>
 
 <h2>Les 4 types de campagne</h2>
 <ul>
@@ -1006,7 +1006,7 @@ HTML,
 <h2>Les segments cibles</h2>
 <ul>
 <li><strong>Clients inactifs</strong> — Pas de contact depuis 30+ jours.</li>
-<li><strong>Tous les clients</strong> — L\'ensemble de vos clients actifs.</li>
+<li><strong>Tous les clients</strong> — L'ensemble de vos clients actifs.</li>
 <li><strong>Prospects</strong> — Les contacts avec le statut "prospect".</li>
 <li><strong>Clients à forte valeur</strong> — Plus de 100 000 XAF facturés.</li>
 </ul>
@@ -1016,8 +1016,8 @@ HTML,
 <li>Allez dans <strong>Rétention</strong> depuis le menu latéral.</li>
 <li>Choisissez le type de campagne.</li>
 <li>Sélectionnez le segment cible.</li>
-<li>Entrez l\'objectif (ex: "-20% sur les services premium").</li>
-<li>Cliquez sur "🤖 Rédiger avec l\'IA" pour générer un message.</li>
+<li>Entrez l'objectif (ex: "-20% sur les services premium").</li>
+<li>Cliquez sur "🤖 Rédiger avec l'IA" pour générer un message.</li>
 <li>Vérifiez et personnalisez le message.</li>
 <li>Cliquez sur "📤 Envoyer la campagne".</li>
 </ol>
