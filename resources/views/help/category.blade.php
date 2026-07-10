@@ -8,14 +8,14 @@
 {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
-  "name": "{{ $category->trans('name') }} — Help Center",
+  "name": "{{ $category->trans('name') }} — {{ app()->getLocale()==='en'?'Help Center':'Centre d\'aide' }}",
   "description": "{{ $category->trans('description') }}",
   "url": "{{ url('help/'.$category->slug) }}",
   "breadcrumb": {
     "@type": "BreadcrumbList",
     "itemListElement": [
       {"@type":"ListItem","position":1,"name":"{{ app()->getLocale()==='en'?'Home':'Accueil' }}","item":"{{ url('/') }}"},
-      {"@type":"ListItem","position":2,"name":"Help Center","item":"{{ url('help') }}"},
+      {"@type":"ListItem","position":2,"name":"{{ app()->getLocale()==='en'?'Help Center':'Centre d\'aide' }}","item":"{{ url('help') }}"},
       {"@type":"ListItem","position":3,"name":"{{ $category->trans('name') }}","item":"{{ url('help/'.$category->slug) }}"}
     ]
   }
@@ -45,7 +45,7 @@
     <main class="help-main">
         {{-- Breadcrumb --}}
         <nav class="breadcrumb">
-            <a href="{{ url('help') }}">Help Center</a>
+            <a href="{{ url('help') }}">{{ app()->getLocale()==='en'?'Help Center':'Centre d\'aide' }}</a>
             <span style="margin:0 6px;">›</span>
             <span>{{ $category->trans('name') }}</span>
         </nav>

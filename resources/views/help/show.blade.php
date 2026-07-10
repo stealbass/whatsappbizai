@@ -23,7 +23,7 @@
     "@type": "BreadcrumbList",
     "itemListElement": [
       {"@type":"ListItem","position":1,"name":"{{ app()->getLocale()==='en'?'Home':'Accueil' }}","item":"{{ url('/') }}"},
-      {"@type":"ListItem","position":2,"name":"Help Center","item":"{{ url('help') }}"},
+      {"@type":"ListItem","position":2,"name":"{{ app()->getLocale()==='en'?'Help Center':'Centre d\'aide' }}","item":"{{ url('help') }}"},
       {"@type":"ListItem","position":3,"name":"{{ e($article->category->trans('name')) }}","item":"{{ url('help/'.$article->category->slug) }}"},
       {"@type":"ListItem","position":4,"name":"{{ e($article->trans('title')) }}","item":"{{ url('help/article/'.$article->slug) }}"}
     ]
@@ -66,7 +66,7 @@
         <article class="article-wrap">
             {{-- Breadcrumb --}}
             <nav class="breadcrumb">
-                <a href="{{ url('help') }}">Help Center</a>
+                <a href="{{ url('help') }}">{{ app()->getLocale()==='en'?'Help Center':'Centre d\'aide' }}</a>
                 <span style="margin:0 6px;">›</span>
                 <a href="{{ url('help/'.$article->category->slug) }}">{{ $article->category->trans('name') }}</a>
                 <span style="margin:0 6px;">›</span>

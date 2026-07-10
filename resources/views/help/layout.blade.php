@@ -169,7 +169,7 @@
                 <button class="switcher-btn lang-btn" data-lang="en">EN</button>
             </div>
             <a href="{{ url('/') }}" class="btn-nav btn-outline">{{ app()->getLocale()==='en'?'Home':'Accueil' }}</a>
-            <a href="{{ url('help') }}" class="btn-nav btn-outline" style="background:var(--sky);color:#fff;border-color:var(--sky);">Help Center</a>
+            <a href="{{ url('help') }}" class="btn-nav btn-outline" style="background:var(--sky);color:#fff;border-color:var(--sky);">{{ app()->getLocale()==='en'?'Help Center':'Centre d\'aide' }}</a>
             <a href="{{ url('login') }}" class="btn-nav btn-primary">{{ app()->getLocale()==='en'?'Login':'Connexion' }}</a>
         </div>
     </div>
@@ -193,11 +193,11 @@
         <div class="footer-col">
             <h4>{{ app()->getLocale()==='en'?'Resources':'Ressources' }}</h4>
             <a href="{{ url('blog') }}">Blog</a>
-            <a href="{{ url('help') }}">Help Center</a>
+            <a href="{{ url('help') }}">{{ app()->getLocale()==='en'?'Help Center':'Centre d\'aide' }}</a>
             <a href="{{ url('contact') }}">{{ app()->getLocale()==='en'?'Contact':'Contact' }}</a>
         </div>
         <div class="footer-col">
-            <h4>Help Center</h4>
+            <h4>{{ app()->getLocale()==='en'?'Help Center':'Centre d\'aide' }}</h4>
             @foreach(\App\Models\HelpCategory::active()->limit(5)->get() as $hc)
                 <a href="{{ url('help/'.$hc->slug) }}">{{ $hc->trans('name') }}</a>
             @endforeach
@@ -214,7 +214,7 @@
             <a href="{{ url('privacy') }}">{{ app()->getLocale()==='en'?'Privacy':'Confidentialité' }}</a> ·
             <a href="{{ url('terms') }}">{{ app()->getLocale()==='en'?'Terms':'Conditions' }}</a> ·
             <a href="{{ url('blog') }}">Blog</a> ·
-            <a href="{{ url('help') }}">Help Center</a>
+            <a href="{{ url('help') }}">{{ app()->getLocale()==='en'?'Help Center':'Centre d\'aide' }}</a>
         </div>
     </div>
 </footer>
