@@ -280,6 +280,24 @@ class SiteSettingResource extends Resource
                                 ->default('100%'),
                         ])->columns(4),
                     ]),
+
+                // ─── Custom Code ──────────────────────────────────────────
+                Forms\Components\Tabs\Tab::make('Custom Code')
+                    ->icon('heroicon-o-code-bracket')
+                    ->schema([
+                        Forms\Components\Section::make('Custom CSS & JavaScript')->schema([
+                            Forms\Components\Textarea::make('custom_head_css')
+                                ->label('Custom CSS (inside <style> tag)')
+                                ->rows(8)
+                                ->placeholder('body { background: #000; }')
+                                ->helperText('Injected inside <style> in <head> on all public pages'),
+                            Forms\Components\Textarea::make('custom_head_js')
+                                ->label('Custom JavaScript (inside <script> tag)')
+                                ->rows(8)
+                                ->placeholder('console.log("Hello!");')
+                                ->helperText('Injected inside <script> in <head> on all public pages'),
+                        ])->columns(1),
+                    ]),
             ])->columnSpanFull(),
         ]);
     }

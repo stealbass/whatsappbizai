@@ -48,6 +48,7 @@
 
         @media(max-width:768px){.hero h1{font-size:28px}.grid{grid-template-columns:1fr}nav{flex-wrap:wrap;gap:12px}}
     </style>
+    @include('components.custom-code')
 </head>
 <body>
 

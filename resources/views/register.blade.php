@@ -29,6 +29,7 @@
         .badge { background: #f0f9ff; color: #0369a1; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; }
         .divider { border: none; border-top: 1px solid #e5e7eb; margin: 24px 0; }
     </style>
+    @include('components.custom-code')
 </head>
 <body>
     <div class="card">

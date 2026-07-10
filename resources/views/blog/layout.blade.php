@@ -90,10 +90,9 @@
             .footer-bottom { flex-direction: column; text-align: center; }
         }
     </style>
+    @include('components.custom-code')
 </head>
 <body>
-
-<nav>
     <div class="nav-inner">
     @if($site->logo_path)
         <a href="{{ url('/') }}"><img src="{{ asset('storage/' . $site->logo_path) }}" alt="{{ $site->trans('site_name') ?? 'WhatsAppBizAI' }}" style="height:36px;"></a>

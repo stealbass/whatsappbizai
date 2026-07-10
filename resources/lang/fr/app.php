@@ -324,6 +324,7 @@ return [
             'whatsapp_ai' => 'WhatsApp & IA',
             'my_profile' => 'Mon profil',
             'plan_billing' => 'Plan & Facturation',
+            'support' => 'Support',
             'logout' => 'Déconnexion',
         ],
         'dashboard' => [

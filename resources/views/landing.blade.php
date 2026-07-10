@@ -153,6 +153,7 @@
             .footer-bottom { flex-direction: column; text-align: center; }
         }
     </style>
+    @include('components.custom-code')
 </head>
 <body>
 

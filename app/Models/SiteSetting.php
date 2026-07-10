@@ -18,6 +18,7 @@ class SiteSetting extends Model
         'footer_description', 'footer_copyright',
         'business_name', 'business_city', 'business_country', 'business_founding_date',
         'stats_users', 'stats_invoices', 'stats_messages', 'stats_countries',
+        'custom_head_css', 'custom_head_js',
         // Bilingual _fr/_en columns
         'site_name_fr', 'site_name_en',
         'site_tagline_fr', 'site_tagline_en',

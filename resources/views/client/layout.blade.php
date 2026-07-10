@@ -109,6 +109,7 @@
     @yield('head')
     {{-- Quill.js WYSIWYG — CSS préchargé pour éviter le flash de style (FOUC) --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css">
+    @include('components.custom-code')
 </head>
 <body>
 
@@ -183,6 +184,11 @@
         </a>
         <a href="{{ url('client/settings/billing') }}" class="nav-item {{ request()->routeIs('c.settings.billing') ? 'active' : '' }}">
             <span class="icon">💳</span> {{ __('app.client.sidebar.plan_billing') }}
+        </a>
+
+        <div class="nav-section">{{ __('app.client.sidebar.support') }}</div>
+        <a href="{{ url('help') }}" class="nav-item" target="_blank">
+            <span class="icon">❓</span> {{ app()->getLocale()==='en'?'Help Center':'Centre d\'aide' }}
         </a>
     </nav>
 

@@ -32,6 +32,7 @@
         footer a { color: var(--sky); text-decoration: none; }
         @media (max-width: 640px) { .nav-links .btn-outline { display: none; } }
     </style>
+    @include('components.custom-code')
 </head>
 <body>
 

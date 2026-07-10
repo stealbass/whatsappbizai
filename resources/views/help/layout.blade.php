@@ -153,6 +153,7 @@
             .footer-inner{grid-template-columns:1fr;}
         }
     </style>
+    @include('components.custom-code')
 </head>
 <body>
 <nav>

@@ -44,6 +44,7 @@
         footer a { color: var(--sky); text-decoration: none; }
         @media (max-width: 640px) { .nav-links .btn-outline { display: none; } .info-cards { grid-template-columns: 1fr; } }
     </style>
+    @include('components.custom-code')
 </head>
 <body>
 
