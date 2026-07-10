@@ -1162,4 +1162,3 @@ return [
         'meta_description' => 'Find answers, tutorials and guides to get the most out of WhatsAppBizAI.',
     ],
 ];
-];
